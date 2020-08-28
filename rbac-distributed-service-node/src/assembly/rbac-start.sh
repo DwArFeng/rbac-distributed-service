@@ -1,8 +1,8 @@
 #!/bin/sh
 # 程序的根目录
-basedir=/usr/local/rbacds
+basedir=/usr/local/rbac
 # 日志的根目录
-logdir=/var/log/rbacds
+logdir=/var/log/rbac
 
 cd $basedir || exit
 # shellcheck disable=SC2154
@@ -13,4 +13,4 @@ nohup /bin/java -classpath "lib/*:libext/*" \
 -Dlog.fileEncoding=UTF-8 \
 ${mainClass} \
 >/dev/null 2>&1 &
-echo $! >$basedir/rbacds.pid
+echo $! >$basedir/rbac.pid

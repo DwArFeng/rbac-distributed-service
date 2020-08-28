@@ -99,21 +99,21 @@
         </file>
         <file>
             <outputDirectory>bin</outputDirectory>
-            <source>src/assembly/rbacds-start.sh</source>
+            <source>src/assembly/rbac-start.sh</source>
             <filtered>true</filtered>
             <fileMode>0755</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
         <file>
             <outputDirectory>bin</outputDirectory>
-            <source>src/assembly/rbacds-stop.sh</source>
+            <source>src/assembly/rbac-stop.sh</source>
             <filtered>true</filtered>
             <fileMode>0755</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
         <file>
             <outputDirectory>bin</outputDirectory>
-            <source>src/assembly/rbacds-start.bat</source>
+            <source>src/assembly/rbac-start.bat</source>
             <filtered>true</filtered>
             <fileMode>0755</fileMode>
             <lineEnding>dos</lineEnding>
