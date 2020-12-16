@@ -59,7 +59,6 @@
         <jboss-logging.version>3.3.2.Final</jboss-logging.version>
         <dozer.version>5.5.1</dozer.version>
         <dutil.version>beta-0.2.1.a</dutil.version>
-        <cxf.version>3.1.6</cxf.version>
         <snowflake.version>1.2.4.a</snowflake.version>
         <subgrade.version>1.2.0.b</subgrade.version>
         <spring-terminator.version>1.0.7.a</spring-terminator.version>
@@ -364,22 +363,6 @@
                 <groupId>com.dwarfeng</groupId>
                 <artifactId>dutil-develop</artifactId>
                 <version>${dutil.version}</version>
-            </dependency>
-            <!-- cxf WebService组件 -->
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-frontend-jaxws</artifactId>
-                <version>${cxf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-core</artifactId>
-                <version>${cxf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-transports-http</artifactId>
-                <version>${cxf.version}</version>
             </dependency>
             <!-- SnowFlake服务 -->
             <dependency>
