@@ -22,13 +22,13 @@
         <property name="locations">
             <list>
                 <!--suppress SpringXmlModelInspection -->
-                <value>file:conf/database/*.properties</value>
+                <value>file:conf/test.database/*.properties</value>
                 <!--suppress SpringXmlModelInspection -->
-                <value>file:conf/dubbo/*.properties</value>
+                <value>file:conf/test.dubbo/*.properties</value>
                 <!--suppress SpringXmlModelInspection -->
-                <value>file:conf/rbacds/*.properties</value>
+                <value>file:conf/test.rbacds/*.properties</value>
                 <!--suppress SpringXmlModelInspection -->
-                <value>file:conf/redis/*.properties</value>
+                <value>file:conf/test.redis/*.properties</value>
             </list>
         </property>
     </bean>

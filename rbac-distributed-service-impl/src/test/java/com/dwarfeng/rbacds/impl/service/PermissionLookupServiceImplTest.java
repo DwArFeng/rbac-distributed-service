@@ -19,6 +19,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring/application-context*.xml")
@@ -111,7 +115,7 @@ public class PermissionLookupServiceImplTest {
     }
 
     @Test
-    public void test() throws Exception {
+    public void testLookupPermission() throws Exception {
         try {
             userMaintainService.insertOrUpdate(zhangSan);
             userMaintainService.insertOrUpdate(liSi);
@@ -142,13 +146,144 @@ public class PermissionLookupServiceImplTest {
             permissionMaintainService.insertOrUpdate(permission8);
             permissionMaintainService.insertOrUpdate(permission9);
 
-            List<Permission> permissions = permissionLookupService.lookupPermissions(zhangSan.getKey());
-            //noinspection UnusedAssignment
-            permissions = permissionLookupService.lookupPermissions(liSi.getKey());
-            //noinspection UnusedAssignment
-            permissions = permissionLookupService.lookupPermissions(wangWu.getKey());
-            //noinspection UnusedAssignment
-            permissions = null;
+            List<StringIdKey> permissionKeys = permissionLookupService.lookupPermissions(zhangSan.getKey())
+                    .stream().map(Permission::getKey).collect(Collectors.toList());
+            assertFalse(permissionKeys.contains(permission1.getKey()));
+            assertFalse(permissionKeys.contains(permission2.getKey()));
+            assertTrue(permissionKeys.contains(permission3.getKey()));
+            assertTrue(permissionKeys.contains(permission4.getKey()));
+            assertFalse(permissionKeys.contains(permission5.getKey()));
+            assertTrue(permissionKeys.contains(permission6.getKey()));
+            assertTrue(permissionKeys.contains(permission7.getKey()));
+            assertFalse(permissionKeys.contains(permission8.getKey()));
+            assertFalse(permissionKeys.contains(permission9.getKey()));
+            permissionKeys = permissionLookupService.lookupPermissions(liSi.getKey())
+                    .stream().map(Permission::getKey).collect(Collectors.toList());
+            assertFalse(permissionKeys.contains(permission1.getKey()));
+            assertFalse(permissionKeys.contains(permission2.getKey()));
+            assertTrue(permissionKeys.contains(permission3.getKey()));
+            assertFalse(permissionKeys.contains(permission4.getKey()));
+            assertFalse(permissionKeys.contains(permission5.getKey()));
+            assertTrue(permissionKeys.contains(permission6.getKey()));
+            assertFalse(permissionKeys.contains(permission7.getKey()));
+            assertFalse(permissionKeys.contains(permission8.getKey()));
+            assertFalse(permissionKeys.contains(permission9.getKey()));
+            permissionKeys = permissionLookupService.lookupPermissions(wangWu.getKey())
+                    .stream().map(Permission::getKey).collect(Collectors.toList());
+            assertFalse(permissionKeys.contains(permission1.getKey()));
+            assertFalse(permissionKeys.contains(permission2.getKey()));
+            assertTrue(permissionKeys.contains(permission3.getKey()));
+            assertFalse(permissionKeys.contains(permission4.getKey()));
+            assertFalse(permissionKeys.contains(permission5.getKey()));
+            assertTrue(permissionKeys.contains(permission6.getKey()));
+            assertFalse(permissionKeys.contains(permission7.getKey()));
+            assertFalse(permissionKeys.contains(permission8.getKey()));
+            assertFalse(permissionKeys.contains(permission9.getKey()));
+        } finally {
+            if (Objects.nonNull(zhangSan)) userMaintainService.deleteIfExists(zhangSan.getKey());
+            if (Objects.nonNull(liSi)) userMaintainService.deleteIfExists(liSi.getKey());
+            if (Objects.nonNull(wangWu)) userMaintainService.deleteIfExists(wangWu.getKey());
+
+            roleMaintainService.deleteIfExists(roleA.getKey());
+            roleMaintainService.deleteIfExists(roleB.getKey());
+            roleMaintainService.deleteIfExists(roleC.getKey());
+
+            pexpMaintainService.deleteIfExists(pexp1.getKey());
+            pexpMaintainService.deleteIfExists(pexp2.getKey());
+            pexpMaintainService.deleteIfExists(pexp3.getKey());
+            pexpMaintainService.deleteIfExists(pexp4.getKey());
+            pexpMaintainService.deleteIfExists(pexp5.getKey());
+            pexpMaintainService.deleteIfExists(pexp6.getKey());
+
+            permissionMaintainService.deleteIfExists(permission1.getKey());
+            permissionMaintainService.deleteIfExists(permission2.getKey());
+            permissionMaintainService.deleteIfExists(permission3.getKey());
+            permissionMaintainService.deleteIfExists(permission4.getKey());
+            permissionMaintainService.deleteIfExists(permission5.getKey());
+            permissionMaintainService.deleteIfExists(permission6.getKey());
+            permissionMaintainService.deleteIfExists(permission7.getKey());
+            permissionMaintainService.deleteIfExists(permission8.getKey());
+            permissionMaintainService.deleteIfExists(permission9.getKey());
+        }
+    }
+
+    @Test
+    public void testLookupUsers() throws Exception {
+        try {
+            userMaintainService.insertOrUpdate(zhangSan);
+            userMaintainService.insertOrUpdate(liSi);
+            userMaintainService.insertOrUpdate(wangWu);
+
+            roleMaintainService.insertOrUpdate(roleA);
+            roleMaintainService.insertOrUpdate(roleB);
+            roleMaintainService.insertOrUpdate(roleC);
+
+            userMaintainService.batchAddRoleRelations(zhangSan.getKey(), Arrays.asList(roleA.getKey(), roleB.getKey(), roleC.getKey()));
+            userMaintainService.batchAddRoleRelations(liSi.getKey(), Arrays.asList(roleB.getKey(), roleC.getKey()));
+            userMaintainService.batchAddRoleRelations(wangWu.getKey(), Collections.singletonList(roleC.getKey()));
+
+            pexpMaintainService.insertOrUpdate(pexp1);
+            pexpMaintainService.insertOrUpdate(pexp2);
+            pexpMaintainService.insertOrUpdate(pexp3);
+            pexpMaintainService.insertOrUpdate(pexp4);
+            pexpMaintainService.insertOrUpdate(pexp5);
+            pexpMaintainService.insertOrUpdate(pexp6);
+
+            permissionMaintainService.insertOrUpdate(permission1);
+            permissionMaintainService.insertOrUpdate(permission2);
+            permissionMaintainService.insertOrUpdate(permission3);
+            permissionMaintainService.insertOrUpdate(permission4);
+            permissionMaintainService.insertOrUpdate(permission5);
+            permissionMaintainService.insertOrUpdate(permission6);
+            permissionMaintainService.insertOrUpdate(permission7);
+            permissionMaintainService.insertOrUpdate(permission8);
+            permissionMaintainService.insertOrUpdate(permission9);
+
+            List<StringIdKey> userKeys = permissionLookupService.lookupUsers(permission1.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertFalse(userKeys.contains(zhangSan.getKey()));
+            assertFalse(userKeys.contains(liSi.getKey()));
+            assertFalse(userKeys.contains(wangWu.getKey()));
+            userKeys = permissionLookupService.lookupUsers(permission2.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertFalse(userKeys.contains(zhangSan.getKey()));
+            assertFalse(userKeys.contains(liSi.getKey()));
+            assertFalse(userKeys.contains(wangWu.getKey()));
+            userKeys = permissionLookupService.lookupUsers(permission3.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertTrue(userKeys.contains(zhangSan.getKey()));
+            assertTrue(userKeys.contains(liSi.getKey()));
+            assertTrue(userKeys.contains(wangWu.getKey()));
+            userKeys = permissionLookupService.lookupUsers(permission4.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertTrue(userKeys.contains(zhangSan.getKey()));
+            assertFalse(userKeys.contains(liSi.getKey()));
+            assertFalse(userKeys.contains(wangWu.getKey()));
+            userKeys = permissionLookupService.lookupUsers(permission5.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertFalse(userKeys.contains(zhangSan.getKey()));
+            assertFalse(userKeys.contains(liSi.getKey()));
+            assertFalse(userKeys.contains(wangWu.getKey()));
+            userKeys = permissionLookupService.lookupUsers(permission6.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertTrue(userKeys.contains(zhangSan.getKey()));
+            assertTrue(userKeys.contains(liSi.getKey()));
+            assertTrue(userKeys.contains(wangWu.getKey()));
+            userKeys = permissionLookupService.lookupUsers(permission7.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertTrue(userKeys.contains(zhangSan.getKey()));
+            assertFalse(userKeys.contains(liSi.getKey()));
+            assertFalse(userKeys.contains(wangWu.getKey()));
+            userKeys = permissionLookupService.lookupUsers(permission8.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertFalse(userKeys.contains(zhangSan.getKey()));
+            assertFalse(userKeys.contains(liSi.getKey()));
+            assertFalse(userKeys.contains(wangWu.getKey()));
+            userKeys = permissionLookupService.lookupUsers(permission9.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertFalse(userKeys.contains(zhangSan.getKey()));
+            assertFalse(userKeys.contains(liSi.getKey()));
+            assertFalse(userKeys.contains(wangWu.getKey()));
         } finally {
             if (Objects.nonNull(zhangSan)) userMaintainService.deleteIfExists(zhangSan.getKey());
             if (Objects.nonNull(liSi)) userMaintainService.deleteIfExists(liSi.getKey());

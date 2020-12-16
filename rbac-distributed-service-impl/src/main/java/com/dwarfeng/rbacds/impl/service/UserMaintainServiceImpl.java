@@ -1,6 +1,7 @@
 package com.dwarfeng.rbacds.impl.service;
 
 import com.dwarfeng.rbacds.stack.bean.entity.User;
+import com.dwarfeng.rbacds.stack.cache.PermissionUserCache;
 import com.dwarfeng.rbacds.stack.cache.UserCache;
 import com.dwarfeng.rbacds.stack.cache.UserPermissionCache;
 import com.dwarfeng.rbacds.stack.dao.UserDao;
@@ -33,6 +34,8 @@ public class UserMaintainServiceImpl implements UserMaintainService {
     private UserCache userCache;
     @Autowired
     private UserPermissionCache userPermissionCache;
+    @Autowired
+    private PermissionUserCache permissionUserCache;
 
     @Autowired
     private ServiceExceptionMapper sem;
@@ -95,6 +98,8 @@ public class UserMaintainServiceImpl implements UserMaintainService {
             throw new ServiceException(ServiceExceptionCodes.ENTITY_EXISTED);
         }
 
+        permissionUserCache.clear();
+
         userDao.insert(user);
         userCache.push(user, userTimeout);
         return user.getKey();
@@ -134,6 +139,8 @@ public class UserMaintainServiceImpl implements UserMaintainService {
         if (!internalExists(key)) {
             throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
         }
+
+        permissionUserCache.clear();
 
         userDao.delete(key);
         userCache.delete(key);
@@ -252,6 +259,8 @@ public class UserMaintainServiceImpl implements UserMaintainService {
     public void addRoleRelation(StringIdKey userIdKey, StringIdKey roleIdKey) throws ServiceException {
         try {
             userPermissionCache.clear();
+            permissionUserCache.clear();
+
             userDao.addRoleRelation(userIdKey, roleIdKey);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("添加用户与角色的关联时发生异常", LogLevel.WARN, sem, e);
@@ -264,6 +273,8 @@ public class UserMaintainServiceImpl implements UserMaintainService {
     public void deleteRoleRelation(StringIdKey userIdKey, StringIdKey roleIdKey) throws ServiceException {
         try {
             userPermissionCache.clear();
+            permissionUserCache.clear();
+
             userDao.deleteRoleRelation(userIdKey, roleIdKey);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("删除用户与角色的关联时发生异常", LogLevel.WARN, sem, e);
@@ -276,6 +287,8 @@ public class UserMaintainServiceImpl implements UserMaintainService {
     public void batchAddRoleRelations(StringIdKey userIdKey, List<StringIdKey> roleIdKeys) throws ServiceException {
         try {
             userPermissionCache.clear();
+            permissionUserCache.clear();
+
             userDao.batchAddRoleRelations(userIdKey, roleIdKeys);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("添加用户与角色的关联时发生异常", LogLevel.WARN, sem, e);
@@ -288,6 +301,8 @@ public class UserMaintainServiceImpl implements UserMaintainService {
     public void batchDeleteRoleRelations(StringIdKey userIdKey, List<StringIdKey> roleIdKeys) throws ServiceException {
         try {
             userPermissionCache.clear();
+            permissionUserCache.clear();
+
             userDao.batchDeleteRoleRelations(userIdKey, roleIdKeys);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("删除用户与角色的关联时发生异常", LogLevel.WARN, sem, e);

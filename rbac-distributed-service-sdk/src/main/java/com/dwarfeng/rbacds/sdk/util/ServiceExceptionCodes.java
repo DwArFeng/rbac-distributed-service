@@ -15,11 +15,18 @@ public final class ServiceExceptionCodes {
     /**
      * 用户不存在。
      */
-    public static final ServiceException.Code USER_NOT_EXISTS = new ServiceException.Code(offset(0), "user not exists");
+    public static final ServiceException.Code USER_NOT_EXISTS =
+            new ServiceException.Code(offset(0), "user not exists");
     /**
      * 权限表达式格式错误。
      */
-    public static final ServiceException.Code PEXP_FORMAT_ERROR = new ServiceException.Code(offset(10), "pexp format error");
+    public static final ServiceException.Code PEXP_FORMAT_ERROR =
+            new ServiceException.Code(offset(10), "pexp format error");
+    /**
+     * 权限不存在。
+     */
+    public static final ServiceException.Code PERMISSION_NOT_EXISTS =
+            new ServiceException.Code(offset(20), "permission not exists");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;

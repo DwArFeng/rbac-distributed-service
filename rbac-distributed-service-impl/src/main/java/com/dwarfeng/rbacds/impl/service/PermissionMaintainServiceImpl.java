@@ -3,6 +3,7 @@ package com.dwarfeng.rbacds.impl.service;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.cache.PermissionCache;
 import com.dwarfeng.rbacds.stack.cache.PermissionListCache;
+import com.dwarfeng.rbacds.stack.cache.PermissionUserCache;
 import com.dwarfeng.rbacds.stack.cache.UserPermissionCache;
 import com.dwarfeng.rbacds.stack.dao.PermissionDao;
 import com.dwarfeng.rbacds.stack.service.PermissionMaintainService;
@@ -36,6 +37,8 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
     private PermissionListCache permissionListCache;
     @Autowired
     private UserPermissionCache userPermissionCache;
+    @Autowired
+    private PermissionUserCache permissionUserCache;
 
     @Autowired
     private ServiceExceptionMapper sem;
@@ -101,6 +104,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
 
         permissionListCache.clear();
         userPermissionCache.clear();
+        permissionUserCache.clear();
 
         permissionDao.insert(permission);
         permissionCache.push(permission, permissionTimeout);
@@ -125,6 +129,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
 
         permissionListCache.clear();
         userPermissionCache.clear();
+        permissionUserCache.clear();
 
         permissionCache.push(permission, permissionTimeout);
         permissionDao.update(permission);
@@ -148,6 +153,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
 
         permissionListCache.clear();
         userPermissionCache.clear();
+        permissionUserCache.clear();
 
         permissionDao.delete(key);
         permissionCache.delete(key);
@@ -227,7 +233,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
                 return PagingUtil.pagedData(permissionListCache.get());
             }
             List<Permission> lookup = permissionDao.lookup();
-            permissionListCache.set(lookup, permissionTimeout);
+            permissionListCache.set(lookup, permissionListTimeout);
             return PagingUtil.pagedData(lookup);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("查询全部时发生异常", LogLevel.WARN, sem, e);
@@ -242,7 +248,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
                 return PagingUtil.pagedData(pagingInfo, permissionListCache.size(), permissions);
             }
             List<Permission> lookup = permissionDao.lookup();
-            permissionListCache.set(lookup, permissionTimeout);
+            permissionListCache.set(lookup, permissionListTimeout);
             return PagingUtil.pagedData(pagingInfo, lookup.size(), PagingUtil.subList(lookup, pagingInfo));
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("查询全部时发生异常", LogLevel.WARN, sem, e);

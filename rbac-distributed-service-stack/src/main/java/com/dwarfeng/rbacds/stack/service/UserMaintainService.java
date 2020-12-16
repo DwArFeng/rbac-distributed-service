@@ -19,6 +19,7 @@ public interface UserMaintainService extends CrudService<StringIdKey, User>, Pre
         EntireLookupService<User> {
 
     String ID_LIKE = "id_like";
+    String CHILD_FOR_ROLE = "child_for_role";
 
     /**
      * 添加用户与角色的关联。

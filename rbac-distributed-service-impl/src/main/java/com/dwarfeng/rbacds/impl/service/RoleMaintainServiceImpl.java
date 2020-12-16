@@ -1,6 +1,7 @@
 package com.dwarfeng.rbacds.impl.service;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
+import com.dwarfeng.rbacds.stack.cache.PermissionUserCache;
 import com.dwarfeng.rbacds.stack.cache.RoleCache;
 import com.dwarfeng.rbacds.stack.cache.UserPermissionCache;
 import com.dwarfeng.rbacds.stack.dao.RoleDao;
@@ -33,6 +34,8 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
     private RoleCache roleCache;
     @Autowired
     private UserPermissionCache userPermissionCache;
+    @Autowired
+    private PermissionUserCache permissionUserCache;
 
     @Autowired
     private ServiceExceptionMapper sem;
@@ -96,6 +99,7 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
         }
 
         userPermissionCache.clear();
+        permissionUserCache.clear();
 
         roleDao.insert(role);
         roleCache.push(role, roleTimeout);
@@ -119,6 +123,7 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
         }
 
         userPermissionCache.clear();
+        permissionUserCache.clear();
 
         roleCache.push(role, roleTimeout);
         roleDao.update(role);
@@ -141,6 +146,7 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
         }
 
         userPermissionCache.clear();
+        permissionUserCache.clear();
 
         roleDao.delete(key);
         roleCache.delete(key);
@@ -236,6 +242,24 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
     }
 
     @Override
+    public PagedData<Role> lookup() throws ServiceException {
+        try {
+            return PagingUtil.pagedData(roleDao.lookup());
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logAndThrow("查询全部时发生异常", LogLevel.WARN, sem, e);
+        }
+    }
+
+    @Override
+    public PagedData<Role> lookup(PagingInfo pagingInfo) throws ServiceException {
+        try {
+            return PagingUtil.pagedData(pagingInfo, roleDao.lookupCount(), roleDao.lookup(pagingInfo));
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logAndThrow("查询全部时发生异常", LogLevel.WARN, sem, e);
+        }
+    }
+
+    @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void addUserRelation(StringIdKey roleIdKey, StringIdKey userIdKey) throws ServiceException {
@@ -253,6 +277,8 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
     public void deleteUserRelation(StringIdKey roleIdKey, StringIdKey userIdKey) throws ServiceException {
         try {
             userPermissionCache.clear();
+            permissionUserCache.clear();
+
             roleDao.deleteUserRelation(roleIdKey, userIdKey);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("删除角色与用户的关联时发生异常", LogLevel.WARN, sem, e);
@@ -265,6 +291,8 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
     public void batchAddUserRelations(StringIdKey roleIdKey, List<StringIdKey> userIdKeys) throws ServiceException {
         try {
             userPermissionCache.clear();
+            permissionUserCache.clear();
+
             roleDao.batchAddUserRelations(roleIdKey, userIdKeys);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("添加角色与用户的关联时发生异常", LogLevel.WARN, sem, e);
@@ -277,27 +305,11 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
     public void batchDeleteUserRelations(StringIdKey roleIdKey, List<StringIdKey> userIdKeys) throws ServiceException {
         try {
             userPermissionCache.clear();
+            permissionUserCache.clear();
+
             roleDao.batchDeleteUserRelations(roleIdKey, userIdKeys);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("删除角色与用户的关联时发生异常", LogLevel.WARN, sem, e);
-        }
-    }
-
-    @Override
-    public PagedData<Role> lookup() throws ServiceException {
-        try {
-            return PagingUtil.pagedData(roleDao.lookup());
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("查询全部时发生异常", LogLevel.WARN, sem, e);
-        }
-    }
-
-    @Override
-    public PagedData<Role> lookup(PagingInfo pagingInfo) throws ServiceException {
-        try {
-            return PagingUtil.pagedData(pagingInfo, roleDao.lookupCount(), roleDao.lookup(pagingInfo));
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("查询全部时发生异常", LogLevel.WARN, sem, e);
         }
     }
 }
