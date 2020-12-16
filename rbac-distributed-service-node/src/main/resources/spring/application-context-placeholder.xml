@@ -11,7 +11,7 @@
     <context:property-placeholder
             location=
                     "classpath:dubbo/connection.properties,
-                    classpath:hibernate/*.properties,
+                    classpath:database/*.properties,
                     classpath:redis/*.properties,
                     classpath:rbacds/*.properties"
             local-override="true"
@@ -24,7 +24,7 @@
                 <!--suppress SpringXmlModelInspection -->
                 <value>file:conf/dubbo/*.properties</value>
                 <!--suppress SpringXmlModelInspection -->
-                <value>file:conf/hibernate/*.properties</value>
+                <value>file:conf/database/*.properties</value>
                 <!--suppress SpringXmlModelInspection -->
                 <value>file:conf/redis/*.properties</value>
                 <!--suppress SpringXmlModelInspection -->
