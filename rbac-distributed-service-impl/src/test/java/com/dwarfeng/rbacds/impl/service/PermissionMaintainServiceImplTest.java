@@ -3,10 +3,8 @@ package com.dwarfeng.rbacds.impl.service;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.cache.PermissionListCache;
 import com.dwarfeng.rbacds.stack.service.PermissionMaintainService;
-import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.CacheException;
-import com.dwarfeng.subgrade.stack.exception.ServiceException;
+import org.apache.commons.beanutils.BeanUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,28 +44,16 @@ public class PermissionMaintainServiceImplTest {
     }
 
     @Test
-    public void test() throws ServiceException, CacheException {
+    public void test() throws Exception {
         try {
             for (Permission permission : permissions) {
-                if (!permissionMaintainService.exists(permission.getKey())) {
-                    permissionMaintainService.insert(permission);
-                }
+                permissionMaintainService.insertOrUpdate(permission);
+                Permission testPermission = permissionMaintainService.get(permission.getKey());
+                assertEquals(BeanUtils.describe(permission), BeanUtils.describe(testPermission));
             }
-
-            assertEquals(0, permissionListCache.size());
-            //此处用断点观测roles的值，判断是否正确。
-            //noinspection unused
-            List<Permission> lookup = permissionMaintainService.lookup().getData();
-            //noinspection UnusedAssignment
-            lookup = permissionMaintainService.lookup(new PagingInfo(2, 5)).getData();
-            //noinspection UnusedAssignment
-            lookup = null;
-            assertEquals(20, permissionListCache.size());
         } finally {
             for (Permission permission : permissions) {
-                if (permissionMaintainService.exists(permission.getKey())) {
-                    permissionMaintainService.delete(permission.getKey());
-                }
+                permissionMaintainService.deleteIfExists(permission.getKey());
             }
         }
     }

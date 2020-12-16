@@ -57,22 +57,22 @@ public class UserMaintainServiceImplTest {
     @Test
     public void test() throws ServiceException {
         try {
-            userMaintainService.insert(zhangSan);
-            userMaintainService.insert(liSi);
-            userMaintainService.insert(wangWu);
-            roleMaintainService.insert(admin);
-            roleMaintainService.insert(guest);
-            roleMaintainService.insert(moderator);
+            userMaintainService.insertOrUpdate(zhangSan);
+            userMaintainService.insertOrUpdate(liSi);
+            userMaintainService.insertOrUpdate(wangWu);
+            roleMaintainService.insertOrUpdate(admin);
+            roleMaintainService.insertOrUpdate(guest);
+            roleMaintainService.insertOrUpdate(moderator);
             userMaintainService.batchAddRoleRelations(zhangSan.getKey(), Arrays.asList(admin.getKey(), moderator.getKey(), guest.getKey()));
             userMaintainService.batchAddRoleRelations(liSi.getKey(), Arrays.asList(moderator.getKey(), guest.getKey()));
             userMaintainService.addRoleRelation(wangWu.getKey(), guest.getKey());
         } finally {
-            if (Objects.nonNull(zhangSan)) userMaintainService.delete(zhangSan.getKey());
-            roleMaintainService.delete(admin.getKey());
-            if (Objects.nonNull(liSi)) userMaintainService.delete(liSi.getKey());
-            roleMaintainService.delete(moderator.getKey());
-            if (Objects.nonNull(wangWu)) userMaintainService.delete(wangWu.getKey());
-            roleMaintainService.delete(guest.getKey());
+            if (Objects.nonNull(zhangSan)) userMaintainService.deleteIfExists(zhangSan.getKey());
+            roleMaintainService.deleteIfExists(admin.getKey());
+            if (Objects.nonNull(liSi)) userMaintainService.deleteIfExists(liSi.getKey());
+            roleMaintainService.deleteIfExists(moderator.getKey());
+            if (Objects.nonNull(wangWu)) userMaintainService.deleteIfExists(wangWu.getKey());
+            roleMaintainService.deleteIfExists(guest.getKey());
         }
     }
 }

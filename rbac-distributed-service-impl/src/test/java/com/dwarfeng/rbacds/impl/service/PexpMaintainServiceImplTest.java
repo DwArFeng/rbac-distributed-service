@@ -69,15 +69,15 @@ public class PexpMaintainServiceImplTest {
     @Test
     public void test() throws ServiceException {
         try {
-            roleMaintainService.insert(admin);
-            roleMaintainService.insert(guest);
-            roleMaintainService.insert(moderator);
-            pexpMaintainService.insert(pexpA);
-            pexpMaintainService.insert(pexpB);
-            pexpMaintainService.insert(pexpC);
-            pexpMaintainService.insert(pexpD);
-            pexpMaintainService.insert(pexpE);
-            pexpMaintainService.insert(pexpF);
+            roleMaintainService.insertOrUpdate(admin);
+            roleMaintainService.insertOrUpdate(guest);
+            roleMaintainService.insertOrUpdate(moderator);
+            pexpMaintainService.insertOrUpdate(pexpA);
+            pexpMaintainService.insertOrUpdate(pexpB);
+            pexpMaintainService.insertOrUpdate(pexpC);
+            pexpMaintainService.insertOrUpdate(pexpD);
+            pexpMaintainService.insertOrUpdate(pexpE);
+            pexpMaintainService.insertOrUpdate(pexpF);
 
             //此处用断点观测roles的值，判断是否正确。
             //noinspection unused
@@ -93,15 +93,15 @@ public class PexpMaintainServiceImplTest {
             //noinspection UnusedAssignment
             pexps = null;
         } finally {
-            roleMaintainService.delete(admin.getKey());
-            roleMaintainService.delete(moderator.getKey());
-            roleMaintainService.delete(guest.getKey());
-            pexpMaintainService.delete(pexpA.getKey());
-            pexpMaintainService.delete(pexpB.getKey());
-            pexpMaintainService.delete(pexpC.getKey());
-            pexpMaintainService.delete(pexpD.getKey());
-            pexpMaintainService.delete(pexpE.getKey());
-            pexpMaintainService.delete(pexpF.getKey());
+            roleMaintainService.deleteIfExists(admin.getKey());
+            roleMaintainService.deleteIfExists(moderator.getKey());
+            roleMaintainService.deleteIfExists(guest.getKey());
+            pexpMaintainService.deleteIfExists(pexpA.getKey());
+            pexpMaintainService.deleteIfExists(pexpB.getKey());
+            pexpMaintainService.deleteIfExists(pexpC.getKey());
+            pexpMaintainService.deleteIfExists(pexpD.getKey());
+            pexpMaintainService.deleteIfExists(pexpE.getKey());
+            pexpMaintainService.deleteIfExists(pexpF.getKey());
         }
     }
 }
