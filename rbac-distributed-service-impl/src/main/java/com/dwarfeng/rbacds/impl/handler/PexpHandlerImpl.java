@@ -2,18 +2,16 @@ package com.dwarfeng.rbacds.impl.handler;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
-import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.rbacds.stack.handler.PexpHandler;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.Bean;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Component
 public class PexpHandlerImpl implements PexpHandler {
@@ -27,82 +25,92 @@ public class PexpHandlerImpl implements PexpHandler {
     @Autowired(required = false)
     private Set<PermissionFilter> permissionFilters = new HashSet<>();
 
+    private final Map<String, PermissionFilter> permissionFilterMap = new HashMap<>();
+
+    @PostConstruct
+    public void init() {
+        for (PermissionFilter permissionFilter : permissionFilters) {
+            permissionFilterMap.put(permissionFilter.getIdentifier().toUpperCase(), permissionFilter);
+        }
+    }
+
     @Override
     @BehaviorAnalyse
-    public List<Permission> analysePexpPermissions(Map<Role, List<Pexp>> pexpsMap, List<Permission> allPermissions) throws HandlerException {
+    public PermissionReception test(Pexp pexp, Permission permission) throws HandlerException {
         try {
-            final Map<Role, Set<Permission>> acceptedPermissionsMap = new HashMap<>();
-            final Map<Role, Set<Permission>> rejectedPermissionsMap = new HashMap<>();
-            final Set<Permission> globalRejectedPermissions = new HashSet<>();
-            for (Map.Entry<Role, List<Pexp>> entry : pexpsMap.entrySet()) {
-                Role role = entry.getKey();
-                List<Pexp> pexps = entry.getValue();
-                for (Pexp pexp : pexps) {
-                    PexpInfo pexpInfo = analysePexpInfo(pexp);
+            // 分析并取得权限表达式的信息。
+            PexpInfo pexpInfo = analysePexpInfo(pexp);
+            PermissionFilter permissionFilter = pexpInfo.getPermissionFilter();
+            String pattern = pexpInfo.getPattern();
+            String modifier = pexpInfo.getModifier();
 
-                    Set<Permission> permissions = allPermissions.stream()
-                            .filter(permission -> pexpInfo.getPermissionFilter().accept(
-                                    pexpInfo.getPattern(), permission.getKey().getStringId()))
-                            .collect(Collectors.toSet());
+            // 判断权限表达式对应的过滤器是否接受指定的权限文本。
+            boolean acceptFlag = permissionFilter.accept(pattern, permission.getKey().getStringId());
 
-                    if (Objects.equals(pexpInfo.getModifier(), ACCEPT_MODIFIER)) {
-                        acceptedPermissionsMap.put(role, permissions);
-                    } else if (Objects.equals(pexpInfo.getModifier(), REJECT_MODIFIER)) {
-                        rejectedPermissionsMap.put(role, permissions);
-                    } else {
-                        globalRejectedPermissions.addAll(permissions);
-                    }
-                }
+            if (!acceptFlag) {
+                return PermissionReception.NOT_ACCEPT;
+            } else if (Objects.equals(modifier, ACCEPT_MODIFIER)) {
+                return PermissionReception.ACCEPT;
+            } else if (Objects.equals(modifier, REJECT_MODIFIER)) {
+                return PermissionReception.REJECT;
+            } else {
+                return PermissionReception.GLOBAL_REJECT;
             }
-            List<Permission> permissions = new ArrayList<>();
-            for (Role role : pexpsMap.keySet()) {
-                List<Permission> rolePermissions = new ArrayList<>(acceptedPermissionsMap.getOrDefault(role, Collections.emptySet()));
-                rolePermissions.removeAll(rejectedPermissionsMap.getOrDefault(role, Collections.emptySet()));
-                permissions.addAll(rolePermissions);
-            }
-            permissions.removeAll(globalRejectedPermissions);
-            permissions.sort(PermissionComparator.INSTANCE);
-            return permissions;
         } catch (Exception e) {
             throw new HandlerException(e);
         }
     }
 
     @Override
-    public PermissionRoleInfo analysePermissionRoles(Map<Role, List<Pexp>> pexpsMap, Permission permission) throws HandlerException {
+    @BehaviorAnalyse
+    @SkipRecord
+    public Map<PermissionReception, List<Permission>> testAll(Pexp pexp, @SkipRecord List<Permission> permissions)
+            throws HandlerException {
         try {
-            List<StringIdKey> includeRoleKeys = new ArrayList<>();
-            List<StringIdKey> excludeRoleKeys = new ArrayList<>();
-            for (Map.Entry<Role, List<Pexp>> entry : pexpsMap.entrySet()) {
-                Role role = entry.getKey();
-                List<Pexp> pexps = entry.getValue();
+            // 分析并取得权限表达式的信息。
+            PexpInfo pexpInfo = analysePexpInfo(pexp);
+            PermissionFilter permissionFilter = pexpInfo.getPermissionFilter();
+            String pattern = pexpInfo.getPattern();
+            String modifier = pexpInfo.getModifier();
 
-                boolean acceptedPermissionFlag = false;
-                boolean rejectedPermissionFlag = false;
-                boolean globalRejectedPermissionFlag = false;
+            List<Permission> acceptedPermissions = new ArrayList<>();
+            List<Permission> notAcceptedPermissions = new ArrayList<>();
 
-                for (Pexp pexp : pexps) {
-                    PexpInfo pexpInfo = analysePexpInfo(pexp);
-                    boolean acceptFlag = pexpInfo.getPermissionFilter().accept(pexpInfo.getPattern(), permission.getKey().getStringId());
-                    if (!acceptFlag) {
-                        continue;
-                    }
-                    if (Objects.equals(pexpInfo.getModifier(), ACCEPT_MODIFIER)) {
-                        acceptedPermissionFlag = true;
-                    } else if (Objects.equals(pexpInfo.getModifier(), REJECT_MODIFIER)) {
-                        rejectedPermissionFlag = true;
-                    } else {
-                        globalRejectedPermissionFlag = true;
-                    }
-                }
-
-                if (globalRejectedPermissionFlag) {
-                    excludeRoleKeys.add(role.getKey());
-                } else if (acceptedPermissionFlag && !rejectedPermissionFlag) {
-                    includeRoleKeys.add(role.getKey());
+            // 遍历所有权限，确认权限过滤器的接收情况。
+            for (Permission permission : permissions) {
+                // 判断权限表达式对应的过滤器是否接受指定的权限文本。
+                boolean acceptFlag = permissionFilter.accept(pattern, permission.getKey().getStringId());
+                if (acceptFlag) {
+                    acceptedPermissions.add(permission);
+                } else {
+                    notAcceptedPermissions.add(permission);
                 }
             }
-            return new PermissionRoleInfo(includeRoleKeys, excludeRoleKeys);
+
+            if (acceptedPermissions.isEmpty()) {
+                acceptedPermissions = Collections.emptyList();
+            }
+            if (notAcceptedPermissions.isEmpty()) {
+                notAcceptedPermissions = Collections.emptyList();
+            }
+
+            // 构造结果并返回。
+            Map<PermissionReception, List<Permission>> result = new EnumMap<>(PermissionReception.class);
+            result.put(PermissionReception.NOT_ACCEPT, notAcceptedPermissions);
+            if (Objects.equals(modifier, ACCEPT_MODIFIER)) {
+                result.put(PermissionReception.ACCEPT, acceptedPermissions);
+                result.put(PermissionReception.REJECT, Collections.emptyList());
+                result.put(PermissionReception.GLOBAL_REJECT, Collections.emptyList());
+            } else if (Objects.equals(modifier, REJECT_MODIFIER)) {
+                result.put(PermissionReception.ACCEPT, Collections.emptyList());
+                result.put(PermissionReception.REJECT, acceptedPermissions);
+                result.put(PermissionReception.GLOBAL_REJECT, Collections.emptyList());
+            } else {
+                result.put(PermissionReception.ACCEPT, Collections.emptyList());
+                result.put(PermissionReception.REJECT, Collections.emptyList());
+                result.put(PermissionReception.GLOBAL_REJECT, acceptedPermissions);
+            }
+            return result;
         } catch (Exception e) {
             throw new HandlerException(e);
         }
@@ -125,23 +133,14 @@ public class PexpHandlerImpl implements PexpHandler {
             throw new IllegalArgumentException(format);
         }
 
-        // 根据相关信息构造权限过滤器。
-        PermissionFilter permissionFilter = permissionFilters.stream()
-                .filter(f -> StringUtils.equalsIgnoreCase(identifier, f.getIdentifier())).findAny()
-                .orElseThrow(() -> new IllegalArgumentException("未能找到标识符为 " + identifier + " 的权限过滤器"));
+        // 根据相关信息查找权限过滤器。
+        PermissionFilter permissionFilter = permissionFilterMap.get(identifier.toUpperCase());
+        if (Objects.isNull(permissionFilter)) {
+            throw new IllegalArgumentException("未能找到标识符为 " + identifier.toUpperCase() + " 的权限过滤器");
+        }
 
         // 返回权限表达式信息。
         return new PexpInfo(modifier, pattern, permissionFilter);
-    }
-
-    private static final class PermissionComparator implements Comparator<Permission> {
-
-        public static PermissionComparator INSTANCE = new PermissionComparator();
-
-        @Override
-        public int compare(Permission o1, Permission o2) {
-            return o1.getKey().getStringId().compareTo(o2.getKey().getStringId());
-        }
     }
 
     private static class PexpInfo implements Bean {

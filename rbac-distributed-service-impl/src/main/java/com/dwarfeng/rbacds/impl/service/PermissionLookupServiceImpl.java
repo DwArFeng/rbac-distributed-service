@@ -4,16 +4,15 @@ import com.dwarfeng.rbacds.sdk.util.ServiceExceptionCodes;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
-import com.dwarfeng.rbacds.stack.bean.entity.User;
-import com.dwarfeng.rbacds.stack.cache.PermissionUserCache;
 import com.dwarfeng.rbacds.stack.cache.UserPermissionCache;
 import com.dwarfeng.rbacds.stack.handler.PexpHandler;
-import com.dwarfeng.rbacds.stack.handler.PexpHandler.PermissionRoleInfo;
+import com.dwarfeng.rbacds.stack.handler.PexpHandler.PermissionReception;
 import com.dwarfeng.rbacds.stack.service.*;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionHelper;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
 import com.dwarfeng.subgrade.stack.log.LogLevel;
@@ -24,7 +23,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class PermissionLookupServiceImpl implements PermissionLookupService {
@@ -44,14 +42,10 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
     @Autowired
     private UserPermissionCache userPermissionCache;
     @Autowired
-    private PermissionUserCache permissionUserCache;
-    @Autowired
     private ServiceExceptionMapper sem;
 
     @Value("${cache.timeout.list.user_has_permission}")
     private long userHasPermissionTimeout;
-    @Value("${cache.timeout.list.permission_has_user}")
-    private long permissionHasUserTimeout;
 
     @Override
     @BehaviorAnalyse
@@ -86,70 +80,63 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
         // 查询所有的权限。
         List<Permission> permissions = permissionMaintainService.lookup().getData();
         // 通过所有的权限表达式和所有的权限解析用户拥有的所有权限。
-        permissions = pexpHandler.analysePexpPermissions(pexpsMap, permissions);
+        permissions = analysePexpPermissions(pexpsMap, permissions);
         // Debug输出用户获得的所有权限表达式。
         LOGGER.debug("查询获得用户 " + userKey.toString() + " 的权限:");
         permissions.forEach(permission -> LOGGER.debug("\t" + permission));
         return permissions;
     }
 
-    @Override
-    @BehaviorAnalyse
-    @SkipRecord
-    public List<User> lookupUsers(StringIdKey permissionKey) throws ServiceException {
+    private List<Permission> analysePexpPermissions(Map<Role, List<Pexp>> pexpsMap, List<Permission> allPermissions)
+            throws HandlerException {
         try {
-            if (permissionUserCache.exists(permissionKey)) {
-                return permissionUserCache.get(permissionKey);
+            // 定义变量。
+            final Map<Role, List<Permission>> acceptedPermissionsMap = new HashMap<>();
+            final Map<Role, List<Permission>> rejectedPermissionsMap = new HashMap<>();
+            final Set<Permission> globalRejectedPermissions = new HashSet<>();
+
+            // 遍历角色，将角色的权限信息分类写入变量中。
+            for (Map.Entry<Role, List<Pexp>> entry : pexpsMap.entrySet()) {
+                Role role = entry.getKey();
+                List<Pexp> pexps = entry.getValue();
+                List<Permission> acceptedPermissions = new ArrayList<>();
+                List<Permission> rejectPermissions = new ArrayList<>();
+                for (Pexp pexp : pexps) {
+                    Map<PermissionReception, List<Permission>> testMap = pexpHandler.testAll(pexp, allPermissions);
+                    acceptedPermissions.addAll(testMap.get(PermissionReception.ACCEPT));
+                    rejectPermissions.addAll(testMap.get(PermissionReception.REJECT));
+                    globalRejectedPermissions.addAll(testMap.get(PermissionReception.GLOBAL_REJECT));
+                }
+                acceptedPermissionsMap.put(role, acceptedPermissions);
+                rejectedPermissionsMap.put(role, rejectPermissions);
             }
-            List<User> users = lookupUser(permissionKey);
-            permissionUserCache.set(permissionKey, users, permissionHasUserTimeout);
-            return users;
+
+            // 处理角色与权限的对应信息，并最终形成用户的权限。
+            List<Permission> permissions = new ArrayList<>();
+            for (Role role : pexpsMap.keySet()) {
+                List<Permission> rolePermissions = acceptedPermissionsMap.get(role);
+                // 针对指定角色不接受任何权限的特殊情况进行优化。
+                if (rolePermissions.isEmpty()) {
+                    continue;
+                }
+                rolePermissions.removeAll(rejectedPermissionsMap.get(role));
+                permissions.addAll(rolePermissions);
+            }
+            permissions.removeAll(globalRejectedPermissions);
+            permissions.sort(PermissionComparator.INSTANCE);
+            return permissions;
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("查询用户对应的权限时发生异常", LogLevel.WARN, sem, e);
+            throw new HandlerException(e);
         }
     }
 
-    @SuppressWarnings("DuplicatedCode")
-    private List<User> lookupUser(StringIdKey permissionKey) throws Exception {
-        // 判断用户是否存在。
-        if (!permissionMaintainService.exists(permissionKey)) {
-            LOGGER.warn("指定的权限 " + permissionKey.toString() + " 不存在, 将抛出异常...");
-            throw new ServiceException(ServiceExceptionCodes.PERMISSION_NOT_EXISTS);
+    private static final class PermissionComparator implements Comparator<Permission> {
+
+        public static PermissionComparator INSTANCE = new PermissionComparator();
+
+        @Override
+        public int compare(Permission o1, Permission o2) {
+            return o1.getKey().getStringId().compareTo(o2.getKey().getStringId());
         }
-        // 获取所有有效角色的权限表达式。
-        List<Role> roles = roleMaintainService.lookup(RoleMaintainService.ENABLED, new Object[0]).getData();
-        Map<Role, List<Pexp>> pexpsMap = new HashMap<>();
-        for (Role role : roles) {
-            List<Pexp> pexps = pexpMaintainService.lookup(PexpMaintainService.PEXP_FOR_ROLE, new Object[]{role.getKey()}).getData();
-            pexpsMap.put(role, pexps);
-        }
-        // 查询权限。
-        Permission permission = permissionMaintainService.get(permissionKey);
-        // 通过所有的权限表达式解析权限的角色信息。
-        PermissionRoleInfo permissionRoleInfo = pexpHandler.analysePermissionRoles(pexpsMap, permission);
-        // 根据角色信息查询所有符合条件的用户。
-        List<User> users;
-        if (!permissionRoleInfo.getIncludeRoleKeys().isEmpty() && !permissionRoleInfo.getExcludeRoleKeys().isEmpty()) {
-            List<User> tempUsers = userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
-                    new Object[]{permissionRoleInfo.getIncludeRoleKeys()}).getData();
-            Map<StringIdKey, User> includeUserMap = new LinkedHashMap<>();
-            for (User tempUser : tempUsers) {
-                includeUserMap.put(tempUser.getKey(), tempUser);
-            }
-            List<StringIdKey> excludeUserKeys = userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
-                    new Object[]{permissionRoleInfo.getExcludeRoleKeys()}).getData().stream()
-                    .map(User::getKey).collect(Collectors.toList());
-            includeUserMap.keySet().removeAll(excludeUserKeys);
-            users = new ArrayList<>(includeUserMap.values());
-        } else if (!permissionRoleInfo.getIncludeRoleKeys().isEmpty() && permissionRoleInfo.getExcludeRoleKeys().isEmpty()) {
-            users = new ArrayList<>(userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
-                    new Object[]{permissionRoleInfo.getIncludeRoleKeys()}).getData());
-        } else {
-            users = Collections.emptyList();
-        }
-        // Debug输出用户获得的所有权限表达式。
-        LOGGER.debug("查询获得权限 " + permissionKey.toString() + " 对应的用户:");
-        users.forEach(user -> LOGGER.debug("\t" + user));
-        return users;
     }
 }

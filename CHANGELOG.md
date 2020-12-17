@@ -14,6 +14,9 @@
 - 增加 QOS 功能。
   - 添加 spring-telqos 依赖。
   - 引入预设指令。
+  - 添加 QosService 服务。
+  - 添加 PermissionCommand 指令。
+  - 添加 UserCommand 指令。
 - 新功能实现。
   - 通过权限反查相关用户。
 - 优化 BehaviorAnalyse，取消有可能产生大量文本的返回结果以及入口参数的记录。
