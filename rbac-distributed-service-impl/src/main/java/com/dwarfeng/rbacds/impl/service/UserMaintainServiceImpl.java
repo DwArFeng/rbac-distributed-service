@@ -10,6 +10,7 @@ import com.dwarfeng.subgrade.sdk.bean.dto.PagingUtil;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionHelper;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
@@ -216,6 +217,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    @SkipRecord
     public PagedData<User> lookup(String preset, Object[] objs) throws ServiceException {
         try {
             return PagingUtil.pagedData(userDao.lookup(preset, objs));
@@ -227,6 +229,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    @SkipRecord
     public PagedData<User> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
         try {
             return PagingUtil.pagedData(pagingInfo, userDao.lookupCount(preset, objs), userDao.lookup(preset, objs, pagingInfo));
@@ -236,6 +239,9 @@ public class UserMaintainServiceImpl implements UserMaintainService {
     }
 
     @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    @SkipRecord
     public PagedData<User> lookup() throws ServiceException {
         try {
             return PagingUtil.pagedData(userDao.lookup());
@@ -245,6 +251,9 @@ public class UserMaintainServiceImpl implements UserMaintainService {
     }
 
     @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    @SkipRecord
     public PagedData<User> lookup(PagingInfo pagingInfo) throws ServiceException {
         try {
             return PagingUtil.pagedData(pagingInfo, userDao.lookupCount(), userDao.lookup(pagingInfo));
@@ -284,7 +293,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchAddRoleRelations(StringIdKey userIdKey, List<StringIdKey> roleIdKeys) throws ServiceException {
+    public void batchAddRoleRelations(StringIdKey userIdKey, @SkipRecord List<StringIdKey> roleIdKeys) throws ServiceException {
         try {
             userPermissionCache.clear();
             permissionUserCache.clear();
@@ -298,7 +307,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDeleteRoleRelations(StringIdKey userIdKey, List<StringIdKey> roleIdKeys) throws ServiceException {
+    public void batchDeleteRoleRelations(StringIdKey userIdKey, @SkipRecord List<StringIdKey> roleIdKeys) throws ServiceException {
         try {
             userPermissionCache.clear();
             permissionUserCache.clear();

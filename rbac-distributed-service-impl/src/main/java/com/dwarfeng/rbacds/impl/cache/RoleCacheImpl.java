@@ -5,6 +5,7 @@ import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.rbacds.stack.cache.RoleCache;
 import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.CacheException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,35 +58,36 @@ public class RoleCacheImpl implements RoleCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean allExists(List<StringIdKey> keys) throws CacheException {
+    public boolean allExists(@SkipRecord List<StringIdKey> keys) throws CacheException {
         return delegate.allExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean nonExists(List<StringIdKey> keys) throws CacheException {
+    public boolean nonExists(@SkipRecord List<StringIdKey> keys) throws CacheException {
         return delegate.nonExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<Role> batchGet(List<StringIdKey> keys) throws CacheException {
+    @SkipRecord
+    public List<Role> batchGet(@SkipRecord List<StringIdKey> keys) throws CacheException {
         return delegate.batchGet(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchPush(List<Role> entities, long timeout) throws CacheException {
+    public void batchPush(@SkipRecord List<Role> entities, long timeout) throws CacheException {
         delegate.batchPush(entities, timeout);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDelete(List<StringIdKey> keys) throws CacheException {
+    public void batchDelete(@SkipRecord List<StringIdKey> keys) throws CacheException {
         delegate.batchDelete(keys);
     }
 }

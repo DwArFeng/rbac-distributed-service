@@ -5,6 +5,7 @@ import com.dwarfeng.rbacds.stack.bean.entity.User;
 import com.dwarfeng.rbacds.stack.cache.PermissionUserCache;
 import com.dwarfeng.subgrade.impl.cache.RedisKeyListCache;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.CacheException;
@@ -38,6 +39,7 @@ public class PermissionUserCacheImpl implements PermissionUserCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    @SkipRecord
     public List<User> get(StringIdKey key) throws CacheException {
         return redisKeyListDelegate.get(key);
     }
@@ -45,6 +47,7 @@ public class PermissionUserCacheImpl implements PermissionUserCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    @SkipRecord
     public List<User> get(StringIdKey key, int beginIndex, int maxEntity) throws CacheException {
         return redisKeyListDelegate.get(key, beginIndex, maxEntity);
     }
@@ -52,6 +55,7 @@ public class PermissionUserCacheImpl implements PermissionUserCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    @SkipRecord
     public List<User> get(StringIdKey key, PagingInfo pagingInfo) throws CacheException {
         return redisKeyListDelegate.get(key, pagingInfo);
     }
@@ -59,21 +63,21 @@ public class PermissionUserCacheImpl implements PermissionUserCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void set(StringIdKey key, Collection<User> entities, long timeout) throws CacheException {
+    public void set(StringIdKey key, @SkipRecord Collection<User> entities, long timeout) throws CacheException {
         redisKeyListDelegate.set(key, entities, timeout);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void leftPush(StringIdKey key, Collection<User> entities, long timeout) throws CacheException {
+    public void leftPush(StringIdKey key, @SkipRecord Collection<User> entities, long timeout) throws CacheException {
         redisKeyListDelegate.leftPush(key, entities, timeout);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void rightPush(StringIdKey key, Collection<User> entities, long timeout) throws CacheException {
+    public void rightPush(StringIdKey key, @SkipRecord Collection<User> entities, long timeout) throws CacheException {
         redisKeyListDelegate.rightPush(key, entities, timeout);
     }
 

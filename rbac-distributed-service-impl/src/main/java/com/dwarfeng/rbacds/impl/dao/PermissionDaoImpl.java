@@ -8,6 +8,7 @@ import com.dwarfeng.subgrade.impl.dao.HibernateEntireLookupDao;
 import com.dwarfeng.subgrade.impl.dao.HibernatePresetLookupDao;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.DaoException;
@@ -65,42 +66,44 @@ public class PermissionDaoImpl implements PermissionDao {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsert(List<Permission> elements) throws DaoException {
+    @SkipRecord
+    public List<StringIdKey> batchInsert(@SkipRecord List<Permission> elements) throws DaoException {
         return batchDelegate.batchInsert(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchUpdate(List<Permission> elements) throws DaoException {
+    public void batchUpdate(@SkipRecord List<Permission> elements) throws DaoException {
         batchDelegate.batchUpdate(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDelete(List<StringIdKey> keys) throws DaoException {
+    public void batchDelete(@SkipRecord List<StringIdKey> keys) throws DaoException {
         batchDelegate.batchDelete(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean allExists(List<StringIdKey> keys) throws DaoException {
+    public boolean allExists(@SkipRecord List<StringIdKey> keys) throws DaoException {
         return batchDelegate.allExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean nonExists(List<StringIdKey> keys) throws DaoException {
+    public boolean nonExists(@SkipRecord List<StringIdKey> keys) throws DaoException {
         return batchDelegate.nonExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<Permission> batchGet(List<StringIdKey> keys) throws DaoException {
+    @SkipRecord
+    public List<Permission> batchGet(@SkipRecord List<StringIdKey> keys) throws DaoException {
         return batchDelegate.batchGet(keys);
     }
 
@@ -128,6 +131,7 @@ public class PermissionDaoImpl implements PermissionDao {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    @SkipRecord
     public List<Permission> lookup(String preset, Object[] objs) throws DaoException {
         return presetLookupDelegate.lookup(preset, objs);
     }
@@ -135,6 +139,7 @@ public class PermissionDaoImpl implements PermissionDao {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    @SkipRecord
     public List<Permission> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws DaoException {
         return presetLookupDelegate.lookup(preset, objs, pagingInfo);
     }

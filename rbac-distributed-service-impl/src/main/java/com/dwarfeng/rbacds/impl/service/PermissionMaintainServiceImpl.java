@@ -11,6 +11,7 @@ import com.dwarfeng.subgrade.sdk.bean.dto.PagingUtil;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionHelper;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
@@ -227,6 +228,9 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
     }
 
     @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    @SkipRecord
     public PagedData<Permission> lookup() throws ServiceException {
         try {
             if (permissionListCache.exists()) {
@@ -241,6 +245,9 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
     }
 
     @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    @SkipRecord
     public PagedData<Permission> lookup(PagingInfo pagingInfo) throws ServiceException {
         try {
             if (permissionListCache.exists()) {
@@ -258,6 +265,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    @SkipRecord
     public PagedData<Permission> lookup(String preset, Object[] objs) throws ServiceException {
         try {
             return PagingUtil.pagedData(permissionDao.lookup(preset, objs));
@@ -269,6 +277,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    @SkipRecord
     public PagedData<Permission> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
         try {
             return PagingUtil.pagedData(pagingInfo, permissionDao.lookupCount(preset, objs), permissionDao.lookup(preset, objs, pagingInfo));

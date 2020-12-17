@@ -179,6 +179,41 @@ public class PermissionLookupServiceImplTest {
             assertFalse(permissionKeys.contains(permission7.getKey()));
             assertFalse(permissionKeys.contains(permission8.getKey()));
             assertFalse(permissionKeys.contains(permission9.getKey()));
+
+            // 重复一遍，分析命中缓存时的性能。
+            permissionKeys = permissionLookupService.lookupPermissions(zhangSan.getKey())
+                    .stream().map(Permission::getKey).collect(Collectors.toList());
+            assertFalse(permissionKeys.contains(permission1.getKey()));
+            assertFalse(permissionKeys.contains(permission2.getKey()));
+            assertTrue(permissionKeys.contains(permission3.getKey()));
+            assertTrue(permissionKeys.contains(permission4.getKey()));
+            assertFalse(permissionKeys.contains(permission5.getKey()));
+            assertTrue(permissionKeys.contains(permission6.getKey()));
+            assertTrue(permissionKeys.contains(permission7.getKey()));
+            assertFalse(permissionKeys.contains(permission8.getKey()));
+            assertFalse(permissionKeys.contains(permission9.getKey()));
+            permissionKeys = permissionLookupService.lookupPermissions(liSi.getKey())
+                    .stream().map(Permission::getKey).collect(Collectors.toList());
+            assertFalse(permissionKeys.contains(permission1.getKey()));
+            assertFalse(permissionKeys.contains(permission2.getKey()));
+            assertTrue(permissionKeys.contains(permission3.getKey()));
+            assertFalse(permissionKeys.contains(permission4.getKey()));
+            assertFalse(permissionKeys.contains(permission5.getKey()));
+            assertTrue(permissionKeys.contains(permission6.getKey()));
+            assertFalse(permissionKeys.contains(permission7.getKey()));
+            assertFalse(permissionKeys.contains(permission8.getKey()));
+            assertFalse(permissionKeys.contains(permission9.getKey()));
+            permissionKeys = permissionLookupService.lookupPermissions(wangWu.getKey())
+                    .stream().map(Permission::getKey).collect(Collectors.toList());
+            assertFalse(permissionKeys.contains(permission1.getKey()));
+            assertFalse(permissionKeys.contains(permission2.getKey()));
+            assertTrue(permissionKeys.contains(permission3.getKey()));
+            assertFalse(permissionKeys.contains(permission4.getKey()));
+            assertFalse(permissionKeys.contains(permission5.getKey()));
+            assertTrue(permissionKeys.contains(permission6.getKey()));
+            assertFalse(permissionKeys.contains(permission7.getKey()));
+            assertFalse(permissionKeys.contains(permission8.getKey()));
+            assertFalse(permissionKeys.contains(permission9.getKey()));
         } finally {
             if (Objects.nonNull(zhangSan)) userMaintainService.deleteIfExists(zhangSan.getKey());
             if (Objects.nonNull(liSi)) userMaintainService.deleteIfExists(liSi.getKey());
@@ -240,6 +275,53 @@ public class PermissionLookupServiceImplTest {
             permissionMaintainService.insertOrUpdate(permission9);
 
             List<StringIdKey> userKeys = permissionLookupService.lookupUsers(permission1.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertFalse(userKeys.contains(zhangSan.getKey()));
+            assertFalse(userKeys.contains(liSi.getKey()));
+            assertFalse(userKeys.contains(wangWu.getKey()));
+            userKeys = permissionLookupService.lookupUsers(permission2.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertFalse(userKeys.contains(zhangSan.getKey()));
+            assertFalse(userKeys.contains(liSi.getKey()));
+            assertFalse(userKeys.contains(wangWu.getKey()));
+            userKeys = permissionLookupService.lookupUsers(permission3.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertTrue(userKeys.contains(zhangSan.getKey()));
+            assertTrue(userKeys.contains(liSi.getKey()));
+            assertTrue(userKeys.contains(wangWu.getKey()));
+            userKeys = permissionLookupService.lookupUsers(permission4.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertTrue(userKeys.contains(zhangSan.getKey()));
+            assertFalse(userKeys.contains(liSi.getKey()));
+            assertFalse(userKeys.contains(wangWu.getKey()));
+            userKeys = permissionLookupService.lookupUsers(permission5.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertFalse(userKeys.contains(zhangSan.getKey()));
+            assertFalse(userKeys.contains(liSi.getKey()));
+            assertFalse(userKeys.contains(wangWu.getKey()));
+            userKeys = permissionLookupService.lookupUsers(permission6.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertTrue(userKeys.contains(zhangSan.getKey()));
+            assertTrue(userKeys.contains(liSi.getKey()));
+            assertTrue(userKeys.contains(wangWu.getKey()));
+            userKeys = permissionLookupService.lookupUsers(permission7.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertTrue(userKeys.contains(zhangSan.getKey()));
+            assertFalse(userKeys.contains(liSi.getKey()));
+            assertFalse(userKeys.contains(wangWu.getKey()));
+            userKeys = permissionLookupService.lookupUsers(permission8.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertFalse(userKeys.contains(zhangSan.getKey()));
+            assertFalse(userKeys.contains(liSi.getKey()));
+            assertFalse(userKeys.contains(wangWu.getKey()));
+            userKeys = permissionLookupService.lookupUsers(permission9.getKey())
+                    .stream().map(User::getKey).collect(Collectors.toList());
+            assertFalse(userKeys.contains(zhangSan.getKey()));
+            assertFalse(userKeys.contains(liSi.getKey()));
+            assertFalse(userKeys.contains(wangWu.getKey()));
+
+            // 重复一遍，分析命中缓存时的性能。
+            userKeys = permissionLookupService.lookupUsers(permission1.getKey())
                     .stream().map(User::getKey).collect(Collectors.toList());
             assertFalse(userKeys.contains(zhangSan.getKey()));
             assertFalse(userKeys.contains(liSi.getKey()));

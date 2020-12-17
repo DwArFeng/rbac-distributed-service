@@ -12,6 +12,7 @@ import com.dwarfeng.rbacds.stack.handler.PexpHandler.PermissionRoleInfo;
 import com.dwarfeng.rbacds.stack.service.*;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionHelper;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
@@ -22,11 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,6 +55,7 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     public List<Permission> lookupPermissions(StringIdKey userKey) throws ServiceException {
         try {
             if (userPermissionCache.exists(userKey)) {
@@ -97,6 +95,7 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     public List<User> lookupUsers(StringIdKey permissionKey) throws ServiceException {
         try {
             if (permissionUserCache.exists(permissionKey)) {
@@ -129,27 +128,28 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
         // 通过所有的权限表达式解析权限的角色信息。
         PermissionRoleInfo permissionRoleInfo = pexpHandler.analysePermissionRoles(pexpsMap, permission);
         // 根据角色信息查询所有符合条件的用户。
-        Map<StringIdKey, User> includeUserMap = userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
-                new Object[]{permissionRoleInfo.getIncludeRoleKeys()}).getData().stream()
-                .collect(Collectors.toMap(User::getKey, Function.identity()));
-        List<StringIdKey> excludeUserKeys = userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
-                new Object[]{permissionRoleInfo.getExcludeRoleKeys()}).getData().stream()
-                .map(User::getKey).collect(Collectors.toList());
-        includeUserMap.keySet().removeAll(excludeUserKeys);
-        List<User> users = includeUserMap.values().stream().sorted(UserComparator.INSTANCE).collect(Collectors.toList());
+        List<User> users;
+        if (!permissionRoleInfo.getIncludeRoleKeys().isEmpty() && !permissionRoleInfo.getExcludeRoleKeys().isEmpty()) {
+            List<User> tempUsers = userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
+                    new Object[]{permissionRoleInfo.getIncludeRoleKeys()}).getData();
+            Map<StringIdKey, User> includeUserMap = new LinkedHashMap<>();
+            for (User tempUser : tempUsers) {
+                includeUserMap.put(tempUser.getKey(), tempUser);
+            }
+            List<StringIdKey> excludeUserKeys = userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
+                    new Object[]{permissionRoleInfo.getExcludeRoleKeys()}).getData().stream()
+                    .map(User::getKey).collect(Collectors.toList());
+            includeUserMap.keySet().removeAll(excludeUserKeys);
+            users = new ArrayList<>(includeUserMap.values());
+        } else if (!permissionRoleInfo.getIncludeRoleKeys().isEmpty() && permissionRoleInfo.getExcludeRoleKeys().isEmpty()) {
+            users = new ArrayList<>(userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
+                    new Object[]{permissionRoleInfo.getIncludeRoleKeys()}).getData());
+        } else {
+            users = Collections.emptyList();
+        }
         // Debug输出用户获得的所有权限表达式。
         LOGGER.debug("查询获得权限 " + permissionKey.toString() + " 对应的用户:");
         users.forEach(user -> LOGGER.debug("\t" + user));
         return users;
-    }
-
-    private static final class UserComparator implements Comparator<User> {
-
-        public static UserComparator INSTANCE = new UserComparator();
-
-        @Override
-        public int compare(User o1, User o2) {
-            return o1.getKey().getStringId().compareTo(o2.getKey().getStringId());
-        }
     }
 }
