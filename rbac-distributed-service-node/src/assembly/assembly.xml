@@ -17,16 +17,16 @@
 
     <fileSets>
         <fileSet>
-            <outputDirectory>conf/dubbo</outputDirectory>
-            <directory>src/main/resources/dubbo</directory>
+            <outputDirectory>conf/database</outputDirectory>
+            <directory>src/main/resources/database</directory>
             <includes>
                 <include>*.properties</include>
             </includes>
             <fileMode>0644</fileMode>
         </fileSet>
         <fileSet>
-            <outputDirectory>conf/hibernate</outputDirectory>
-            <directory>src/main/resources/hibernate</directory>
+            <outputDirectory>conf/dubbo</outputDirectory>
+            <directory>src/main/resources/dubbo</directory>
             <includes>
                 <include>*.properties</include>
             </includes>
@@ -46,6 +46,17 @@
             <includes>
                 <include>*.properties</include>
             </includes>
+            <fileMode>0644</fileMode>
+        </fileSet>
+        <fileSet>
+            <outputDirectory>conf/telqos</outputDirectory>
+            <directory>src/main/resources/telqos</directory>
+            <includes>
+                <include>*.properties</include>
+            </includes>
+            <excludes>
+                <exclude>banner.txt</exclude>
+            </excludes>
             <fileMode>0644</fileMode>
         </fileSet>
         <fileSet>
