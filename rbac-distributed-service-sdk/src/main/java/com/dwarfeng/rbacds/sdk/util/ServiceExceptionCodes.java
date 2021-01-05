@@ -27,6 +27,11 @@ public final class ServiceExceptionCodes {
      */
     public static final ServiceException.Code PERMISSION_NOT_EXISTS =
             new ServiceException.Code(offset(20), "permission not exists");
+    /**
+     * 权限表达式测试错误。
+     */
+    public static final ServiceException.Code PEXP_TEST_ERROR =
+            new ServiceException.Code(offset(30), "pexp test error");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;

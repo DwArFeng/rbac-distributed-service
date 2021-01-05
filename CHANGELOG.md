@@ -9,6 +9,7 @@
   - com.dwarfeng.rbacds.stack.bean.entity.PermissionGroup
   - com.dwarfeng.rbacds.stack.bean.entity.Role
   - com.dwarfeng.rbacds.stack.bean.entity.RoleGroup
+- com.dwarfeng.rbacds.impl.handler.PermissionFilter 接口优化。
 
 #### Bug修复
 

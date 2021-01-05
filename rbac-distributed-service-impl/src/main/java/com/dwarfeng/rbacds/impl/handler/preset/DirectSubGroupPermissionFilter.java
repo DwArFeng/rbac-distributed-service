@@ -7,21 +7,21 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 /**
- * 精确匹配的权限过滤器。
+ * 子分组权限过滤器。
  *
  * @author DwArFeng
  * @since 1.0.0
  */
 @Component
-public class ExactPermissionFilter implements PermissionFilter {
+public class DirectSubGroupPermissionFilter implements PermissionFilter {
 
     @Override
     public String getIdentifier() {
-        return "EXACT";
+        return "DIRECT_SUB_GROUP";
     }
 
     @Override
-    public boolean accept(String pattern, Permission permission) {
-        return Objects.equals(pattern, permission.getKey().getStringId());
+    public boolean accept(String pattern, Permission permission) throws Exception {
+        return Objects.equals(permission.getGroupKey().getStringId(), pattern);
     }
 }

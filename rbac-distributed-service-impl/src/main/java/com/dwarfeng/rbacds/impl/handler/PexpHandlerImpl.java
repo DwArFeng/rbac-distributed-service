@@ -2,6 +2,7 @@ package com.dwarfeng.rbacds.impl.handler;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
+import com.dwarfeng.rbacds.stack.exception.PexpTestException;
 import com.dwarfeng.rbacds.stack.handler.PexpHandler;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
@@ -45,7 +46,7 @@ public class PexpHandlerImpl implements PexpHandler {
             String modifier = pexpInfo.getModifier();
 
             // 判断权限表达式对应的过滤器是否接受指定的权限文本。
-            boolean acceptFlag = permissionFilter.accept(pattern, permission.getKey().getStringId());
+            boolean acceptFlag = permissionFilter.accept(pattern, permission);
 
             if (!acceptFlag) {
                 return PermissionReception.NOT_ACCEPT;
@@ -79,11 +80,15 @@ public class PexpHandlerImpl implements PexpHandler {
             // 遍历所有权限，确认权限过滤器的接收情况。
             for (Permission permission : permissions) {
                 // 判断权限表达式对应的过滤器是否接受指定的权限文本。
-                boolean acceptFlag = permissionFilter.accept(pattern, permission.getKey().getStringId());
-                if (acceptFlag) {
-                    acceptedPermissions.add(permission);
-                } else {
-                    notAcceptedPermissions.add(permission);
+                try {
+                    boolean acceptFlag = permissionFilter.accept(pattern, permission);
+                    if (acceptFlag) {
+                        acceptedPermissions.add(permission);
+                    } else {
+                        notAcceptedPermissions.add(permission);
+                    }
+                } catch (Exception e) {
+                    throw new PexpTestException(e, pexp, permission);
                 }
             }
 
@@ -111,6 +116,8 @@ public class PexpHandlerImpl implements PexpHandler {
                 result.put(PermissionReception.GLOBAL_REJECT, acceptedPermissions);
             }
             return result;
+        } catch (HandlerException e) {
+            throw e;
         } catch (Exception e) {
             throw new HandlerException(e);
         }
