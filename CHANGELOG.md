@@ -10,6 +10,12 @@
   - com.dwarfeng.rbacds.stack.bean.entity.Role
   - com.dwarfeng.rbacds.stack.bean.entity.RoleGroup
 - com.dwarfeng.rbacds.impl.handler.PermissionFilter 接口优化。
+- 更改、新增 com.dwarfeng.rbacds.impl.handler.PermissionFilter 实现。
+  - com.dwarfeng.rbacds.impl.handler.preset.DirectSubGroupPermissionFilter
+  - com.dwarfeng.rbacds.impl.handler.preset.IdPrefixPermissionFilter
+  - com.dwarfeng.rbacds.impl.handler.preset.IdRegexPermissionFilter
+  - com.dwarfeng.rbacds.impl.handler.preset.NameRegexPermissionFilter
+  - com.dwarfeng.rbacds.impl.handler.preset.NestedSubGroupPermissionFilter
 
 #### Bug修复
 
