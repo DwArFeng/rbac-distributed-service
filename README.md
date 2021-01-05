@@ -88,7 +88,7 @@
 例如
 
 ```
-+regex@^.*\.1$
++id_regex@^.*\.1$
 !exact@permission.a.1
 ```
 

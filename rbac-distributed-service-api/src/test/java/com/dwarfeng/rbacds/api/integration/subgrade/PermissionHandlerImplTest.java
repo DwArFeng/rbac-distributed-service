@@ -4,7 +4,10 @@ import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.rbacds.stack.bean.entity.User;
-import com.dwarfeng.rbacds.stack.service.*;
+import com.dwarfeng.rbacds.stack.service.PermissionMaintainService;
+import com.dwarfeng.rbacds.stack.service.PexpMaintainService;
+import com.dwarfeng.rbacds.stack.service.RoleMaintainService;
+import com.dwarfeng.rbacds.stack.service.UserMaintainService;
 import com.dwarfeng.subgrade.sdk.interceptor.ExceptionContext;
 import com.dwarfeng.subgrade.sdk.interceptor.permission.PermissionRequired;
 import com.dwarfeng.subgrade.sdk.interceptor.permission.RequestUser;
@@ -23,6 +26,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring/application-context*.xml")
 public class PermissionHandlerImplTest {
@@ -35,8 +40,6 @@ public class PermissionHandlerImplTest {
     private PexpMaintainService pexpMaintainService;
     @Autowired
     private PermissionMaintainService permissionMaintainService;
-    @Autowired
-    private PermissionLookupService permissionLookupService;
     @Autowired
     private AopTester aopTester;
 
@@ -70,24 +73,24 @@ public class PermissionHandlerImplTest {
         zhangSan = new User(new StringIdKey("zhang_san"), "测试用账号");
         liSi = new User(new StringIdKey("li_si"), "测试用账号");
         wangWu = new User(new StringIdKey("wang_wu"), "测试用账号");
-        roleA = new Role(new StringIdKey("role.a"), true, "测试用角色");
-        roleB = new Role(new StringIdKey("role.b"), false, "测试用角色");
-        roleC = new Role(new StringIdKey("role.c"), true, "测试用角色");
-        pexp1 = new Pexp(new LongIdKey(1L), roleA.getKey(), "regexp@^.*\\.1$", "正则:匹配所有以1结尾的权限");
+        roleA = new Role(new StringIdKey("role.a"), null, "角色A", true, "测试用角色");
+        roleB = new Role(new StringIdKey("role.b"), null, "角色B", false, "测试用角色");
+        roleC = new Role(new StringIdKey("role.c"), null, "角色C", true, "测试用角色");
+        pexp1 = new Pexp(new LongIdKey(1L), roleA.getKey(), "+id_regex@^.*\\.1$", "正则:匹配所有以1结尾的权限");
         pexp2 = new Pexp(new LongIdKey(2L), roleA.getKey(), "!exact@permission.a.1", "精确:去除permission.a.1");
-        pexp3 = new Pexp(new LongIdKey(3L), roleB.getKey(), "!regexp@^.*$", "正则:去除所有权限");
-        pexp4 = new Pexp(new LongIdKey(4L), roleB.getKey(), "!regexp@^.*$", "正则:去除所有权限");
-        pexp5 = new Pexp(new LongIdKey(5L), roleC.getKey(), "regexp@^.*\\.3$", "正则:匹配所有以3结尾的权限");
+        pexp3 = new Pexp(new LongIdKey(3L), roleB.getKey(), "!id_regex@^.*$", "正则:去除所有权限");
+        pexp4 = new Pexp(new LongIdKey(4L), roleB.getKey(), "!id_regex@^.*$", "正则:去除所有权限");
+        pexp5 = new Pexp(new LongIdKey(5L), roleC.getKey(), "+id_regex@^.*\\.3$", "正则:匹配所有以3结尾的权限");
         pexp6 = new Pexp(new LongIdKey(6L), roleC.getKey(), "!exact@permission.c.3", "精确:去除permission.c.3");
-        permission1 = new Permission(new StringIdKey("permission.a.1"), "测试用权限");
-        permission2 = new Permission(new StringIdKey("permission.a.2"), "测试用权限");
-        permission3 = new Permission(new StringIdKey("permission.a.3"), "测试用权限");
-        permission4 = new Permission(new StringIdKey("permission.b.1"), "测试用权限");
-        permission5 = new Permission(new StringIdKey("permission.b.2"), "测试用权限");
-        permission6 = new Permission(new StringIdKey("permission.b.3"), "测试用权限");
-        permission7 = new Permission(new StringIdKey("permission.c.1"), "测试用权限");
-        permission8 = new Permission(new StringIdKey("permission.c.2"), "测试用权限");
-        permission9 = new Permission(new StringIdKey("permission.c.3"), "测试用权限");
+        permission1 = new Permission(new StringIdKey("permission.a.1"), null, "测试权限a.1", "测试用权限");
+        permission2 = new Permission(new StringIdKey("permission.a.2"), null, "测试权限a.2", "测试用权限");
+        permission3 = new Permission(new StringIdKey("permission.a.3"), null, "测试权限a.3", "测试用权限");
+        permission4 = new Permission(new StringIdKey("permission.b.1"), null, "测试权限b.1", "测试用权限");
+        permission5 = new Permission(new StringIdKey("permission.b.2"), null, "测试权限b.2", "测试用权限");
+        permission6 = new Permission(new StringIdKey("permission.b.3"), null, "测试权限b.3", "测试用权限");
+        permission7 = new Permission(new StringIdKey("permission.c.1"), null, "测试权限c.1", "测试用权限");
+        permission8 = new Permission(new StringIdKey("permission.c.2"), null, "测试权限c.2", "测试用权限");
+        permission9 = new Permission(new StringIdKey("permission.c.3"), null, "测试权限c.3", "测试用权限");
     }
 
     @After
@@ -147,14 +150,33 @@ public class PermissionHandlerImplTest {
             permissionMaintainService.insert(permission8);
             permissionMaintainService.insert(permission9);
 
-            //noinspection unused
             ExceptionContext exceptionContext = aopTester.test(zhangSan.getKey(), null);
-            //noinspection UnusedAssignment
+            assertEquals(1, exceptionContext.getExceptions().size());
+            assertEquals(
+                    "Missing permission [permission.a.1, permission.a.2, permission.b.2, permission.c.2, permission.c.3]",
+                    exceptionContext.getExceptions().get(0).getMessage()
+            );
+
             exceptionContext = aopTester.test(liSi.getKey(), null);
-            //noinspection UnusedAssignment
+            assertEquals(1, exceptionContext.getExceptions().size());
+            assertEquals(
+                    "Missing permission [permission.a.1, permission.a.2, permission.b.1, permission.b.2, permission.c.1, permission.c.2, permission.c.3]",
+                    exceptionContext.getExceptions().get(0).getMessage()
+            );
+
             exceptionContext = aopTester.test(wangWu.getKey(), null);
-            //noinspection UnusedAssignment
-            exceptionContext = null;
+            assertEquals(1, exceptionContext.getExceptions().size());
+            assertEquals(
+                    "Missing permission [permission.a.1, permission.a.2, permission.b.1, permission.b.2, permission.c.1, permission.c.2, permission.c.3]",
+                    exceptionContext.getExceptions().get(0).getMessage()
+            );
+
+            exceptionContext = aopTester.test(zhangSan.getKey(), null);
+            assertEquals(1, exceptionContext.getExceptions().size());
+            assertEquals(
+                    "Missing permission [permission.a.1, permission.a.2, permission.b.2, permission.c.2, permission.c.3]",
+                    exceptionContext.getExceptions().get(0).getMessage()
+            );
         } finally {
             if (Objects.nonNull(zhangSan)) userMaintainService.delete(zhangSan.getKey());
             if (Objects.nonNull(liSi)) userMaintainService.delete(liSi.getKey());
@@ -200,6 +222,5 @@ public class PermissionHandlerImplTest {
         public ExceptionContext test(@RequestUser StringIdKey userKey, ExceptionContext exceptionContext) {
             return exceptionContext;
         }
-
     }
 }
