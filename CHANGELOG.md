@@ -4,7 +4,11 @@
 
 #### 功能构建
 
-- (无)
+- 添加实体或增加实体字段
+  - com.dwarfeng.rbacds.stack.bean.entity.Permission
+  - com.dwarfeng.rbacds.stack.bean.entity.PermissionGroup
+  - com.dwarfeng.rbacds.stack.bean.entity.Role
+  - com.dwarfeng.rbacds.stack.bean.entity.RoleGroup
 
 #### Bug修复
 

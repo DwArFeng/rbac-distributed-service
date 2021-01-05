@@ -1,6 +1,6 @@
 package com.dwarfeng.rbacds.impl.dao.preset;
 
-import com.dwarfeng.rbacds.stack.service.PermissionMaintainService;
+import com.dwarfeng.rbacds.stack.service.RoleGroupMaintainService;
 import com.dwarfeng.subgrade.sdk.hibernate.criteria.PresetCriteriaMaker;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.hibernate.criterion.DetachedCriteria;
@@ -11,16 +11,16 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 @Component
-public class PermissionPresetCriteriaMaker implements PresetCriteriaMaker {
+public class RoleGroupPresetCriteriaMaker implements PresetCriteriaMaker {
 
     @Override
     public void makeCriteria(DetachedCriteria criteria, String preset, Object[] objs) {
         switch (preset) {
-            case PermissionMaintainService.ID_LIKE:
+            case RoleGroupMaintainService.ID_LIKE:
                 idLike(criteria, objs);
                 break;
-            case PermissionMaintainService.CHILD_FOR_GROUP:
-                childForGroup(criteria, objs);
+            case RoleGroupMaintainService.CHILD_FOR_PARENT:
+                childForParent(criteria, objs);
                 break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + preset);
@@ -36,10 +36,10 @@ public class PermissionPresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
-    private void childForGroup(DetachedCriteria criteria, Object[] objs) {
+    private void childForParent(DetachedCriteria criteria, Object[] objs) {
         try {
-            StringIdKey groupIdKey = (StringIdKey) objs[0];
-            criteria.add(Restrictions.eq("groupStringId", groupIdKey.getStringId()));
+            StringIdKey parentIdKey = (StringIdKey) objs[0];
+            criteria.add(Restrictions.eq("parentStringId", parentIdKey.getStringId()));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
         }

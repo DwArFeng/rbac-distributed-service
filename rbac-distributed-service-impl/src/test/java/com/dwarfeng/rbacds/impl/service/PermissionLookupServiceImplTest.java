@@ -69,24 +69,24 @@ public class PermissionLookupServiceImplTest {
         zhangSan = new User(new StringIdKey("zhang_san"), "测试用账号");
         liSi = new User(new StringIdKey("li_si"), "测试用账号");
         wangWu = new User(new StringIdKey("wang_wu"), "测试用账号");
-        roleA = new Role(new StringIdKey("role.a"), true, "测试用角色");
-        roleB = new Role(new StringIdKey("role.b"), false, "测试用角色");
-        roleC = new Role(new StringIdKey("role.c"), true, "测试用角色");
+        roleA = new Role(new StringIdKey("role.a"), null, "角色A", true, "测试用角色");
+        roleB = new Role(new StringIdKey("role.b"), null, "角色B", false, "测试用角色");
+        roleC = new Role(new StringIdKey("role.c"), null, "角色C", true, "测试用角色");
         pexp1 = new Pexp(new LongIdKey(1L), roleA.getKey(), "+regex@^.*\\.1$", "正则:匹配所有以1结尾的权限");
         pexp2 = new Pexp(new LongIdKey(2L), roleA.getKey(), "!exact@permission.a.1", "精确:去除permission.a.1");
         pexp3 = new Pexp(new LongIdKey(3L), roleB.getKey(), "!regex@^.*$", "正则:去除所有权限");
         pexp4 = new Pexp(new LongIdKey(4L), roleB.getKey(), "!regex@^.*$", "正则:去除所有权限");
         pexp5 = new Pexp(new LongIdKey(5L), roleC.getKey(), "+regex@^.*\\.3$", "正则:匹配所有以3结尾的权限");
         pexp6 = new Pexp(new LongIdKey(6L), roleC.getKey(), "!exact@permission.c.3", "精确:去除permission.c.3");
-        permission1 = new Permission(new StringIdKey("permission.a.1"), "测试用权限");
-        permission2 = new Permission(new StringIdKey("permission.a.2"), "测试用权限");
-        permission3 = new Permission(new StringIdKey("permission.a.3"), "测试用权限");
-        permission4 = new Permission(new StringIdKey("permission.b.1"), "测试用权限");
-        permission5 = new Permission(new StringIdKey("permission.b.2"), "测试用权限");
-        permission6 = new Permission(new StringIdKey("permission.b.3"), "测试用权限");
-        permission7 = new Permission(new StringIdKey("permission.c.1"), "测试用权限");
-        permission8 = new Permission(new StringIdKey("permission.c.2"), "测试用权限");
-        permission9 = new Permission(new StringIdKey("permission.c.3"), "测试用权限");
+        permission1 = new Permission(new StringIdKey("permission.a.1"), null, "测试权限a.1", "测试用权限");
+        permission2 = new Permission(new StringIdKey("permission.a.2"), null, "测试权限a.2", "测试用权限");
+        permission3 = new Permission(new StringIdKey("permission.a.3"), null, "测试权限a.3", "测试用权限");
+        permission4 = new Permission(new StringIdKey("permission.b.1"), null, "测试权限b.1", "测试用权限");
+        permission5 = new Permission(new StringIdKey("permission.b.2"), null, "测试权限b.2", "测试用权限");
+        permission6 = new Permission(new StringIdKey("permission.b.3"), null, "测试权限b.3", "测试用权限");
+        permission7 = new Permission(new StringIdKey("permission.c.1"), null, "测试权限c.1", "测试用权限");
+        permission8 = new Permission(new StringIdKey("permission.c.2"), null, "测试权限c.2", "测试用权限");
+        permission9 = new Permission(new StringIdKey("permission.c.3"), null, "测试权限c.3", "测试用权限");
     }
 
     @After

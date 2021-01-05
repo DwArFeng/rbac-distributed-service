@@ -1,11 +1,12 @@
 package com.dwarfeng.rbacds.impl.service;
 
-import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
-import com.dwarfeng.rbacds.stack.cache.PermissionUserCache;
-import com.dwarfeng.rbacds.stack.cache.PexpCache;
-import com.dwarfeng.rbacds.stack.cache.UserPermissionCache;
-import com.dwarfeng.rbacds.stack.dao.PexpDao;
-import com.dwarfeng.rbacds.stack.service.PexpMaintainService;
+import com.dwarfeng.rbacds.stack.bean.entity.Role;
+import com.dwarfeng.rbacds.stack.bean.entity.RoleGroup;
+import com.dwarfeng.rbacds.stack.cache.*;
+import com.dwarfeng.rbacds.stack.dao.RoleDao;
+import com.dwarfeng.rbacds.stack.dao.RoleGroupDao;
+import com.dwarfeng.rbacds.stack.service.RoleGroupMaintainService;
+import com.dwarfeng.rbacds.stack.service.RoleMaintainService;
 import com.dwarfeng.subgrade.sdk.bean.dto.PagingUtil;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionHelper;
@@ -13,8 +14,7 @@ import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
-import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
+import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
 import com.dwarfeng.subgrade.stack.log.LogLevel;
@@ -23,19 +23,24 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
-public class PexpMaintainServiceImpl implements PexpMaintainService {
+public class RoleGroupMaintainServiceImpl implements RoleGroupMaintainService {
 
     @Autowired
-    private KeyFetcher<LongIdKey> keyFetcher;
+    private RoleGroupDao roleGroupDao;
+    @Autowired
+    private RoleDao roleDao;
 
     @Autowired
-    private PexpDao pexpDao;
-
+    private RoleGroupCache roleGroupCache;
     @Autowired
-    private PexpCache pexpCache;
+    private RoleCache roleCache;
+    @Autowired
+    private PermissionListCache permissionListCache;
     @Autowired
     private UserPermissionCache userPermissionCache;
     @Autowired
@@ -43,14 +48,13 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
 
     @Autowired
     private ServiceExceptionMapper sem;
-
-    @Value("${cache.timeout.entity.pexp}")
-    private long pexpTimeout;
+    @Value("${cache.timeout.entity.role_group}")
+    private long roleGroupTimeout;
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean exists(LongIdKey key) throws ServiceException {
+    public boolean exists(StringIdKey key) throws ServiceException {
         try {
             return internalExists(key);
         } catch (Exception e) {
@@ -58,14 +62,14 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
         }
     }
 
-    private boolean internalExists(LongIdKey key) throws Exception {
-        return pexpCache.exists(key) || pexpDao.exists(key);
+    private boolean internalExists(StringIdKey key) throws Exception {
+        return roleGroupCache.exists(key) || roleGroupDao.exists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public Pexp get(LongIdKey key) throws ServiceException {
+    public RoleGroup get(StringIdKey key) throws ServiceException {
         try {
             return internalGet(key);
         } catch (Exception e) {
@@ -73,73 +77,74 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
         }
     }
 
-    private Pexp internalGet(LongIdKey key) throws Exception {
-        if (pexpCache.exists(key)) {
-            return pexpCache.get(key);
+    private RoleGroup internalGet(StringIdKey key) throws Exception {
+        if (roleGroupCache.exists(key)) {
+            return roleGroupCache.get(key);
         } else {
-            if (!pexpDao.exists(key)) {
+            if (!roleGroupDao.exists(key)) {
                 throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
             }
-            Pexp permission = pexpDao.get(key);
-            pexpCache.push(permission, pexpTimeout);
-            return permission;
+            RoleGroup roleGroup = roleGroupDao.get(key);
+            roleGroupCache.push(roleGroup, roleGroupTimeout);
+            return roleGroup;
         }
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public LongIdKey insert(Pexp permission) throws ServiceException {
+    public StringIdKey insert(RoleGroup roleGroup) throws ServiceException {
         try {
-            return internalInsert(permission);
+            return internalInsert(roleGroup);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("插入实体时发生异常", LogLevel.WARN, sem, e);
         }
     }
 
-    private LongIdKey internalInsert(Pexp permission) throws Exception {
-        if (Objects.nonNull(permission.getKey()) && internalExists(permission.getKey())) {
+    @SuppressWarnings("DuplicatedCode")
+    private StringIdKey internalInsert(RoleGroup roleGroup) throws Exception {
+        if (Objects.nonNull(roleGroup.getKey()) && internalExists(roleGroup.getKey())) {
             throw new ServiceException(ServiceExceptionCodes.ENTITY_EXISTED);
         }
-        if (Objects.isNull(permission.getKey())) {
-            permission.setKey(keyFetcher.fetchKey());
-        }
 
+        permissionListCache.clear();
         userPermissionCache.clear();
         permissionUserCache.clear();
 
-        pexpDao.insert(permission);
-        pexpCache.push(permission, pexpTimeout);
-        return permission.getKey();
+        roleGroupDao.insert(roleGroup);
+        roleGroupCache.push(roleGroup, roleGroupTimeout);
+        return roleGroup.getKey();
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void update(Pexp permission) throws ServiceException {
+    public void update(RoleGroup roleGroup) throws ServiceException {
         try {
-            internalUpdate(permission);
+            internalUpdate(roleGroup);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("更新实体时发生异常", LogLevel.WARN, sem, e);
         }
     }
 
-    private void internalUpdate(Pexp permission) throws Exception {
-        if (Objects.nonNull(permission.getKey()) && !internalExists(permission.getKey())) {
+    @SuppressWarnings("DuplicatedCode")
+    private void internalUpdate(RoleGroup roleGroup) throws Exception {
+        if (Objects.nonNull(roleGroup.getKey()) && !internalExists(roleGroup.getKey())) {
             throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
         }
 
+        permissionListCache.clear();
         userPermissionCache.clear();
         permissionUserCache.clear();
 
-        pexpCache.push(permission, pexpTimeout);
-        pexpDao.update(permission);
+        roleGroupCache.push(roleGroup, roleGroupTimeout);
+        roleGroupDao.update(roleGroup);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void delete(LongIdKey key) throws ServiceException {
+    public void delete(StringIdKey key) throws ServiceException {
         try {
             internalDelete(key);
         } catch (Exception e) {
@@ -147,22 +152,29 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
         }
     }
 
-    private void internalDelete(LongIdKey key) throws Exception {
+    @SuppressWarnings("DuplicatedCode")
+    private void internalDelete(StringIdKey key) throws Exception {
         if (!internalExists(key)) {
             throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
         }
 
+        List<Role> roles = roleDao.lookup(RoleMaintainService.CHILD_FOR_GROUP, new Object[]{key});
+        roles.forEach(r -> r.setGroupKey(null));
+        roleCache.batchDelete(roles.stream().map(Role::getKey).collect(Collectors.toList()));
+        roleDao.batchUpdate(roles);
+
+        permissionListCache.clear();
         userPermissionCache.clear();
         permissionUserCache.clear();
 
-        pexpDao.delete(key);
-        pexpCache.delete(key);
+        roleGroupDao.delete(key);
+        roleGroupCache.delete(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public Pexp getIfExists(LongIdKey key) throws ServiceException {
+    public RoleGroup getIfExists(StringIdKey key) throws ServiceException {
         try {
             return internalExists(key) ? internalGet(key) : null;
         } catch (Exception e) {
@@ -173,10 +185,10 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public LongIdKey insertIfNotExists(Pexp pexp) throws ServiceException {
+    public StringIdKey insertIfNotExists(RoleGroup roleGroup) throws ServiceException {
         try {
-            if (Objects.isNull(pexp.getKey()) || !internalExists(pexp.getKey())) {
-                return internalInsert(pexp);
+            if (Objects.isNull(roleGroup.getKey()) || !internalExists(roleGroup.getKey())) {
+                return internalInsert(roleGroup);
             }
             return null;
         } catch (Exception e) {
@@ -187,10 +199,10 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void updateIfExists(Pexp pexp) throws ServiceException {
+    public void updateIfExists(RoleGroup roleGroup) throws ServiceException {
         try {
-            if (internalExists(pexp.getKey())) {
-                internalUpdate(pexp);
+            if (internalExists(roleGroup.getKey())) {
+                internalUpdate(roleGroup);
             }
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("更新实体时发生异常", LogLevel.WARN, sem, e);
@@ -200,7 +212,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void deleteIfExists(LongIdKey key) throws ServiceException {
+    public void deleteIfExists(StringIdKey key) throws ServiceException {
         try {
             if (internalExists(key)) {
                 internalDelete(key);
@@ -213,13 +225,13 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public LongIdKey insertOrUpdate(Pexp pexp) throws ServiceException {
+    public StringIdKey insertOrUpdate(RoleGroup roleGroup) throws ServiceException {
         try {
-            if (internalExists(pexp.getKey())) {
-                internalUpdate(pexp);
+            if (internalExists(roleGroup.getKey())) {
+                internalUpdate(roleGroup);
                 return null;
             } else {
-                return internalInsert(pexp);
+                return internalInsert(roleGroup);
             }
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("插入或更新实体时发生异常", LogLevel.WARN, sem, e);
@@ -230,9 +242,33 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     @SkipRecord
-    public PagedData<Pexp> lookup(String preset, Object[] objs) throws ServiceException {
+    public PagedData<RoleGroup> lookup() throws ServiceException {
         try {
-            return PagingUtil.pagedData(pexpDao.lookup(preset, objs));
+            return PagingUtil.pagedData(roleGroupDao.lookup());
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logAndThrow("查询全部时发生异常", LogLevel.WARN, sem, e);
+        }
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    @SkipRecord
+    public PagedData<RoleGroup> lookup(PagingInfo pagingInfo) throws ServiceException {
+        try {
+            return PagingUtil.pagedData(roleGroupDao.lookup(pagingInfo));
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logAndThrow("查询全部时发生异常", LogLevel.WARN, sem, e);
+        }
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    @SkipRecord
+    public PagedData<RoleGroup> lookup(String preset, Object[] objs) throws ServiceException {
+        try {
+            return PagingUtil.pagedData(roleGroupDao.lookup(preset, objs));
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("查询实体时发生异常", LogLevel.WARN, sem, e);
         }
@@ -242,11 +278,15 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     @SkipRecord
-    public PagedData<Pexp> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+    public PagedData<RoleGroup> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
         try {
-            return PagingUtil.pagedData(pagingInfo, pexpDao.lookupCount(preset, objs), pexpDao.lookup(preset, objs, pagingInfo));
+            return PagingUtil.pagedData(
+                    pagingInfo, roleGroupDao.lookupCount(preset, objs),
+                    roleGroupDao.lookup(preset, objs, pagingInfo)
+            );
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("查询实体时发生异常", LogLevel.WARN, sem, e);
         }
     }
 }
+

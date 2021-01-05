@@ -98,6 +98,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private StringIdKey internalInsert(Permission permission) throws Exception {
         if (Objects.nonNull(permission.getKey()) && internalExists(permission.getKey())) {
             throw new ServiceException(ServiceExceptionCodes.ENTITY_EXISTED);
@@ -123,6 +124,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void internalUpdate(Permission permission) throws Exception {
         if (Objects.nonNull(permission.getKey()) && !internalExists(permission.getKey())) {
             throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);

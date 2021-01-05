@@ -22,6 +22,8 @@ public interface RoleMaintainService extends CrudService<StringIdKey, Role>, Pre
     String ENABLED_ROLE_FOR_USER = "enabled_role_for_user";
     String ID_LIKE = "id_like";
     String ENABLED = "enabled";
+    String CHILD_FOR_GROUP = "child_for_group";
+    String ENABLED_CHILD_FOR_GROUP = "enabled_child_for_group";
 
     /**
      * 添加角色与用户的关联。

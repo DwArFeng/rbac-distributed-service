@@ -19,9 +19,23 @@ public class HibernatePermission implements Bean {
     @Column(name = "id", nullable = false, unique = true)
     private String stringId;
 
+    // -----------------------------------------------------------外键-----------------------------------------------------------
+    @Column(name = "group_id", length = Constraints.LENGTH_ID)
+    private String groupStringId;
+
     // -----------------------------------------------------------主属性字段-----------------------------------------------------------
+    @Column(name = "name", length = Constraints.LENGTH_NAME)
+    private String name;
+
     @Column(name = "remark", length = Constraints.LENGTH_REMARK)
     private String remark;
+
+    // -----------------------------------------------------------多对一-----------------------------------------------------------
+    @ManyToOne(targetEntity = HibernatePermissionGroup.class)
+    @JoinColumns({ //
+            @JoinColumn(name = "group_id", referencedColumnName = "id", insertable = false, updatable = false), //
+    })
+    private HibernatePermissionGroup group;
 
     public HibernatePermission() {
     }
@@ -42,6 +56,30 @@ public class HibernatePermission implements Bean {
         this.stringId = stringId;
     }
 
+    public HibernateStringIdKey getGroupKey() {
+        return Optional.ofNullable(groupStringId).map(HibernateStringIdKey::new).orElse(null);
+    }
+
+    public void setGroupKey(HibernateStringIdKey stringIdKey) {
+        this.groupStringId = Optional.ofNullable(stringIdKey).map(HibernateStringIdKey::getStringId).orElse(null);
+    }
+
+    public String getGroupStringId() {
+        return groupStringId;
+    }
+
+    public void setGroupStringId(String groupStringId) {
+        this.groupStringId = groupStringId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getRemark() {
         return remark;
     }
@@ -50,10 +88,20 @@ public class HibernatePermission implements Bean {
         this.remark = remark;
     }
 
+    public HibernatePermissionGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(HibernatePermissionGroup group) {
+        this.group = group;
+    }
+
     @Override
     public String toString() {
         return "HibernatePermission{" +
                 "stringId='" + stringId + '\'' +
+                ", groupStringId='" + groupStringId + '\'' +
+                ", name='" + name + '\'' +
                 ", remark='" + remark + '\'' +
                 '}';
     }

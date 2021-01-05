@@ -1,7 +1,7 @@
 package com.dwarfeng.rbacds.sdk.bean.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.dwarfeng.rbacds.stack.bean.entity.Permission;
+import com.dwarfeng.rbacds.stack.bean.entity.RoleGroup;
 import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 
@@ -11,25 +11,26 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
- * WebInput 权限。
+ * WebInput 角色组。
  *
  * @author DwArFeng
- * @since 1.0.0
+ * @since 1.2.0
  */
-public class WebInputPermission implements Bean {
+public class WebInputRoleGroup implements Bean {
 
-    private static final long serialVersionUID = 7403275233867303245L;
+    private static final long serialVersionUID = -8084096734371753884L;
 
-    public static Permission toStackBean(WebInputPermission webInputPermission) {
-        if (Objects.isNull(webInputPermission)) {
+    public static RoleGroup toStackBean(WebInputRoleGroup webInputRoleGroup) {
+        if (Objects.isNull(webInputRoleGroup)) {
             return null;
+        } else {
+            return new RoleGroup(
+                    WebInputStringIdKey.toStackBean(webInputRoleGroup.getKey()),
+                    WebInputStringIdKey.toStackBean(webInputRoleGroup.getParentKey()),
+                    webInputRoleGroup.getName(),
+                    webInputRoleGroup.getRemark()
+            );
         }
-        return new Permission(
-                WebInputStringIdKey.toStackBean(webInputPermission.getKey()),
-                WebInputStringIdKey.toStackBean(webInputPermission.getGroupKey()),
-                webInputPermission.getName(),
-                webInputPermission.getRemark()
-        );
     }
 
     @JSONField(name = "key")
@@ -37,9 +38,9 @@ public class WebInputPermission implements Bean {
     @NotNull
     private WebInputStringIdKey key;
 
-    @JSONField(name = "group_key")
+    @JSONField(name = "parent_key")
     @Valid
-    private WebInputStringIdKey groupKey;
+    private WebInputStringIdKey parentKey;
 
     @JSONField(name = "name")
     @NotNull
@@ -49,7 +50,7 @@ public class WebInputPermission implements Bean {
     @JSONField(name = "remark")
     private String remark;
 
-    public WebInputPermission() {
+    public WebInputRoleGroup() {
     }
 
     public WebInputStringIdKey getKey() {
@@ -60,12 +61,12 @@ public class WebInputPermission implements Bean {
         this.key = key;
     }
 
-    public WebInputStringIdKey getGroupKey() {
-        return groupKey;
+    public WebInputStringIdKey getParentKey() {
+        return parentKey;
     }
 
-    public void setGroupKey(WebInputStringIdKey groupKey) {
-        this.groupKey = groupKey;
+    public void setParentKey(WebInputStringIdKey parentKey) {
+        this.parentKey = parentKey;
     }
 
     public String getName() {
@@ -86,9 +87,9 @@ public class WebInputPermission implements Bean {
 
     @Override
     public String toString() {
-        return "WebInputPermission{" +
+        return "WebInputRoleGroup{" +
                 "key=" + key +
-                ", groupKey=" + groupKey +
+                ", parentKey=" + parentKey +
                 ", name='" + name + '\'' +
                 ", remark='" + remark + '\'' +
                 '}';

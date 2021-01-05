@@ -4,7 +4,6 @@ import com.dwarfeng.rbacds.stack.service.PexpMaintainService;
 import com.dwarfeng.subgrade.sdk.hibernate.criteria.PresetCriteriaMaker;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +37,6 @@ public class PexpPresetCriteriaMaker implements PresetCriteriaMaker {
                 StringIdKey stringIdKey = (StringIdKey) objects[0];
                 detachedCriteria.add(Restrictions.eqOrIsNull("roleId", stringIdKey.getStringId()));
             }
-            detachedCriteria.addOrder(Order.asc("longId"));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
         }
@@ -57,7 +55,6 @@ public class PexpPresetCriteriaMaker implements PresetCriteriaMaker {
                     detachedCriteria.add(Restrictions.in("roleId", stringList(stringIdKeys)));
                 }
             }
-            detachedCriteria.addOrder(Order.asc("longId"));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
         }

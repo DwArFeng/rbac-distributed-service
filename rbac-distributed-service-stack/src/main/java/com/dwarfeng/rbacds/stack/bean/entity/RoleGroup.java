@@ -4,29 +4,27 @@ import com.dwarfeng.subgrade.stack.bean.entity.Entity;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 
 /**
- * 角色。
+ * 角色组。
  *
  * @author DwArFeng
- * @since 1.0.0
+ * @since 1.2.0
  */
-public class Role implements Entity<StringIdKey> {
+public class RoleGroup implements Entity<StringIdKey> {
 
-    private static final long serialVersionUID = -1496451428523868925L;
+    private static final long serialVersionUID = -6749163145049267352L;
 
     private StringIdKey key;
-    private StringIdKey groupKey;
+    private StringIdKey parentKey;
     private String name;
-    private boolean enabled;
     private String remark;
 
-    public Role() {
+    public RoleGroup() {
     }
 
-    public Role(StringIdKey key, StringIdKey groupKey, String name, boolean enabled, String remark) {
+    public RoleGroup(StringIdKey key, StringIdKey parentKey, String name, String remark) {
         this.key = key;
-        this.groupKey = groupKey;
+        this.parentKey = parentKey;
         this.name = name;
-        this.enabled = enabled;
         this.remark = remark;
     }
 
@@ -40,12 +38,12 @@ public class Role implements Entity<StringIdKey> {
         this.key = key;
     }
 
-    public StringIdKey getGroupKey() {
-        return groupKey;
+    public StringIdKey getParentKey() {
+        return parentKey;
     }
 
-    public void setGroupKey(StringIdKey groupKey) {
-        this.groupKey = groupKey;
+    public void setParentKey(StringIdKey parentKey) {
+        this.parentKey = parentKey;
     }
 
     public String getName() {
@@ -54,14 +52,6 @@ public class Role implements Entity<StringIdKey> {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
     public String getRemark() {
@@ -74,11 +64,10 @@ public class Role implements Entity<StringIdKey> {
 
     @Override
     public String toString() {
-        return "Role{" +
+        return "RoleGroup{" +
                 "key=" + key +
-                ", groupKey=" + groupKey +
+                ", parentKey=" + parentKey +
                 ", name='" + name + '\'' +
-                ", enabled=" + enabled +
                 ", remark='" + remark + '\'' +
                 '}';
     }

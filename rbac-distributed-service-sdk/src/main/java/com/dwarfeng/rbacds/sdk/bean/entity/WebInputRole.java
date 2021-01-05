@@ -6,6 +6,7 @@ import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -25,6 +26,8 @@ public class WebInputRole implements Bean {
         }
         return new Role(
                 WebInputStringIdKey.toStackBean(webInputRole.getKey()),
+                WebInputStringIdKey.toStackBean(webInputRole.getGroupKey()),
+                webInputRole.getName(),
                 webInputRole.isEnabled(),
                 webInputRole.getRemark()
         );
@@ -34,6 +37,15 @@ public class WebInputRole implements Bean {
     @Valid
     @NotNull
     private WebInputStringIdKey key;
+
+    @JSONField(name = "group_key")
+    @Valid
+    private WebInputStringIdKey groupKey;
+
+    @JSONField(name = "name")
+    @NotNull
+    @NotEmpty
+    private String name;
 
     @JSONField(name = "enabled")
     private boolean enabled;
@@ -50,6 +62,22 @@ public class WebInputRole implements Bean {
 
     public void setKey(WebInputStringIdKey key) {
         this.key = key;
+    }
+
+    public WebInputStringIdKey getGroupKey() {
+        return groupKey;
+    }
+
+    public void setGroupKey(WebInputStringIdKey groupKey) {
+        this.groupKey = groupKey;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isEnabled() {
@@ -72,6 +100,8 @@ public class WebInputRole implements Bean {
     public String toString() {
         return "WebInputRole{" +
                 "key=" + key +
+                ", groupKey=" + groupKey +
+                ", name='" + name + '\'' +
                 ", enabled=" + enabled +
                 ", remark='" + remark + '\'' +
                 '}';

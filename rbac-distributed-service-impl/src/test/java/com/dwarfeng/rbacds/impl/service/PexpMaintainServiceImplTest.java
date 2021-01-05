@@ -40,9 +40,9 @@ public class PexpMaintainServiceImplTest {
 
     @Before
     public void setUp() {
-        admin = new Role(new StringIdKey("admin"), true, "测试用角色");
-        moderator = new Role(new StringIdKey("moderator"), true, "测试用角色");
-        guest = new Role(new StringIdKey("guest"), false, "测试用角色");
+        admin = new Role(new StringIdKey("admin"), null, "管理员", true, "测试用角色");
+        moderator = new Role(new StringIdKey("moderator"), null, "操作员", true, "测试用角色");
+        guest = new Role(new StringIdKey("guest"), null, "访客", false, "测试用角色");
 
         pexpA = new Pexp(new LongIdKey(1L), admin.getKey(), "pexp.a", "测试用权限表达式");
         pexpB = new Pexp(new LongIdKey(2L), admin.getKey(), "pexp.b", "测试用权限表达式");

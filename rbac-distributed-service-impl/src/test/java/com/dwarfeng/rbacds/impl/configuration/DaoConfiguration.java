@@ -1,19 +1,10 @@
 package com.dwarfeng.rbacds.impl.configuration;
 
-import com.dwarfeng.rbacds.impl.bean.entity.HibernatePermission;
-import com.dwarfeng.rbacds.impl.bean.entity.HibernatePexp;
-import com.dwarfeng.rbacds.impl.bean.entity.HibernateRole;
-import com.dwarfeng.rbacds.impl.bean.entity.HibernateUser;
+import com.dwarfeng.rbacds.impl.bean.entity.*;
 import com.dwarfeng.rbacds.impl.dao.modifacation.RoleDeletionMod;
 import com.dwarfeng.rbacds.impl.dao.modifacation.UserDeletionMod;
-import com.dwarfeng.rbacds.impl.dao.preset.PermissionPresetCriteriaMaker;
-import com.dwarfeng.rbacds.impl.dao.preset.PexpPresetCriteriaMaker;
-import com.dwarfeng.rbacds.impl.dao.preset.RolePresetCriteriaMaker;
-import com.dwarfeng.rbacds.impl.dao.preset.UserPresetCriteriaMaker;
-import com.dwarfeng.rbacds.stack.bean.entity.Permission;
-import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
-import com.dwarfeng.rbacds.stack.bean.entity.Role;
-import com.dwarfeng.rbacds.stack.bean.entity.User;
+import com.dwarfeng.rbacds.impl.dao.preset.*;
+import com.dwarfeng.rbacds.stack.bean.entity.*;
 import com.dwarfeng.subgrade.impl.dao.HibernateBatchBaseDao;
 import com.dwarfeng.subgrade.impl.dao.HibernateBatchRelationDao;
 import com.dwarfeng.subgrade.impl.dao.HibernateEntireLookupDao;
@@ -33,7 +24,7 @@ public class DaoConfiguration {
     @Autowired
     private HibernateTemplate template;
     @Autowired
-    private com.dwarfeng.rbacds.impl.configuration.BeanTransformerConfiguration beanTransformerConfiguration;
+    private BeanTransformerConfiguration beanTransformerConfiguration;
     @Autowired
     private PexpPresetCriteriaMaker pexpPresetCriteriaMaker;
     @Autowired
@@ -45,7 +36,11 @@ public class DaoConfiguration {
     @Autowired
     private UserPresetCriteriaMaker userPresetCriteriaMaker;
     @Autowired
-    private PermissionPresetCriteriaMaker presetCriteriaMaker;
+    private PermissionPresetCriteriaMaker permissionPresetCriteriaMaker;
+    @Autowired
+    private RoleGroupPresetCriteriaMaker roleGroupPresetCriteriaMaker;
+    @Autowired
+    private PermissionGroupPresetCriteriaMaker permissionGroupPresetCriteriaMaker;
 
     @Bean
     public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, Permission, HibernatePermission> permissionDaoDelegate() {
@@ -71,7 +66,7 @@ public class DaoConfiguration {
                 template,
                 beanTransformerConfiguration.permissionBeanTransformer(),
                 HibernatePermission.class,
-                presetCriteriaMaker
+                permissionPresetCriteriaMaker
         );
     }
 
@@ -186,6 +181,62 @@ public class DaoConfiguration {
                 "users",
                 "roles",
                 HibernateBatchRelationDao.JoinType.JOIN_BY_PARENT
+        );
+    }
+
+    @Bean
+    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, PermissionGroup, HibernatePermissionGroup> permissionGroupDaoDelegate() {
+        return new HibernateBatchBaseDao<>(
+                template,
+                beanTransformerConfiguration.stringIdKeyBeanTransformer(),
+                beanTransformerConfiguration.permissionGroupBeanTransformer(),
+                HibernatePermissionGroup.class);
+    }
+
+    @Bean
+    public HibernateEntireLookupDao<PermissionGroup, HibernatePermissionGroup> permissionGroupHibernateEntireLookupDao() {
+        return new HibernateEntireLookupDao<>(
+                template,
+                beanTransformerConfiguration.permissionGroupBeanTransformer(),
+                HibernatePermissionGroup.class
+        );
+    }
+
+    @Bean
+    public HibernatePresetLookupDao<PermissionGroup, HibernatePermissionGroup> permissionGroupHibernatePresetLookupDao() {
+        return new HibernatePresetLookupDao<>(
+                template,
+                beanTransformerConfiguration.permissionGroupBeanTransformer(),
+                HibernatePermissionGroup.class,
+                permissionGroupPresetCriteriaMaker
+        );
+    }
+
+    @Bean
+    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, RoleGroup, HibernateRoleGroup> roleGroupDaoDelegate() {
+        return new HibernateBatchBaseDao<>(
+                template,
+                beanTransformerConfiguration.stringIdKeyBeanTransformer(),
+                beanTransformerConfiguration.roleGroupBeanTransformer(),
+                HibernateRoleGroup.class);
+    }
+
+    @Bean
+    public HibernateEntireLookupDao<RoleGroup, HibernateRoleGroup> roleGroupHibernateEntireLookupDao() {
+        return new HibernateEntireLookupDao<>(
+                template,
+                beanTransformerConfiguration.roleGroupBeanTransformer(),
+                HibernateRoleGroup.class
+        );
+    }
+
+    @Bean
+    public HibernatePresetLookupDao<RoleGroup, HibernateRoleGroup> roleGroupHibernatePresetLookupDao() {
+        return new HibernatePresetLookupDao<>(
+                template,
+                beanTransformerConfiguration.roleGroupBeanTransformer(),
+                HibernateRoleGroup.class,
+                roleGroupPresetCriteriaMaker
         );
     }
 }

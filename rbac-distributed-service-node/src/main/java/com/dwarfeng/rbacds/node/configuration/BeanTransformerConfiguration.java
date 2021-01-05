@@ -1,13 +1,7 @@
 package com.dwarfeng.rbacds.node.configuration;
 
-import com.dwarfeng.rbacds.impl.bean.entity.HibernatePermission;
-import com.dwarfeng.rbacds.impl.bean.entity.HibernatePexp;
-import com.dwarfeng.rbacds.impl.bean.entity.HibernateRole;
-import com.dwarfeng.rbacds.impl.bean.entity.HibernateUser;
-import com.dwarfeng.rbacds.stack.bean.entity.Permission;
-import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
-import com.dwarfeng.rbacds.stack.bean.entity.Role;
-import com.dwarfeng.rbacds.stack.bean.entity.User;
+import com.dwarfeng.rbacds.impl.bean.entity.*;
+import com.dwarfeng.rbacds.stack.bean.entity.*;
 import com.dwarfeng.subgrade.impl.bean.DozerBeanTransformer;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
@@ -75,6 +69,24 @@ public class BeanTransformerConfiguration {
         return new DozerBeanTransformer<>(
                 User.class,
                 HibernateUser.class,
+                mapper
+        );
+    }
+
+    @Bean
+    public BeanTransformer<PermissionGroup, HibernatePermissionGroup> permissionGroupBeanTransformer() {
+        return new DozerBeanTransformer<>(
+                PermissionGroup.class,
+                HibernatePermissionGroup.class,
+                mapper
+        );
+    }
+
+    @Bean
+    public BeanTransformer<RoleGroup, HibernateRoleGroup> roleGroupBeanTransformer() {
+        return new DozerBeanTransformer<>(
+                RoleGroup.class,
+                HibernateRoleGroup.class,
                 mapper
         );
     }

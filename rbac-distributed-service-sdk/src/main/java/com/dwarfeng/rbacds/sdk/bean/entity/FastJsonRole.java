@@ -23,6 +23,8 @@ public class FastJsonRole implements Bean {
         }
         return new FastJsonRole(
                 FastJsonStringIdKey.of(role.getKey()),
+                FastJsonStringIdKey.of(role.getGroupKey()),
+                role.getName(),
                 role.isEnabled(),
                 role.getRemark()
         );
@@ -31,17 +33,25 @@ public class FastJsonRole implements Bean {
     @JSONField(name = "key", ordinal = 1)
     private FastJsonStringIdKey key;
 
-    @JSONField(name = "enabled", ordinal = 2)
+    @JSONField(name = "group_key", ordinal = 2)
+    private FastJsonStringIdKey groupKey;
+
+    @JSONField(name = "name", ordinal = 3)
+    private String name;
+
+    @JSONField(name = "enabled", ordinal = 4)
     private boolean enabled;
 
-    @JSONField(name = "remark", ordinal = 3)
+    @JSONField(name = "remark", ordinal = 5)
     private String remark;
 
     public FastJsonRole() {
     }
 
-    public FastJsonRole(FastJsonStringIdKey key, boolean enabled, String remark) {
+    public FastJsonRole(FastJsonStringIdKey key, FastJsonStringIdKey groupKey, String name, boolean enabled, String remark) {
         this.key = key;
+        this.groupKey = groupKey;
+        this.name = name;
         this.enabled = enabled;
         this.remark = remark;
     }
@@ -52,6 +62,22 @@ public class FastJsonRole implements Bean {
 
     public void setKey(FastJsonStringIdKey key) {
         this.key = key;
+    }
+
+    public FastJsonStringIdKey getGroupKey() {
+        return groupKey;
+    }
+
+    public void setGroupKey(FastJsonStringIdKey groupKey) {
+        this.groupKey = groupKey;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isEnabled() {
@@ -72,8 +98,10 @@ public class FastJsonRole implements Bean {
 
     @Override
     public String toString() {
-        return "JsonRole{" +
+        return "FastJsonRole{" +
                 "key=" + key +
+                ", groupKey=" + groupKey +
+                ", name='" + name + '\'' +
                 ", enabled=" + enabled +
                 ", remark='" + remark + '\'' +
                 '}';

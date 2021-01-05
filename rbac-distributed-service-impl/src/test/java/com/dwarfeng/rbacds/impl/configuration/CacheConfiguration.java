@@ -1,13 +1,7 @@
 package com.dwarfeng.rbacds.impl.configuration;
 
-import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonPermission;
-import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonPexp;
-import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonRole;
-import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonUser;
-import com.dwarfeng.rbacds.stack.bean.entity.Permission;
-import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
-import com.dwarfeng.rbacds.stack.bean.entity.Role;
-import com.dwarfeng.rbacds.stack.bean.entity.User;
+import com.dwarfeng.rbacds.sdk.bean.entity.*;
+import com.dwarfeng.rbacds.stack.bean.entity.*;
 import com.dwarfeng.subgrade.impl.bean.DozerBeanTransformer;
 import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.impl.cache.RedisKeyListCache;
@@ -45,6 +39,10 @@ public class CacheConfiguration {
     private String userPermissionListKey;
     @Value("${cache.prefix.list.permission_has_user}")
     private String permissionUserListKey;
+    @Value("${cache.prefix.entity.permission_group}")
+    private String permissionGroupPrefix;
+    @Value("${cache.prefix.entity.role_group}")
+    private String roleGroupPrefix;
 
     @Bean
     @SuppressWarnings("unchecked")
@@ -113,6 +111,26 @@ public class CacheConfiguration {
                 (RedisTemplate<String, FastJsonUser>) template,
                 new StringIdStringKeyFormatter(permissionUserListKey),
                 new DozerBeanTransformer<>(User.class, FastJsonUser.class, mapper)
+        );
+    }
+
+    @Bean
+    @SuppressWarnings("unchecked")
+    public RedisBatchBaseCache<StringIdKey, PermissionGroup, FastJsonPermissionGroup> permissionGroupCacheDelegate() {
+        return new RedisBatchBaseCache<>(
+                (RedisTemplate<String, FastJsonPermissionGroup>) template,
+                new StringIdStringKeyFormatter(permissionGroupPrefix),
+                new DozerBeanTransformer<>(PermissionGroup.class, FastJsonPermissionGroup.class, mapper)
+        );
+    }
+
+    @Bean
+    @SuppressWarnings("unchecked")
+    public RedisBatchBaseCache<StringIdKey, RoleGroup, FastJsonRoleGroup> roleGroupCacheDelegate() {
+        return new RedisBatchBaseCache<>(
+                (RedisTemplate<String, FastJsonRoleGroup>) template,
+                new StringIdStringKeyFormatter(roleGroupPrefix),
+                new DozerBeanTransformer<>(RoleGroup.class, FastJsonRoleGroup.class, mapper)
         );
     }
 }
