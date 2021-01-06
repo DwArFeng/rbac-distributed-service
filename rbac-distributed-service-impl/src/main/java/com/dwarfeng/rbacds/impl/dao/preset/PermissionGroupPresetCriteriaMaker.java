@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @Component
 public class PermissionGroupPresetCriteriaMaker implements PresetCriteriaMaker {
@@ -39,7 +40,8 @@ public class PermissionGroupPresetCriteriaMaker implements PresetCriteriaMaker {
     private void childForParent(DetachedCriteria criteria, Object[] objs) {
         try {
             StringIdKey parentIdKey = (StringIdKey) objs[0];
-            criteria.add(Restrictions.eq("parentStringId", parentIdKey.getStringId()));
+            String stringId = Objects.isNull(parentIdKey) ? null : parentIdKey.getStringId();
+            criteria.add(Restrictions.eqOrIsNull("parentStringId", stringId));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
         }

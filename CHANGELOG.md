@@ -4,7 +4,11 @@
 
 #### 功能构建
 
-- (无)
+- 数据访问层的父项属性查询支持 null
+  - com.dwarfeng.rbacds.impl.dao.preset.PermissionGroupPresetCriteriaMaker
+  - com.dwarfeng.rbacds.impl.dao.preset.PermissionPresetCriteriaMaker
+  - com.dwarfeng.rbacds.impl.dao.preset.RoleGroupPresetCriteriaMaker
+  - com.dwarfeng.rbacds.impl.dao.preset.RolePresetCriteriaMaker
 
 #### Bug修复
 

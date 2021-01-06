@@ -86,10 +86,12 @@ public class RolePresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void childForGroup(DetachedCriteria detachedCriteria, Object[] objects) {
         try {
             StringIdKey groupIdKey = (StringIdKey) objects[0];
-            detachedCriteria.add(Restrictions.eq("groupStringId", groupIdKey.getStringId()));
+            String stringId = Objects.isNull(groupIdKey) ? null : groupIdKey.getStringId();
+            detachedCriteria.add(Restrictions.eqOrIsNull("groupStringId", stringId));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
         }
@@ -98,7 +100,8 @@ public class RolePresetCriteriaMaker implements PresetCriteriaMaker {
     private void enabledChildForGroup(DetachedCriteria detachedCriteria, Object[] objects) {
         try {
             StringIdKey groupIdKey = (StringIdKey) objects[0];
-            detachedCriteria.add(Restrictions.eq("groupStringId", groupIdKey.getStringId()));
+            String stringId = Objects.isNull(groupIdKey) ? null : groupIdKey.getStringId();
+            detachedCriteria.add(Restrictions.eqOrIsNull("groupStringId", stringId));
             detachedCriteria.add(Restrictions.eq("enabled", true));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
