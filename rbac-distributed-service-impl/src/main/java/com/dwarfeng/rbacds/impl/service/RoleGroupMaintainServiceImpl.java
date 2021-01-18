@@ -158,6 +158,13 @@ public class RoleGroupMaintainServiceImpl implements RoleGroupMaintainService {
             throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
         }
 
+        List<RoleGroup> children = roleGroupDao.lookup(
+                RoleGroupMaintainService.CHILD_FOR_PARENT, new Object[]{key}
+        );
+        children.forEach(c -> c.setParentKey(null));
+        roleGroupCache.batchDelete(children.stream().map(RoleGroup::getKey).collect(Collectors.toList()));
+        roleGroupDao.batchUpdate(children);
+
         List<Role> roles = roleDao.lookup(RoleMaintainService.CHILD_FOR_GROUP, new Object[]{key});
         roles.forEach(r -> r.setGroupKey(null));
         roleCache.batchDelete(roles.stream().map(Role::getKey).collect(Collectors.toList()));

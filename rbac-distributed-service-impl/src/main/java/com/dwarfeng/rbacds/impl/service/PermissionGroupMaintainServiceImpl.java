@@ -158,6 +158,13 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
             throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
         }
 
+        List<PermissionGroup> children = permissionGroupDao.lookup(
+                PermissionGroupMaintainService.CHILD_FOR_PARENT, new Object[]{key}
+        );
+        children.forEach(c -> c.setParentKey(null));
+        permissionGroupCache.batchDelete(children.stream().map(PermissionGroup::getKey).collect(Collectors.toList()));
+        permissionGroupDao.batchUpdate(children);
+
         List<Permission> permissions = permissionDao.lookup(PermissionMaintainService.CHILD_FOR_GROUP, new Object[]{key});
         permissions.forEach(p -> p.setGroupKey(null));
         permissionCache.batchDelete(permissions.stream().map(Permission::getKey).collect(Collectors.toList()));

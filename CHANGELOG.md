@@ -8,7 +8,9 @@
 
 #### Bug修复
 
-- (无)
+- 修复下列实体删除时，无法取消子实体的关联的bug。
+  - com.dwarfeng.rbacds.stack.bean.entity.PermissionGroup
+  - com.dwarfeng.rbacds.stack.bean.entity.RoleGroup
 
 #### 功能移除
 
