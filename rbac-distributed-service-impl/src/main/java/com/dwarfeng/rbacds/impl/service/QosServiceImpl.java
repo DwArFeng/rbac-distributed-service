@@ -25,6 +25,7 @@ public class QosServiceImpl implements QosService {
     @Override
     @BehaviorAnalyse
     @SkipRecord
+    @Deprecated
     public List<Permission> lookupPermissions(StringIdKey userKey) throws ServiceException {
         return permissionLookupService.lookupPermissions(userKey);
     }
@@ -32,7 +33,29 @@ public class QosServiceImpl implements QosService {
     @Override
     @BehaviorAnalyse
     @SkipRecord
+    @Deprecated
     public List<User> lookupUsers(StringIdKey permissionKey) throws ServiceException {
         return userLookupService.lookupUsers(permissionKey);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    public List<Permission> lookupPermissionsForUser(StringIdKey userKey) throws ServiceException {
+        return permissionLookupService.lookupPermissionsForUser(userKey);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    public List<Permission> lookupPermissionsForRole(StringIdKey roleKey) throws ServiceException {
+        return permissionLookupService.lookupPermissionsForRole(roleKey);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    public List<User> lookupUsersForPermission(StringIdKey permissionKey) throws ServiceException {
+        return userLookupService.lookupUsersForPermission(permissionKey);
     }
 }

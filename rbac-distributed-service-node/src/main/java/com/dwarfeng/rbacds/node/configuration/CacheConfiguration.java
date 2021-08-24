@@ -37,6 +37,8 @@ public class CacheConfiguration {
     private String permissionListKey;
     @Value("${cache.prefix.list.user_has_permission}")
     private String userPermissionListKey;
+    @Value("${cache.prefix.list.role_has_permission}")
+    private String rolePermissionListKey;
     @Value("${cache.prefix.list.permission_has_user}")
     private String permissionUserListKey;
     @Value("${cache.prefix.entity.permission_group}")
@@ -100,6 +102,16 @@ public class CacheConfiguration {
         return new RedisKeyListCache<>(
                 (RedisTemplate<String, FastJsonPermission>) template,
                 new StringIdStringKeyFormatter(userPermissionListKey),
+                new DozerBeanTransformer<>(Permission.class, FastJsonPermission.class, mapper)
+        );
+    }
+
+    @Bean
+    @SuppressWarnings("unchecked")
+    public RedisKeyListCache<StringIdKey, Permission, FastJsonPermission> rolePermissionRedisKeyListCache() {
+        return new RedisKeyListCache<>(
+                (RedisTemplate<String, FastJsonPermission>) template,
+                new StringIdStringKeyFormatter(rolePermissionListKey),
                 new DozerBeanTransformer<>(Permission.class, FastJsonPermission.class, mapper)
         );
     }

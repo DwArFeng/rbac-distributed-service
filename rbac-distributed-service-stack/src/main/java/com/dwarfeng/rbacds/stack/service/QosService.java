@@ -21,6 +21,7 @@ public interface QosService extends Service {
      *
      * @param userKey 指定的用户。
      * @return 指定的用户对应的权限组成的集合。
+     * @deprecated 由于功能扩展，该方法不再符合命名规范。
      */
     List<Permission> lookupPermissions(StringIdKey userKey) throws ServiceException;
 
@@ -30,6 +31,34 @@ public interface QosService extends Service {
      * @param permissionKey 指定的权限。
      * @return 指定的权限对应的用户组成的集合。
      * @since 1.1.0
+     * @deprecated 由于功能扩展，该方法不再符合命名规范。
      */
     List<User> lookupUsers(StringIdKey permissionKey) throws ServiceException;
+
+    /**
+     * 查询指定的用户对应的权限。
+     *
+     * @param userKey 指定的用户。
+     * @return 指定的用户对应的权限组成的集合。
+     * @since 1.2.4
+     */
+    List<Permission> lookupPermissionsForUser(StringIdKey userKey) throws ServiceException;
+
+    /**
+     * 查询指定的角色对应的权限。
+     *
+     * @param roleKey 指定的角色。
+     * @return 指定的角色对应的权限组成的集合。
+     * @since 1.2.4
+     */
+    List<Permission> lookupPermissionsForRole(StringIdKey roleKey) throws ServiceException;
+
+    /**
+     * 查询指定的权限对应的所有用户。
+     *
+     * @param permissionKey 指定的权限。
+     * @return 指定的权限对应的用户组成的集合。
+     * @since 1.2.4
+     */
+    List<User> lookupUsersForPermission(StringIdKey permissionKey) throws ServiceException;
 }

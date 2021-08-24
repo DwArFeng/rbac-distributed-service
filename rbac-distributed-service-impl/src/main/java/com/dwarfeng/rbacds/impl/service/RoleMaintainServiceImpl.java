@@ -3,6 +3,7 @@ package com.dwarfeng.rbacds.impl.service;
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.rbacds.stack.cache.PermissionUserCache;
 import com.dwarfeng.rbacds.stack.cache.RoleCache;
+import com.dwarfeng.rbacds.stack.cache.RolePermissionCache;
 import com.dwarfeng.rbacds.stack.cache.UserPermissionCache;
 import com.dwarfeng.rbacds.stack.dao.RoleDao;
 import com.dwarfeng.rbacds.stack.service.RoleMaintainService;
@@ -35,6 +36,8 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
     private RoleCache roleCache;
     @Autowired
     private UserPermissionCache userPermissionCache;
+    @Autowired
+    private RolePermissionCache rolePermissionCache;
     @Autowired
     private PermissionUserCache permissionUserCache;
 
@@ -100,6 +103,7 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
         }
 
         userPermissionCache.clear();
+        rolePermissionCache.clear();
         permissionUserCache.clear();
 
         roleDao.insert(role);
@@ -124,6 +128,7 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
         }
 
         userPermissionCache.clear();
+        rolePermissionCache.clear();
         permissionUserCache.clear();
 
         roleCache.push(role, roleTimeout);
@@ -147,6 +152,7 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
         }
 
         userPermissionCache.clear();
+        rolePermissionCache.clear();
         permissionUserCache.clear();
 
         roleDao.delete(key);

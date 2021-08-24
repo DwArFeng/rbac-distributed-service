@@ -1,10 +1,7 @@
 package com.dwarfeng.rbacds.impl.service;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
-import com.dwarfeng.rbacds.stack.cache.PermissionCache;
-import com.dwarfeng.rbacds.stack.cache.PermissionListCache;
-import com.dwarfeng.rbacds.stack.cache.PermissionUserCache;
-import com.dwarfeng.rbacds.stack.cache.UserPermissionCache;
+import com.dwarfeng.rbacds.stack.cache.*;
 import com.dwarfeng.rbacds.stack.dao.PermissionDao;
 import com.dwarfeng.rbacds.stack.service.PermissionMaintainService;
 import com.dwarfeng.subgrade.sdk.bean.dto.PagingUtil;
@@ -38,6 +35,8 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
     private PermissionListCache permissionListCache;
     @Autowired
     private UserPermissionCache userPermissionCache;
+    @Autowired
+    private RolePermissionCache rolePermissionCache;
     @Autowired
     private PermissionUserCache permissionUserCache;
 
@@ -106,6 +105,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
 
         permissionListCache.clear();
         userPermissionCache.clear();
+        rolePermissionCache.clear();
         permissionUserCache.clear();
 
         permissionDao.insert(permission);
@@ -132,6 +132,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
 
         permissionListCache.clear();
         userPermissionCache.clear();
+        rolePermissionCache.clear();
         permissionUserCache.clear();
 
         permissionCache.push(permission, permissionTimeout);
@@ -156,6 +157,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
 
         permissionListCache.clear();
         userPermissionCache.clear();
+        rolePermissionCache.clear();
         permissionUserCache.clear();
 
         permissionDao.delete(key);

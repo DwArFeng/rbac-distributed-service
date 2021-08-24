@@ -2,7 +2,7 @@ package com.dwarfeng.rbacds.impl.cache;
 
 import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonPermission;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
-import com.dwarfeng.rbacds.stack.cache.UserPermissionCache;
+import com.dwarfeng.rbacds.stack.cache.RolePermissionCache;
 import com.dwarfeng.subgrade.impl.cache.RedisKeyListCache;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
@@ -18,10 +18,10 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public class UserPermissionCacheImpl implements UserPermissionCache {
+public class RolePermissionCacheImpl implements RolePermissionCache {
 
     @Autowired
-    @Qualifier("userPermissionRedisKeyListCache")
+    @Qualifier("rolePermissionRedisKeyListCache")
     private RedisKeyListCache<StringIdKey, Permission, FastJsonPermission> redisKeyListDelegate;
 
     @Override

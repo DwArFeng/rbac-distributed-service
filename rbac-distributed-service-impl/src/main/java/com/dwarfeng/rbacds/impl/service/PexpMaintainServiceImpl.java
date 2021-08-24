@@ -3,6 +3,7 @@ package com.dwarfeng.rbacds.impl.service;
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
 import com.dwarfeng.rbacds.stack.cache.PermissionUserCache;
 import com.dwarfeng.rbacds.stack.cache.PexpCache;
+import com.dwarfeng.rbacds.stack.cache.RolePermissionCache;
 import com.dwarfeng.rbacds.stack.cache.UserPermissionCache;
 import com.dwarfeng.rbacds.stack.dao.PexpDao;
 import com.dwarfeng.rbacds.stack.service.PexpMaintainService;
@@ -38,6 +39,8 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
     private PexpCache pexpCache;
     @Autowired
     private UserPermissionCache userPermissionCache;
+    @Autowired
+    private RolePermissionCache rolePermissionCache;
     @Autowired
     private PermissionUserCache permissionUserCache;
 
@@ -106,6 +109,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
         }
 
         userPermissionCache.clear();
+        rolePermissionCache.clear();
         permissionUserCache.clear();
 
         pexpDao.insert(permission);
@@ -130,6 +134,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
         }
 
         userPermissionCache.clear();
+        rolePermissionCache.clear();
         permissionUserCache.clear();
 
         pexpCache.push(permission, pexpTimeout);
@@ -153,6 +158,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
         }
 
         userPermissionCache.clear();
+        rolePermissionCache.clear();
         permissionUserCache.clear();
 
         pexpDao.delete(key);

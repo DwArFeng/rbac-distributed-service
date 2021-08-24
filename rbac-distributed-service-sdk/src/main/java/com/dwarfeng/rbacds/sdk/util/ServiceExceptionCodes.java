@@ -32,6 +32,11 @@ public final class ServiceExceptionCodes {
      */
     public static final ServiceException.Code PEXP_TEST_ERROR =
             new ServiceException.Code(offset(30), "pexp test error");
+    /**
+     * 角色不存在。
+     */
+    public static final ServiceException.Code ROLE_NOT_EXISTS =
+            new ServiceException.Code(offset(0), "role not exists");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;

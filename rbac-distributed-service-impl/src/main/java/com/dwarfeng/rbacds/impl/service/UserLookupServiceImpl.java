@@ -52,12 +52,12 @@ public class UserLookupServiceImpl implements UserLookupService {
     @Override
     @BehaviorAnalyse
     @SkipRecord
-    public List<User> lookupUsers(StringIdKey permissionKey) throws ServiceException {
+    public List<User> lookupUsersForPermission(StringIdKey permissionKey) throws ServiceException {
         try {
             if (permissionUserCache.exists(permissionKey)) {
                 return permissionUserCache.get(permissionKey);
             }
-            List<User> users = lookupUser(permissionKey);
+            List<User> users = inspectUsersForPermission(permissionKey);
             permissionUserCache.set(permissionKey, users, permissionHasUserTimeout);
             return users;
         } catch (Exception e) {
@@ -66,7 +66,7 @@ public class UserLookupServiceImpl implements UserLookupService {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private List<User> lookupUser(StringIdKey permissionKey) throws Exception {
+    private List<User> inspectUsersForPermission(StringIdKey permissionKey) throws Exception {
         // 判断用户是否存在。
         if (!permissionMaintainService.exists(permissionKey)) {
             LOGGER.warn("指定的权限 " + permissionKey.toString() + " 不存在, 将抛出异常...");
@@ -95,9 +95,9 @@ public class UserLookupServiceImpl implements UserLookupService {
                 includeUserMap.put(tempUser.getKey(), tempUser);
             }
             List<StringIdKey> excludeUserKeys = userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
-                    new Object[]{excludeRoleKeys}).getData().stream()
+                            new Object[]{excludeRoleKeys}).getData().stream()
                     .map(User::getKey).collect(Collectors.toList());
-            includeUserMap.keySet().removeAll(excludeUserKeys);
+            excludeUserKeys.forEach(includeUserMap.keySet()::remove);
             users = new ArrayList<>(includeUserMap.values());
         } else if (!includeRoleKeys.isEmpty()) {
             users = new ArrayList<>(userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
@@ -145,5 +145,13 @@ public class UserLookupServiceImpl implements UserLookupService {
         } catch (Exception e) {
             throw new HandlerException(e);
         }
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Deprecated
+    public List<User> lookupUsers(StringIdKey permissionKey) throws ServiceException {
+        return lookupUsersForPermission(permissionKey);
     }
 }

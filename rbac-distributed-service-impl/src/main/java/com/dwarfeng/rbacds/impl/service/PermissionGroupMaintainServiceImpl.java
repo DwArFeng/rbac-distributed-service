@@ -44,6 +44,8 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @Autowired
     private UserPermissionCache userPermissionCache;
     @Autowired
+    private RolePermissionCache rolePermissionCache;
+    @Autowired
     private PermissionUserCache permissionUserCache;
 
     @Autowired
@@ -109,6 +111,7 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
 
         permissionListCache.clear();
         userPermissionCache.clear();
+        rolePermissionCache.clear();
         permissionUserCache.clear();
 
         permissionGroupDao.insert(permissionGroup);
@@ -135,6 +138,7 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
 
         permissionListCache.clear();
         userPermissionCache.clear();
+        rolePermissionCache.clear();
         permissionUserCache.clear();
 
         permissionGroupCache.push(permissionGroup, permissionGroupTimeout);
@@ -172,6 +176,7 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
 
         permissionListCache.clear();
         userPermissionCache.clear();
+        rolePermissionCache.clear();
         permissionUserCache.clear();
 
         permissionGroupDao.delete(key);

@@ -44,7 +44,7 @@ public class UserCommand extends CliCommand {
                 return;
             }
             String permissionId = cmd.getOptionValue("p");
-            List<User> users = qosService.lookupUsers(new StringIdKey(permissionId));
+            List<User> users = qosService.lookupUsersForPermission(new StringIdKey(permissionId));
             int sizeLength = TelqosUtil.numLength(users.size());
             for (int i = 0; i < users.size(); i++) {
                 context.sendMessage(String.format("%-" + sizeLength + "d. %s", i + 1, users.get(i)));

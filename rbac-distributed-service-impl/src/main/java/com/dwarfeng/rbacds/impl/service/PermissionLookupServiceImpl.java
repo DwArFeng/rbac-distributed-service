@@ -4,6 +4,7 @@ import com.dwarfeng.rbacds.sdk.util.ServiceExceptionCodes;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
+import com.dwarfeng.rbacds.stack.cache.RolePermissionCache;
 import com.dwarfeng.rbacds.stack.cache.UserPermissionCache;
 import com.dwarfeng.rbacds.stack.handler.PexpHandler;
 import com.dwarfeng.rbacds.stack.handler.PexpHandler.PermissionReception;
@@ -42,20 +43,24 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
     @Autowired
     private UserPermissionCache userPermissionCache;
     @Autowired
+    private RolePermissionCache rolePermissionCache;
+    @Autowired
     private ServiceExceptionMapper sem;
 
     @Value("${cache.timeout.list.user_has_permission}")
     private long userHasPermissionTimeout;
+    @Value("${cache.timeout.list.role_has_permission}")
+    private long roleHasPermissionTimeout;
 
     @Override
     @BehaviorAnalyse
     @SkipRecord
-    public List<Permission> lookupPermissions(StringIdKey userKey) throws ServiceException {
+    public List<Permission> lookupPermissionsForUser(StringIdKey userKey) throws ServiceException {
         try {
             if (userPermissionCache.exists(userKey)) {
                 return userPermissionCache.get(userKey);
             }
-            List<Permission> permissions = lookupPermission(userKey);
+            List<Permission> permissions = inspectPermissionsForUser(userKey);
             userPermissionCache.set(userKey, permissions, userHasPermissionTimeout);
             return permissions;
         } catch (Exception e) {
@@ -64,7 +69,7 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private List<Permission> lookupPermission(StringIdKey userKey) throws Exception {
+    private List<Permission> inspectPermissionsForUser(StringIdKey userKey) throws Exception {
         // 判断用户是否存在。
         if (!userMaintainService.exists(userKey)) {
             LOGGER.warn("指定的用户 " + userKey.toString() + " 不存在, 将抛出异常...");
@@ -83,6 +88,42 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
         permissions = analysePexpPermissions(pexpsMap, permissions);
         // Debug输出用户获得的所有权限表达式。
         LOGGER.debug("查询获得用户 " + userKey.toString() + " 的权限:");
+        permissions.forEach(permission -> LOGGER.debug("\t" + permission));
+        return permissions;
+    }
+
+    @Override
+    public List<Permission> lookupPermissionsForRole(StringIdKey roleKey) throws ServiceException {
+        try {
+            if (rolePermissionCache.exists(roleKey)) {
+                return rolePermissionCache.get(roleKey);
+            }
+            List<Permission> permissions = inspectPermissionsForRole(roleKey);
+            rolePermissionCache.set(roleKey, permissions, roleHasPermissionTimeout);
+            return permissions;
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logAndThrow("查询用户对应的权限时发生异常", LogLevel.WARN, sem, e);
+        }
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    private List<Permission> inspectPermissionsForRole(StringIdKey roleKey) throws Exception {
+        // 判断角色是否存在。
+        if (!roleMaintainService.exists(roleKey)) {
+            LOGGER.warn("指定的角色 " + roleKey.toString() + " 不存在, 将抛出异常...");
+            throw new ServiceException(ServiceExceptionCodes.ROLE_NOT_EXISTS);
+        }
+        // 获取角色有效的权限表达式。
+        Map<Role, List<Pexp>> pexpsMap = new HashMap<>();
+        Role role = roleMaintainService.get(roleKey);
+        List<Pexp> pexps = pexpMaintainService.lookup(PexpMaintainService.PEXP_FOR_ROLE, new Object[]{role.getKey()}).getData();
+        pexpsMap.put(role, pexps);
+        // 查询所有的权限。
+        List<Permission> permissions = permissionMaintainService.lookup().getData();
+        // 通过所有的权限表达式和所有的权限解析角色拥有的所有权限。
+        permissions = analysePexpPermissions(pexpsMap, permissions);
+        // Debug输出角色获得的所有权限表达式。
+        LOGGER.debug("查询获得角色 " + roleKey.toString() + " 的权限:");
         permissions.forEach(permission -> LOGGER.debug("\t" + permission));
         return permissions;
     }
@@ -128,6 +169,14 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
         } catch (Exception e) {
             throw new HandlerException(e);
         }
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Deprecated
+    public List<Permission> lookupPermissions(StringIdKey userKey) throws ServiceException {
+        return lookupPermissionsForUser(userKey);
     }
 
     private static final class PermissionComparator implements Comparator<Permission> {

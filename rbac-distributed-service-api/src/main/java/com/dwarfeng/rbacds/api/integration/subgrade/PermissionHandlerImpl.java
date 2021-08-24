@@ -27,8 +27,8 @@ public class PermissionHandlerImpl implements PermissionHandler {
     @Override
     public boolean hasPermission(StringIdKey userKey, String permissionNode) throws HandlerException {
         try {
-            List<String> ownedPermissionNodes = service.lookupPermissions(userKey).stream().map(Permission::getKey)
-                    .map(StringIdKey::getStringId).collect(Collectors.toList());
+            List<String> ownedPermissionNodes = service.lookupPermissionsForUser(userKey).stream()
+                    .map(Permission::getKey).map(StringIdKey::getStringId).collect(Collectors.toList());
             return ownedPermissionNodes.contains(permissionNode);
         } catch (Exception e) {
             throw new HandlerException(e);
@@ -38,8 +38,8 @@ public class PermissionHandlerImpl implements PermissionHandler {
     @Override
     public boolean hasPermission(StringIdKey userKey, List<String> permissionNodes) throws HandlerException {
         try {
-            List<String> ownedPermissionNodes = service.lookupPermissions(userKey).stream().map(Permission::getKey)
-                    .map(StringIdKey::getStringId).collect(Collectors.toList());
+            List<String> ownedPermissionNodes = service.lookupPermissionsForUser(userKey).stream()
+                    .map(Permission::getKey).map(StringIdKey::getStringId).collect(Collectors.toList());
             return ownedPermissionNodes.containsAll(permissionNodes);
         } catch (Exception e) {
             throw new HandlerException(e);
@@ -47,10 +47,11 @@ public class PermissionHandlerImpl implements PermissionHandler {
     }
 
     @Override
-    public List<String> getMissingPermission(StringIdKey userKey, List<String> permissionNodes) throws HandlerException {
+    public List<String> getMissingPermission(StringIdKey userKey, List<String> permissionNodes)
+            throws HandlerException {
         try {
-            List<String> ownedPermissionNodes = service.lookupPermissions(userKey).stream().map(Permission::getKey)
-                    .map(StringIdKey::getStringId).collect(Collectors.toList());
+            List<String> ownedPermissionNodes = service.lookupPermissionsForUser(userKey).stream()
+                    .map(Permission::getKey).map(StringIdKey::getStringId).collect(Collectors.toList());
             List<String> dejaVu = new ArrayList<>(permissionNodes);
             dejaVu.removeAll(ownedPermissionNodes);
             return dejaVu;
