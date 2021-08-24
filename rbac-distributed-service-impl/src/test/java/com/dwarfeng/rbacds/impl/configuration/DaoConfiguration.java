@@ -18,6 +18,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
+import java.util.Collections;
+
 @Configuration
 public class DaoConfiguration {
 
@@ -97,7 +99,8 @@ public class DaoConfiguration {
                 beanTransformerConfiguration.stringIdKeyBeanTransformer(),
                 beanTransformerConfiguration.roleBeanTransformer(),
                 HibernateRole.class,
-                roleDeletionMod
+                roleDeletionMod,
+                Collections.singleton("users")
         );
     }
 
