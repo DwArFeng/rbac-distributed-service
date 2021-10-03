@@ -32,6 +32,7 @@ public class HibernateUser implements Bean {
     public HibernateUser() {
     }
 
+    // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
     public HibernateStringIdKey getKey() {
         return Optional.ofNullable(stringId).map(HibernateStringIdKey::new).orElse(null);
     }
@@ -40,6 +41,7 @@ public class HibernateUser implements Bean {
         this.stringId = Optional.ofNullable(uuidKey).map(HibernateStringIdKey::getStringId).orElse(null);
     }
 
+    // -----------------------------------------------------------常规属性区-----------------------------------------------------------
     public String getStringId() {
         return stringId;
     }
@@ -66,9 +68,8 @@ public class HibernateUser implements Bean {
 
     @Override
     public String toString() {
-        return "HibernateUser{" +
-                "stringId='" + stringId + '\'' +
-                ", remark='" + remark + '\'' +
-                '}';
+        return getClass().getSimpleName() + "(" +
+                "stringId = " + stringId + ", " +
+                "remark = " + remark + ")";
     }
 }

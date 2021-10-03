@@ -47,7 +47,7 @@ public class UserRoleUpdateRelationTest {
     @Before
     public void setUp() {
         user = new User(new StringIdKey(UUID.randomUUID().toString()), "测试用户");
-        role = new Role(new StringIdKey(UUID.randomUUID().toString()), null, "name", true, "测试角色");
+        role = new Role(new StringIdKey(UUID.randomUUID().toString()), "name", true, "测试角色");
     }
 
     @After

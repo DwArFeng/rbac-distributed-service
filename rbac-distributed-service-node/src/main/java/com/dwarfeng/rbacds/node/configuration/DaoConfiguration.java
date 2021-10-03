@@ -40,12 +40,11 @@ public class DaoConfiguration {
     @Autowired
     private PermissionPresetCriteriaMaker permissionPresetCriteriaMaker;
     @Autowired
-    private RoleGroupPresetCriteriaMaker roleGroupPresetCriteriaMaker;
-    @Autowired
     private PermissionGroupPresetCriteriaMaker permissionGroupPresetCriteriaMaker;
 
     @Bean
-    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, Permission, HibernatePermission> permissionDaoDelegate() {
+    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, Permission, HibernatePermission>
+    permissionDaoDelegate() {
         return new HibernateBatchBaseDao<>(
                 template,
                 beanTransformerConfiguration.stringIdKeyBeanTransformer(),
@@ -188,7 +187,8 @@ public class DaoConfiguration {
     }
 
     @Bean
-    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, PermissionGroup, HibernatePermissionGroup> permissionGroupDaoDelegate() {
+    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, PermissionGroup, HibernatePermissionGroup>
+    permissionGroupDaoDelegate() {
         return new HibernateBatchBaseDao<>(
                 template,
                 beanTransformerConfiguration.stringIdKeyBeanTransformer(),
@@ -197,7 +197,8 @@ public class DaoConfiguration {
     }
 
     @Bean
-    public HibernateEntireLookupDao<PermissionGroup, HibernatePermissionGroup> permissionGroupHibernateEntireLookupDao() {
+    public HibernateEntireLookupDao<PermissionGroup, HibernatePermissionGroup>
+    permissionGroupHibernateEntireLookupDao() {
         return new HibernateEntireLookupDao<>(
                 template,
                 beanTransformerConfiguration.permissionGroupBeanTransformer(),
@@ -206,40 +207,13 @@ public class DaoConfiguration {
     }
 
     @Bean
-    public HibernatePresetLookupDao<PermissionGroup, HibernatePermissionGroup> permissionGroupHibernatePresetLookupDao() {
+    public HibernatePresetLookupDao<PermissionGroup, HibernatePermissionGroup>
+    permissionGroupHibernatePresetLookupDao() {
         return new HibernatePresetLookupDao<>(
                 template,
                 beanTransformerConfiguration.permissionGroupBeanTransformer(),
                 HibernatePermissionGroup.class,
                 permissionGroupPresetCriteriaMaker
-        );
-    }
-
-    @Bean
-    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, RoleGroup, HibernateRoleGroup> roleGroupDaoDelegate() {
-        return new HibernateBatchBaseDao<>(
-                template,
-                beanTransformerConfiguration.stringIdKeyBeanTransformer(),
-                beanTransformerConfiguration.roleGroupBeanTransformer(),
-                HibernateRoleGroup.class);
-    }
-
-    @Bean
-    public HibernateEntireLookupDao<RoleGroup, HibernateRoleGroup> roleGroupHibernateEntireLookupDao() {
-        return new HibernateEntireLookupDao<>(
-                template,
-                beanTransformerConfiguration.roleGroupBeanTransformer(),
-                HibernateRoleGroup.class
-        );
-    }
-
-    @Bean
-    public HibernatePresetLookupDao<RoleGroup, HibernateRoleGroup> roleGroupHibernatePresetLookupDao() {
-        return new HibernatePresetLookupDao<>(
-                template,
-                beanTransformerConfiguration.roleGroupBeanTransformer(),
-                HibernateRoleGroup.class,
-                roleGroupPresetCriteriaMaker
         );
     }
 }

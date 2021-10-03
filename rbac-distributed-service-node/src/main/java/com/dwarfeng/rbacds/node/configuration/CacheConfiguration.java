@@ -43,8 +43,6 @@ public class CacheConfiguration {
     private String permissionUserListKey;
     @Value("${cache.prefix.entity.permission_group}")
     private String permissionGroupPrefix;
-    @Value("${cache.prefix.entity.role_group}")
-    private String roleGroupPrefix;
 
     @Bean
     @SuppressWarnings("unchecked")
@@ -133,16 +131,6 @@ public class CacheConfiguration {
                 (RedisTemplate<String, FastJsonPermissionGroup>) template,
                 new StringIdStringKeyFormatter(permissionGroupPrefix),
                 new DozerBeanTransformer<>(PermissionGroup.class, FastJsonPermissionGroup.class, mapper)
-        );
-    }
-
-    @Bean
-    @SuppressWarnings("unchecked")
-    public RedisBatchBaseCache<StringIdKey, RoleGroup, FastJsonRoleGroup> roleGroupCacheDelegate() {
-        return new RedisBatchBaseCache<>(
-                (RedisTemplate<String, FastJsonRoleGroup>) template,
-                new StringIdStringKeyFormatter(roleGroupPrefix),
-                new DozerBeanTransformer<>(RoleGroup.class, FastJsonRoleGroup.class, mapper)
         );
     }
 }

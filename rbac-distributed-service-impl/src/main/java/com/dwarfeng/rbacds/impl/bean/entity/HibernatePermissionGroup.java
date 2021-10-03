@@ -49,6 +49,7 @@ public class HibernatePermissionGroup implements Bean {
     public HibernatePermissionGroup() {
     }
 
+    // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
     public HibernateStringIdKey getKey() {
         return Optional.ofNullable(stringId).map(HibernateStringIdKey::new).orElse(null);
     }
@@ -57,20 +58,21 @@ public class HibernatePermissionGroup implements Bean {
         this.stringId = Optional.ofNullable(stringIdKey).map(HibernateStringIdKey::getStringId).orElse(null);
     }
 
-    public String getStringId() {
-        return stringId;
-    }
-
-    public void setStringId(String stringId) {
-        this.stringId = stringId;
-    }
-
     public HibernateStringIdKey getParentKey() {
         return Optional.ofNullable(parentStringId).map(HibernateStringIdKey::new).orElse(null);
     }
 
     public void setParentKey(HibernateStringIdKey stringIdKey) {
         this.parentStringId = Optional.ofNullable(stringIdKey).map(HibernateStringIdKey::getStringId).orElse(null);
+    }
+
+    // -----------------------------------------------------------常规属性区-----------------------------------------------------------
+    public String getStringId() {
+        return stringId;
+    }
+
+    public void setStringId(String stringId) {
+        this.stringId = stringId;
     }
 
     public String getParentStringId() {
@@ -123,11 +125,11 @@ public class HibernatePermissionGroup implements Bean {
 
     @Override
     public String toString() {
-        return "HibernatePermissionGroup{" +
-                "stringId='" + stringId + '\'' +
-                ", parentStringId='" + parentStringId + '\'' +
-                ", name='" + name + '\'' +
-                ", remark='" + remark + '\'' +
-                '}';
+        return getClass().getSimpleName() + "(" +
+                "stringId = " + stringId + ", " +
+                "parentStringId = " + parentStringId + ", " +
+                "name = " + name + ", " +
+                "remark = " + remark + ", " +
+                "parentGroup = " + parentGroup + ")";
     }
 }

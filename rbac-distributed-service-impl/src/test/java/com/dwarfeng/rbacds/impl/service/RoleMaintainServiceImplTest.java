@@ -1,12 +1,9 @@
 package com.dwarfeng.rbacds.impl.service;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
-import com.dwarfeng.rbacds.stack.bean.entity.RoleGroup;
 import com.dwarfeng.rbacds.stack.bean.entity.User;
-import com.dwarfeng.rbacds.stack.service.RoleGroupMaintainService;
 import com.dwarfeng.rbacds.stack.service.RoleMaintainService;
 import com.dwarfeng.rbacds.stack.service.UserMaintainService;
-import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import org.apache.commons.beanutils.BeanUtils;
@@ -35,10 +32,7 @@ public class RoleMaintainServiceImplTest {
     private UserMaintainService userMaintainService;
     @Autowired
     private RoleMaintainService roleMaintainService;
-    @Autowired
-    private RoleGroupMaintainService roleGroupMaintainService;
 
-    private RoleGroup parentRoleGroup;
     private List<Role> roles;
 
     private User zhangSan;
@@ -54,21 +48,14 @@ public class RoleMaintainServiceImplTest {
         zhangSan = new User(new StringIdKey("zhang_san"), "测试用账号");
         liSi = new User(new StringIdKey("li_si"), "测试用账号");
         wangWu = new User(new StringIdKey("wang_wu"), "测试用账号");
-        admin = new Role(new StringIdKey("admin"), null, "管理员", true, "测试用角色");
-        moderator = new Role(new StringIdKey("moderator"), null, "操作员", true, "测试用角色");
-        guest = new Role(new StringIdKey("guest"), null, "访客", false, "测试用角色");
+        admin = new Role(new StringIdKey("admin"), "管理员", true, "测试用角色");
+        moderator = new Role(new StringIdKey("moderator"), "操作员", true, "测试用角色");
+        guest = new Role(new StringIdKey("guest"), "访客", false, "测试用角色");
 
-        parentRoleGroup = new RoleGroup(
-                new StringIdKey("role_group"),
-                null,
-                "角色组",
-                "测试用角色组"
-        );
         roles = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
             Role role = new Role(
                     new StringIdKey("role." + i),
-                    new StringIdKey("role_group"),
                     "角色" + i,
                     true,
                     "测试用角色"
@@ -85,28 +72,21 @@ public class RoleMaintainServiceImplTest {
         admin = null;
         guest = null;
         moderator = null;
-        parentRoleGroup = null;
         roles = null;
     }
 
     @Test
     public void test() throws Exception {
         try {
-            roleGroupMaintainService.insertOrUpdate(parentRoleGroup);
             for (Role role : roles) {
                 roleMaintainService.insertOrUpdate(role);
                 Role testRole = roleMaintainService.get(role.getKey());
                 assertEquals(BeanUtils.describe(role), BeanUtils.describe(testRole));
             }
-            PagedData<Role> lookup = roleMaintainService.lookup(
-                    RoleMaintainService.CHILD_FOR_GROUP, new Object[]{new StringIdKey("role_group")}
-            );
-            assertEquals(roles.size(), lookup.getCount());
         } finally {
             for (Role role : roles) {
                 roleMaintainService.deleteIfExists(role.getKey());
             }
-            roleGroupMaintainService.deleteIfExists(parentRoleGroup.getKey());
         }
     }
 

@@ -29,12 +29,6 @@ public class RolePresetCriteriaMaker implements PresetCriteriaMaker {
             case RoleMaintainService.ENABLED:
                 enabled(detachedCriteria, objects);
                 break;
-            case RoleMaintainService.CHILD_FOR_GROUP:
-                childForGroup(detachedCriteria, objects);
-                break;
-            case RoleMaintainService.ENABLED_CHILD_FOR_GROUP:
-                enabledChildForGroup(detachedCriteria, objects);
-                break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + s);
         }
@@ -80,28 +74,6 @@ public class RolePresetCriteriaMaker implements PresetCriteriaMaker {
 
     private void enabled(DetachedCriteria detachedCriteria, Object[] objects) {
         try {
-            detachedCriteria.add(Restrictions.eq("enabled", true));
-        } catch (Exception e) {
-            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
-        }
-    }
-
-    @SuppressWarnings("DuplicatedCode")
-    private void childForGroup(DetachedCriteria detachedCriteria, Object[] objects) {
-        try {
-            StringIdKey groupIdKey = (StringIdKey) objects[0];
-            String stringId = Objects.isNull(groupIdKey) ? null : groupIdKey.getStringId();
-            detachedCriteria.add(Restrictions.eqOrIsNull("groupStringId", stringId));
-        } catch (Exception e) {
-            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
-        }
-    }
-
-    private void enabledChildForGroup(DetachedCriteria detachedCriteria, Object[] objects) {
-        try {
-            StringIdKey groupIdKey = (StringIdKey) objects[0];
-            String stringId = Objects.isNull(groupIdKey) ? null : groupIdKey.getStringId();
-            detachedCriteria.add(Restrictions.eqOrIsNull("groupStringId", stringId));
             detachedCriteria.add(Restrictions.eq("enabled", true));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));

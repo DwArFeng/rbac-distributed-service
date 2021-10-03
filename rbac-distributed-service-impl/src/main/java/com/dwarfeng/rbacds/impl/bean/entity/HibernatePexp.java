@@ -41,6 +41,7 @@ public class HibernatePexp implements Bean {
     public HibernatePexp() {
     }
 
+    // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
     public HibernateLongIdKey getKey() {
         return Optional.ofNullable(longId).map(HibernateLongIdKey::new).orElse(null);
     }
@@ -49,20 +50,22 @@ public class HibernatePexp implements Bean {
         this.longId = Optional.ofNullable(guidKey).map(HibernateLongIdKey::getLongId).orElse(null);
     }
 
-    public Long getLongId() {
-        return longId;
-    }
-
-    public void setLongId(Long guid) {
-        this.longId = guid;
-    }
-
     public HibernateStringIdKey getRoleKey() {
         return Optional.ofNullable(roleId).map(HibernateStringIdKey::new).orElse(null);
     }
 
     public void setRoleKey(HibernateStringIdKey guidKey) {
         this.roleId = Optional.ofNullable(guidKey).map(HibernateStringIdKey::getStringId).orElse(null);
+    }
+
+    // -----------------------------------------------------------常规属性区-----------------------------------------------------------
+
+    public Long getLongId() {
+        return longId;
+    }
+
+    public void setLongId(Long guid) {
+        this.longId = guid;
     }
 
     public String getRoleId() {
@@ -99,11 +102,11 @@ public class HibernatePexp implements Bean {
 
     @Override
     public String toString() {
-        return "HibernatePexp{" +
-                "longId=" + longId +
-                ", roleId='" + roleId + '\'' +
-                ", content='" + content + '\'' +
-                ", remark='" + remark + '\'' +
-                '}';
+        return getClass().getSimpleName() + "(" +
+                "longId = " + longId + ", " +
+                "roleId = " + roleId + ", " +
+                "content = " + content + ", " +
+                "remark = " + remark + ", " +
+                "role = " + role + ")";
     }
 }

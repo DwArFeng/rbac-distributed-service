@@ -69,9 +69,9 @@ public class PermissionLookupServiceImplTest {
         zhangSan = new User(new StringIdKey("zhang_san"), "测试用账号");
         liSi = new User(new StringIdKey("li_si"), "测试用账号");
         wangWu = new User(new StringIdKey("wang_wu"), "测试用账号");
-        roleA = new Role(new StringIdKey("role.a"), null, "角色A", true, "测试用角色");
-        roleB = new Role(new StringIdKey("role.b"), null, "角色B", false, "测试用角色");
-        roleC = new Role(new StringIdKey("role.c"), null, "角色C", true, "测试用角色");
+        roleA = new Role(new StringIdKey("role.a"), "角色A", true, "测试用角色");
+        roleB = new Role(new StringIdKey("role.b"), "角色B", false, "测试用角色");
+        roleC = new Role(new StringIdKey("role.c"), "角色C", true, "测试用角色");
         pexp1 = new Pexp(new LongIdKey(1L), roleA.getKey(), "+id_regex@^.*\\.1$", "正则:匹配所有以1结尾的权限");
         pexp2 = new Pexp(new LongIdKey(2L), roleA.getKey(), "!exact@permission.a.1", "精确:去除permission.a.1");
         pexp3 = new Pexp(new LongIdKey(3L), roleB.getKey(), "!id_regex@^.*$", "正则:去除所有权限");

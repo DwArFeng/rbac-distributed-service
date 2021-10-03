@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 public class FastJsonRole implements Bean {
 
-    private static final long serialVersionUID = -4501705687291160541L;
+    private static final long serialVersionUID = 2850294224020627849L;
 
     public static FastJsonRole of(Role role) {
         if (Objects.isNull(role)) {
@@ -23,7 +23,6 @@ public class FastJsonRole implements Bean {
         }
         return new FastJsonRole(
                 FastJsonStringIdKey.of(role.getKey()),
-                FastJsonStringIdKey.of(role.getGroupKey()),
                 role.getName(),
                 role.isEnabled(),
                 role.getRemark()
@@ -33,24 +32,20 @@ public class FastJsonRole implements Bean {
     @JSONField(name = "key", ordinal = 1)
     private FastJsonStringIdKey key;
 
-    @JSONField(name = "group_key", ordinal = 2)
-    private FastJsonStringIdKey groupKey;
-
-    @JSONField(name = "name", ordinal = 3)
+    @JSONField(name = "name", ordinal = 2)
     private String name;
 
-    @JSONField(name = "enabled", ordinal = 4)
+    @JSONField(name = "enabled", ordinal = 3)
     private boolean enabled;
 
-    @JSONField(name = "remark", ordinal = 5)
+    @JSONField(name = "remark", ordinal = 4)
     private String remark;
 
     public FastJsonRole() {
     }
 
-    public FastJsonRole(FastJsonStringIdKey key, FastJsonStringIdKey groupKey, String name, boolean enabled, String remark) {
+    public FastJsonRole(FastJsonStringIdKey key, String name, boolean enabled, String remark) {
         this.key = key;
-        this.groupKey = groupKey;
         this.name = name;
         this.enabled = enabled;
         this.remark = remark;
@@ -62,14 +57,6 @@ public class FastJsonRole implements Bean {
 
     public void setKey(FastJsonStringIdKey key) {
         this.key = key;
-    }
-
-    public FastJsonStringIdKey getGroupKey() {
-        return groupKey;
-    }
-
-    public void setGroupKey(FastJsonStringIdKey groupKey) {
-        this.groupKey = groupKey;
     }
 
     public String getName() {
@@ -100,7 +87,6 @@ public class FastJsonRole implements Bean {
     public String toString() {
         return "FastJsonRole{" +
                 "key=" + key +
-                ", groupKey=" + groupKey +
                 ", name='" + name + '\'' +
                 ", enabled=" + enabled +
                 ", remark='" + remark + '\'' +

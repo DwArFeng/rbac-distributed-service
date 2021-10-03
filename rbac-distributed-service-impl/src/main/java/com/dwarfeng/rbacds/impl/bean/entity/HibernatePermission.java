@@ -40,6 +40,7 @@ public class HibernatePermission implements Bean {
     public HibernatePermission() {
     }
 
+    // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
     public HibernateStringIdKey getKey() {
         return Optional.ofNullable(stringId).map(HibernateStringIdKey::new).orElse(null);
     }
@@ -48,20 +49,22 @@ public class HibernatePermission implements Bean {
         this.stringId = Optional.ofNullable(stringIdKey).map(HibernateStringIdKey::getStringId).orElse(null);
     }
 
-    public String getStringId() {
-        return stringId;
-    }
-
-    public void setStringId(String stringId) {
-        this.stringId = stringId;
-    }
-
     public HibernateStringIdKey getGroupKey() {
         return Optional.ofNullable(groupStringId).map(HibernateStringIdKey::new).orElse(null);
     }
 
     public void setGroupKey(HibernateStringIdKey stringIdKey) {
         this.groupStringId = Optional.ofNullable(stringIdKey).map(HibernateStringIdKey::getStringId).orElse(null);
+    }
+
+
+    // -----------------------------------------------------------常规属性区-----------------------------------------------------------
+    public String getStringId() {
+        return stringId;
+    }
+
+    public void setStringId(String stringId) {
+        this.stringId = stringId;
     }
 
     public String getGroupStringId() {
@@ -98,11 +101,11 @@ public class HibernatePermission implements Bean {
 
     @Override
     public String toString() {
-        return "HibernatePermission{" +
-                "stringId='" + stringId + '\'' +
-                ", groupStringId='" + groupStringId + '\'' +
-                ", name='" + name + '\'' +
-                ", remark='" + remark + '\'' +
-                '}';
+        return getClass().getSimpleName() + "(" +
+                "stringId = " + stringId + ", " +
+                "groupStringId = " + groupStringId + ", " +
+                "name = " + name + ", " +
+                "remark = " + remark + ", " +
+                "group = " + group + ")";
     }
 }

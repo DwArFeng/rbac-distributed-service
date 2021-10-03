@@ -18,7 +18,7 @@ import java.util.Objects;
  */
 public class WebInputRole implements Bean {
 
-    private static final long serialVersionUID = 7478227163791038557L;
+    private static final long serialVersionUID = -8046229980071331113L;
 
     public static Role toStackBean(WebInputRole webInputRole) {
         if (Objects.isNull(webInputRole)) {
@@ -26,7 +26,6 @@ public class WebInputRole implements Bean {
         }
         return new Role(
                 WebInputStringIdKey.toStackBean(webInputRole.getKey()),
-                WebInputStringIdKey.toStackBean(webInputRole.getGroupKey()),
                 webInputRole.getName(),
                 webInputRole.isEnabled(),
                 webInputRole.getRemark()
@@ -37,10 +36,6 @@ public class WebInputRole implements Bean {
     @Valid
     @NotNull
     private WebInputStringIdKey key;
-
-    @JSONField(name = "group_key")
-    @Valid
-    private WebInputStringIdKey groupKey;
 
     @JSONField(name = "name")
     @NotNull
@@ -62,14 +57,6 @@ public class WebInputRole implements Bean {
 
     public void setKey(WebInputStringIdKey key) {
         this.key = key;
-    }
-
-    public WebInputStringIdKey getGroupKey() {
-        return groupKey;
-    }
-
-    public void setGroupKey(WebInputStringIdKey groupKey) {
-        this.groupKey = groupKey;
     }
 
     public String getName() {
@@ -100,7 +87,6 @@ public class WebInputRole implements Bean {
     public String toString() {
         return "WebInputRole{" +
                 "key=" + key +
-                ", groupKey=" + groupKey +
                 ", name='" + name + '\'' +
                 ", enabled=" + enabled +
                 ", remark='" + remark + '\'' +

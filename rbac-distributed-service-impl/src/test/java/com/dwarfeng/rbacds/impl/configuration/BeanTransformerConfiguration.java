@@ -81,13 +81,4 @@ public class BeanTransformerConfiguration {
                 mapper
         );
     }
-
-    @Bean
-    public BeanTransformer<RoleGroup, HibernateRoleGroup> roleGroupBeanTransformer() {
-        return new DozerBeanTransformer<>(
-                RoleGroup.class,
-                HibernateRoleGroup.class,
-                mapper
-        );
-    }
 }
