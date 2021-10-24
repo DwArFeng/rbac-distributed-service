@@ -10,7 +10,9 @@
 
 #### Bug修复
 
-- (无)
+- 修复查询接口中的查询方法不包含事务的 bug。
+  - com.dwarfeng.rbacds.stack.service.PermissionLookupService。
+  - com.dwarfeng.rbacds.stack.service.UserLookupService。
 
 #### 功能移除
 

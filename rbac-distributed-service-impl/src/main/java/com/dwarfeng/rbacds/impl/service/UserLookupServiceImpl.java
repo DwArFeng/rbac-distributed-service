@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -62,6 +63,7 @@ public class UserLookupServiceImpl implements UserLookupService {
     @Override
     @BehaviorAnalyse
     @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public List<User> lookupForPermission(StringIdKey permissionKey) throws ServiceException {
         try {
             if (permissionUserCache.exists(permissionKey)) {
@@ -161,6 +163,7 @@ public class UserLookupServiceImpl implements UserLookupService {
     @BehaviorAnalyse
     @SkipRecord
     @Deprecated
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public List<User> lookupUsers(StringIdKey permissionKey) throws ServiceException {
         return lookupUsersForPermission(permissionKey);
     }
@@ -169,6 +172,7 @@ public class UserLookupServiceImpl implements UserLookupService {
     @BehaviorAnalyse
     @SkipRecord
     @Deprecated
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public List<User> lookupUsersForPermission(StringIdKey permissionKey) throws ServiceException {
         return lookupForPermission(permissionKey);
     }

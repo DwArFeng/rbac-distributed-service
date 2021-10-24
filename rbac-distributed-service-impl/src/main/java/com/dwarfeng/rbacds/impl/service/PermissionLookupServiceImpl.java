@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -66,6 +67,7 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
     @Override
     @BehaviorAnalyse
     @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public List<Permission> lookupForUser(StringIdKey userKey) throws ServiceException {
         try {
             if (userPermissionCache.exists(userKey)) {
@@ -106,6 +108,7 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
     @Override
     @BehaviorAnalyse
     @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public List<Permission> lookupForRole(StringIdKey roleKey) throws ServiceException {
         try {
             if (rolePermissionCache.exists(roleKey)) {
@@ -189,6 +192,7 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
     @BehaviorAnalyse
     @SkipRecord
     @Deprecated
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public List<Permission> lookupPermissions(StringIdKey userKey) throws ServiceException {
         return lookupPermissionsForUser(userKey);
     }
@@ -197,6 +201,7 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
     @BehaviorAnalyse
     @SkipRecord
     @Deprecated
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public List<Permission> lookupPermissionsForUser(StringIdKey userKey) throws ServiceException {
         return lookupForUser(userKey);
     }
@@ -205,6 +210,7 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
     @BehaviorAnalyse
     @SkipRecord
     @Deprecated
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public List<Permission> lookupPermissionsForRole(StringIdKey roleKey) throws ServiceException {
         return lookupForRole(roleKey);
     }
