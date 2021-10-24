@@ -19,7 +19,6 @@ import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
 import com.dwarfeng.subgrade.stack.log.LogLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -31,33 +30,44 @@ public class UserLookupServiceImpl implements UserLookupService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserLookupServiceImpl.class);
 
-    @Autowired
-    private PexpHandler pexpHandler;
-    @Autowired
-    private UserMaintainService userMaintainService;
-    @Autowired
-    private RoleMaintainService roleMaintainService;
-    @Autowired
-    private PexpMaintainService pexpMaintainService;
-    @Autowired
-    private PermissionMaintainService permissionMaintainService;
-    @Autowired
-    private PermissionUserCache permissionUserCache;
-    @Autowired
-    private ServiceExceptionMapper sem;
+    private final PexpHandler pexpHandler;
+    private final UserMaintainService userMaintainService;
+    private final RoleMaintainService roleMaintainService;
+    private final PexpMaintainService pexpMaintainService;
+    private final PermissionMaintainService permissionMaintainService;
+    private final PermissionUserCache permissionUserCache;
+    private final ServiceExceptionMapper sem;
 
     @Value("${cache.timeout.list.permission_has_user}")
     private long permissionHasUserTimeout;
 
+    public UserLookupServiceImpl(
+            PexpHandler pexpHandler,
+            UserMaintainService userMaintainService,
+            RoleMaintainService roleMaintainService,
+            PexpMaintainService pexpMaintainService,
+            PermissionMaintainService permissionMaintainService,
+            PermissionUserCache permissionUserCache,
+            ServiceExceptionMapper sem
+    ) {
+        this.pexpHandler = pexpHandler;
+        this.userMaintainService = userMaintainService;
+        this.roleMaintainService = roleMaintainService;
+        this.pexpMaintainService = pexpMaintainService;
+        this.permissionMaintainService = permissionMaintainService;
+        this.permissionUserCache = permissionUserCache;
+        this.sem = sem;
+    }
+
     @Override
     @BehaviorAnalyse
     @SkipRecord
-    public List<User> lookupUsersForPermission(StringIdKey permissionKey) throws ServiceException {
+    public List<User> lookupForPermission(StringIdKey permissionKey) throws ServiceException {
         try {
             if (permissionUserCache.exists(permissionKey)) {
                 return permissionUserCache.get(permissionKey);
             }
-            List<User> users = inspectUsersForPermission(permissionKey);
+            List<User> users = inspectForPermission(permissionKey);
             permissionUserCache.set(permissionKey, users, permissionHasUserTimeout);
             return users;
         } catch (Exception e) {
@@ -66,7 +76,7 @@ public class UserLookupServiceImpl implements UserLookupService {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private List<User> inspectUsersForPermission(StringIdKey permissionKey) throws Exception {
+    private List<User> inspectForPermission(StringIdKey permissionKey) throws Exception {
         // 判断用户是否存在。
         if (!permissionMaintainService.exists(permissionKey)) {
             LOGGER.warn("指定的权限 " + permissionKey.toString() + " 不存在, 将抛出异常...");
@@ -153,5 +163,13 @@ public class UserLookupServiceImpl implements UserLookupService {
     @Deprecated
     public List<User> lookupUsers(StringIdKey permissionKey) throws ServiceException {
         return lookupUsersForPermission(permissionKey);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Deprecated
+    public List<User> lookupUsersForPermission(StringIdKey permissionKey) throws ServiceException {
+        return lookupForPermission(permissionKey);
     }
 }

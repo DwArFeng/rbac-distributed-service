@@ -4,7 +4,9 @@
 
 #### 功能构建
 
-- (无)
+- 更新部分接口方法的命名，使其更合理。
+  - com.dwarfeng.rbacds.stack.service.PermissionLookupService。
+  - com.dwarfeng.rbacds.stack.service.UserLookupService。
 
 #### Bug修复
 

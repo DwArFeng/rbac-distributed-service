@@ -5,7 +5,6 @@ import com.dwarfeng.rbacds.stack.service.PermissionLookupService;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import com.dwarfeng.subgrade.stack.handler.PermissionHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -21,13 +20,16 @@ import java.util.stream.Collectors;
 @Component
 public class PermissionHandlerImpl implements PermissionHandler {
 
-    @Autowired
-    private PermissionLookupService service;
+    private final PermissionLookupService service;
+
+    public PermissionHandlerImpl(PermissionLookupService service) {
+        this.service = service;
+    }
 
     @Override
     public boolean hasPermission(StringIdKey userKey, String permissionNode) throws HandlerException {
         try {
-            List<String> ownedPermissionNodes = service.lookupPermissionsForUser(userKey).stream()
+            List<String> ownedPermissionNodes = service.lookupForUser(userKey).stream()
                     .map(Permission::getKey).map(StringIdKey::getStringId).collect(Collectors.toList());
             return ownedPermissionNodes.contains(permissionNode);
         } catch (Exception e) {
@@ -38,7 +40,7 @@ public class PermissionHandlerImpl implements PermissionHandler {
     @Override
     public boolean hasPermission(StringIdKey userKey, List<String> permissionNodes) throws HandlerException {
         try {
-            List<String> ownedPermissionNodes = service.lookupPermissionsForUser(userKey).stream()
+            List<String> ownedPermissionNodes = service.lookupForUser(userKey).stream()
                     .map(Permission::getKey).map(StringIdKey::getStringId).collect(Collectors.toList());
             return ownedPermissionNodes.containsAll(permissionNodes);
         } catch (Exception e) {
@@ -50,7 +52,7 @@ public class PermissionHandlerImpl implements PermissionHandler {
     public List<String> getMissingPermission(StringIdKey userKey, List<String> permissionNodes)
             throws HandlerException {
         try {
-            List<String> ownedPermissionNodes = service.lookupPermissionsForUser(userKey).stream()
+            List<String> ownedPermissionNodes = service.lookupForUser(userKey).stream()
                     .map(Permission::getKey).map(StringIdKey::getStringId).collect(Collectors.toList());
             List<String> dejaVu = new ArrayList<>(permissionNodes);
             dejaVu.removeAll(ownedPermissionNodes);

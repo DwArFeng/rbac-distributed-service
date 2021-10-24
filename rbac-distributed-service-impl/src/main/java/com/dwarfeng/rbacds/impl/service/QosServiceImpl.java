@@ -9,7 +9,6 @@ import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +16,16 @@ import java.util.List;
 @Service
 public class QosServiceImpl implements QosService {
 
-    @Autowired
-    private PermissionLookupService permissionLookupService;
-    @Autowired
-    private UserLookupService userLookupService;
+    private final PermissionLookupService permissionLookupService;
+    private final UserLookupService userLookupService;
+
+    public QosServiceImpl(
+            PermissionLookupService permissionLookupService,
+            UserLookupService userLookupService
+    ) {
+        this.permissionLookupService = permissionLookupService;
+        this.userLookupService = userLookupService;
+    }
 
     @Override
     @BehaviorAnalyse
@@ -42,20 +47,20 @@ public class QosServiceImpl implements QosService {
     @BehaviorAnalyse
     @SkipRecord
     public List<Permission> lookupPermissionsForUser(StringIdKey userKey) throws ServiceException {
-        return permissionLookupService.lookupPermissionsForUser(userKey);
+        return permissionLookupService.lookupForUser(userKey);
     }
 
     @Override
     @BehaviorAnalyse
     @SkipRecord
     public List<Permission> lookupPermissionsForRole(StringIdKey roleKey) throws ServiceException {
-        return permissionLookupService.lookupPermissionsForRole(roleKey);
+        return permissionLookupService.lookupForRole(roleKey);
     }
 
     @Override
     @BehaviorAnalyse
     @SkipRecord
     public List<User> lookupUsersForPermission(StringIdKey permissionKey) throws ServiceException {
-        return userLookupService.lookupUsersForPermission(permissionKey);
+        return userLookupService.lookupForPermission(permissionKey);
     }
 }

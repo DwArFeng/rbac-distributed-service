@@ -19,7 +19,6 @@ import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
 import com.dwarfeng.subgrade.stack.log.LogLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -30,37 +29,49 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PermissionLookupServiceImpl.class);
 
-    @Autowired
-    private PexpHandler pexpHandler;
-    @Autowired
-    private UserMaintainService userMaintainService;
-    @Autowired
-    private RoleMaintainService roleMaintainService;
-    @Autowired
-    private PexpMaintainService pexpMaintainService;
-    @Autowired
-    private PermissionMaintainService permissionMaintainService;
-    @Autowired
-    private UserPermissionCache userPermissionCache;
-    @Autowired
-    private RolePermissionCache rolePermissionCache;
-    @Autowired
-    private ServiceExceptionMapper sem;
+    private final PexpHandler pexpHandler;
+    private final UserMaintainService userMaintainService;
+    private final RoleMaintainService roleMaintainService;
+    private final PexpMaintainService pexpMaintainService;
+    private final PermissionMaintainService permissionMaintainService;
+    private final UserPermissionCache userPermissionCache;
+    private final RolePermissionCache rolePermissionCache;
+    private final ServiceExceptionMapper sem;
 
     @Value("${cache.timeout.list.user_has_permission}")
     private long userHasPermissionTimeout;
     @Value("${cache.timeout.list.role_has_permission}")
     private long roleHasPermissionTimeout;
 
+    public PermissionLookupServiceImpl(
+            PexpHandler pexpHandler,
+            UserMaintainService userMaintainService,
+            RoleMaintainService roleMaintainService,
+            PexpMaintainService pexpMaintainService,
+            PermissionMaintainService permissionMaintainService,
+            UserPermissionCache userPermissionCache,
+            RolePermissionCache rolePermissionCache,
+            ServiceExceptionMapper sem
+    ) {
+        this.pexpHandler = pexpHandler;
+        this.userMaintainService = userMaintainService;
+        this.roleMaintainService = roleMaintainService;
+        this.pexpMaintainService = pexpMaintainService;
+        this.permissionMaintainService = permissionMaintainService;
+        this.userPermissionCache = userPermissionCache;
+        this.rolePermissionCache = rolePermissionCache;
+        this.sem = sem;
+    }
+
     @Override
     @BehaviorAnalyse
     @SkipRecord
-    public List<Permission> lookupPermissionsForUser(StringIdKey userKey) throws ServiceException {
+    public List<Permission> lookupForUser(StringIdKey userKey) throws ServiceException {
         try {
             if (userPermissionCache.exists(userKey)) {
                 return userPermissionCache.get(userKey);
             }
-            List<Permission> permissions = inspectPermissionsForUser(userKey);
+            List<Permission> permissions = inspectForUser(userKey);
             userPermissionCache.set(userKey, permissions, userHasPermissionTimeout);
             return permissions;
         } catch (Exception e) {
@@ -69,7 +80,7 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private List<Permission> inspectPermissionsForUser(StringIdKey userKey) throws Exception {
+    private List<Permission> inspectForUser(StringIdKey userKey) throws Exception {
         // 判断用户是否存在。
         if (!userMaintainService.exists(userKey)) {
             LOGGER.warn("指定的用户 " + userKey.toString() + " 不存在, 将抛出异常...");
@@ -93,12 +104,14 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
     }
 
     @Override
-    public List<Permission> lookupPermissionsForRole(StringIdKey roleKey) throws ServiceException {
+    @BehaviorAnalyse
+    @SkipRecord
+    public List<Permission> lookupForRole(StringIdKey roleKey) throws ServiceException {
         try {
             if (rolePermissionCache.exists(roleKey)) {
                 return rolePermissionCache.get(roleKey);
             }
-            List<Permission> permissions = inspectPermissionsForRole(roleKey);
+            List<Permission> permissions = inspectForRole(roleKey);
             rolePermissionCache.set(roleKey, permissions, roleHasPermissionTimeout);
             return permissions;
         } catch (Exception e) {
@@ -107,7 +120,7 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private List<Permission> inspectPermissionsForRole(StringIdKey roleKey) throws Exception {
+    private List<Permission> inspectForRole(StringIdKey roleKey) throws Exception {
         // 判断角色是否存在。
         if (!roleMaintainService.exists(roleKey)) {
             LOGGER.warn("指定的角色 " + roleKey.toString() + " 不存在, 将抛出异常...");
@@ -127,6 +140,7 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
         permissions.forEach(permission -> LOGGER.debug("\t" + permission));
         return permissions;
     }
+
 
     private List<Permission> analysePexpPermissions(Map<Role, List<Pexp>> pexpsMap, List<Permission> allPermissions)
             throws HandlerException {
@@ -177,6 +191,22 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
     @Deprecated
     public List<Permission> lookupPermissions(StringIdKey userKey) throws ServiceException {
         return lookupPermissionsForUser(userKey);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Deprecated
+    public List<Permission> lookupPermissionsForUser(StringIdKey userKey) throws ServiceException {
+        return lookupForUser(userKey);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Deprecated
+    public List<Permission> lookupPermissionsForRole(StringIdKey roleKey) throws ServiceException {
+        return lookupForRole(roleKey);
     }
 
     private static final class PermissionComparator implements Comparator<Permission> {
