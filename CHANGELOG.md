@@ -8,6 +8,16 @@
   - com.dwarfeng.rbacds.stack.service.PermissionLookupService。
   - com.dwarfeng.rbacds.stack.service.UserLookupService。
 
+- 删除部分不使用的依赖。
+  - `httpclient`。
+  - `httpmime`。
+  - `httpcore`。
+  - `solr-solrj`。
+  - `spring-web`。
+  - `spring-webmvc`。
+  - `commons-io`。
+  - `commons-net`。
+
 #### Bug修复
 
 - 修复查询接口中的查询方法不包含事务的 bug。
