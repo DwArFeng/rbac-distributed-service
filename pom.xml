@@ -6,7 +6,7 @@
 
     <groupId>com.dwarfeng</groupId>
     <artifactId>rbac-distributed-service</artifactId>
-    <version>1.4.0.a-SNAPSHOT</version>
+    <version>1.4.0.a</version>
 
     <packaging>pom</packaging>
 
@@ -396,17 +396,17 @@
             <dependency>
                 <groupId>com.dwarfeng</groupId>
                 <artifactId>rbac-distributed-service-stack</artifactId>
-                <version>1.4.0.a-SNAPSHOT</version>
+                <version>1.4.0.a</version>
             </dependency>
             <dependency>
                 <groupId>com.dwarfeng</groupId>
                 <artifactId>rbac-distributed-service-sdk</artifactId>
-                <version>1.4.0.a-SNAPSHOT</version>
+                <version>1.4.0.a</version>
             </dependency>
             <dependency>
                 <groupId>com.dwarfeng</groupId>
                 <artifactId>rbac-distributed-service-impl</artifactId>
-                <version>1.4.0.a-SNAPSHOT</version>
+                <version>1.4.0.a</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
