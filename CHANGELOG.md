@@ -5,6 +5,7 @@
 #### 功能构建
 
 - 预设查询 `UserMaintainService.CHILD_FOR_ROLE` 更名为 `UserMaintainService.CHILD_FOR_ROLE_SET`。
+- 重设预设查询 `UserMaintainService.CHILD_FOR_ROLE`，使其查询单个角色下的用户。
 
 #### Bug修复
 

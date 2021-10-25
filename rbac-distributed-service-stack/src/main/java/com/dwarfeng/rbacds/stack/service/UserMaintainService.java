@@ -19,6 +19,7 @@ public interface UserMaintainService extends CrudService<StringIdKey, User>, Pre
         EntireLookupService<User> {
 
     String ID_LIKE = "id_like";
+    String CHILD_FOR_ROLE = "child_for_role";
     String CHILD_FOR_ROLE_SET = "child_for_role_set";
 
     /**
