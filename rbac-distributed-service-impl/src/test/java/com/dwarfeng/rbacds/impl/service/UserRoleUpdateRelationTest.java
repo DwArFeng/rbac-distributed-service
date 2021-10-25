@@ -63,15 +63,15 @@ public class UserRoleUpdateRelationTest {
             roleMaintainService.insertOrUpdate(role);
 
             userMaintainService.addRoleRelation(user.getKey(), role.getKey());
-            assertEquals(1, userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
+            assertEquals(1, userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE_SET,
                     new Object[]{Collections.singletonList(role.getKey())}).getCount());
 
             userMaintainService.update(user);
-            assertEquals(1, userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
+            assertEquals(1, userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE_SET,
                     new Object[]{Collections.singletonList(role.getKey())}).getCount());
 
             roleMaintainService.update(role);
-            assertEquals(1, userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
+            assertEquals(1, userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE_SET,
                     new Object[]{Collections.singletonList(role.getKey())}).getCount());
         } finally {
             userMaintainService.deleteIfExists(user.getKey());
@@ -86,17 +86,17 @@ public class UserRoleUpdateRelationTest {
             roleMaintainService.insertOrUpdate(role);
 
             userMaintainService.addRoleRelation(user.getKey(), role.getKey());
-            assertEquals(1, userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
+            assertEquals(1, userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE_SET,
                     new Object[]{Collections.singletonList(role.getKey())}).getCount());
 
             userCache.delete(user.getKey());
             userDao.batchUpdate(Collections.singletonList(user));
-            assertEquals(1, userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
+            assertEquals(1, userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE_SET,
                     new Object[]{Collections.singletonList(role.getKey())}).getCount());
 
             roleCache.delete(role.getKey());
             roleDao.batchUpdate(Collections.singletonList(role));
-            assertEquals(1, userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
+            assertEquals(1, userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE_SET,
                     new Object[]{Collections.singletonList(role.getKey())}).getCount());
         } finally {
             userMaintainService.deleteIfExists(user.getKey());

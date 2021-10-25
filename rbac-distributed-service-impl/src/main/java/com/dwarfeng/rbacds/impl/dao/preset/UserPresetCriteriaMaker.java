@@ -21,8 +21,8 @@ public class UserPresetCriteriaMaker implements PresetCriteriaMaker {
             case UserMaintainService.ID_LIKE:
                 idLike(detachedCriteria, objects);
                 break;
-            case UserMaintainService.CHILD_FOR_ROLE:
-                childForRole(detachedCriteria, objects);
+            case UserMaintainService.CHILD_FOR_ROLE_SET:
+                childForRoleSet(detachedCriteria, objects);
                 break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + s);
@@ -38,7 +38,7 @@ public class UserPresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
-    private void childForRole(DetachedCriteria detachedCriteria, Object[] objects) {
+    private void childForRoleSet(DetachedCriteria detachedCriteria, Object[] objects) {
         try {
             @SuppressWarnings("unchecked")
             List<String> roleIds = ((List<StringIdKey>) objects[0]).stream()

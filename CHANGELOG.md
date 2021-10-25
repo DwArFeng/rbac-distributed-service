@@ -4,7 +4,7 @@
 
 #### 功能构建
 
-- (无)
+- 预设查询 `UserMaintainService.CHILD_FOR_ROLE` 更名为 `UserMaintainService.CHILD_FOR_ROLE_SET`。
 
 #### Bug修复
 

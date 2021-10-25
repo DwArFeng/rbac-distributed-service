@@ -100,19 +100,19 @@ public class UserLookupServiceImpl implements UserLookupService {
         // 根据角色信息查询所有符合条件的用户。
         List<User> users;
         if (!includeRoleKeys.isEmpty() && !excludeRoleKeys.isEmpty()) {
-            List<User> tempUsers = userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
+            List<User> tempUsers = userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE_SET,
                     new Object[]{includeRoleKeys}).getData();
             Map<StringIdKey, User> includeUserMap = new LinkedHashMap<>();
             for (User tempUser : tempUsers) {
                 includeUserMap.put(tempUser.getKey(), tempUser);
             }
-            List<StringIdKey> excludeUserKeys = userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
+            List<StringIdKey> excludeUserKeys = userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE_SET,
                             new Object[]{excludeRoleKeys}).getData().stream()
                     .map(User::getKey).collect(Collectors.toList());
             excludeUserKeys.forEach(includeUserMap.keySet()::remove);
             users = new ArrayList<>(includeUserMap.values());
         } else if (!includeRoleKeys.isEmpty()) {
-            users = new ArrayList<>(userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE,
+            users = new ArrayList<>(userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE_SET,
                     new Object[]{includeRoleKeys}).getData());
         } else {
             users = Collections.emptyList();
