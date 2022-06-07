@@ -18,7 +18,6 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
 import com.dwarfeng.subgrade.stack.log.LogLevel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,23 +28,32 @@ import java.util.Objects;
 @Service
 public class RoleMaintainServiceImpl implements RoleMaintainService {
 
-    @Autowired
-    private RoleDao roleDao;
+    private final RoleDao roleDao;
+    private final RoleCache roleCache;
 
-    @Autowired
-    private RoleCache roleCache;
-    @Autowired
-    private UserPermissionCache userPermissionCache;
-    @Autowired
-    private RolePermissionCache rolePermissionCache;
-    @Autowired
-    private PermissionUserCache permissionUserCache;
+    private final UserPermissionCache userPermissionCache;
+    private final RolePermissionCache rolePermissionCache;
+    private final PermissionUserCache permissionUserCache;
 
-    @Autowired
-    private ServiceExceptionMapper sem;
+    private final ServiceExceptionMapper sem;
 
     @Value("${cache.timeout.entity.role}")
     private long roleTimeout;
+
+    public RoleMaintainServiceImpl(
+            RoleDao roleDao, RoleCache roleCache,
+            UserPermissionCache userPermissionCache,
+            RolePermissionCache rolePermissionCache,
+            PermissionUserCache permissionUserCache,
+            ServiceExceptionMapper sem
+    ) {
+        this.roleDao = roleDao;
+        this.roleCache = roleCache;
+        this.userPermissionCache = userPermissionCache;
+        this.rolePermissionCache = rolePermissionCache;
+        this.permissionUserCache = permissionUserCache;
+        this.sem = sem;
+    }
 
     @Override
     @BehaviorAnalyse

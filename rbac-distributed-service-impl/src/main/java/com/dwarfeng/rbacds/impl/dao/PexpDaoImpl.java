@@ -11,7 +11,6 @@ import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.exception.DaoException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +19,16 @@ import java.util.List;
 @Repository
 public class PexpDaoImpl implements PexpDao {
 
-    @Autowired
-    private HibernateBatchBaseDao<LongIdKey, HibernateLongIdKey, Pexp, HibernatePexp> batchDelegate;
-    @Autowired
-    private HibernatePresetLookupDao<Pexp, HibernatePexp> presetDelegate;
+    private final HibernateBatchBaseDao<LongIdKey, HibernateLongIdKey, Pexp, HibernatePexp> batchDelegate;
+    private final HibernatePresetLookupDao<Pexp, HibernatePexp> presetDelegate;
+
+    public PexpDaoImpl(
+            HibernateBatchBaseDao<LongIdKey, HibernateLongIdKey, Pexp, HibernatePexp> batchDelegate,
+            HibernatePresetLookupDao<Pexp, HibernatePexp> presetDelegate
+    ) {
+        this.batchDelegate = batchDelegate;
+        this.presetDelegate = presetDelegate;
+    }
 
     @Override
     @BehaviorAnalyse

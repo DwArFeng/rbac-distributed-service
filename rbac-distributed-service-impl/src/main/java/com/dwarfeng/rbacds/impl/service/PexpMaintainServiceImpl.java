@@ -19,7 +19,6 @@ import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
 import com.dwarfeng.subgrade.stack.log.LogLevel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,26 +28,36 @@ import java.util.Objects;
 @Service
 public class PexpMaintainServiceImpl implements PexpMaintainService {
 
-    @Autowired
-    private KeyFetcher<LongIdKey> keyFetcher;
+    private final KeyFetcher<LongIdKey> keyFetcher;
 
-    @Autowired
-    private PexpDao pexpDao;
+    private final PexpDao pexpDao;
+    private final PexpCache pexpCache;
 
-    @Autowired
-    private PexpCache pexpCache;
-    @Autowired
-    private UserPermissionCache userPermissionCache;
-    @Autowired
-    private RolePermissionCache rolePermissionCache;
-    @Autowired
-    private PermissionUserCache permissionUserCache;
+    private final UserPermissionCache userPermissionCache;
+    private final RolePermissionCache rolePermissionCache;
+    private final PermissionUserCache permissionUserCache;
 
-    @Autowired
-    private ServiceExceptionMapper sem;
+    private final ServiceExceptionMapper sem;
 
     @Value("${cache.timeout.entity.pexp}")
     private long pexpTimeout;
+
+    public PexpMaintainServiceImpl(
+            KeyFetcher<LongIdKey> keyFetcher,
+            PexpDao pexpDao, PexpCache pexpCache,
+            UserPermissionCache userPermissionCache,
+            RolePermissionCache rolePermissionCache,
+            PermissionUserCache permissionUserCache,
+            ServiceExceptionMapper sem
+    ) {
+        this.keyFetcher = keyFetcher;
+        this.pexpDao = pexpDao;
+        this.pexpCache = pexpCache;
+        this.userPermissionCache = userPermissionCache;
+        this.rolePermissionCache = rolePermissionCache;
+        this.permissionUserCache = permissionUserCache;
+        this.sem = sem;
+    }
 
     @Override
     @BehaviorAnalyse

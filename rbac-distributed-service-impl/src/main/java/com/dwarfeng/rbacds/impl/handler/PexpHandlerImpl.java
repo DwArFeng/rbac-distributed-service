@@ -8,7 +8,6 @@ import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -22,11 +21,17 @@ public class PexpHandlerImpl implements PexpHandler {
     public static final String REJECT_MODIFIER = "-";
     public static final String GLOBAL_REJECT_MODIFIER = "!";
 
-    @SuppressWarnings("FieldMayBeFinal")
-    @Autowired(required = false)
-    private Set<PermissionFilter> permissionFilters = new HashSet<>();
+    private final Set<PermissionFilter> permissionFilters;
 
     private final Map<String, PermissionFilter> permissionFilterMap = new HashMap<>();
+
+    public PexpHandlerImpl(Set<PermissionFilter> permissionFilters) {
+        if (Objects.isNull(permissionFilters)) {
+            this.permissionFilters = new HashSet<>();
+        } else {
+            this.permissionFilters = permissionFilters;
+        }
+    }
 
     @PostConstruct
     public void init() {
@@ -158,6 +163,8 @@ public class PexpHandlerImpl implements PexpHandler {
         private String pattern;
         private PermissionFilter permissionFilter;
 
+        // 由于实体继承了 Bean 接口，因此必须有无参数构造器。
+        @SuppressWarnings("unused")
         public PexpInfo() {
         }
 

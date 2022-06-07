@@ -8,7 +8,6 @@ import com.dwarfeng.springtelqos.stack.exception.TelqosException;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -21,12 +20,12 @@ public class UserCommand extends CliCommand {
     private static final String DESCRIPTION = "查询用户信息";
     private static final String CMD_LINE_SYNTAX = "user -p permission";
 
-    public UserCommand() {
-        super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
-    }
+    private final QosService qosService;
 
-    @Autowired
-    private QosService qosService;
+    public UserCommand(QosService qosService) {
+        super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
+        this.qosService = qosService;
+    }
 
     @Override
     protected List<Option> buildOptions() {

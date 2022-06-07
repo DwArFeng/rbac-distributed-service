@@ -15,7 +15,6 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
 import com.dwarfeng.subgrade.stack.log.LogLevel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,26 +25,37 @@ import java.util.Objects;
 @Service
 public class PermissionMaintainServiceImpl implements PermissionMaintainService {
 
-    @Autowired
-    private PermissionDao permissionDao;
+    private final PermissionDao permissionDao;
+    private final PermissionCache permissionCache;
 
-    @Autowired
-    private PermissionCache permissionCache;
-    @Autowired
-    private PermissionListCache permissionListCache;
-    @Autowired
-    private UserPermissionCache userPermissionCache;
-    @Autowired
-    private RolePermissionCache rolePermissionCache;
-    @Autowired
-    private PermissionUserCache permissionUserCache;
+    private final PermissionListCache permissionListCache;
+    private final UserPermissionCache userPermissionCache;
+    private final RolePermissionCache rolePermissionCache;
+    private final PermissionUserCache permissionUserCache;
 
-    @Autowired
-    private ServiceExceptionMapper sem;
+    private final ServiceExceptionMapper sem;
+
     @Value("${cache.timeout.entity.permission}")
     private long permissionTimeout;
     @Value("${cache.timeout.list.permission}")
     private long permissionListTimeout;
+
+    public PermissionMaintainServiceImpl(
+            PermissionDao permissionDao, PermissionCache permissionCache,
+            PermissionListCache permissionListCache,
+            UserPermissionCache userPermissionCache,
+            RolePermissionCache rolePermissionCache,
+            PermissionUserCache permissionUserCache,
+            ServiceExceptionMapper sem
+    ) {
+        this.permissionDao = permissionDao;
+        this.permissionCache = permissionCache;
+        this.permissionListCache = permissionListCache;
+        this.userPermissionCache = userPermissionCache;
+        this.rolePermissionCache = rolePermissionCache;
+        this.permissionUserCache = permissionUserCache;
+        this.sem = sem;
+    }
 
     @Override
     @BehaviorAnalyse

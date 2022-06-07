@@ -20,6 +20,8 @@
   - 升级 `spring-terminator` 依赖版本为 `1.0.8.a` 以规避漏洞。
   - 升级 `spring-telqos` 依赖版本为 `1.1.3.a` 以规避漏洞。
 
+- 将工程中的 `Spring Bean` 注册方式尽可能地由 `@Autowired` 变更为构造器注入。
+
 #### Bug修复
 
 - (无)

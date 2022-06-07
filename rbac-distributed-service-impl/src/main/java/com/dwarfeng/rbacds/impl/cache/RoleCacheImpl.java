@@ -8,7 +8,6 @@ import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.CacheException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +16,13 @@ import java.util.List;
 @Repository
 public class RoleCacheImpl implements RoleCache {
 
-    @Autowired
-    private RedisBatchBaseCache<StringIdKey, Role, FastJsonRole> delegate;
+    private final RedisBatchBaseCache<StringIdKey, Role, FastJsonRole> delegate;
+
+    public RoleCacheImpl(
+            RedisBatchBaseCache<StringIdKey, Role, FastJsonRole> delegate
+    ) {
+        this.delegate = delegate;
+    }
 
     @Override
     @BehaviorAnalyse

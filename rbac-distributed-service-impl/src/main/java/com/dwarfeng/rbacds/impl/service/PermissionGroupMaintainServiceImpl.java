@@ -18,7 +18,6 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
 import com.dwarfeng.subgrade.stack.log.LogLevel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,28 +29,41 @@ import java.util.stream.Collectors;
 @Service
 public class PermissionGroupMaintainServiceImpl implements PermissionGroupMaintainService {
 
-    @Autowired
-    private PermissionGroupDao permissionGroupDao;
-    @Autowired
-    private PermissionDao permissionDao;
+    private final PermissionGroupDao permissionGroupDao;
+    private final PermissionGroupCache permissionGroupCache;
 
-    @Autowired
-    private PermissionGroupCache permissionGroupCache;
-    @Autowired
-    private PermissionCache permissionCache;
-    @Autowired
-    private PermissionListCache permissionListCache;
-    @Autowired
-    private UserPermissionCache userPermissionCache;
-    @Autowired
-    private RolePermissionCache rolePermissionCache;
-    @Autowired
-    private PermissionUserCache permissionUserCache;
+    private final PermissionDao permissionDao;
+    private final PermissionCache permissionCache;
 
-    @Autowired
-    private ServiceExceptionMapper sem;
+    private final PermissionListCache permissionListCache;
+    private final UserPermissionCache userPermissionCache;
+    private final RolePermissionCache rolePermissionCache;
+    private final PermissionUserCache permissionUserCache;
+
+    private final ServiceExceptionMapper sem;
+
     @Value("${cache.timeout.entity.permission_group}")
     private long permissionGroupTimeout;
+
+    public PermissionGroupMaintainServiceImpl(
+            PermissionGroupDao permissionGroupDao, PermissionGroupCache permissionGroupCache,
+            PermissionDao permissionDao, PermissionCache permissionCache,
+            PermissionListCache permissionListCache,
+            UserPermissionCache userPermissionCache,
+            RolePermissionCache rolePermissionCache,
+            PermissionUserCache permissionUserCache,
+            ServiceExceptionMapper sem
+    ) {
+        this.permissionGroupDao = permissionGroupDao;
+        this.permissionGroupCache = permissionGroupCache;
+        this.permissionDao = permissionDao;
+        this.permissionCache = permissionCache;
+        this.permissionListCache = permissionListCache;
+        this.userPermissionCache = userPermissionCache;
+        this.rolePermissionCache = rolePermissionCache;
+        this.permissionUserCache = permissionUserCache;
+        this.sem = sem;
+    }
 
     @Override
     @BehaviorAnalyse

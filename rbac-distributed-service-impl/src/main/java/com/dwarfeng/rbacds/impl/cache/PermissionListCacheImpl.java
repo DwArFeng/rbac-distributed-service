@@ -8,7 +8,6 @@ import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.exception.CacheException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +17,13 @@ import java.util.List;
 @Repository
 public class PermissionListCacheImpl implements PermissionListCache {
 
-    @Autowired
-    private RedisListCache<Permission, FastJsonPermission> redisListDelegate;
+    private final RedisListCache<Permission, FastJsonPermission> redisListDelegate;
+
+    public PermissionListCacheImpl(
+            RedisListCache<Permission, FastJsonPermission> redisListDelegate
+    ) {
+        this.redisListDelegate = redisListDelegate;
+    }
 
     @Override
     @BehaviorAnalyse

@@ -9,15 +9,17 @@ import com.dwarfeng.subgrade.stack.bean.BeanTransformer;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.dozer.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BeanTransformerConfiguration {
 
-    @Autowired
-    private Mapper mapper;
+    private final Mapper mapper;
+
+    public BeanTransformerConfiguration(Mapper mapper) {
+        this.mapper = mapper;
+    }
 
     @Bean
     public BeanTransformer<LongIdKey, HibernateLongIdKey> longIdKeyBeanTransformer() {

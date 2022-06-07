@@ -4,7 +4,6 @@ import com.dwarfeng.rbacds.impl.handler.PermissionFilter;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.service.PermissionGroupMaintainService;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -18,8 +17,11 @@ import java.util.Objects;
 @Component
 public class NestedSubGroupPermissionFilter implements PermissionFilter {
 
-    @Autowired
-    private PermissionGroupMaintainService permissionGroupMaintainService;
+    private final PermissionGroupMaintainService permissionGroupMaintainService;
+
+    public NestedSubGroupPermissionFilter(PermissionGroupMaintainService permissionGroupMaintainService) {
+        this.permissionGroupMaintainService = permissionGroupMaintainService;
+    }
 
     @Override
     public String getIdentifier() {

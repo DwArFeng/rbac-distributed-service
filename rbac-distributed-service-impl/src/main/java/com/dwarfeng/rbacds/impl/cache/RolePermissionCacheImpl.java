@@ -9,7 +9,6 @@ import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.CacheException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +19,14 @@ import java.util.List;
 @Repository
 public class RolePermissionCacheImpl implements RolePermissionCache {
 
-    @Autowired
-    @Qualifier("rolePermissionRedisKeyListCache")
-    private RedisKeyListCache<StringIdKey, Permission, FastJsonPermission> redisKeyListDelegate;
+    private final RedisKeyListCache<StringIdKey, Permission, FastJsonPermission> redisKeyListDelegate;
+
+    public RolePermissionCacheImpl(
+            @Qualifier("rolePermissionRedisKeyListCache")
+            RedisKeyListCache<StringIdKey, Permission, FastJsonPermission> redisKeyListDelegate
+    ) {
+        this.redisKeyListDelegate = redisKeyListDelegate;
+    }
 
     @Override
     @BehaviorAnalyse

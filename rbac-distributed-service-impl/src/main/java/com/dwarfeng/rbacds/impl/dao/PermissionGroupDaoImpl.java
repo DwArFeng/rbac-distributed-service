@@ -12,7 +12,6 @@ import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.DaoException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,12 +20,21 @@ import java.util.List;
 @Repository
 public class PermissionGroupDaoImpl implements PermissionGroupDao {
 
-    @Autowired
-    private HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, PermissionGroup, HibernatePermissionGroup> batchDelegate;
-    @Autowired
-    private HibernateEntireLookupDao<PermissionGroup, HibernatePermissionGroup> entireLookupDelegate;
-    @Autowired
-    private HibernatePresetLookupDao<PermissionGroup, HibernatePermissionGroup> presetLookupDelegate;
+    private final HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, PermissionGroup,
+            HibernatePermissionGroup> batchDelegate;
+    private final HibernateEntireLookupDao<PermissionGroup, HibernatePermissionGroup> entireLookupDelegate;
+    private final HibernatePresetLookupDao<PermissionGroup, HibernatePermissionGroup> presetLookupDelegate;
+
+    public PermissionGroupDaoImpl(
+            HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, PermissionGroup,
+                    HibernatePermissionGroup> batchDelegate,
+            HibernateEntireLookupDao<PermissionGroup, HibernatePermissionGroup> entireLookupDelegate,
+            HibernatePresetLookupDao<PermissionGroup, HibernatePermissionGroup> presetLookupDelegate
+    ) {
+        this.batchDelegate = batchDelegate;
+        this.entireLookupDelegate = entireLookupDelegate;
+        this.presetLookupDelegate = presetLookupDelegate;
+    }
 
     @Override
     @BehaviorAnalyse

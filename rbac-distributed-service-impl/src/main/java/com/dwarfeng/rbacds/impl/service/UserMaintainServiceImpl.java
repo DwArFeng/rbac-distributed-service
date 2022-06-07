@@ -17,7 +17,6 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
 import com.dwarfeng.subgrade.stack.log.LogLevel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,21 +27,29 @@ import java.util.Objects;
 @Service
 public class UserMaintainServiceImpl implements UserMaintainService {
 
-    @Autowired
-    private UserDao userDao;
+    private final UserDao userDao;
+    private final UserCache userCache;
 
-    @Autowired
-    private UserCache userCache;
-    @Autowired
-    private UserPermissionCache userPermissionCache;
-    @Autowired
-    private PermissionUserCache permissionUserCache;
+    private final UserPermissionCache userPermissionCache;
+    private final PermissionUserCache permissionUserCache;
 
-    @Autowired
-    private ServiceExceptionMapper sem;
+    private final ServiceExceptionMapper sem;
 
     @Value("${cache.timeout.entity.user}")
     private long userTimeout;
+
+    public UserMaintainServiceImpl(
+            UserDao userDao, UserCache userCache,
+            UserPermissionCache userPermissionCache,
+            PermissionUserCache permissionUserCache,
+            ServiceExceptionMapper sem
+    ) {
+        this.userDao = userDao;
+        this.userCache = userCache;
+        this.userPermissionCache = userPermissionCache;
+        this.permissionUserCache = permissionUserCache;
+        this.sem = sem;
+    }
 
     @Override
     @BehaviorAnalyse

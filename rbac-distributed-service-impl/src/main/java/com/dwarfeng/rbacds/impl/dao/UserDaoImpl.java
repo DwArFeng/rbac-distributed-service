@@ -15,7 +15,6 @@ import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.DaoException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,15 +23,24 @@ import java.util.List;
 @Repository
 public class UserDaoImpl implements UserDao {
 
-    @Autowired
-    private HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, User, HibernateUser> batchDelegate;
-    @Autowired
-    private HibernatePresetLookupDao<User, HibernateUser> presetDelegate;
-    @Autowired
-    private HibernateEntireLookupDao<User, HibernateUser> entireLookupDelegate;
-    @Autowired
-    private HibernateBatchRelationDao<StringIdKey, User, StringIdKey, Role, HibernateStringIdKey, HibernateUser,
+    private final HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, User, HibernateUser> batchDelegate;
+    private final HibernatePresetLookupDao<User, HibernateUser> presetDelegate;
+    private final HibernateEntireLookupDao<User, HibernateUser> entireLookupDelegate;
+    private final HibernateBatchRelationDao<StringIdKey, User, StringIdKey, Role, HibernateStringIdKey, HibernateUser,
             HibernateStringIdKey, HibernateRole> relationDelegate;
+
+    public UserDaoImpl(
+            HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, User, HibernateUser> batchDelegate,
+            HibernatePresetLookupDao<User, HibernateUser> presetDelegate,
+            HibernateEntireLookupDao<User, HibernateUser> entireLookupDelegate,
+            HibernateBatchRelationDao<StringIdKey, User, StringIdKey, Role, HibernateStringIdKey, HibernateUser,
+                    HibernateStringIdKey, HibernateRole> relationDelegate
+    ) {
+        this.batchDelegate = batchDelegate;
+        this.presetDelegate = presetDelegate;
+        this.entireLookupDelegate = entireLookupDelegate;
+        this.relationDelegate = relationDelegate;
+    }
 
     @Override
     @BehaviorAnalyse
