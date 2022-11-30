@@ -2,9 +2,12 @@ package com.dwarfeng.rbacds.impl.handler.preset;
 
 import com.dwarfeng.rbacds.impl.handler.PermissionFilter;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
+import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 子分组权限过滤器。
@@ -22,6 +25,8 @@ public class DirectSubGroupPermissionFilter implements PermissionFilter {
 
     @Override
     public boolean accept(String pattern, Permission permission) throws Exception {
-        return Objects.equals(permission.getGroupKey().getStringId(), pattern);
+        String groupId = Optional.ofNullable(permission).map(Permission::getGroupKey).map(StringIdKey::getStringId)
+                .orElse(StringUtils.EMPTY);
+        return Objects.equals(groupId, pattern);
     }
 }

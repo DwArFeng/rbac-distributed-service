@@ -29,7 +29,7 @@
 
 #### Bug修复
 
-- (无)
+- 修正 `DirectSubGroupPermissionFilter` 代码中潜在的空指针异常。
 
 #### 功能移除
 
