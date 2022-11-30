@@ -4,6 +4,8 @@
 
 #### 功能构建
 
+- Dubbo 微服务增加分组配置。
+
 - 使用 `MapStruct` 重构 `BeanTransformer`。
 
 - 增加依赖。

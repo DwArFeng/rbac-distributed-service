@@ -18,20 +18,47 @@
                     dispatcher="message" threadpool="fixed" threads="100"/>
 
     <!-- 向注册中心注册暴露服务地址,注册服务 -->
-    <dubbo:service interface="com.dwarfeng.rbacds.stack.service.UserMaintainService"
-                   ref="userMaintainServiceImpl"/>
-    <dubbo:service interface="com.dwarfeng.rbacds.stack.service.RoleMaintainService"
-                   ref="roleMaintainServiceImpl"/>
-    <dubbo:service interface="com.dwarfeng.rbacds.stack.service.PexpMaintainService"
-                   ref="pexpMaintainServiceImpl"/>
-    <dubbo:service interface="com.dwarfeng.rbacds.stack.service.PermissionMaintainService"
-                   ref="permissionMaintainServiceImpl"/>
-    <dubbo:service interface="com.dwarfeng.rbacds.stack.service.PermissionLookupService"
-                   ref="permissionLookupServiceImpl"/>
-    <dubbo:service interface="com.dwarfeng.rbacds.stack.service.UserLookupService"
-                   ref="userLookupServiceImpl"/>
-    <dubbo:service interface="com.dwarfeng.rbacds.stack.service.PermissionGroupMaintainService"
-                   ref="permissionGroupMaintainServiceImpl"/>
+    <dubbo:service
+            interface="com.dwarfeng.rbacds.stack.service.UserMaintainService"
+            ref="userMaintainServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
+            interface="com.dwarfeng.rbacds.stack.service.RoleMaintainService"
+            ref="roleMaintainServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
+            interface="com.dwarfeng.rbacds.stack.service.PexpMaintainService"
+            ref="pexpMaintainServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
+            interface="com.dwarfeng.rbacds.stack.service.PermissionMaintainService"
+            ref="permissionMaintainServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
+            interface="com.dwarfeng.rbacds.stack.service.PermissionLookupService"
+            ref="permissionLookupServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
+            interface="com.dwarfeng.rbacds.stack.service.UserLookupService"
+            ref="userLookupServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
+            interface="com.dwarfeng.rbacds.stack.service.PermissionGroupMaintainService"
+            ref="permissionGroupMaintainServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+
     <!-- 向注册中心注册暴露服务地址,注册消费者服务 -->
-    <dubbo:reference id="longIdService" interface="com.dwarfeng.sfds.stack.service.LongIdService"/>
+    <dubbo:reference
+            id="longIdService"
+            interface="com.dwarfeng.sfds.stack.service.LongIdService" retries="3"
+            timeout="1000"
+            group="${dubbo.consumer.snowflake.group}"
+    />
 </beans>
