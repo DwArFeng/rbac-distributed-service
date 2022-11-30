@@ -2,7 +2,7 @@ package com.dwarfeng.rbacds.api.configuration;
 
 import com.dwarfeng.rbacds.sdk.bean.entity.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
-import com.dwarfeng.subgrade.impl.bean.DozerBeanTransformer;
+import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
 import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.impl.cache.RedisKeyListCache;
 import com.dwarfeng.subgrade.impl.cache.RedisListCache;
@@ -10,7 +10,6 @@ import com.dwarfeng.subgrade.sdk.redis.formatter.LongIdStringKeyFormatter;
 import com.dwarfeng.subgrade.sdk.redis.formatter.StringIdStringKeyFormatter;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +19,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class CacheConfiguration {
 
     private final RedisTemplate<String, ?> template;
-    private final Mapper mapper;
 
     @Value("${cache.prefix.entity.permission}")
     private String permissionPrefix;
@@ -41,9 +39,8 @@ public class CacheConfiguration {
     @Value("${cache.prefix.entity.permission_group}")
     private String permissionGroupPrefix;
 
-    public CacheConfiguration(RedisTemplate<String, ?> template, Mapper mapper) {
+    public CacheConfiguration(RedisTemplate<String, ?> template) {
         this.template = template;
-        this.mapper = mapper;
     }
 
     @Bean
@@ -52,7 +49,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPermission>) template,
                 new StringIdStringKeyFormatter(permissionPrefix),
-                new DozerBeanTransformer<>(Permission.class, FastJsonPermission.class, mapper)
+                new MapStructBeanTransformer<>(Permission.class, FastJsonPermission.class, FastJsonMapper.class)
         );
     }
 
@@ -62,7 +59,7 @@ public class CacheConfiguration {
         return new RedisListCache<>(
                 permissionListKey,
                 (RedisTemplate<String, FastJsonPermission>) template,
-                new DozerBeanTransformer<>(Permission.class, FastJsonPermission.class, mapper)
+                new MapStructBeanTransformer<>(Permission.class, FastJsonPermission.class, FastJsonMapper.class)
         );
     }
 
@@ -72,7 +69,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPexp>) template,
                 new LongIdStringKeyFormatter(pexpPrefix),
-                new DozerBeanTransformer<>(Pexp.class, FastJsonPexp.class, mapper)
+                new MapStructBeanTransformer<>(Pexp.class, FastJsonPexp.class, FastJsonMapper.class)
         );
     }
 
@@ -82,7 +79,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonRole>) template,
                 new StringIdStringKeyFormatter(rolePrefix),
-                new DozerBeanTransformer<>(Role.class, FastJsonRole.class, mapper)
+                new MapStructBeanTransformer<>(Role.class, FastJsonRole.class, FastJsonMapper.class)
         );
     }
 
@@ -92,7 +89,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonUser>) template,
                 new StringIdStringKeyFormatter(userPrefix),
-                new DozerBeanTransformer<>(User.class, FastJsonUser.class, mapper)
+                new MapStructBeanTransformer<>(User.class, FastJsonUser.class, FastJsonMapper.class)
         );
     }
 
@@ -102,7 +99,7 @@ public class CacheConfiguration {
         return new RedisKeyListCache<>(
                 (RedisTemplate<String, FastJsonPermission>) template,
                 new StringIdStringKeyFormatter(userPermissionListKey),
-                new DozerBeanTransformer<>(Permission.class, FastJsonPermission.class, mapper)
+                new MapStructBeanTransformer<>(Permission.class, FastJsonPermission.class, FastJsonMapper.class)
         );
     }
 
@@ -112,7 +109,7 @@ public class CacheConfiguration {
         return new RedisKeyListCache<>(
                 (RedisTemplate<String, FastJsonPermission>) template,
                 new StringIdStringKeyFormatter(rolePermissionListKey),
-                new DozerBeanTransformer<>(Permission.class, FastJsonPermission.class, mapper)
+                new MapStructBeanTransformer<>(Permission.class, FastJsonPermission.class, FastJsonMapper.class)
         );
     }
 
@@ -122,7 +119,7 @@ public class CacheConfiguration {
         return new RedisKeyListCache<>(
                 (RedisTemplate<String, FastJsonUser>) template,
                 new StringIdStringKeyFormatter(permissionUserListKey),
-                new DozerBeanTransformer<>(User.class, FastJsonUser.class, mapper)
+                new MapStructBeanTransformer<>(User.class, FastJsonUser.class, FastJsonMapper.class)
         );
     }
 
@@ -132,7 +129,9 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPermissionGroup>) template,
                 new StringIdStringKeyFormatter(permissionGroupPrefix),
-                new DozerBeanTransformer<>(PermissionGroup.class, FastJsonPermissionGroup.class, mapper)
+                new MapStructBeanTransformer<>(
+                        PermissionGroup.class, FastJsonPermissionGroup.class, FastJsonMapper.class
+                )
         );
     }
 }
