@@ -1,5 +1,6 @@
 package com.dwarfeng.rbacds.impl.configuration;
 
+import com.dwarfeng.rbacds.impl.bean.HibernateMapper;
 import com.dwarfeng.rbacds.impl.bean.entity.*;
 import com.dwarfeng.rbacds.impl.dao.modifacation.RoleDeletionMod;
 import com.dwarfeng.rbacds.impl.dao.modifacation.UserDeletionMod;

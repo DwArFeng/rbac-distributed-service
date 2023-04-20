@@ -1,5 +1,6 @@
-package com.dwarfeng.rbacds.impl.bean.entity;
+package com.dwarfeng.rbacds.impl.bean;
 
+import com.dwarfeng.rbacds.impl.bean.entity.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;

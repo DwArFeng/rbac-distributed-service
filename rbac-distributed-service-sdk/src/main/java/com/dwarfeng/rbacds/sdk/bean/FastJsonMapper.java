@@ -1,5 +1,6 @@
-package com.dwarfeng.rbacds.sdk.bean.entity;
+package com.dwarfeng.rbacds.sdk.bean;
 
+import com.dwarfeng.rbacds.sdk.bean.entity.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
 import com.dwarfeng.subgrade.sdk.bean.key.FastJsonLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;

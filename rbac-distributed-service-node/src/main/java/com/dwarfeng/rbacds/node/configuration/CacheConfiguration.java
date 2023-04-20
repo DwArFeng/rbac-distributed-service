@@ -1,5 +1,6 @@
 package com.dwarfeng.rbacds.node.configuration;
 
+import com.dwarfeng.rbacds.sdk.bean.FastJsonMapper;
 import com.dwarfeng.rbacds.sdk.bean.entity.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
 import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
