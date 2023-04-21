@@ -1,6 +1,5 @@
-package com.dwarfeng.rbacds.impl.handler.preset;
+package com.dwarfeng.rbacds.impl.handler.pfilter;
 
-import com.dwarfeng.rbacds.impl.handler.PermissionFilter;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.service.PermissionGroupMaintainService;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
@@ -15,17 +14,15 @@ import java.util.Objects;
  * @since 1.0.0
  */
 @Component
-public class NestedSubGroupPermissionFilter implements PermissionFilter {
+public class NestedSubGroupPermissionFilter extends AbstractPermissionFilter {
+
+    public static final String IDENTIFIER = "NESTED_SUB_GROUP";
 
     private final PermissionGroupMaintainService permissionGroupMaintainService;
 
     public NestedSubGroupPermissionFilter(PermissionGroupMaintainService permissionGroupMaintainService) {
+        super(IDENTIFIER);
         this.permissionGroupMaintainService = permissionGroupMaintainService;
-    }
-
-    @Override
-    public String getIdentifier() {
-        return "NESTED_SUB_GROUP";
     }
 
     @Override

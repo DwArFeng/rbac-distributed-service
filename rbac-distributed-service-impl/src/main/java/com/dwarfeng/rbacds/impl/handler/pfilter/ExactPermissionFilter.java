@@ -1,6 +1,5 @@
-package com.dwarfeng.rbacds.impl.handler.preset;
+package com.dwarfeng.rbacds.impl.handler.pfilter;
 
-import com.dwarfeng.rbacds.impl.handler.PermissionFilter;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +12,12 @@ import java.util.Objects;
  * @since 1.0.0
  */
 @Component
-public class ExactPermissionFilter implements PermissionFilter {
+public class ExactPermissionFilter extends AbstractPermissionFilter {
 
-    @Override
-    public String getIdentifier() {
-        return "EXACT";
+    public static final String IDENTIFIER = "EXACT";
+
+    public ExactPermissionFilter() {
+        super(IDENTIFIER);
     }
 
     @Override

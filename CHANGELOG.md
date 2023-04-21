@@ -4,6 +4,11 @@
 
 #### 功能构建
 
+- 重新组织权限过滤器的结构。
+  - 添加 com.dwarfeng.rbacds.impl.handler.pfilter.AbstractPermissionFilter。
+  - 所有权限过滤器继承 AbstractPermissionFilter。
+  - 重新设计 opt/opt-preset.xml。
+
 - 优化项目结构，增加项目目录。
   - `./confext/`。
 
@@ -284,11 +289,11 @@
   - com.dwarfeng.rbacds.stack.bean.entity.RoleGroup
 - com.dwarfeng.rbacds.impl.handler.PermissionFilter 接口优化。
 - 更改、新增 com.dwarfeng.rbacds.impl.handler.PermissionFilter 实现。
-  - com.dwarfeng.rbacds.impl.handler.preset.DirectSubGroupPermissionFilter
-  - com.dwarfeng.rbacds.impl.handler.preset.IdPrefixPermissionFilter
-  - com.dwarfeng.rbacds.impl.handler.preset.IdRegexPermissionFilter
-  - com.dwarfeng.rbacds.impl.handler.preset.NameRegexPermissionFilter
-  - com.dwarfeng.rbacds.impl.handler.preset.NestedSubGroupPermissionFilter
+  - com.dwarfeng.rbacds.impl.handler.pfilter.DirectSubGroupPermissionFilter
+  - com.dwarfeng.rbacds.impl.handler.pfilter.IdPrefixPermissionFilter
+  - com.dwarfeng.rbacds.impl.handler.pfilter.IdRegexPermissionFilter
+  - com.dwarfeng.rbacds.impl.handler.pfilter.NameRegexPermissionFilter
+  - com.dwarfeng.rbacds.impl.handler.pfilter.NestedSubGroupPermissionFilter
 
 #### Bug修复
 

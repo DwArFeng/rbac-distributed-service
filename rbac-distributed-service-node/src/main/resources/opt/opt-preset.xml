@@ -1,13 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--suppress SpringFacetInspection -->
-<beans xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.springframework.org/schema/beans"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/context/spring-context.xsd"
+>
 
     <!--扫描handler的实现包。 -->
-    <context:component-scan base-package="com.dwarfeng.rbacds.impl.handler.preset"/>
+    <context:component-scan base-package="com.dwarfeng.rbacds.impl.handler.pfilter" use-default-filters="false">
+        <!-- 加载 DirectSubGroupPermissionFilter -->
+        <!--
+        <context:include-filter
+                type="assignable"
+                expression="com.dwarfeng.rbacds.impl.handler.pfilter.DirectSubGroupPermissionFilter"
+        />
+        -->
+
+        <!-- 加载 ExactPermissionFilter -->
+        <!--
+        <context:include-filter
+                type="assignable"
+                expression="com.dwarfeng.rbacds.impl.handler.pfilter.ExactPermissionFilter"
+        />
+        -->
+
+        <!-- 加载 IdPrefixPermissionFilter -->
+        <!--
+        <context:include-filter
+                type="assignable"
+                expression="com.dwarfeng.rbacds.impl.handler.pfilter.IdPrefixPermissionFilter"
+        />
+        -->
+
+        <!-- 加载 IdRegexPermissionFilter -->
+        <!--
+        <context:include-filter
+                type="assignable"
+                expression="com.dwarfeng.rbacds.impl.handler.pfilter.IdRegexPermissionFilter"
+        />
+        -->
+
+        <!-- 加载 NameRegexPermissionFilter -->
+        <!--
+        <context:include-filter
+                type="assignable"
+                expression="com.dwarfeng.rbacds.impl.handler.pfilter.NameRegexPermissionFilter"
+        />
+        -->
+
+        <!-- 加载 NestedSubGroupPermissionFilter -->
+        <!--
+        <context:include-filter
+                type="assignable"
+                expression="com.dwarfeng.rbacds.impl.handler.pfilter.NestedSubGroupPermissionFilter"
+        />
+        -->
+    </context:component-scan>
 </beans>

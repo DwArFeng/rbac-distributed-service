@@ -1,6 +1,5 @@
-package com.dwarfeng.rbacds.impl.handler.preset;
+package com.dwarfeng.rbacds.impl.handler.pfilter;
 
-import com.dwarfeng.rbacds.impl.handler.PermissionFilter;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.apache.commons.lang3.StringUtils;
@@ -16,11 +15,12 @@ import java.util.Optional;
  * @since 1.0.0
  */
 @Component
-public class DirectSubGroupPermissionFilter implements PermissionFilter {
+public class DirectSubGroupPermissionFilter extends AbstractPermissionFilter {
 
-    @Override
-    public String getIdentifier() {
-        return "DIRECT_SUB_GROUP";
+    public static final String IDENTIFIER = "DIRECT_SUB_GROUP";
+
+    public DirectSubGroupPermissionFilter() {
+        super(IDENTIFIER);
     }
 
     @Override

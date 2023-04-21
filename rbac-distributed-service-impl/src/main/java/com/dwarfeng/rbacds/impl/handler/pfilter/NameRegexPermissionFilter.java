@@ -1,6 +1,5 @@
-package com.dwarfeng.rbacds.impl.handler.preset;
+package com.dwarfeng.rbacds.impl.handler.pfilter;
 
-import com.dwarfeng.rbacds.impl.handler.PermissionFilter;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +10,12 @@ import org.springframework.stereotype.Component;
  * @since 1.0.0
  */
 @Component
-public class NameRegexPermissionFilter implements PermissionFilter {
+public class NameRegexPermissionFilter extends AbstractPermissionFilter {
 
-    @Override
-    public String getIdentifier() {
-        return "NAME_REGEX";
+    public static final String IDENTIFIER = "NAME_REGEX";
+
+    public NameRegexPermissionFilter() {
+        super(IDENTIFIER);
     }
 
     @Override
