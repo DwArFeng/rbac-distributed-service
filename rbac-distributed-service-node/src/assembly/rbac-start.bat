@@ -47,4 +47,3 @@ start "Rbac" /MAX ^
   %java_jmxremote_opts% ^
   %java_fixed_opts% ^
   ${mainClass}
-

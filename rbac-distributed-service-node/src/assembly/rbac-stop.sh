@@ -4,4 +4,3 @@ basedir="/usr/local/rbac"
 
 PID=$(cat "$basedir/rbac.pid")
 kill "$PID"
-

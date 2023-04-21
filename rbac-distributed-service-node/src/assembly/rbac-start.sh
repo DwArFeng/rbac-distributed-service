@@ -48,4 +48,3 @@ eval \
   "${mainClass}" \
   >/dev/null 2>&1 "&"
 echo $! >"$basedir/rbac.pid"
-
