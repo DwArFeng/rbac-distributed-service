@@ -27,7 +27,6 @@ public class FastJsonUser implements Bean {
         );
     }
 
-
     @JSONField(name = "key", ordinal = 1)
     private FastJsonStringIdKey key;
 

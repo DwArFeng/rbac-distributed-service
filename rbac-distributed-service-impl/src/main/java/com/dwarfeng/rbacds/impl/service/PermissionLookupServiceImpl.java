@@ -144,7 +144,6 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
         return permissions;
     }
 
-
     private List<Permission> analysePexpPermissions(Map<Role, List<Pexp>> pexpsMap, List<Permission> allPermissions)
             throws HandlerException {
         try {

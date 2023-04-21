@@ -57,7 +57,6 @@ public class HibernatePermission implements Bean {
         this.groupStringId = Optional.ofNullable(stringIdKey).map(HibernateStringIdKey::getStringId).orElse(null);
     }
 
-
     // -----------------------------------------------------------常规属性区-----------------------------------------------------------
     public String getStringId() {
         return stringId;
