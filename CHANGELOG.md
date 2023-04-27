@@ -4,7 +4,8 @@
 
 #### 功能构建
 
-- (无)
+- 增加预设查询。
+  - PermissionGroupMaintainService.NAME_LIKE。
 
 #### Bug修复
 

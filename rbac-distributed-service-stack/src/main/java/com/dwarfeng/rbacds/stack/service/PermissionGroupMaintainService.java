@@ -15,6 +15,11 @@ import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 public interface PermissionGroupMaintainService extends CrudService<StringIdKey, PermissionGroup>, PresetLookupService<PermissionGroup>,
         EntireLookupService<PermissionGroup> {
 
-    String ID_LIKE = "id_like";
     String CHILD_FOR_PARENT = "child_for_parent";
+    String ID_LIKE = "id_like";
+
+    /**
+     * @since 1.5.2
+     */
+    String NAME_LIKE = "name_like";
 }

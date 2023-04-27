@@ -17,14 +17,27 @@ public class PermissionGroupPresetCriteriaMaker implements PresetCriteriaMaker {
     @Override
     public void makeCriteria(DetachedCriteria criteria, String preset, Object[] objs) {
         switch (preset) {
-            case PermissionGroupMaintainService.ID_LIKE:
-                idLike(criteria, objs);
-                break;
             case PermissionGroupMaintainService.CHILD_FOR_PARENT:
                 childForParent(criteria, objs);
                 break;
+            case PermissionGroupMaintainService.ID_LIKE:
+                idLike(criteria, objs);
+                break;
+            case PermissionGroupMaintainService.NAME_LIKE:
+                nameLike(criteria, objs);
+                break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + preset);
+        }
+    }
+
+    private void childForParent(DetachedCriteria criteria, Object[] objs) {
+        try {
+            StringIdKey parentIdKey = (StringIdKey) objs[0];
+            String stringId = Objects.isNull(parentIdKey) ? null : parentIdKey.getStringId();
+            criteria.add(Restrictions.eqOrIsNull("parentStringId", stringId));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
         }
     }
 
@@ -37,11 +50,10 @@ public class PermissionGroupPresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
-    private void childForParent(DetachedCriteria criteria, Object[] objs) {
+    private void nameLike(DetachedCriteria criteria, Object[] objs) {
         try {
-            StringIdKey parentIdKey = (StringIdKey) objs[0];
-            String stringId = Objects.isNull(parentIdKey) ? null : parentIdKey.getStringId();
-            criteria.add(Restrictions.eqOrIsNull("parentStringId", stringId));
+            String name = (String) objs[0];
+            criteria.add(Restrictions.like("name", name, MatchMode.ANYWHERE));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
         }
