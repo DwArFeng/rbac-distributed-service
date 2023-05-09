@@ -8,6 +8,7 @@ import com.dwarfeng.subgrade.stack.handler.PermissionHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,14 +43,14 @@ public class PermissionHandlerImpl implements PermissionHandler {
         try {
             List<String> ownedPermissionNodes = service.lookupForUser(userKey).stream()
                     .map(Permission::getKey).map(StringIdKey::getStringId).collect(Collectors.toList());
-            return ownedPermissionNodes.containsAll(permissionNodes);
+            return new HashSet<>(ownedPermissionNodes).containsAll(permissionNodes);
         } catch (Exception e) {
             throw new HandlerException(e);
         }
     }
 
     @Override
-    public List<String> getMissingPermission(StringIdKey userKey, List<String> permissionNodes)
+    public List<String> getMissingPermissions(StringIdKey userKey, List<String> permissionNodes)
             throws HandlerException {
         try {
             List<String> ownedPermissionNodes = service.lookupForUser(userKey).stream()
