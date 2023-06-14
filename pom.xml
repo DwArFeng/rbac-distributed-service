@@ -40,7 +40,7 @@
         <dubbo.version>2.7.21</dubbo.version>
         <netty.version>4.1.86.Final</netty.version>
         <zookeeper.version>3.5.7</zookeeper.version>
-        <guava.version>31.1-jre</guava.version>
+        <guava.version>32.0.0-jre</guava.version>
         <curator.version>4.3.0</curator.version>
         <aspectj.version>1.8.2</aspectj.version>
         <aopalliance.version>1.0</aopalliance.version>
