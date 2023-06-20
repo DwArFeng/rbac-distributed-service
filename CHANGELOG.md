@@ -4,7 +4,8 @@
 
 #### 功能构建
 
-- (无)
+- 优化配置文件。
+  - 优化 `application-context-database.xml`，使得更多属性可以在配置文件中配置。
 
 #### Bug修复
 
