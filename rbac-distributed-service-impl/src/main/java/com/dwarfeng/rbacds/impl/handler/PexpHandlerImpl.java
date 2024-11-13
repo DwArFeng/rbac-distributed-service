@@ -4,6 +4,7 @@ import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
 import com.dwarfeng.rbacds.stack.exception.PexpTestException;
 import com.dwarfeng.rbacds.stack.handler.PexpHandler;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.Bean;
@@ -121,10 +122,8 @@ public class PexpHandlerImpl implements PexpHandler {
                 result.put(PermissionReception.GLOBAL_REJECT, acceptedPermissions);
             }
             return result;
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 

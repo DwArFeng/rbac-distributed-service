@@ -64,7 +64,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
         try {
             return internalExists(key);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("判断实体是否存在时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("判断实体是否存在时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -79,7 +79,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
         try {
             return internalGet(key);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("获取实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("获取实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -103,7 +103,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
         try {
             return internalInsert(permission);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("插入实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("插入实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -130,7 +130,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
         try {
             internalUpdate(permission);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -156,7 +156,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
         try {
             internalDelete(key);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -181,7 +181,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
         try {
             return internalExists(key) ? internalGet(key) : null;
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("获取实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("获取实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -195,7 +195,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
             }
             return null;
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("插入实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("插入实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -208,7 +208,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
                 internalUpdate(permission);
             }
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -221,7 +221,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
                 internalDelete(key);
             }
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -237,7 +237,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
                 return internalInsert(permission);
             }
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("插入或更新实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("插入或更新实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -254,7 +254,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
             permissionListCache.set(lookup, permissionListTimeout);
             return PagingUtil.pagedData(lookup);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("查询全部时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("查询全部时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -272,7 +272,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
             permissionListCache.set(lookup, permissionListTimeout);
             return PagingUtil.pagedData(pagingInfo, lookup.size(), PagingUtil.subList(lookup, pagingInfo));
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("查询全部时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("查询全部时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -284,7 +284,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
         try {
             return PagingUtil.pagedData(permissionDao.lookup(preset, objs));
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("查询实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("查询实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -296,7 +296,7 @@ public class PermissionMaintainServiceImpl implements PermissionMaintainService 
         try {
             return PagingUtil.pagedData(pagingInfo, permissionDao.lookupCount(preset, objs), permissionDao.lookup(preset, objs, pagingInfo));
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("查询实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("查询实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

@@ -19,6 +19,6 @@ public class ServiceExceptionMapperConfiguration {
         Map<Class<? extends Exception>, ServiceException.Code> destination = ServiceExceptionHelper.putDefaultDestination(null);
         destination.put(PexpFormatException.class, ServiceExceptionCodes.PEXP_FORMAT_ERROR);
         destination.put(PexpTestException.class, ServiceExceptionCodes.PEXP_TEST_ERROR);
-        return new MapServiceExceptionMapper(destination, com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes.UNDEFINE);
+        return new MapServiceExceptionMapper(destination, com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes.UNDEFINED);
     }
 }

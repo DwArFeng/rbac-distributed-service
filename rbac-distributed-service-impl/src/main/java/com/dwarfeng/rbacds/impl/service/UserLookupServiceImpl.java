@@ -73,7 +73,7 @@ public class UserLookupServiceImpl implements UserLookupService {
             permissionUserCache.set(permissionKey, users, permissionHasUserTimeout);
             return users;
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("查询用户对应的权限时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("查询用户对应的权限时发生异常", LogLevel.WARN, e, sem);
         }
     }
 

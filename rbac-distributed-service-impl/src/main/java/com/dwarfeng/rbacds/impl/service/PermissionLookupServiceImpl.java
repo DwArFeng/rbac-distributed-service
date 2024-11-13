@@ -77,7 +77,7 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
             userPermissionCache.set(userKey, permissions, userHasPermissionTimeout);
             return permissions;
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("查询用户对应的权限时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("查询用户对应的权限时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -118,7 +118,7 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
             rolePermissionCache.set(roleKey, permissions, roleHasPermissionTimeout);
             return permissions;
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("查询用户对应的权限时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("查询用户对应的权限时发生异常", LogLevel.WARN, e, sem);
         }
     }
 

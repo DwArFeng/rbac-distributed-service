@@ -58,7 +58,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
         try {
             return internalExists(key);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("判断实体是否存在时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("判断实体是否存在时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -73,7 +73,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
         try {
             return internalGet(key);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("获取实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("获取实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -97,7 +97,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
         try {
             return internalInsert(user);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("插入实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("插入实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -120,7 +120,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
         try {
             internalUpdate(user);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -139,7 +139,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
         try {
             internalDelete(key);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -161,7 +161,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
         try {
             return internalExists(key) ? internalGet(key) : null;
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("获取实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("获取实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -175,7 +175,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
             }
             return null;
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("插入实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("插入实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -188,7 +188,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
                 internalUpdate(user);
             }
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -201,7 +201,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
                 internalDelete(key);
             }
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -217,7 +217,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
                 return internalInsert(user);
             }
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("插入或更新实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("插入或更新实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -229,7 +229,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
         try {
             return PagingUtil.pagedData(userDao.lookup(preset, objs));
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("查询实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("查询实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -241,7 +241,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
         try {
             return PagingUtil.pagedData(pagingInfo, userDao.lookupCount(preset, objs), userDao.lookup(preset, objs, pagingInfo));
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("查询实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("查询实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -253,7 +253,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
         try {
             return PagingUtil.pagedData(userDao.lookup());
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("查询全部时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("查询全部时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -265,7 +265,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
         try {
             return PagingUtil.pagedData(pagingInfo, userDao.lookupCount(), userDao.lookup(pagingInfo));
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("查询全部时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("查询全部时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -279,7 +279,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
 
             userDao.addRoleRelation(userIdKey, roleIdKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("添加用户与角色的关联时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("添加用户与角色的关联时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -293,7 +293,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
 
             userDao.deleteRoleRelation(userIdKey, roleIdKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除用户与角色的关联时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除用户与角色的关联时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -307,7 +307,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
 
             userDao.batchAddRoleRelations(userIdKey, roleIdKeys);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("添加用户与角色的关联时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("添加用户与角色的关联时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -321,7 +321,7 @@ public class UserMaintainServiceImpl implements UserMaintainService {
 
             userDao.batchDeleteRoleRelations(userIdKey, roleIdKeys);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除用户与角色的关联时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除用户与角色的关联时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

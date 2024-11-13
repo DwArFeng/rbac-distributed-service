@@ -14,10 +14,10 @@ import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
-import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
+import com.dwarfeng.subgrade.stack.generation.KeyGenerator;
 import com.dwarfeng.subgrade.stack.log.LogLevel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ import java.util.Objects;
 @Service
 public class PexpMaintainServiceImpl implements PexpMaintainService {
 
-    private final KeyFetcher<LongIdKey> keyFetcher;
+    private final KeyGenerator<LongIdKey> keyGenerator;
 
     private final PexpDao pexpDao;
     private final PexpCache pexpCache;
@@ -43,14 +43,14 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
     private long pexpTimeout;
 
     public PexpMaintainServiceImpl(
-            KeyFetcher<LongIdKey> keyFetcher,
+            KeyGenerator<LongIdKey> keyGenerator,
             PexpDao pexpDao, PexpCache pexpCache,
             UserPermissionCache userPermissionCache,
             RolePermissionCache rolePermissionCache,
             PermissionUserCache permissionUserCache,
             ServiceExceptionMapper sem
     ) {
-        this.keyFetcher = keyFetcher;
+        this.keyGenerator = keyGenerator;
         this.pexpDao = pexpDao;
         this.pexpCache = pexpCache;
         this.userPermissionCache = userPermissionCache;
@@ -66,7 +66,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
         try {
             return internalExists(key);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("判断实体是否存在时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("判断实体是否存在时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -81,7 +81,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
         try {
             return internalGet(key);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("获取实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("获取实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -105,7 +105,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
         try {
             return internalInsert(permission);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("插入实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("插入实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -114,7 +114,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
             throw new ServiceException(ServiceExceptionCodes.ENTITY_EXISTED);
         }
         if (Objects.isNull(permission.getKey())) {
-            permission.setKey(keyFetcher.fetchKey());
+            permission.setKey(keyGenerator.generate());
         }
 
         userPermissionCache.clear();
@@ -133,7 +133,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
         try {
             internalUpdate(permission);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -157,7 +157,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
         try {
             internalDelete(key);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -181,7 +181,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
         try {
             return internalExists(key) ? internalGet(key) : null;
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("获取实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("获取实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -195,7 +195,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
             }
             return null;
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("插入实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("插入实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -208,7 +208,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
                 internalUpdate(pexp);
             }
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -221,7 +221,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
                 internalDelete(key);
             }
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -237,7 +237,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
                 return internalInsert(pexp);
             }
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("插入或更新实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("插入或更新实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -249,7 +249,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
         try {
             return PagingUtil.pagedData(pexpDao.lookup(preset, objs));
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("查询实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("查询实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -261,7 +261,7 @@ public class PexpMaintainServiceImpl implements PexpMaintainService {
         try {
             return PagingUtil.pagedData(pagingInfo, pexpDao.lookupCount(preset, objs), pexpDao.lookup(preset, objs, pagingInfo));
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("查询实体时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("查询实体时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }
