@@ -18,7 +18,8 @@
 
 #### Bug修复
 
-- (无)
+- 修复部分服务异常代号的冲突问题。
+  - ServiceExceptionCodes.ROLE_NOT_EXISTS。
 
 #### 功能移除
 

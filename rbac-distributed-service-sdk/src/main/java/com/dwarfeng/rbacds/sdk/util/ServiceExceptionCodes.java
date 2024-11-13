@@ -17,26 +17,30 @@ public final class ServiceExceptionCodes {
      */
     public static final ServiceException.Code USER_NOT_EXISTS =
             new ServiceException.Code(offset(0), "user not exists");
+
     /**
      * 权限表达式格式错误。
      */
     public static final ServiceException.Code PEXP_FORMAT_ERROR =
             new ServiceException.Code(offset(10), "pexp format error");
+
     /**
      * 权限不存在。
      */
     public static final ServiceException.Code PERMISSION_NOT_EXISTS =
             new ServiceException.Code(offset(20), "permission not exists");
+
     /**
      * 权限表达式测试错误。
      */
     public static final ServiceException.Code PEXP_TEST_ERROR =
             new ServiceException.Code(offset(30), "pexp test error");
+
     /**
      * 角色不存在。
      */
     public static final ServiceException.Code ROLE_NOT_EXISTS =
-            new ServiceException.Code(offset(0), "role not exists");
+            new ServiceException.Code(offset(40), "role not exists");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;
