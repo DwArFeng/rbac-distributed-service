@@ -61,7 +61,15 @@ public final class ServiceExceptionCodes {
      * @param exceptionCodeOffset 指定的异常代号的偏移量。
      */
     public static void setExceptionCodeOffset(int exceptionCodeOffset) {
+        // 设置 EXCEPTION_CODE_OFFSET 的值。
         EXCEPTION_CODE_OFFSET = exceptionCodeOffset;
+
+        // 以新的 EXCEPTION_CODE_OFFSET 为基准，更新异常代码的值。
+        USER_NOT_EXISTS.setCode(offset(0));
+        PEXP_FORMAT_ERROR.setCode(offset(10));
+        PERMISSION_NOT_EXISTS.setCode(offset(20));
+        PEXP_TEST_ERROR.setCode(offset(30));
+        ROLE_NOT_EXISTS.setCode(offset(40));
     }
 
     private ServiceExceptionCodes() {
