@@ -18,38 +18,71 @@ import java.util.List;
 public interface RoleDao extends BatchBaseDao<StringIdKey, Role>, PresetLookupDao<Role>, EntireLookupDao<Role> {
 
     /**
-     * 添加角色与用户的关联。
+     * 判断指定的角色和用户是否存在关联。
      *
-     * @param roleIdKey 指定的角色主键。
-     * @param userIdKey 指定的用户主键。
+     * @param roleKey 指定的角色主键。
+     * @param userKey 指定的用户主键。
+     * @return 指定的角色和用户是否存在关联。
      * @throws DaoException 数据访问层异常。
+     * @since 1.6.0
      */
-    void addUserRelation(StringIdKey roleIdKey, StringIdKey userIdKey) throws DaoException;
+    boolean existsUserRelation(StringIdKey roleKey, StringIdKey userKey) throws DaoException;
 
     /**
      * 添加角色与用户的关联。
      *
-     * @param roleIdKey 指定的角色主键。
-     * @param userIdKey 指定的用户主键。
+     * @param roleKey 指定的角色主键。
+     * @param userKey 指定的用户主键。
      * @throws DaoException 数据访问层异常。
      */
-    void deleteUserRelation(StringIdKey roleIdKey, StringIdKey userIdKey) throws DaoException;
+    void addUserRelation(StringIdKey roleKey, StringIdKey userKey) throws DaoException;
+
+    /**
+     * 删除角色与用户的关联。
+     *
+     * @param roleKey 指定的角色主键。
+     * @param userKey 指定的用户主键。
+     * @throws DaoException 数据访问层异常。
+     */
+    void deleteUserRelation(StringIdKey roleKey, StringIdKey userKey) throws DaoException;
+
+    /**
+     * 判断指定的角色和指定的所有用户是否全部存在关联。
+     *
+     * @param roleKey  指定的角色主键。
+     * @param userKeys 指定的用户主键组成的列表。
+     * @return 指定的角色和指定的所有用户是否全部存在关联。
+     * @throws DaoException 数据访问层异常。
+     * @since 1.6.0
+     */
+    boolean existsAllUserRelations(StringIdKey roleKey, List<StringIdKey> userKeys) throws DaoException;
+
+    /**
+     * 判断指定的角色和指定的所有用户是否全部不存在关联。
+     *
+     * @param roleKey  指定的角色主键。
+     * @param userKeys 指定的用户主键组成的列表。
+     * @return 指定的角色和指定的所有用户是否全部不存在关联。
+     * @throws DaoException 数据访问层异常。
+     * @since 1.6.0
+     */
+    boolean existsNonUserRelations(StringIdKey roleKey, List<StringIdKey> userKeys) throws DaoException;
 
     /**
      * 添加角色与用户的关联。
      *
-     * @param roleIdKey  指定的角色主键。
-     * @param userIdKeys 指定的用户主键组成的列表。
+     * @param roleKey 指定的角色主键。
+     * @param userKey 指定的用户主键组成的列表。
      * @throws DaoException 数据访问层异常。
      */
-    void batchAddUserRelations(StringIdKey roleIdKey, List<StringIdKey> userIdKeys) throws DaoException;
+    void batchAddUserRelations(StringIdKey roleKey, List<StringIdKey> userKey) throws DaoException;
 
     /**
-     * 添加角色与用户的关联。
+     * 删除角色与用户的关联。
      *
-     * @param roleIdKey  指定的角色主键。
-     * @param userIdKeys 指定的用户主键组成的列表。
+     * @param roleKey 指定的角色主键。
+     * @param userKey 指定的用户主键组成的列表。
      * @throws DaoException 数据访问层异常。
      */
-    void batchDeleteUserRelations(StringIdKey roleIdKey, List<StringIdKey> userIdKeys) throws DaoException;
+    void batchDeleteUserRelations(StringIdKey roleKey, List<StringIdKey> userKey) throws DaoException;
 }

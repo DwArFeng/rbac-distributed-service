@@ -2,8 +2,6 @@ package com.dwarfeng.rbacds.node.configuration;
 
 import com.dwarfeng.rbacds.impl.bean.HibernateMapper;
 import com.dwarfeng.rbacds.impl.bean.entity.*;
-import com.dwarfeng.rbacds.impl.dao.modifacation.RoleDeletionMod;
-import com.dwarfeng.rbacds.impl.dao.modifacation.UserDeletionMod;
 import com.dwarfeng.rbacds.impl.dao.preset.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
 import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
@@ -13,6 +11,7 @@ import com.dwarfeng.subgrade.impl.dao.HibernateEntireLookupDao;
 import com.dwarfeng.subgrade.impl.dao.HibernatePresetLookupDao;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
+import com.dwarfeng.subgrade.sdk.hibernate.modification.DefaultDeletionMod;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.springframework.context.annotation.Bean;
@@ -27,9 +26,7 @@ public class DaoConfiguration {
     private final HibernateTemplate template;
 
     private final PexpPresetCriteriaMaker pexpPresetCriteriaMaker;
-    private final RoleDeletionMod roleDeletionMod;
     private final RolePresetCriteriaMaker rolePresetCriteriaMaker;
-    private final UserDeletionMod userDeletionMod;
     private final UserPresetCriteriaMaker userPresetCriteriaMaker;
     private final PermissionPresetCriteriaMaker permissionPresetCriteriaMaker;
     private final PermissionGroupPresetCriteriaMaker permissionGroupPresetCriteriaMaker;
@@ -37,16 +34,14 @@ public class DaoConfiguration {
     public DaoConfiguration(
             HibernateTemplate template,
             PexpPresetCriteriaMaker pexpPresetCriteriaMaker,
-            RoleDeletionMod roleDeletionMod, RolePresetCriteriaMaker rolePresetCriteriaMaker,
-            UserDeletionMod userDeletionMod, UserPresetCriteriaMaker userPresetCriteriaMaker,
+            RolePresetCriteriaMaker rolePresetCriteriaMaker,
+            UserPresetCriteriaMaker userPresetCriteriaMaker,
             PermissionPresetCriteriaMaker permissionPresetCriteriaMaker,
             PermissionGroupPresetCriteriaMaker permissionGroupPresetCriteriaMaker
     ) {
         this.template = template;
         this.pexpPresetCriteriaMaker = pexpPresetCriteriaMaker;
-        this.roleDeletionMod = roleDeletionMod;
         this.rolePresetCriteriaMaker = rolePresetCriteriaMaker;
-        this.userDeletionMod = userDeletionMod;
         this.userPresetCriteriaMaker = userPresetCriteriaMaker;
         this.permissionPresetCriteriaMaker = permissionPresetCriteriaMaker;
         this.permissionGroupPresetCriteriaMaker = permissionGroupPresetCriteriaMaker;
@@ -109,7 +104,7 @@ public class DaoConfiguration {
                 new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
                 new MapStructBeanTransformer<>(Role.class, HibernateRole.class, HibernateMapper.class),
                 HibernateRole.class,
-                roleDeletionMod,
+                new DefaultDeletionMod<>(),
                 Collections.singleton("users")
         );
     }
@@ -140,7 +135,7 @@ public class DaoConfiguration {
                 new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
                 new MapStructBeanTransformer<>(User.class, HibernateUser.class, HibernateMapper.class),
                 HibernateUser.class,
-                userDeletionMod
+                new DefaultDeletionMod<>()
         );
     }
 

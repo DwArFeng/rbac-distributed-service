@@ -4,6 +4,8 @@
 
 #### 功能构建
 
+- 重构实体的维护服务以及部分数据访问层。
+
 - 升级 spring-telqos 并应用其新功能。
   - 使用包扫描的方式注册指令。
   - 优化 `telqos/connection.properties` 中配置的键名。

@@ -1,303 +1,292 @@
 package com.dwarfeng.rbacds.impl.service;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
-import com.dwarfeng.rbacds.stack.cache.*;
-import com.dwarfeng.rbacds.stack.dao.PermissionDao;
 import com.dwarfeng.rbacds.stack.service.PermissionMaintainService;
-import com.dwarfeng.subgrade.sdk.bean.dto.PagingUtil;
-import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
-import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionHelper;
+import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
+import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
+import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
-import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
-import com.dwarfeng.subgrade.stack.log.LogLevel;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class PermissionMaintainServiceImpl implements PermissionMaintainService {
 
-    private final PermissionDao permissionDao;
-    private final PermissionCache permissionCache;
-
-    private final PermissionListCache permissionListCache;
-    private final UserPermissionCache userPermissionCache;
-    private final RolePermissionCache rolePermissionCache;
-    private final PermissionUserCache permissionUserCache;
-
-    private final ServiceExceptionMapper sem;
-
-    @Value("${cache.timeout.entity.permission}")
-    private long permissionTimeout;
-    @Value("${cache.timeout.list.permission}")
-    private long permissionListTimeout;
+    private final CustomBatchCrudService<StringIdKey, Permission> batchCrudService;
+    private final DaoOnlyEntireLookupService<Permission> entireLookupService;
+    private final DaoOnlyPresetLookupService<Permission> presetLookupService;
 
     public PermissionMaintainServiceImpl(
-            PermissionDao permissionDao, PermissionCache permissionCache,
-            PermissionListCache permissionListCache,
-            UserPermissionCache userPermissionCache,
-            RolePermissionCache rolePermissionCache,
-            PermissionUserCache permissionUserCache,
-            ServiceExceptionMapper sem
+            CustomBatchCrudService<StringIdKey, Permission> batchCrudService,
+            DaoOnlyEntireLookupService<Permission> entireLookupService,
+            DaoOnlyPresetLookupService<Permission> presetLookupService
     ) {
-        this.permissionDao = permissionDao;
-        this.permissionCache = permissionCache;
-        this.permissionListCache = permissionListCache;
-        this.userPermissionCache = userPermissionCache;
-        this.rolePermissionCache = rolePermissionCache;
-        this.permissionUserCache = permissionUserCache;
-        this.sem = sem;
+        this.batchCrudService = batchCrudService;
+        this.entireLookupService = entireLookupService;
+        this.presetLookupService = presetLookupService;
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public boolean exists(StringIdKey key) throws ServiceException {
-        try {
-            return internalExists(key);
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("判断实体是否存在时发生异常", LogLevel.WARN, e, sem);
-        }
-    }
-
-    private boolean internalExists(StringIdKey key) throws Exception {
-        return permissionCache.exists(key) || permissionDao.exists(key);
+        return batchCrudService.exists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public Permission get(StringIdKey key) throws ServiceException {
-        try {
-            return internalGet(key);
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("获取实体时发生异常", LogLevel.WARN, e, sem);
-        }
-    }
-
-    private Permission internalGet(StringIdKey key) throws Exception {
-        if (permissionCache.exists(key)) {
-            return permissionCache.get(key);
-        } else {
-            if (!permissionDao.exists(key)) {
-                throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
-            }
-            Permission permission = permissionDao.get(key);
-            permissionCache.push(permission, permissionTimeout);
-            return permission;
-        }
+        return batchCrudService.get(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public StringIdKey insert(Permission permission) throws ServiceException {
-        try {
-            return internalInsert(permission);
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("插入实体时发生异常", LogLevel.WARN, e, sem);
-        }
-    }
-
-    @SuppressWarnings("DuplicatedCode")
-    private StringIdKey internalInsert(Permission permission) throws Exception {
-        if (Objects.nonNull(permission.getKey()) && internalExists(permission.getKey())) {
-            throw new ServiceException(ServiceExceptionCodes.ENTITY_EXISTED);
-        }
-
-        permissionListCache.clear();
-        userPermissionCache.clear();
-        rolePermissionCache.clear();
-        permissionUserCache.clear();
-
-        permissionDao.insert(permission);
-        permissionCache.push(permission, permissionTimeout);
-        return permission.getKey();
+    public StringIdKey insert(Permission element) throws ServiceException {
+        return batchCrudService.insert(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void update(Permission permission) throws ServiceException {
-        try {
-            internalUpdate(permission);
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("更新实体时发生异常", LogLevel.WARN, e, sem);
-        }
-    }
-
-    @SuppressWarnings("DuplicatedCode")
-    private void internalUpdate(Permission permission) throws Exception {
-        if (Objects.nonNull(permission.getKey()) && !internalExists(permission.getKey())) {
-            throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
-        }
-
-        permissionListCache.clear();
-        userPermissionCache.clear();
-        rolePermissionCache.clear();
-        permissionUserCache.clear();
-
-        permissionCache.push(permission, permissionTimeout);
-        permissionDao.update(permission);
+    public void update(Permission element) throws ServiceException {
+        batchCrudService.update(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void delete(StringIdKey key) throws ServiceException {
-        try {
-            internalDelete(key);
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("删除实体时发生异常", LogLevel.WARN, e, sem);
-        }
-    }
-
-    private void internalDelete(StringIdKey key) throws Exception {
-        if (!internalExists(key)) {
-            throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
-        }
-
-        permissionListCache.clear();
-        userPermissionCache.clear();
-        rolePermissionCache.clear();
-        permissionUserCache.clear();
-
-        permissionDao.delete(key);
-        permissionCache.delete(key);
+        batchCrudService.delete(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public Permission getIfExists(StringIdKey key) throws ServiceException {
-        try {
-            return internalExists(key) ? internalGet(key) : null;
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("获取实体时发生异常", LogLevel.WARN, e, sem);
-        }
+        return batchCrudService.getIfExists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public StringIdKey insertIfNotExists(Permission permission) throws ServiceException {
-        try {
-            if (Objects.isNull(permission.getKey()) || !internalExists(permission.getKey())) {
-                return internalInsert(permission);
-            }
-            return null;
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("插入实体时发生异常", LogLevel.WARN, e, sem);
-        }
+    public StringIdKey insertIfNotExists(Permission element) throws ServiceException {
+        return batchCrudService.insertIfNotExists(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void updateIfExists(Permission permission) throws ServiceException {
-        try {
-            if (internalExists(permission.getKey())) {
-                internalUpdate(permission);
-            }
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("更新实体时发生异常", LogLevel.WARN, e, sem);
-        }
+    public void updateIfExists(Permission element) throws ServiceException {
+        batchCrudService.updateIfExists(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void deleteIfExists(StringIdKey key) throws ServiceException {
-        try {
-            if (internalExists(key)) {
-                internalDelete(key);
-            }
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("删除实体时发生异常", LogLevel.WARN, e, sem);
-        }
+        batchCrudService.deleteIfExists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public StringIdKey insertOrUpdate(Permission permission) throws ServiceException {
-        try {
-            if (internalExists(permission.getKey())) {
-                internalUpdate(permission);
-                return null;
-            } else {
-                return internalInsert(permission);
-            }
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("插入或更新实体时发生异常", LogLevel.WARN, e, sem);
-        }
+    public StringIdKey insertOrUpdate(Permission element) throws ServiceException {
+        return batchCrudService.insertOrUpdate(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public boolean allExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
+        return batchCrudService.allExists(keys);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public boolean nonExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
+        return batchCrudService.nonExists(keys);
+    }
+
+    @Override
+    @BehaviorAnalyse
     @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public List<Permission> batchGet(@SkipRecord List<StringIdKey> keys) throws ServiceException {
+        return batchCrudService.batchGet(keys);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public List<StringIdKey> batchInsert(@SkipRecord List<Permission> elements) throws ServiceException {
+        return batchCrudService.batchInsert(elements);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public void batchUpdate(@SkipRecord List<Permission> elements) throws ServiceException {
+        batchCrudService.batchUpdate(elements);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public void batchDelete(@SkipRecord List<StringIdKey> keys) throws ServiceException {
+        batchCrudService.batchDelete(keys);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public List<Permission> batchGetIfExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
+        return batchCrudService.batchGetIfExists(keys);
+    }
+
+    @Deprecated
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public List<StringIdKey> batchInsertIfExists(@SkipRecord List<Permission> elements) throws ServiceException {
+        return batchCrudService.batchInsertIfExists(elements);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public List<StringIdKey> batchInsertIfNotExists(@SkipRecord List<Permission> elements) throws ServiceException {
+        return batchCrudService.batchInsertIfNotExists(elements);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public void batchUpdateIfExists(@SkipRecord List<Permission> elements) throws ServiceException {
+        batchCrudService.batchUpdateIfExists(elements);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public void batchDeleteIfExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
+        batchCrudService.batchDeleteIfExists(keys);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public List<StringIdKey> batchInsertOrUpdate(@SkipRecord List<Permission> elements) throws ServiceException {
+        return batchCrudService.batchInsertOrUpdate(elements);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public PagedData<Permission> lookup() throws ServiceException {
-        try {
-            if (permissionListCache.exists()) {
-                return PagingUtil.pagedData(permissionListCache.get());
-            }
-            List<Permission> lookup = permissionDao.lookup();
-            permissionListCache.set(lookup, permissionListTimeout);
-            return PagingUtil.pagedData(lookup);
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("查询全部时发生异常", LogLevel.WARN, e, sem);
-        }
+        return entireLookupService.lookup();
     }
 
     @Override
     @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public PagedData<Permission> lookup(PagingInfo pagingInfo) throws ServiceException {
-        try {
-            if (permissionListCache.exists()) {
-                List<Permission> permissions = permissionListCache.get(pagingInfo);
-                return PagingUtil.pagedData(pagingInfo, permissionListCache.size(), permissions);
-            }
-            List<Permission> lookup = permissionDao.lookup();
-            permissionListCache.set(lookup, permissionListTimeout);
-            return PagingUtil.pagedData(pagingInfo, lookup.size(), PagingUtil.subList(lookup, pagingInfo));
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("查询全部时发生异常", LogLevel.WARN, e, sem);
-        }
+        return entireLookupService.lookup(pagingInfo);
     }
 
     @Override
     @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public List<Permission> lookupAsList() throws ServiceException {
+        return entireLookupService.lookupAsList();
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public List<Permission> lookupAsList(PagingInfo pagingInfo) throws ServiceException {
+        return entireLookupService.lookupAsList(pagingInfo);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public Permission lookupFirst() throws ServiceException {
+        return entireLookupService.lookupFirst();
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public int lookupCount() throws ServiceException {
+        return entireLookupService.lookupCount();
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public PagedData<Permission> lookup(String preset, Object[] objs) throws ServiceException {
-        try {
-            return PagingUtil.pagedData(permissionDao.lookup(preset, objs));
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("查询实体时发生异常", LogLevel.WARN, e, sem);
-        }
+        return presetLookupService.lookup(preset, objs);
     }
 
     @Override
     @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public PagedData<Permission> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
-        try {
-            return PagingUtil.pagedData(pagingInfo, permissionDao.lookupCount(preset, objs), permissionDao.lookup(preset, objs, pagingInfo));
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("查询实体时发生异常", LogLevel.WARN, e, sem);
-        }
+        return presetLookupService.lookup(preset, objs, pagingInfo);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public List<Permission> lookupAsList(String preset, Object[] objs) throws ServiceException {
+        return presetLookupService.lookupAsList(preset, objs);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public List<Permission> lookupAsList(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+        return presetLookupService.lookupAsList(preset, objs, pagingInfo);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public Permission lookupFirst(String preset, Object[] objs) throws ServiceException {
+        return presetLookupService.lookupFirst(preset, objs);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
+    public int lookupCount(String preset, Object[] objs) throws ServiceException {
+        return presetLookupService.lookupCount(preset, objs);
     }
 }
-

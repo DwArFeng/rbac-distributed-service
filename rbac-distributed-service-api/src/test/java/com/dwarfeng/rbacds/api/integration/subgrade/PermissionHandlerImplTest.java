@@ -121,34 +121,34 @@ public class PermissionHandlerImplTest {
     @Test
     public void test() throws Exception {
         try {
-            userMaintainService.insert(zhangSan);
-            userMaintainService.insert(liSi);
-            userMaintainService.insert(wangWu);
+            userMaintainService.insertOrUpdate(zhangSan);
+            userMaintainService.insertOrUpdate(liSi);
+            userMaintainService.insertOrUpdate(wangWu);
 
-            roleMaintainService.insert(roleA);
-            roleMaintainService.insert(roleB);
-            roleMaintainService.insert(roleC);
+            roleMaintainService.insertOrUpdate(roleA);
+            roleMaintainService.insertOrUpdate(roleB);
+            roleMaintainService.insertOrUpdate(roleC);
 
             userMaintainService.batchAddRoleRelations(zhangSan.getKey(), Arrays.asList(roleA.getKey(), roleB.getKey(), roleC.getKey()));
             userMaintainService.batchAddRoleRelations(liSi.getKey(), Arrays.asList(roleB.getKey(), roleC.getKey()));
             userMaintainService.batchAddRoleRelations(wangWu.getKey(), Collections.singletonList(roleC.getKey()));
 
-            pexpMaintainService.insert(pexp1);
-            pexpMaintainService.insert(pexp2);
-            pexpMaintainService.insert(pexp3);
-            pexpMaintainService.insert(pexp4);
-            pexpMaintainService.insert(pexp5);
-            pexpMaintainService.insert(pexp6);
+            pexpMaintainService.insertOrUpdate(pexp1);
+            pexpMaintainService.insertOrUpdate(pexp2);
+            pexpMaintainService.insertOrUpdate(pexp3);
+            pexpMaintainService.insertOrUpdate(pexp4);
+            pexpMaintainService.insertOrUpdate(pexp5);
+            pexpMaintainService.insertOrUpdate(pexp6);
 
-            permissionMaintainService.insert(permission1);
-            permissionMaintainService.insert(permission2);
-            permissionMaintainService.insert(permission3);
-            permissionMaintainService.insert(permission4);
-            permissionMaintainService.insert(permission5);
-            permissionMaintainService.insert(permission6);
-            permissionMaintainService.insert(permission7);
-            permissionMaintainService.insert(permission8);
-            permissionMaintainService.insert(permission9);
+            permissionMaintainService.insertOrUpdate(permission1);
+            permissionMaintainService.insertOrUpdate(permission2);
+            permissionMaintainService.insertOrUpdate(permission3);
+            permissionMaintainService.insertOrUpdate(permission4);
+            permissionMaintainService.insertOrUpdate(permission5);
+            permissionMaintainService.insertOrUpdate(permission6);
+            permissionMaintainService.insertOrUpdate(permission7);
+            permissionMaintainService.insertOrUpdate(permission8);
+            permissionMaintainService.insertOrUpdate(permission9);
 
             ExceptionContext exceptionContext = aopTester.test(zhangSan.getKey(), null);
             assertEquals(1, exceptionContext.getExceptions().size());
@@ -178,30 +178,36 @@ public class PermissionHandlerImplTest {
                     exceptionContext.getExceptions().get(0).getMessage()
             );
         } finally {
-            if (Objects.nonNull(zhangSan)) userMaintainService.delete(zhangSan.getKey());
-            if (Objects.nonNull(liSi)) userMaintainService.delete(liSi.getKey());
-            if (Objects.nonNull(wangWu)) userMaintainService.delete(wangWu.getKey());
+            permissionMaintainService.deleteIfExists(permission1.getKey());
+            permissionMaintainService.deleteIfExists(permission2.getKey());
+            permissionMaintainService.deleteIfExists(permission3.getKey());
+            permissionMaintainService.deleteIfExists(permission4.getKey());
+            permissionMaintainService.deleteIfExists(permission5.getKey());
+            permissionMaintainService.deleteIfExists(permission6.getKey());
+            permissionMaintainService.deleteIfExists(permission7.getKey());
+            permissionMaintainService.deleteIfExists(permission8.getKey());
+            permissionMaintainService.deleteIfExists(permission9.getKey());
 
-            roleMaintainService.delete(roleA.getKey());
-            roleMaintainService.delete(roleB.getKey());
-            roleMaintainService.delete(roleC.getKey());
+            pexpMaintainService.deleteIfExists(pexp1.getKey());
+            pexpMaintainService.deleteIfExists(pexp2.getKey());
+            pexpMaintainService.deleteIfExists(pexp3.getKey());
+            pexpMaintainService.deleteIfExists(pexp4.getKey());
+            pexpMaintainService.deleteIfExists(pexp5.getKey());
+            pexpMaintainService.deleteIfExists(pexp6.getKey());
 
-            pexpMaintainService.delete(pexp1.getKey());
-            pexpMaintainService.delete(pexp2.getKey());
-            pexpMaintainService.delete(pexp3.getKey());
-            pexpMaintainService.delete(pexp4.getKey());
-            pexpMaintainService.delete(pexp5.getKey());
-            pexpMaintainService.delete(pexp6.getKey());
+            roleMaintainService.deleteIfExists(roleA.getKey());
+            roleMaintainService.deleteIfExists(roleB.getKey());
+            roleMaintainService.deleteIfExists(roleC.getKey());
 
-            permissionMaintainService.delete(permission1.getKey());
-            permissionMaintainService.delete(permission2.getKey());
-            permissionMaintainService.delete(permission3.getKey());
-            permissionMaintainService.delete(permission4.getKey());
-            permissionMaintainService.delete(permission5.getKey());
-            permissionMaintainService.delete(permission6.getKey());
-            permissionMaintainService.delete(permission7.getKey());
-            permissionMaintainService.delete(permission8.getKey());
-            permissionMaintainService.delete(permission9.getKey());
+            if (Objects.nonNull(zhangSan)) {
+                userMaintainService.deleteIfExists(zhangSan.getKey());
+            }
+            if (Objects.nonNull(liSi)) {
+                userMaintainService.deleteIfExists(liSi.getKey());
+            }
+            if (Objects.nonNull(wangWu)) {
+                userMaintainService.deleteIfExists(wangWu.getKey());
+            }
         }
     }
 
