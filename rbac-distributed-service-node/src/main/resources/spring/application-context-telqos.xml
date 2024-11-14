@@ -19,8 +19,7 @@
             <telqos:command-impl ref="shutdownCommand"/>
             <telqos:command-impl ref="dubboCommand"/>
             <telqos:command-impl ref="memoryCommand"/>
-            <telqos:command-impl ref="permissionCommand"/>
-            <telqos:command-impl ref="userCommand"/>
+            <telqos:command-impl package-scan="com.dwarfeng.rbacds.impl.service.telqos"/>
         </telqos:command>
     </telqos:config>
 
