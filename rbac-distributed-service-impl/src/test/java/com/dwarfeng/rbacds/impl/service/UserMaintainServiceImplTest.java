@@ -20,8 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring/application-context*.xml")
@@ -88,16 +87,20 @@ public class UserMaintainServiceImplTest {
             roleMaintainService.insertOrUpdate(admin);
             roleMaintainService.insertOrUpdate(guest);
             roleMaintainService.insertOrUpdate(moderator);
-            userMaintainService.batchAddRoleRelations(zhangSan.getKey(), Arrays.asList(admin.getKey(), moderator.getKey(), guest.getKey()));
+            userMaintainService.batchAddRoleRelations(
+                    zhangSan.getKey(), Arrays.asList(admin.getKey(), moderator.getKey(), guest.getKey())
+            );
             userMaintainService.batchAddRoleRelations(liSi.getKey(), Arrays.asList(moderator.getKey(), guest.getKey()));
             userMaintainService.addRoleRelation(wangWu.getKey(), guest.getKey());
 
-            List<StringIdKey> lookupUserKeys = userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE, new Object[]{null})
-                    .getData().stream().map(User::getKey).collect(Collectors.toList());
-            assertTrue(lookupUserKeys.size() >= 1);
+            List<StringIdKey> lookupUserKeys = userMaintainService.lookup(
+                    UserMaintainService.CHILD_FOR_ROLE, new Object[]{null}
+            ).getData().stream().map(User::getKey).collect(Collectors.toList());
+            assertFalse(lookupUserKeys.isEmpty());
             assertTrue(lookupUserKeys.contains(zhaoLiu.getKey()));
-            lookupUserKeys = userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE, new Object[]{guest.getKey()})
-                    .getData().stream().map(User::getKey).collect(Collectors.toList());
+            lookupUserKeys = userMaintainService.lookup(
+                    UserMaintainService.CHILD_FOR_ROLE, new Object[]{guest.getKey()}
+            ).getData().stream().map(User::getKey).collect(Collectors.toList());
             assertTrue(lookupUserKeys.size() >= 3);
             assertTrue(lookupUserKeys.contains(zhangSan.getKey()));
             assertTrue(lookupUserKeys.contains(liSi.getKey()));

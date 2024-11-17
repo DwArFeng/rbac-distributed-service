@@ -122,8 +122,8 @@ public class UserLookupHandlerImpl implements UserLookupHandler {
         }
 
         // Debug输出用户获得的所有权限表达式。
-        LOGGER.debug("查询获得权限 " + permissionKey.toString() + " 对应的用户:");
-        users.forEach(user -> LOGGER.debug("\t" + user));
+        LOGGER.debug("查询获得权限 {} 对应的用户:", permissionKey.toString());
+        users.forEach(user -> LOGGER.debug("\t{}", user));
 
         // 返回权限对应的用户。
         return users;

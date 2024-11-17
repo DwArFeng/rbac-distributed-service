@@ -102,8 +102,8 @@ public class PermissionLookupHandlerImpl implements PermissionLookupHandler {
         permissions = analysePexpPermissions(pexpsMap, permissions);
 
         // Debug 输出用户获得的所有权限表达式。
-        LOGGER.debug("查询获得用户 " + userKey.toString() + " 的权限:");
-        permissions.forEach(permission -> LOGGER.debug("\t" + permission));
+        LOGGER.debug("查询获得用户 {} 的权限:", userKey.toString());
+        permissions.forEach(permission -> LOGGER.debug("\t{}", permission));
 
         // 返回用户拥有的所有权限。
         return permissions;
@@ -145,8 +145,8 @@ public class PermissionLookupHandlerImpl implements PermissionLookupHandler {
         permissions = analysePexpPermissions(pexpsMap, permissions);
 
         // Debug 输出角色获得的所有权限表达式。
-        LOGGER.debug("查询获得角色 " + roleKey.toString() + " 的权限:");
-        permissions.forEach(permission -> LOGGER.debug("\t" + permission));
+        LOGGER.debug("查询获得角色 {} 的权限:", roleKey.toString());
+        permissions.forEach(permission -> LOGGER.debug("\t{}", permission));
 
         // 返回角色拥有的所有权限。
         return permissions;

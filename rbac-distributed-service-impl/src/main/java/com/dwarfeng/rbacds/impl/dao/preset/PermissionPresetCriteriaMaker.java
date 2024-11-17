@@ -37,7 +37,6 @@ public class PermissionPresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
-    @SuppressWarnings("DuplicatedCode")
     private void childForGroup(DetachedCriteria criteria, Object[] objs) {
         try {
             StringIdKey groupIdKey = (StringIdKey) objs[0];

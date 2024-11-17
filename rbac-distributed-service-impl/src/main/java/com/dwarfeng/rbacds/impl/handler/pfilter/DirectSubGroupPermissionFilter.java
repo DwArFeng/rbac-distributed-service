@@ -24,7 +24,7 @@ public class DirectSubGroupPermissionFilter extends AbstractPermissionFilter {
     }
 
     @Override
-    public boolean accept(String pattern, Permission permission) throws Exception {
+    public boolean accept(String pattern, Permission permission) {
         String groupId = Optional.ofNullable(permission).map(Permission::getGroupKey).map(StringIdKey::getStringId)
                 .orElse(StringUtils.EMPTY);
         return Objects.equals(groupId, pattern);

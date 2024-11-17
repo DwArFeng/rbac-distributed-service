@@ -27,7 +27,6 @@ public class UserLookupCommand extends CliCommand {
     private static final String IDENTITY = "ul";
     private static final String DESCRIPTION = "查询用户信息";
 
-
     private static final String CMD_LINE_SYNTAX_LOOKUP_FOR_PERMISSION = IDENTITY + " " +
             CommandUtil.concatOptionPrefix(COMMAND_OPTION_LOOKUP_FOR_PERMISSION) + " permission-id";
 
