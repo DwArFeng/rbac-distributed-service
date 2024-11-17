@@ -20,6 +20,26 @@
 
     <fileSets>
         <fileSet>
+            <outputDirectory>bin</outputDirectory>
+            <directory>src/main/resources/binres</directory>
+            <includes>
+                <include>*.sh</include>
+            </includes>
+            <filtered>true</filtered>
+            <fileMode>755</fileMode>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <fileSet>
+            <outputDirectory>bin</outputDirectory>
+            <directory>src/main/resources/binres</directory>
+            <includes>
+                <include>*.bat</include>
+            </includes>
+            <filtered>true</filtered>
+            <fileMode>755</fileMode>
+            <lineEnding>dos</lineEnding>
+        </fileSet>
+        <fileSet>
             <outputDirectory>conf/database</outputDirectory>
             <directory>src/main/resources/database</directory>
             <includes>
@@ -124,32 +144,6 @@
             <outputDirectory>./</outputDirectory>
             <source>../LICENSE</source>
             <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <outputDirectory>lib</outputDirectory>
-            <source>${project.build.directory}/${project.name}-${project.version}.jar</source>
-            <fileMode>0755</fileMode>
-        </file>
-        <file>
-            <outputDirectory>bin</outputDirectory>
-            <source>src/assembly/rbac-start.sh</source>
-            <filtered>true</filtered>
-            <fileMode>0755</fileMode>
-            <lineEnding>unix</lineEnding>
-        </file>
-        <file>
-            <outputDirectory>bin</outputDirectory>
-            <source>src/assembly/rbac-stop.sh</source>
-            <filtered>true</filtered>
-            <fileMode>0755</fileMode>
-            <lineEnding>unix</lineEnding>
-        </file>
-        <file>
-            <outputDirectory>bin</outputDirectory>
-            <source>src/assembly/rbac-start.bat</source>
-            <filtered>true</filtered>
-            <fileMode>0755</fileMode>
-            <lineEnding>dos</lineEnding>
         </file>
     </files>
 </assembly>
