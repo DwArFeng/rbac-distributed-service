@@ -1,7 +1,7 @@
 package com.dwarfeng.rbacds.impl.service.telqos;
 
 import com.dwarfeng.rbacds.stack.bean.entity.User;
-import com.dwarfeng.rbacds.stack.service.QosService;
+import com.dwarfeng.rbacds.stack.service.UserLookupQosService;
 import com.dwarfeng.springtelqos.node.config.TelqosCommand;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
 import com.dwarfeng.springtelqos.stack.command.Context;
@@ -36,11 +36,11 @@ public class UserLookupCommand extends CliCommand {
 
     private static final String CMD_LINE_SYNTAX = CommandUtil.syntax(CMD_LINE_ARRAY);
 
-    private final QosService qosService;
+    private final UserLookupQosService userLookupQosService;
 
-    public UserLookupCommand(QosService qosService) {
+    public UserLookupCommand(UserLookupQosService userLookupQosService) {
         super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
-        this.qosService = qosService;
+        this.userLookupQosService = userLookupQosService;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class UserLookupCommand extends CliCommand {
 
     private void handleLookupForPermission(Context context, CommandLine commandLine) throws Exception {
         String permissionId = commandLine.getOptionValue(COMMAND_OPTION_LOOKUP_FOR_PERMISSION);
-        List<User> users = qosService.lookupUsersForPermission(new StringIdKey(permissionId));
+        List<User> users = userLookupQosService.lookupForPermission(new StringIdKey(permissionId));
         printUsers(context, users);
     }
 

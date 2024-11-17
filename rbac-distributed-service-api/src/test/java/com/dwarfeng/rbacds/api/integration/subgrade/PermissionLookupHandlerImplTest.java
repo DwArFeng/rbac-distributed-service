@@ -30,7 +30,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring/application-context*.xml")
-public class PermissionHandlerImplTest {
+public class PermissionLookupHandlerImplTest {
 
     @Autowired
     private UserMaintainService userMaintainService;

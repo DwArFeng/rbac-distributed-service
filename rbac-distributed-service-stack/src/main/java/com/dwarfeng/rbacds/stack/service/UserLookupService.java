@@ -20,6 +20,7 @@ public interface UserLookupService extends Service {
      *
      * @param permissionKey 指定的权限。
      * @return 指定的权限对应的用户组成的集合。
+     * @throws ServiceException 服务异常。
      * @deprecated 由于功能扩展，该方法不再符合命名规范。
      */
     List<User> lookupUsers(StringIdKey permissionKey) throws ServiceException;
@@ -29,6 +30,7 @@ public interface UserLookupService extends Service {
      *
      * @param permissionKey 指定的权限。
      * @return 指定的权限对应的用户组成的集合。
+     * @throws ServiceException 服务异常。
      * @since 1.2.4
      * @deprecated 由于功能扩展，该方法不再符合命名规范。
      */
@@ -39,6 +41,7 @@ public interface UserLookupService extends Service {
      *
      * @param permissionKey 指定的权限。
      * @return 指定的权限对应的用户组成的集合。
+     * @throws ServiceException 服务异常。
      * @since 1.3.1
      */
     List<User> lookupForPermission(StringIdKey permissionKey) throws ServiceException;

@@ -2,7 +2,7 @@ package com.dwarfeng.rbacds.impl.service;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.handler.PermissionLookupHandler;
-import com.dwarfeng.rbacds.stack.service.PermissionLookupService;
+import com.dwarfeng.rbacds.stack.service.PermissionLookupQosService;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionHelper;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
@@ -16,13 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class PermissionLookupServiceImpl implements PermissionLookupService {
+public class PermissionLookupQosServiceImpl implements PermissionLookupQosService {
 
     private final PermissionLookupHandler permissionLookupHandler;
 
     private final ServiceExceptionMapper sem;
 
-    public PermissionLookupServiceImpl(PermissionLookupHandler permissionLookupHandler, ServiceExceptionMapper sem) {
+    public PermissionLookupQosServiceImpl(PermissionLookupHandler permissionLookupHandler, ServiceExceptionMapper sem) {
         this.permissionLookupHandler = permissionLookupHandler;
         this.sem = sem;
     }
@@ -44,45 +44,6 @@ public class PermissionLookupServiceImpl implements PermissionLookupService {
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public List<Permission> lookupForRole(StringIdKey roleKey) throws ServiceException {
-        try {
-            return permissionLookupHandler.lookupForRole(roleKey);
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("查询指定的角色对应的权限时发生异常", LogLevel.WARN, e, sem);
-        }
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @SkipRecord
-    @Deprecated
-    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<Permission> lookupPermissions(StringIdKey userKey) throws ServiceException {
-        try {
-            return permissionLookupHandler.lookupForUser(userKey);
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("查询指定的用户对应的权限时发生异常", LogLevel.WARN, e, sem);
-        }
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @SkipRecord
-    @Deprecated
-    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<Permission> lookupPermissionsForUser(StringIdKey userKey) throws ServiceException {
-        try {
-            return permissionLookupHandler.lookupForUser(userKey);
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("查询指定的用户对应的权限时发生异常", LogLevel.WARN, e, sem);
-        }
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @SkipRecord
-    @Deprecated
-    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<Permission> lookupPermissionsForRole(StringIdKey roleKey) throws ServiceException {
         try {
             return permissionLookupHandler.lookupForRole(roleKey);
         } catch (Exception e) {

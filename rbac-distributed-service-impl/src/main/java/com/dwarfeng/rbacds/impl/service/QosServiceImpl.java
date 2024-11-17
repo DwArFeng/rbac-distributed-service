@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Deprecated
 @Service
 public class QosServiceImpl implements QosService {
 
@@ -27,6 +28,8 @@ public class QosServiceImpl implements QosService {
         this.userLookupService = userLookupService;
     }
 
+    // 由于实现 QosService 接口时必须实现该方法，故忽略相关警告。
+    @SuppressWarnings("deprecation")
     @Override
     @BehaviorAnalyse
     @SkipRecord
@@ -35,6 +38,8 @@ public class QosServiceImpl implements QosService {
         return permissionLookupService.lookupPermissions(userKey);
     }
 
+    // 由于实现 QosService 接口时必须实现该方法，故忽略相关警告。
+    @SuppressWarnings("deprecation")
     @Override
     @BehaviorAnalyse
     @SkipRecord

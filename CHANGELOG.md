@@ -4,6 +4,11 @@
 
 #### 功能构建
 
+- 优化查询服务的调用机制。
+  - 优化查询服务的调用链。
+  - 优化查询相关的 QOS 服务。
+  - 优化查询相关的 Telqos 指令。
+
 - 优化部分类中部分方法的行为分析行为。
   - com.dwarfeng.rbacds.impl.dao.PermissionDaoImpl。
   - com.dwarfeng.rbacds.impl.dao.PermissionGroupDaoImpl。
