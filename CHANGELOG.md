@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 优化部分配置文件的注释。
+  - `database/performance.properties`。
+
 - 优化 Telqos 指令的输出。
   - com.dwarfeng.rbacds.impl.service.telqos.PermissionLookupCommand。
   - com.dwarfeng.rbacds.impl.service.telqos.UserLookupCommand。
