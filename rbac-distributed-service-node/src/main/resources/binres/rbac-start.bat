@@ -1,7 +1,8 @@
 @echo off
 
-rem 程序的根目录
-SET basedir=C:\Program Files\rbac
+rem 设置程序的根目录。
+cd /d "%~dp0.."
+SET "basedir=%cd%"
 
 rem JVM 内存设置。
 rem 如果您希望系统自动分配内存，注释掉下方注释...

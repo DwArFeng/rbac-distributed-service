@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# 程序的根目录。
-basedir="/usr/local/rbac"
+# 设置程序的根目录。
+basedir="$(cd "$(dirname "$0")/.." && pwd)"
 
 # JVM 内存设置。
 # 如果您希望系统自动分配内存，注释掉下方注释...
