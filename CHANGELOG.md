@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 优化部分配置文件的名称。
+  - `redis/key.properties` -> `redis/prefix.properties`。
+
 - 启停脚本优化。
   - 优化 Windows 系统的启动脚本。
   - 优化 Linux 系统的启停脚本。
