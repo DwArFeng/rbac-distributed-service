@@ -4,6 +4,10 @@
 
 #### 功能构建
 
+- 优化 Telqos 指令的输出。
+  - com.dwarfeng.rbacds.impl.service.telqos.PermissionLookupCommand。
+  - com.dwarfeng.rbacds.impl.service.telqos.UserLookupCommand。
+
 - 优化查询服务的调用机制。
   - 优化查询服务的调用链。
   - 优化查询相关的 QOS 服务。
