@@ -4,6 +4,8 @@
 
 #### 功能构建
 
+- 为 dubbo 增加超时时间的配置选项。
+
 - 优化部分配置文件的注释。
   - `database/performance.properties`。
 
