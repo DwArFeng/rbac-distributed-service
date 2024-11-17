@@ -123,6 +123,7 @@ public class RoleDaoImpl implements RoleDao {
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public List<Role> lookup(String preset, Object[] objs) throws DaoException {
         return presetDelegate.lookup(preset, objs);

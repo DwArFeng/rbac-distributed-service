@@ -4,6 +4,11 @@
 
 #### 功能构建
 
+- 优化部分类中部分方法的行为分析行为。
+  - com.dwarfeng.rbacds.impl.dao.PermissionDaoImpl。
+  - com.dwarfeng.rbacds.impl.dao.PermissionGroupDaoImpl。
+  - com.dwarfeng.rbacds.impl.dao.RoleDaoImpl。
+
 - 优化部分配置文件的名称。
   - `redis/key.properties` -> `redis/prefix.properties`。
 

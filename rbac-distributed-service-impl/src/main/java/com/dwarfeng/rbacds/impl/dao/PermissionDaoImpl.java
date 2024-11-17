@@ -116,6 +116,7 @@ public class PermissionDaoImpl implements PermissionDao {
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public List<Permission> lookup() throws DaoException {
         return entireLookupDelegate.lookup();
@@ -123,6 +124,7 @@ public class PermissionDaoImpl implements PermissionDao {
 
     @Override
     @BehaviorAnalyse
+    @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public List<Permission> lookup(PagingInfo pagingInfo) throws DaoException {
         return entireLookupDelegate.lookup(pagingInfo);
