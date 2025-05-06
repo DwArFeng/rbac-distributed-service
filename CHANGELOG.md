@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 优化部分配置文件的名称。
+  - `opt/opt-preset.xml` -> `opt/opt-pfilter.xml`。
+
 - 导入运维指令。
   - com.dwarfeng.datamark.service.telqos.*。
 
