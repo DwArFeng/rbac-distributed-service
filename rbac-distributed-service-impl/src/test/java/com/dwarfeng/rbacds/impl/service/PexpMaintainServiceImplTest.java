@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring/application-context*.xml")
@@ -93,15 +94,33 @@ public class PexpMaintainServiceImplTest {
             //noinspection UnusedAssignment
             pexps = null;
         } finally {
-            roleMaintainService.deleteIfExists(admin.getKey());
-            roleMaintainService.deleteIfExists(moderator.getKey());
-            roleMaintainService.deleteIfExists(guest.getKey());
-            pexpMaintainService.deleteIfExists(pexpA.getKey());
-            pexpMaintainService.deleteIfExists(pexpB.getKey());
-            pexpMaintainService.deleteIfExists(pexpC.getKey());
-            pexpMaintainService.deleteIfExists(pexpD.getKey());
-            pexpMaintainService.deleteIfExists(pexpE.getKey());
-            pexpMaintainService.deleteIfExists(pexpF.getKey());
+            if (Objects.nonNull(pexpF.getKey())) {
+                pexpMaintainService.deleteIfExists(pexpF.getKey());
+            }
+            if (Objects.nonNull(pexpE.getKey())) {
+                pexpMaintainService.deleteIfExists(pexpE.getKey());
+            }
+            if (Objects.nonNull(pexpD.getKey())) {
+                pexpMaintainService.deleteIfExists(pexpD.getKey());
+            }
+            if (Objects.nonNull(pexpC.getKey())) {
+                pexpMaintainService.deleteIfExists(pexpC.getKey());
+            }
+            if (Objects.nonNull(pexpB.getKey())) {
+                pexpMaintainService.deleteIfExists(pexpB.getKey());
+            }
+            if (Objects.nonNull(pexpA.getKey())) {
+                pexpMaintainService.deleteIfExists(pexpA.getKey());
+            }
+            if (Objects.nonNull(moderator.getKey())) {
+                roleMaintainService.deleteIfExists(moderator.getKey());
+            }
+            if (Objects.nonNull(guest.getKey())) {
+                roleMaintainService.deleteIfExists(guest.getKey());
+            }
+            if (Objects.nonNull(admin.getKey())) {
+                roleMaintainService.deleteIfExists(admin.getKey());
+            }
         }
     }
 }

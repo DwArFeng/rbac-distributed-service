@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
@@ -73,9 +74,14 @@ public class PermissionMaintainServiceImplTest {
             assertEquals(permissions.size(), lookup.getCount());
         } finally {
             for (Permission permission : permissions) {
+                if (Objects.isNull(permission.getKey())) {
+                    continue;
+                }
                 permissionMaintainService.deleteIfExists(permission.getKey());
             }
-            permissionGroupMaintainService.deleteIfExists(parentPermissionGroup.getKey());
+            if (Objects.nonNull(parentPermissionGroup.getKey())) {
+                permissionGroupMaintainService.deleteIfExists(parentPermissionGroup.getKey());
+            }
         }
     }
 }

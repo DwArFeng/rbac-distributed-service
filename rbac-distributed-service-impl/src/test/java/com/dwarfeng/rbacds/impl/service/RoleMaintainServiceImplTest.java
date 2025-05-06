@@ -85,6 +85,9 @@ public class RoleMaintainServiceImplTest {
             }
         } finally {
             for (Role role : roles) {
+                if (Objects.isNull(role)) {
+                    continue;
+                }
                 roleMaintainService.deleteIfExists(role.getKey());
             }
         }
@@ -128,12 +131,24 @@ public class RoleMaintainServiceImplTest {
             keys = roles.stream().map(Role::getKey).collect(Collectors.toList());
             assertTrue(keys.isEmpty());
         } finally {
-            if (Objects.nonNull(zhangSan)) userMaintainService.deleteIfExists(zhangSan.getKey());
-            roleMaintainService.deleteIfExists(admin.getKey());
-            if (Objects.nonNull(liSi)) userMaintainService.deleteIfExists(liSi.getKey());
-            roleMaintainService.deleteIfExists(moderator.getKey());
-            if (Objects.nonNull(wangWu)) userMaintainService.deleteIfExists(wangWu.getKey());
-            roleMaintainService.deleteIfExists(guest.getKey());
+            if (Objects.nonNull(moderator.getKey())) {
+                roleMaintainService.deleteIfExists(moderator.getKey());
+            }
+            if (Objects.nonNull(guest.getKey())) {
+                roleMaintainService.deleteIfExists(guest.getKey());
+            }
+            if (Objects.nonNull(admin.getKey())) {
+                roleMaintainService.deleteIfExists(admin.getKey());
+            }
+            if (Objects.nonNull(wangWu.getKey())) {
+                userMaintainService.deleteIfExists(wangWu.getKey());
+            }
+            if (Objects.nonNull(liSi.getKey())) {
+                userMaintainService.deleteIfExists(liSi.getKey());
+            }
+            if (Objects.nonNull(zhangSan.getKey())) {
+                userMaintainService.deleteIfExists(zhangSan.getKey());
+            }
         }
     }
 }

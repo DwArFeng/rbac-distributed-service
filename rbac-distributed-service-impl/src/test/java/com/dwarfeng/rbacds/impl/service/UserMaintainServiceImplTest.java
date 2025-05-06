@@ -73,7 +73,9 @@ public class UserMaintainServiceImplTest {
             testZhangSan = userMaintainService.get(zhangSan.getKey());
             assertEquals(BeanUtils.describe(zhangSan), BeanUtils.describe(testZhangSan));
         } finally {
-            userMaintainService.deleteIfExists(zhangSan.getKey());
+            if (Objects.nonNull(zhangSan.getKey())) {
+                userMaintainService.deleteIfExists(zhangSan.getKey());
+            }
         }
     }
 
@@ -106,13 +108,27 @@ public class UserMaintainServiceImplTest {
             assertTrue(lookupUserKeys.contains(liSi.getKey()));
             assertTrue(lookupUserKeys.contains(wangWu.getKey()));
         } finally {
-            if (Objects.nonNull(zhangSan)) userMaintainService.deleteIfExists(zhangSan.getKey());
-            if (Objects.nonNull(liSi)) userMaintainService.deleteIfExists(liSi.getKey());
-            if (Objects.nonNull(wangWu)) userMaintainService.deleteIfExists(wangWu.getKey());
-            if (Objects.nonNull(zhaoLiu)) userMaintainService.deleteIfExists(zhaoLiu.getKey());
-            roleMaintainService.deleteIfExists(admin.getKey());
-            roleMaintainService.deleteIfExists(moderator.getKey());
-            roleMaintainService.deleteIfExists(guest.getKey());
+            if (Objects.nonNull(moderator.getKey())) {
+                userMaintainService.deleteIfExists(moderator.getKey());
+            }
+            if (Objects.nonNull(guest.getKey())) {
+                userMaintainService.deleteIfExists(guest.getKey());
+            }
+            if (Objects.nonNull(admin.getKey())) {
+                userMaintainService.deleteIfExists(admin.getKey());
+            }
+            if (Objects.nonNull(zhaoLiu.getKey())) {
+                userMaintainService.deleteIfExists(zhaoLiu.getKey());
+            }
+            if (Objects.nonNull(wangWu.getKey())) {
+                userMaintainService.deleteIfExists(wangWu.getKey());
+            }
+            if (Objects.nonNull(liSi.getKey())) {
+                userMaintainService.deleteIfExists(liSi.getKey());
+            }
+            if (Objects.nonNull(zhangSan.getKey())) {
+                userMaintainService.deleteIfExists(zhangSan.getKey());
+            }
         }
     }
 }

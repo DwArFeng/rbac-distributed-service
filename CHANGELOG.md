@@ -4,6 +4,16 @@
 
 #### 功能构建
 
+- 优化部分单元测试代码，以规避潜在的 bug。
+  - com.dwarfeng.rbacds.impl.service.PermissionGroupMaintainServiceImplTest。
+  - com.dwarfeng.rbacds.impl.service.PermissionLookupServiceImplTest。
+  - com.dwarfeng.rbacds.impl.service.PermissionMaintainServiceImplTest。
+  - com.dwarfeng.rbacds.impl.service.PexpMaintainServiceImplTest。
+  - com.dwarfeng.rbacds.impl.service.RoleMaintainServiceImplTest。
+  - com.dwarfeng.rbacds.impl.service.UserLookupServiceImplTest。
+  - com.dwarfeng.rbacds.impl.service.UserMaintainServiceImplTest。
+  - com.dwarfeng.rbacds.impl.service.UserRoleUpdateRelationTest。
+
 - 依赖升级。
   - 升级 `spring` 依赖版本为 `5.3.39` 以规避漏洞。
   - 升级 `netty` 依赖版本为 `4.1.119.Final` 以规避漏洞。

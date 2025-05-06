@@ -19,6 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -74,8 +75,12 @@ public class UserRoleUpdateRelationTest {
             assertEquals(1, userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE_SET,
                     new Object[]{Collections.singletonList(role.getKey())}).getCount());
         } finally {
-            userMaintainService.deleteIfExists(user.getKey());
-            roleMaintainService.deleteIfExists(role.getKey());
+            if (Objects.nonNull(role.getKey())) {
+                roleMaintainService.deleteIfExists(role.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
         }
     }
 
@@ -99,8 +104,12 @@ public class UserRoleUpdateRelationTest {
             assertEquals(1, userMaintainService.lookup(UserMaintainService.CHILD_FOR_ROLE_SET,
                     new Object[]{Collections.singletonList(role.getKey())}).getCount());
         } finally {
-            userMaintainService.deleteIfExists(user.getKey());
-            roleMaintainService.deleteIfExists(role.getKey());
+            if (Objects.nonNull(role.getKey())) {
+                roleMaintainService.deleteIfExists(role.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
         }
     }
 }

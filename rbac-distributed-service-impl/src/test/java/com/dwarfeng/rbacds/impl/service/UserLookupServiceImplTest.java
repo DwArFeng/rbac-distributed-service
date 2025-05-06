@@ -239,30 +239,72 @@ public class UserLookupServiceImplTest {
             assertFalse(userKeys.contains(liSi.getKey()));
             assertFalse(userKeys.contains(wangWu.getKey()));
         } finally {
-            if (Objects.nonNull(zhangSan)) userMaintainService.deleteIfExists(zhangSan.getKey());
-            if (Objects.nonNull(liSi)) userMaintainService.deleteIfExists(liSi.getKey());
-            if (Objects.nonNull(wangWu)) userMaintainService.deleteIfExists(wangWu.getKey());
+            if (Objects.nonNull(permission9.getKey())) {
+                permissionMaintainService.deleteIfExists(permission9.getKey());
+            }
+            if (Objects.nonNull(permission8.getKey())) {
+                permissionMaintainService.deleteIfExists(permission8.getKey());
+            }
+            if (Objects.nonNull(permission7.getKey())) {
+                permissionMaintainService.deleteIfExists(permission7.getKey());
+            }
+            if (Objects.nonNull(permission6.getKey())) {
+                permissionMaintainService.deleteIfExists(permission6.getKey());
+            }
+            if (Objects.nonNull(permission5.getKey())) {
+                permissionMaintainService.deleteIfExists(permission5.getKey());
+            }
+            if (Objects.nonNull(permission4.getKey())) {
+                permissionMaintainService.deleteIfExists(permission4.getKey());
+            }
+            if (Objects.nonNull(permission3.getKey())) {
+                permissionMaintainService.deleteIfExists(permission3.getKey());
+            }
+            if (Objects.nonNull(permission2.getKey())) {
+                permissionMaintainService.deleteIfExists(permission2.getKey());
+            }
+            if (Objects.nonNull(permission1.getKey())) {
+                permissionMaintainService.deleteIfExists(permission1.getKey());
+            }
 
-            roleMaintainService.deleteIfExists(roleA.getKey());
-            roleMaintainService.deleteIfExists(roleB.getKey());
-            roleMaintainService.deleteIfExists(roleC.getKey());
+            if (Objects.nonNull(pexp6.getKey())) {
+                pexpMaintainService.deleteIfExists(pexp6.getKey());
+            }
+            if (Objects.nonNull(pexp5.getKey())) {
+                pexpMaintainService.deleteIfExists(pexp5.getKey());
+            }
+            if (Objects.nonNull(pexp4.getKey())) {
+                pexpMaintainService.deleteIfExists(pexp4.getKey());
+            }
+            if (Objects.nonNull(pexp3.getKey())) {
+                pexpMaintainService.deleteIfExists(pexp3.getKey());
+            }
+            if (Objects.nonNull(pexp2.getKey())) {
+                pexpMaintainService.deleteIfExists(pexp2.getKey());
+            }
+            if (Objects.nonNull(pexp1.getKey())) {
+                pexpMaintainService.deleteIfExists(pexp1.getKey());
+            }
 
-            pexpMaintainService.deleteIfExists(pexp1.getKey());
-            pexpMaintainService.deleteIfExists(pexp2.getKey());
-            pexpMaintainService.deleteIfExists(pexp3.getKey());
-            pexpMaintainService.deleteIfExists(pexp4.getKey());
-            pexpMaintainService.deleteIfExists(pexp5.getKey());
-            pexpMaintainService.deleteIfExists(pexp6.getKey());
+            if (Objects.nonNull(roleC.getKey())) {
+                roleMaintainService.deleteIfExists(roleC.getKey());
+            }
+            if (Objects.nonNull(roleB.getKey())) {
+                roleMaintainService.deleteIfExists(roleB.getKey());
+            }
+            if (Objects.nonNull(roleA.getKey())) {
+                roleMaintainService.deleteIfExists(roleA.getKey());
+            }
 
-            permissionMaintainService.deleteIfExists(permission1.getKey());
-            permissionMaintainService.deleteIfExists(permission2.getKey());
-            permissionMaintainService.deleteIfExists(permission3.getKey());
-            permissionMaintainService.deleteIfExists(permission4.getKey());
-            permissionMaintainService.deleteIfExists(permission5.getKey());
-            permissionMaintainService.deleteIfExists(permission6.getKey());
-            permissionMaintainService.deleteIfExists(permission7.getKey());
-            permissionMaintainService.deleteIfExists(permission8.getKey());
-            permissionMaintainService.deleteIfExists(permission9.getKey());
+            if (Objects.nonNull(wangWu.getKey())) {
+                userMaintainService.deleteIfExists(wangWu.getKey());
+            }
+            if (Objects.nonNull(liSi.getKey())) {
+                userMaintainService.deleteIfExists(liSi.getKey());
+            }
+            if (Objects.nonNull(zhangSan.getKey())) {
+                userMaintainService.deleteIfExists(zhangSan.getKey());
+            }
         }
     }
 }
