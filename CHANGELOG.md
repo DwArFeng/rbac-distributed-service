@@ -41,6 +41,9 @@
 
 #### Bug修复
 
+- 修改部分配置文件，以修复 `opt/opt-pfilter.xml` 不生效的 bug。
+  - `spring/application-context-scan.xml`。
+
 - 修复部分单元测试执行完毕后，测试实体没有全部删除的 bug。
   - com.dwarfeng.rbacds.impl.service.UserMaintainServiceImplTest。
 
