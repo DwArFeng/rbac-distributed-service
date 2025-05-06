@@ -1,5 +1,7 @@
 package com.dwarfeng.rbacds.impl.bean.entity;
 
+import com.dwarfeng.datamark.bean.jpa.DatamarkEntityListener;
+import com.dwarfeng.datamark.bean.jpa.DatamarkField;
 import com.dwarfeng.rbacds.sdk.util.Constraints;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
@@ -11,10 +13,11 @@ import java.util.Optional;
 @Entity
 @IdClass(HibernateLongIdKey.class)
 @Table(name = "tbl_pexp")
+@EntityListeners(DatamarkEntityListener.class)
 public class HibernatePexp implements Bean {
 
-    private static final long serialVersionUID = 5957571523574482047L;
-
+    private static final long serialVersionUID = 2112197332733629188L;
+    
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
     @Column(name = "id", nullable = false, unique = true)
@@ -37,6 +40,22 @@ public class HibernatePexp implements Bean {
             @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false), //
     })
     private HibernateRole role;
+
+    // -----------------------------------------------------------审计-----------------------------------------------------------
+    @DatamarkField(handlerName = "roleDatamarkHandler")
+    @Column(
+            name = "created_datamark",
+            length = com.dwarfeng.datamark.util.Constraints.LENGTH_DATAMARK_VALUE,
+            updatable = false
+    )
+    private String createdDatamark;
+
+    @DatamarkField(handlerName = "roleDatamarkHandler")
+    @Column(
+            name = "modified_datamark",
+            length = com.dwarfeng.datamark.util.Constraints.LENGTH_DATAMARK_VALUE
+    )
+    private String modifiedDatamark;
 
     public HibernatePexp() {
     }
@@ -100,6 +119,22 @@ public class HibernatePexp implements Bean {
         this.role = role;
     }
 
+    public String getCreatedDatamark() {
+        return createdDatamark;
+    }
+
+    public void setCreatedDatamark(String createdDatamark) {
+        this.createdDatamark = createdDatamark;
+    }
+
+    public String getModifiedDatamark() {
+        return modifiedDatamark;
+    }
+
+    public void setModifiedDatamark(String modifiedDatamark) {
+        this.modifiedDatamark = modifiedDatamark;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
@@ -107,6 +142,8 @@ public class HibernatePexp implements Bean {
                 "roleId = " + roleId + ", " +
                 "content = " + content + ", " +
                 "remark = " + remark + ", " +
-                "role = " + role + ")";
+                "role = " + role + ", " +
+                "createdDatamark = " + createdDatamark + ", " +
+                "modifiedDatamark = " + modifiedDatamark + ")";
     }
 }

@@ -16,6 +16,7 @@ public class ServiceExceptionMapperConfiguration {
     @Bean
     public MapServiceExceptionMapper mapServiceExceptionMapper() {
         Map<Class<? extends Exception>, ServiceException.Code> destination = ServiceExceptionHelper.putDefaultDestination(null);
+        destination = com.dwarfeng.datamark.util.ServiceExceptionHelper.putDefaultDestination(destination);
         destination.put(PexpFormatException.class, ServiceExceptionCodes.PEXP_FORMAT_ERROR);
         destination.put(PexpTestException.class, ServiceExceptionCodes.PEXP_TEST_ERROR);
         destination.put(PermissionNotExistsException.class, ServiceExceptionCodes.PERMISSION_NOT_EXISTS);

@@ -1,5 +1,7 @@
 package com.dwarfeng.rbacds.impl.bean.entity;
 
+import com.dwarfeng.datamark.bean.jpa.DatamarkEntityListener;
+import com.dwarfeng.datamark.bean.jpa.DatamarkField;
 import com.dwarfeng.rbacds.sdk.util.Constraints;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
@@ -12,10 +14,11 @@ import java.util.Set;
 @Entity
 @IdClass(HibernateStringIdKey.class)
 @Table(name = "tbl_role")
+@EntityListeners(DatamarkEntityListener.class)
 public class HibernateRole implements Bean {
 
-    private static final long serialVersionUID = -178166498064464971L;
-
+    private static final long serialVersionUID = 6625754350915885268L;
+    
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
     @Column(name = "id", length = Constraints.LENGTH_ID, nullable = false, unique = true)
@@ -43,6 +46,22 @@ public class HibernateRole implements Bean {
             @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false),//
     })
     private Set<HibernateUser> users = new HashSet<>();
+
+    // -----------------------------------------------------------审计-----------------------------------------------------------
+    @DatamarkField(handlerName = "roleDatamarkHandler")
+    @Column(
+            name = "created_datamark",
+            length = com.dwarfeng.datamark.util.Constraints.LENGTH_DATAMARK_VALUE,
+            updatable = false
+    )
+    private String createdDatamark;
+
+    @DatamarkField(handlerName = "roleDatamarkHandler")
+    @Column(
+            name = "modified_datamark",
+            length = com.dwarfeng.datamark.util.Constraints.LENGTH_DATAMARK_VALUE
+    )
+    private String modifiedDatamark;
 
     public HibernateRole() {
     }
@@ -105,12 +124,30 @@ public class HibernateRole implements Bean {
         this.users = users;
     }
 
+    public String getCreatedDatamark() {
+        return createdDatamark;
+    }
+
+    public void setCreatedDatamark(String createdDatamark) {
+        this.createdDatamark = createdDatamark;
+    }
+
+    public String getModifiedDatamark() {
+        return modifiedDatamark;
+    }
+
+    public void setModifiedDatamark(String modifiedDatamark) {
+        this.modifiedDatamark = modifiedDatamark;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
                 "stringId = " + stringId + ", " +
                 "name = " + name + ", " +
                 "enabled = " + enabled + ", " +
-                "remark = " + remark + ")";
+                "remark = " + remark + ", " +
+                "createdDatamark = " + createdDatamark + ", " +
+                "modifiedDatamark = " + modifiedDatamark + ")";
     }
 }

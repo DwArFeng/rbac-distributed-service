@@ -4,6 +4,18 @@
 
 #### 功能构建
 
+- 导入运维指令。
+  - com.dwarfeng.datamark.service.telqos.*。
+
+- 增加 Hibernate 实体数据标记字段，并应用相关实体侦听器。
+  - com.dwarfeng.rbacds.impl.bean.entity.HibernatePermission。
+  - com.dwarfeng.rbacds.impl.bean.entity.HibernatePermissionGroup。
+  - com.dwarfeng.rbacds.impl.bean.entity.HibernatePexp。
+  - com.dwarfeng.rbacds.impl.bean.entity.HibernateRole。
+
+- 增加依赖。
+  - 增加依赖 `dwarfeng-datamark` 以应用其新功能，版本为 `1.0.1.a`。
+
 - 优化部分单元测试代码，以规避潜在的 bug。
   - com.dwarfeng.rbacds.impl.service.PermissionGroupMaintainServiceImplTest。
   - com.dwarfeng.rbacds.impl.service.PermissionLookupServiceImplTest。

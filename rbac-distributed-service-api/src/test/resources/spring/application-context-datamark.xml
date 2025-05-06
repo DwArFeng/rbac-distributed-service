@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:datamark="http://dwarfeng.com/schema/dwarfeng-datamark"
+        xmlns="http://www.springframework.org/schema/beans"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://dwarfeng.com/schema/dwarfeng-datamark
+        http://dwarfeng.com/schema/dwarfeng-datamark/dwarfeng-datamark.xsd"
+>
+
+    <!-- Role 数据标识 -->
+    <datamark:handler
+            handler-name="roleDatamarkHandler"
+            resource-url="${datamark.role.resource_url}"
+            resource-charset="${datamark.role.resource_charset}"
+            update-allowed="${datamark.role.update_allowed}"
+    />
+
+    <!-- Permission 数据标识 -->
+    <datamark:handler
+            handler-name="permissionDatamarkHandler"
+            resource-url="${datamark.permission.resource_url}"
+            resource-charset="${datamark.permission.resource_charset}"
+            update-allowed="${datamark.permission.update_allowed}"
+    />
+
+    <!-- User 数据标识 -->
+    <datamark:handler
+            handler-name="userDatamarkHandler"
+            resource-url="${datamark.user.resource_url}"
+            resource-charset="${datamark.user.resource_charset}"
+            update-allowed="${datamark.user.update_allowed}"
+    />
+</beans>

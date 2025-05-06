@@ -21,6 +21,7 @@
             <telqos:command-impl ref="memoryCommand"/>
             <telqos:command-impl ref="log4j2Command"/>
             <telqos:command-impl package-scan="com.dwarfeng.rbacds.impl.service.telqos"/>
+            <telqos:command-impl package-scan="com.dwarfeng.datamark.service.telqos"/>
         </telqos:command>
     </telqos:config>
 

@@ -29,6 +29,8 @@ public interface HibernateMapper {
     @InheritInverseConfiguration
     StringIdKey stringIdKeyFromHibernate(HibernateStringIdKey hibernateStringIdKey);
 
+    @Mapping(target = "modifiedDatamark", ignore = true)
+    @Mapping(target = "createdDatamark", ignore = true)
     @Mapping(target = "stringId", ignore = true)
     @Mapping(target = "groupStringId", ignore = true)
     @Mapping(target = "group", ignore = true)
@@ -37,6 +39,8 @@ public interface HibernateMapper {
     @InheritInverseConfiguration
     Permission permissionFromHibernate(HibernatePermission hibernatePermission);
 
+    @Mapping(target = "modifiedDatamark", ignore = true)
+    @Mapping(target = "createdDatamark", ignore = true)
     @Mapping(target = "stringId", ignore = true)
     @Mapping(target = "permissions", ignore = true)
     @Mapping(target = "parentStringId", ignore = true)
@@ -47,6 +51,8 @@ public interface HibernateMapper {
     @InheritInverseConfiguration
     PermissionGroup permissionGroupFromHibernate(HibernatePermissionGroup hibernatePermissionGroup);
 
+    @Mapping(target = "modifiedDatamark", ignore = true)
+    @Mapping(target = "createdDatamark", ignore = true)
     @Mapping(target = "roleId", ignore = true)
     @Mapping(target = "role", ignore = true)
     @Mapping(target = "longId", ignore = true)
@@ -55,6 +61,8 @@ public interface HibernateMapper {
     @InheritInverseConfiguration
     Pexp pexpFromHibernate(HibernatePexp hibernatePexp);
 
+    @Mapping(target = "modifiedDatamark", ignore = true)
+    @Mapping(target = "createdDatamark", ignore = true)
     @Mapping(target = "users", ignore = true)
     @Mapping(target = "stringId", ignore = true)
     @Mapping(target = "pexps", ignore = true)
@@ -63,6 +71,8 @@ public interface HibernateMapper {
     @InheritInverseConfiguration
     Role roleFromHibernate(HibernateRole hibernateRole);
 
+    @Mapping(target = "modifiedDatamark", ignore = true)
+    @Mapping(target = "createdDatamark", ignore = true)
     @Mapping(target = "stringId", ignore = true)
     @Mapping(target = "roles", ignore = true)
     HibernateUser userToHibernate(User user);

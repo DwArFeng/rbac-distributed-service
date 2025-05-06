@@ -1,5 +1,7 @@
 package com.dwarfeng.rbacds.impl.bean.entity;
 
+import com.dwarfeng.datamark.bean.jpa.DatamarkEntityListener;
+import com.dwarfeng.datamark.bean.jpa.DatamarkField;
 import com.dwarfeng.rbacds.sdk.util.Constraints;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
@@ -12,9 +14,10 @@ import java.util.Set;
 @Entity
 @IdClass(HibernateStringIdKey.class)
 @Table(name = "tbl_permission_group")
+@EntityListeners(DatamarkEntityListener.class)
 public class HibernatePermissionGroup implements Bean {
 
-    private static final long serialVersionUID = -3619161801409043810L;
+    private static final long serialVersionUID = -8366269789079382467L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -45,6 +48,22 @@ public class HibernatePermissionGroup implements Bean {
 
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernatePermission.class, mappedBy = "group")
     private Set<HibernatePermission> permissions = new HashSet<>();
+
+    // -----------------------------------------------------------审计-----------------------------------------------------------
+    @DatamarkField(handlerName = "permissionDatamarkHandler")
+    @Column(
+            name = "created_datamark",
+            length = com.dwarfeng.datamark.util.Constraints.LENGTH_DATAMARK_VALUE,
+            updatable = false
+    )
+    private String createdDatamark;
+
+    @DatamarkField(handlerName = "permissionDatamarkHandler")
+    @Column(
+            name = "modified_datamark",
+            length = com.dwarfeng.datamark.util.Constraints.LENGTH_DATAMARK_VALUE
+    )
+    private String modifiedDatamark;
 
     public HibernatePermissionGroup() {
     }
@@ -123,6 +142,22 @@ public class HibernatePermissionGroup implements Bean {
         this.permissions = permissions;
     }
 
+    public String getCreatedDatamark() {
+        return createdDatamark;
+    }
+
+    public void setCreatedDatamark(String createdDatamark) {
+        this.createdDatamark = createdDatamark;
+    }
+
+    public String getModifiedDatamark() {
+        return modifiedDatamark;
+    }
+
+    public void setModifiedDatamark(String modifiedDatamark) {
+        this.modifiedDatamark = modifiedDatamark;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
@@ -130,6 +165,8 @@ public class HibernatePermissionGroup implements Bean {
                 "parentStringId = " + parentStringId + ", " +
                 "name = " + name + ", " +
                 "remark = " + remark + ", " +
-                "parentGroup = " + parentGroup + ")";
+                "parentGroup = " + parentGroup + ", " +
+                "createdDatamark = " + createdDatamark + ", " +
+                "modifiedDatamark = " + modifiedDatamark + ")";
     }
 }
