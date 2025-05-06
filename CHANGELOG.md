@@ -17,6 +17,7 @@
   - 增加依赖 `dwarfeng-datamark` 以应用其新功能，版本为 `1.0.1.a`。
 
 - 优化部分单元测试代码，以规避潜在的 bug。
+  - com.dwarfeng.rbacds.api.integration.subgrade.PermissionLookupHandlerImplTest。
   - com.dwarfeng.rbacds.impl.service.PermissionGroupMaintainServiceImplTest。
   - com.dwarfeng.rbacds.impl.service.PermissionLookupServiceImplTest。
   - com.dwarfeng.rbacds.impl.service.PermissionMaintainServiceImplTest。
