@@ -107,10 +107,11 @@ public class UserMaintainServiceImplTest {
             assertTrue(lookupUserKeys.contains(wangWu.getKey()));
         } finally {
             if (Objects.nonNull(zhangSan)) userMaintainService.deleteIfExists(zhangSan.getKey());
-            roleMaintainService.deleteIfExists(admin.getKey());
             if (Objects.nonNull(liSi)) userMaintainService.deleteIfExists(liSi.getKey());
-            roleMaintainService.deleteIfExists(moderator.getKey());
             if (Objects.nonNull(wangWu)) userMaintainService.deleteIfExists(wangWu.getKey());
+            if (Objects.nonNull(zhaoLiu)) userMaintainService.deleteIfExists(zhaoLiu.getKey());
+            roleMaintainService.deleteIfExists(admin.getKey());
+            roleMaintainService.deleteIfExists(moderator.getKey());
             roleMaintainService.deleteIfExists(guest.getKey());
         }
     }
