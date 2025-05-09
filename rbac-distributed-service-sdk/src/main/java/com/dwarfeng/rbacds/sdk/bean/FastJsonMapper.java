@@ -12,9 +12,17 @@ import org.mapstruct.Mapper;
 /**
  * FastJson Bean 映射器。
  *
+ * <p>
+ * 该映射器中的实体类型不全面，仅包含 <code>FastJson</code> 类实体，因此使用 {@link BeanMapper} 代替。
+ *
  * @author DwArFeng
+ * @see BeanMapper
  * @since 1.5.0
+ * @deprecated 使用 {@link BeanMapper} 代替。
  */
+// 基于 MapStruct Processor 生成的实现类还在使用该接口，故忽略相关警告。
+@SuppressWarnings("DeprecatedIsStillUsed")
+@Deprecated
 @Mapper
 public interface FastJsonMapper {
 

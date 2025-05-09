@@ -1,6 +1,6 @@
 package com.dwarfeng.rbacds.impl.configuration;
 
-import com.dwarfeng.rbacds.sdk.bean.FastJsonMapper;
+import com.dwarfeng.rbacds.sdk.bean.BeanMapper;
 import com.dwarfeng.rbacds.sdk.bean.entity.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
 import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
@@ -50,7 +50,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPermission>) template,
                 new StringIdStringKeyFormatter(permissionPrefix),
-                new MapStructBeanTransformer<>(Permission.class, FastJsonPermission.class, FastJsonMapper.class)
+                new MapStructBeanTransformer<>(Permission.class, FastJsonPermission.class, BeanMapper.class)
         );
     }
 
@@ -60,7 +60,7 @@ public class CacheConfiguration {
         return new RedisListCache<>(
                 permissionListKey,
                 (RedisTemplate<String, FastJsonPermission>) template,
-                new MapStructBeanTransformer<>(Permission.class, FastJsonPermission.class, FastJsonMapper.class)
+                new MapStructBeanTransformer<>(Permission.class, FastJsonPermission.class, BeanMapper.class)
         );
     }
 
@@ -70,7 +70,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPexp>) template,
                 new LongIdStringKeyFormatter(pexpPrefix),
-                new MapStructBeanTransformer<>(Pexp.class, FastJsonPexp.class, FastJsonMapper.class)
+                new MapStructBeanTransformer<>(Pexp.class, FastJsonPexp.class, BeanMapper.class)
         );
     }
 
@@ -80,7 +80,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonRole>) template,
                 new StringIdStringKeyFormatter(rolePrefix),
-                new MapStructBeanTransformer<>(Role.class, FastJsonRole.class, FastJsonMapper.class)
+                new MapStructBeanTransformer<>(Role.class, FastJsonRole.class, BeanMapper.class)
         );
     }
 
@@ -90,7 +90,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonUser>) template,
                 new StringIdStringKeyFormatter(userPrefix),
-                new MapStructBeanTransformer<>(User.class, FastJsonUser.class, FastJsonMapper.class)
+                new MapStructBeanTransformer<>(User.class, FastJsonUser.class, BeanMapper.class)
         );
     }
 
@@ -100,7 +100,7 @@ public class CacheConfiguration {
         return new RedisKeyListCache<>(
                 (RedisTemplate<String, FastJsonPermission>) template,
                 new StringIdStringKeyFormatter(userPermissionListKey),
-                new MapStructBeanTransformer<>(Permission.class, FastJsonPermission.class, FastJsonMapper.class)
+                new MapStructBeanTransformer<>(Permission.class, FastJsonPermission.class, BeanMapper.class)
         );
     }
 
@@ -110,7 +110,7 @@ public class CacheConfiguration {
         return new RedisKeyListCache<>(
                 (RedisTemplate<String, FastJsonPermission>) template,
                 new StringIdStringKeyFormatter(rolePermissionListKey),
-                new MapStructBeanTransformer<>(Permission.class, FastJsonPermission.class, FastJsonMapper.class)
+                new MapStructBeanTransformer<>(Permission.class, FastJsonPermission.class, BeanMapper.class)
         );
     }
 
@@ -120,7 +120,7 @@ public class CacheConfiguration {
         return new RedisKeyListCache<>(
                 (RedisTemplate<String, FastJsonUser>) template,
                 new StringIdStringKeyFormatter(permissionUserListKey),
-                new MapStructBeanTransformer<>(User.class, FastJsonUser.class, FastJsonMapper.class)
+                new MapStructBeanTransformer<>(User.class, FastJsonUser.class, BeanMapper.class)
         );
     }
 
@@ -131,7 +131,7 @@ public class CacheConfiguration {
                 (RedisTemplate<String, FastJsonPermissionGroup>) template,
                 new StringIdStringKeyFormatter(permissionGroupPrefix),
                 new MapStructBeanTransformer<>(
-                        PermissionGroup.class, FastJsonPermissionGroup.class, FastJsonMapper.class
+                        PermissionGroup.class, FastJsonPermissionGroup.class, BeanMapper.class
                 )
         );
     }

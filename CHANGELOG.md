@@ -4,6 +4,8 @@
 
 #### 功能构建
 
+- 优化实体映射器机制。
+
 - 优化部分配置文件的名称。
   - `opt/opt-preset.xml` -> `opt/opt-pfilter.xml`。
 

@@ -1,6 +1,6 @@
 package com.dwarfeng.rbacds.node.configuration;
 
-import com.dwarfeng.rbacds.impl.bean.HibernateMapper;
+import com.dwarfeng.rbacds.impl.bean.BeanMapper;
 import com.dwarfeng.rbacds.impl.bean.entity.*;
 import com.dwarfeng.rbacds.impl.dao.preset.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
@@ -52,8 +52,8 @@ public class DaoConfiguration {
     permissionDaoDelegate() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
-                new MapStructBeanTransformer<>(Permission.class, HibernatePermission.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(Permission.class, HibernatePermission.class, BeanMapper.class),
                 HibernatePermission.class
         );
     }
@@ -62,7 +62,7 @@ public class DaoConfiguration {
     public HibernateEntireLookupDao<Permission, HibernatePermission> permissionHibernateEntireLookupDao() {
         return new HibernateEntireLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(Permission.class, HibernatePermission.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(Permission.class, HibernatePermission.class, BeanMapper.class),
                 HibernatePermission.class
         );
     }
@@ -71,7 +71,7 @@ public class DaoConfiguration {
     public HibernatePresetLookupDao<Permission, HibernatePermission> permissionHibernatePresetLookupDao() {
         return new HibernatePresetLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(Permission.class, HibernatePermission.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(Permission.class, HibernatePermission.class, BeanMapper.class),
                 HibernatePermission.class,
                 permissionPresetCriteriaMaker
         );
@@ -81,8 +81,8 @@ public class DaoConfiguration {
     public HibernateBatchBaseDao<LongIdKey, HibernateLongIdKey, Pexp, HibernatePexp> pexpDaoDelegate() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, HibernateMapper.class),
-                new MapStructBeanTransformer<>(Pexp.class, HibernatePexp.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(Pexp.class, HibernatePexp.class, BeanMapper.class),
                 HibernatePexp.class
         );
     }
@@ -91,7 +91,7 @@ public class DaoConfiguration {
     public HibernatePresetLookupDao<Pexp, HibernatePexp> pexpHibernatePresetLookupDao() {
         return new HibernatePresetLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(Pexp.class, HibernatePexp.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(Pexp.class, HibernatePexp.class, BeanMapper.class),
                 HibernatePexp.class,
                 pexpPresetCriteriaMaker
         );
@@ -101,8 +101,8 @@ public class DaoConfiguration {
     public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, Role, HibernateRole> roleDaoDelegate() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
-                new MapStructBeanTransformer<>(Role.class, HibernateRole.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(Role.class, HibernateRole.class, BeanMapper.class),
                 HibernateRole.class,
                 new DefaultDeletionMod<>(),
                 Collections.singleton("users")
@@ -113,7 +113,7 @@ public class DaoConfiguration {
     public HibernatePresetLookupDao<Role, HibernateRole> roleHibernatePresetLookupDao() {
         return new HibernatePresetLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(Role.class, HibernateRole.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(Role.class, HibernateRole.class, BeanMapper.class),
                 HibernateRole.class,
                 rolePresetCriteriaMaker
         );
@@ -123,7 +123,7 @@ public class DaoConfiguration {
     public HibernateEntireLookupDao<Role, HibernateRole> roleHibernateEntireLookupDao() {
         return new HibernateEntireLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(Role.class, HibernateRole.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(Role.class, HibernateRole.class, BeanMapper.class),
                 HibernateRole.class
         );
     }
@@ -132,8 +132,8 @@ public class DaoConfiguration {
     public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, User, HibernateUser> userDaoDelegate() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
-                new MapStructBeanTransformer<>(User.class, HibernateUser.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(User.class, HibernateUser.class, BeanMapper.class),
                 HibernateUser.class,
                 new DefaultDeletionMod<>()
         );
@@ -143,7 +143,7 @@ public class DaoConfiguration {
     public HibernatePresetLookupDao<User, HibernateUser> userHibernatePresetLookupDao() {
         return new HibernatePresetLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(User.class, HibernateUser.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(User.class, HibernateUser.class, BeanMapper.class),
                 HibernateUser.class,
                 userPresetCriteriaMaker
         );
@@ -153,7 +153,7 @@ public class DaoConfiguration {
     public HibernateEntireLookupDao<User, HibernateUser> userHibernateEntireLookupDao() {
         return new HibernateEntireLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(User.class, HibernateUser.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(User.class, HibernateUser.class, BeanMapper.class),
                 HibernateUser.class
         );
     }
@@ -163,10 +163,10 @@ public class DaoConfiguration {
             HibernateStringIdKey, HibernateRole> userRoleBatchRelationDao() {
         return new HibernateBatchRelationDao<>(
                 template,
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
-                new MapStructBeanTransformer<>(User.class, HibernateUser.class, HibernateMapper.class),
-                new MapStructBeanTransformer<>(Role.class, HibernateRole.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(User.class, HibernateUser.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(Role.class, HibernateRole.class, BeanMapper.class),
                 HibernateUser.class,
                 HibernateRole.class,
                 "roles",
@@ -180,10 +180,10 @@ public class DaoConfiguration {
             HibernateStringIdKey, HibernateUser> roleUserBatchRelationDao() {
         return new HibernateBatchRelationDao<>(
                 template,
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
-                new MapStructBeanTransformer<>(Role.class, HibernateRole.class, HibernateMapper.class),
-                new MapStructBeanTransformer<>(User.class, HibernateUser.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(Role.class, HibernateRole.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(User.class, HibernateUser.class, BeanMapper.class),
                 HibernateRole.class,
                 HibernateUser.class,
                 "users",
@@ -197,9 +197,9 @@ public class DaoConfiguration {
     permissionGroupDaoDelegate() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, HibernateMapper.class),
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
-                        PermissionGroup.class, HibernatePermissionGroup.class, HibernateMapper.class
+                        PermissionGroup.class, HibernatePermissionGroup.class, BeanMapper.class
                 ),
                 HibernatePermissionGroup.class
         );
@@ -211,7 +211,7 @@ public class DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        PermissionGroup.class, HibernatePermissionGroup.class, HibernateMapper.class
+                        PermissionGroup.class, HibernatePermissionGroup.class, BeanMapper.class
                 ),
                 HibernatePermissionGroup.class
         );
@@ -223,7 +223,7 @@ public class DaoConfiguration {
         return new HibernatePresetLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        PermissionGroup.class, HibernatePermissionGroup.class, HibernateMapper.class
+                        PermissionGroup.class, HibernatePermissionGroup.class, BeanMapper.class
                 ),
                 HibernatePermissionGroup.class,
                 permissionGroupPresetCriteriaMaker
