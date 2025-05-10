@@ -46,6 +46,10 @@
 
 #### Bug修复
 
+- 修正错误的 dubbo 应用名称。
+  - 修正 `api` 模块中错误的 dubbo 应用名称。
+  - 修正 `impl` 模块中错误的 dubbo 应用名称。
+
 - 修改部分配置文件，以修复 `opt/opt-pfilter.xml` 不生效的 bug。
   - `spring/application-context-scan.xml`。
 
