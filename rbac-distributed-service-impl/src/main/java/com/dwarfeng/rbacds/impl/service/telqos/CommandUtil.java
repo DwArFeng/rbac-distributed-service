@@ -31,7 +31,7 @@ final class CommandUtil {
         return "-" + commandOption;
     }
 
-    public static String syntax(String... patterns) {
+    public static String syntax(@Nonnull String... patterns) {
         StringJoiner sj = new StringJoiner(System.lineSeparator());
         for (String pattern : patterns) {
             sj.add(pattern);
@@ -39,7 +39,9 @@ final class CommandUtil {
         return sj.toString();
     }
 
-    public static Pair<String, Integer> analyseCommand(CommandLine commandLine, String... commandOptions) {
+    public static Pair<String, Integer> analyseCommand(
+            @Nonnull CommandLine commandLine, @Nonnull String... commandOptions
+    ) {
         int i = 0;
         String subCmd = null;
         for (String commandOption : commandOptions) {
@@ -51,7 +53,7 @@ final class CommandUtil {
         return Pair.of(subCmd, i);
     }
 
-    public static String optionMismatchMessage(String... patterns) {
+    public static String optionMismatchMessage(@Nonnull String... patterns) {
         StringJoiner sj = new StringJoiner(", ", "下列选项必须且只能含有一个: ", "");
         for (String pattern : patterns) {
             sj.add(concatOptionPrefix(pattern));
