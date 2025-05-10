@@ -4,6 +4,15 @@
 
 #### 功能构建
 
+- 更新 README.md。
+
+- Wiki 编写。
+  - 构建 wiki 目录结构。
+  - docs/wiki/en_US/Contents.md。
+  - docs/wiki/en_US/Introduction.md。
+  - docs/wiki/zh_CN/Contents.md。
+  - docs/wiki/zh_CN/Introduction.md。
+
 - 为部分工具类中方法的入口参数增加 `@NotNull` 注解。
   - com.dwarfeng.rbacds.impl.service.telqos.CommandUtil。
 
