@@ -4,6 +4,10 @@
 
 #### 功能构建
 
+- 优化默认数据标记值仓库文件中的内容。
+  - 优化 `api` 模块 `datamark/default.storage` 中的内容。
+  - 优化 `impl` 模块 `datamark/default.storage` 中的内容。
+
 - 部分代码注释优化。
   - com.dwarfeng.rbacds.impl.bean.BeanMapper。
   - com.dwarfeng.rbacds.sdk.bean.BeanMapper。
