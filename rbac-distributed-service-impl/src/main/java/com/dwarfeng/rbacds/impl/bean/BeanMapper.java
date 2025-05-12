@@ -22,7 +22,7 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface BeanMapper {
 
-    // -----------------------------------------------------------Key-----------------------------------------------------------
+    // -----------------------------------------------------------Subgrade Key-----------------------------------------------------------
     HibernateLongIdKey longIdKeyToHibernate(LongIdKey longIdKey);
 
     @InheritInverseConfiguration
@@ -33,7 +33,7 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     StringIdKey stringIdKeyFromHibernate(HibernateStringIdKey hibernateStringIdKey);
 
-    // -----------------------------------------------------------Entity-----------------------------------------------------------
+    // -----------------------------------------------------------Rbac Entity-----------------------------------------------------------
     @Mapping(target = "modifiedDatamark", ignore = true)
     @Mapping(target = "createdDatamark", ignore = true)
     @Mapping(target = "stringId", ignore = true)

@@ -23,7 +23,7 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface BeanMapper {
 
-    // -----------------------------------------------------------Key-----------------------------------------------------------
+    // -----------------------------------------------------------Subgrade Key-----------------------------------------------------------
     FastJsonLongIdKey longIdKeyToFastJson(LongIdKey longIdKey);
 
     @InheritInverseConfiguration
@@ -44,7 +44,7 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     LongIdKey longIdKeyFromWebInput(WebInputLongIdKey webInputLongIdKey);
 
-    // -----------------------------------------------------------Entity-----------------------------------------------------------
+    // -----------------------------------------------------------Rbac Entity-----------------------------------------------------------
     FastJsonPermission permissionToFastJson(Permission permission);
 
     @InheritInverseConfiguration
