@@ -4,6 +4,10 @@
 
 #### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh_CN/ShellScripts.md。
+  - docs/wiki/zh_CN/BatchScripts.md。
+
 - 更新 README.md。
 
 - Wiki 更新。
