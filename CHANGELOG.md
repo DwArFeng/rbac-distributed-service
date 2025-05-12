@@ -4,7 +4,10 @@
 
 #### 功能构建
 
-- (无)
+- 更新 README.md。
+
+- Wiki 更新。
+  - docs/wiki/zh_CN/Introduction.md。
 
 #### Bug修复
 
