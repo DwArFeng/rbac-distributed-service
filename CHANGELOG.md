@@ -9,7 +9,8 @@
 
 #### Bug修复
 
-- (无)
+- 修复部分单元测试代码执行后未从数据库中清除所有数据的 bug。
+  - com.dwarfeng.rbacds.impl.service.UserMaintainServiceImplTest。
 
 #### 功能移除
 
