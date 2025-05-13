@@ -11,7 +11,7 @@
     <parent>
         <artifactId>rbac-distributed-service</artifactId>
         <groupId>com.dwarfeng</groupId>
-        <version>1.7.2.a-SNAPSHOT</version>
+        <version>1.7.2.a</version>
     </parent>
 
     <artifactId>rbac-distributed-service-impl</artifactId>
