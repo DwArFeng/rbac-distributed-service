@@ -1,9 +1,11 @@
 package com.dwarfeng.rbacds.sdk.bean.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.dwarfeng.rbacds.sdk.util.Constraints;
 import com.dwarfeng.rbacds.stack.bean.entity.PermissionGroup;
 import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -45,9 +47,11 @@ public class WebInputPermissionGroup implements Bean {
     @JSONField(name = "name")
     @NotNull
     @NotEmpty
+    @Length(max = Constraints.LENGTH_NAME)
     private String name;
 
     @JSONField(name = "remark")
+    @Length(max = Constraints.LENGTH_REMARK)
     private String remark;
 
     public WebInputPermissionGroup() {

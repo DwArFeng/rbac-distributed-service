@@ -4,7 +4,16 @@
 
 #### 功能构建
 
-- (无)
+- 优化部分字符串字段的长度约束。
+  - com.dwarfeng.rbacds.impl.bean.entity.HibernatePermission。
+  - com.dwarfeng.rbacds.impl.bean.entity.HibernatePermissionGroup。
+  - com.dwarfeng.rbacds.impl.bean.entity.HibernateRole。
+  - com.dwarfeng.rbacds.impl.bean.entity.HibernateUser。
+  - com.dwarfeng.rbacds.sdk.bean.entity.WebInputPermission。
+  - com.dwarfeng.rbacds.sdk.bean.entity.WebInputPermissionGroup。
+  - com.dwarfeng.rbacds.sdk.bean.entity.WebInputPexp。
+  - com.dwarfeng.rbacds.sdk.bean.entity.WebInputRole。
+  - com.dwarfeng.rbacds.sdk.bean.entity.WebInputUser。
 
 #### Bug修复
 

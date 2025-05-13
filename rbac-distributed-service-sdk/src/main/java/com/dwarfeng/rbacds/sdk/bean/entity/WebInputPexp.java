@@ -1,10 +1,12 @@
 package com.dwarfeng.rbacds.sdk.bean.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.dwarfeng.rbacds.sdk.util.Constraints;
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
 import com.dwarfeng.subgrade.sdk.bean.key.WebInputLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -20,7 +22,7 @@ import java.util.Objects;
  */
 public class WebInputPexp implements Bean {
 
-    private static final long serialVersionUID = 955803288564850694L;
+    private static final long serialVersionUID = 961370488723095386L;
 
     public static Pexp toStackBean(WebInputPexp webInputPexp) {
         if (Objects.isNull(webInputPexp)) {
@@ -46,9 +48,11 @@ public class WebInputPexp implements Bean {
     @JSONField(name = "content")
     @NotNull
     @NotEmpty
+    @Length(max = Constraints.LENGTH_CONTENT)
     private String content;
 
     @JSONField(name = "remark")
+    @Length(max = Constraints.LENGTH_REMARK)
     private String remark;
 
     public WebInputPexp() {

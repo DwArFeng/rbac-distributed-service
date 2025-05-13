@@ -1,9 +1,11 @@
 package com.dwarfeng.rbacds.sdk.bean.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.dwarfeng.rbacds.sdk.util.Constraints;
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -40,12 +42,14 @@ public class WebInputRole implements Bean {
     @JSONField(name = "name")
     @NotNull
     @NotEmpty
+    @Length(max = Constraints.LENGTH_NAME)
     private String name;
 
     @JSONField(name = "enabled")
     private boolean enabled;
 
     @JSONField(name = "remark")
+    @Length(max = Constraints.LENGTH_REMARK)
     private String remark;
 
     public WebInputRole() {

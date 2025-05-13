@@ -1,9 +1,11 @@
 package com.dwarfeng.rbacds.sdk.bean.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.dwarfeng.rbacds.sdk.util.Constraints;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -18,7 +20,7 @@ import java.util.Objects;
  */
 public class WebInputPermission implements Bean {
 
-    private static final long serialVersionUID = 7403275233867303245L;
+    private static final long serialVersionUID = 2975808424068392878L;
 
     public static Permission toStackBean(WebInputPermission webInputPermission) {
         if (Objects.isNull(webInputPermission)) {
@@ -44,9 +46,11 @@ public class WebInputPermission implements Bean {
     @JSONField(name = "name")
     @NotNull
     @NotEmpty
+    @Length(max = Constraints.LENGTH_NAME)
     private String name;
 
     @JSONField(name = "remark")
+    @Length(max = Constraints.LENGTH_REMARK)
     private String remark;
 
     public WebInputPermission() {

@@ -19,7 +19,7 @@ public class HibernatePermission implements Bean {
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "id", length = Constraints.LENGTH_ID, nullable = false, unique = true)
     private String stringId;
 
     // -----------------------------------------------------------外键-----------------------------------------------------------

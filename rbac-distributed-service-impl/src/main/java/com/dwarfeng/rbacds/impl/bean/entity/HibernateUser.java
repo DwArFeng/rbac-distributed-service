@@ -18,7 +18,7 @@ import java.util.Set;
 public class HibernateUser implements Bean {
 
     private static final long serialVersionUID = 2966965144815915883L;
-    
+
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
     @Column(name = "id", length = Constraints.LENGTH_ID, nullable = false, unique = true)
