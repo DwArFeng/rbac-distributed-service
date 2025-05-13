@@ -4,7 +4,8 @@
 
 #### 功能构建
 
-- (无)
+- Wiki 编写。
+  - docs/wiki/zh_CN/UsingTelqos.md。
 
 #### Bug修复
 
