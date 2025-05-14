@@ -104,4 +104,14 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     PermissionMeta permissionMetaFromHibernate(HibernatePermissionMeta hibernatePermissionMeta);
+
+    @Mapping(target = "stringId", ignore = true)
+    HibernatePermissionFilterSupport permissionFilterSupportToHibernate(
+            PermissionFilterSupport permissionFilterSupport
+    );
+
+    @InheritInverseConfiguration
+    PermissionFilterSupport permissionFilterSupportFromHibernate(
+            HibernatePermissionFilterSupport hibernatePermissionFilterSupport
+    );
 }

@@ -123,4 +123,11 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     PermissionMeta permissionMetaFromWebInput(WebInputPermissionMeta webInputPermissionMeta);
+
+    FastJsonPermissionFilterSupport permissionFilterSupportToFastJson(PermissionFilterSupport permissionFilterSupport);
+
+    @InheritInverseConfiguration
+    PermissionFilterSupport permissionFilterSupportFromFastJson(
+            FastJsonPermissionFilterSupport fastJsonPermissionFilterSupport
+    );
 }

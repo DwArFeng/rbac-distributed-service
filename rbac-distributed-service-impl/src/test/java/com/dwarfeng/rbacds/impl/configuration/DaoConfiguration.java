@@ -33,6 +33,7 @@ public class DaoConfiguration {
     private final PermissionPresetCriteriaMaker permissionPresetCriteriaMaker;
     private final PermissionGroupPresetCriteriaMaker permissionGroupPresetCriteriaMaker;
     private final PermissionMetaPresetCriteriaMaker permissionMetaPresetCriteriaMaker;
+    private final PermissionFilterSupportPresetCriteriaMaker permissionFilterSupportPresetCriteriaMaker;
 
     public DaoConfiguration(
             HibernateTemplate template,
@@ -41,7 +42,8 @@ public class DaoConfiguration {
             UserPresetCriteriaMaker userPresetCriteriaMaker,
             PermissionPresetCriteriaMaker permissionPresetCriteriaMaker,
             PermissionGroupPresetCriteriaMaker permissionGroupPresetCriteriaMaker,
-            PermissionMetaPresetCriteriaMaker permissionMetaPresetCriteriaMaker
+            PermissionMetaPresetCriteriaMaker permissionMetaPresetCriteriaMaker,
+            PermissionFilterSupportPresetCriteriaMaker permissionFilterSupportPresetCriteriaMaker
     ) {
         this.template = template;
         this.pexpPresetCriteriaMaker = pexpPresetCriteriaMaker;
@@ -50,6 +52,7 @@ public class DaoConfiguration {
         this.permissionPresetCriteriaMaker = permissionPresetCriteriaMaker;
         this.permissionGroupPresetCriteriaMaker = permissionGroupPresetCriteriaMaker;
         this.permissionMetaPresetCriteriaMaker = permissionMetaPresetCriteriaMaker;
+        this.permissionFilterSupportPresetCriteriaMaker = permissionFilterSupportPresetCriteriaMaker;
     }
 
     @Bean
@@ -272,6 +275,44 @@ public class DaoConfiguration {
                 ),
                 HibernatePermissionMeta.class,
                 permissionMetaPresetCriteriaMaker
+        );
+    }
+
+    @Bean
+    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, PermissionFilterSupport,
+            HibernatePermissionFilterSupport> permissionFilterSupportHibernateBatchBaseDao() {
+        return new HibernateBatchBaseDao<>(
+                template,
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(
+                        PermissionFilterSupport.class, HibernatePermissionFilterSupport.class, BeanMapper.class
+                ),
+                HibernatePermissionFilterSupport.class
+        );
+    }
+
+    @Bean
+    public HibernateEntireLookupDao<PermissionFilterSupport, HibernatePermissionFilterSupport>
+    permissionFilterSupportHibernateEntireLookupDao() {
+        return new HibernateEntireLookupDao<>(
+                template,
+                new MapStructBeanTransformer<>(
+                        PermissionFilterSupport.class, HibernatePermissionFilterSupport.class, BeanMapper.class
+                ),
+                HibernatePermissionFilterSupport.class
+        );
+    }
+
+    @Bean
+    public HibernatePresetLookupDao<PermissionFilterSupport, HibernatePermissionFilterSupport>
+    permissionFilterSupportHibernatePresetLookupDao() {
+        return new HibernatePresetLookupDao<>(
+                template,
+                new MapStructBeanTransformer<>(
+                        PermissionFilterSupport.class, HibernatePermissionFilterSupport.class, BeanMapper.class
+                ),
+                HibernatePermissionFilterSupport.class,
+                permissionFilterSupportPresetCriteriaMaker
         );
     }
 }

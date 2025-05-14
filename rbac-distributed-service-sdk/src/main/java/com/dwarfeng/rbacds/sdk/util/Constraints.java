@@ -35,6 +35,13 @@ public final class Constraints {
      */
     public static final int LENGTH_USER = 50;
 
+    /**
+     * 类型的长度约束。
+     *
+     * @since 1.8.0
+     */
+    public static final int LENGTH_TYPE = 50;
+
     private Constraints() {
         throw new IllegalStateException("禁止实例化");
     }

@@ -3,15 +3,14 @@ package com.dwarfeng.rbacds.impl.configuration;
 import com.dwarfeng.rbacds.impl.service.operation.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionMetaKey;
+import com.dwarfeng.rbacds.stack.cache.PermissionFilterSupportCache;
 import com.dwarfeng.rbacds.stack.dao.*;
 import com.dwarfeng.subgrade.impl.generation.ExceptionKeyGenerator;
-import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyBatchRelationService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
+import com.dwarfeng.subgrade.impl.service.*;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.log.LogLevel;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,6 +33,11 @@ public class ServiceConfiguration {
     private final PermissionGroupDao permissionGroupDao;
     private final PermissionMetaCrudOperation permissionMetaCrudOperation;
     private final PermissionMetaDao permissionMetaDao;
+    private final PermissionFilterSupportCache permissionFilterSupportCache;
+    private final PermissionFilterSupportDao permissionFilterSupportDao;
+
+    @Value("${cache.timeout.entity.permission_filter_support}")
+    private long permissionFilterSupportTimeout;
 
     public ServiceConfiguration(
             ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration,
@@ -50,7 +54,9 @@ public class ServiceConfiguration {
             PermissionGroupCrudOperation permissionGroupCrudOperation,
             PermissionGroupDao permissionGroupDao,
             PermissionMetaCrudOperation permissionMetaCrudOperation,
-            PermissionMetaDao permissionMetaDao
+            PermissionMetaDao permissionMetaDao,
+            PermissionFilterSupportCache permissionFilterSupportCache,
+            PermissionFilterSupportDao permissionFilterSupportDao
     ) {
         this.serviceExceptionMapperConfiguration = serviceExceptionMapperConfiguration;
         this.generateConfiguration = generateConfiguration;
@@ -67,6 +73,8 @@ public class ServiceConfiguration {
         this.permissionGroupDao = permissionGroupDao;
         this.permissionMetaCrudOperation = permissionMetaCrudOperation;
         this.permissionMetaDao = permissionMetaDao;
+        this.permissionFilterSupportCache = permissionFilterSupportCache;
+        this.permissionFilterSupportDao = permissionFilterSupportDao;
     }
 
     @Bean
@@ -243,6 +251,37 @@ public class ServiceConfiguration {
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 permissionMetaDao
+        );
+    }
+
+    @Bean
+    public GeneralBatchCrudService<StringIdKey, PermissionFilterSupport>
+    permissionFilterSupportGeneralBatchCrudService() {
+        return new GeneralBatchCrudService<>(
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                permissionFilterSupportDao,
+                permissionFilterSupportCache,
+                new ExceptionKeyGenerator<>(),
+                permissionFilterSupportTimeout
+        );
+    }
+
+    @Bean
+    public DaoOnlyEntireLookupService<PermissionFilterSupport> permissionFilterSupportDaoOnlyEntireLookupService() {
+        return new DaoOnlyEntireLookupService<>(
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                permissionFilterSupportDao
+        );
+    }
+
+    @Bean
+    public DaoOnlyPresetLookupService<PermissionFilterSupport> permissionFilterSupportDaoOnlyPresetLookupService() {
+        return new DaoOnlyPresetLookupService<>(
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                permissionFilterSupportDao
         );
     }
 }
