@@ -2,7 +2,9 @@ package com.dwarfeng.rbacds.impl.configuration;
 
 import com.dwarfeng.rbacds.sdk.bean.BeanMapper;
 import com.dwarfeng.rbacds.sdk.bean.entity.*;
+import com.dwarfeng.rbacds.sdk.bean.key.formatter.PermissionMetaStringKeyFormatter;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionMetaKey;
 import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
 import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.impl.cache.RedisKeyListCache;
@@ -39,6 +41,8 @@ public class CacheConfiguration {
     private String permissionUserListKey;
     @Value("${cache.prefix.entity.permission_group}")
     private String permissionGroupPrefix;
+    @Value("${cache.prefix.entity.permission_meta}")
+    private String permissionMetaPrefix;
 
     public CacheConfiguration(RedisTemplate<String, ?> template) {
         this.template = template;
@@ -132,6 +136,19 @@ public class CacheConfiguration {
                 new StringIdStringKeyFormatter(permissionGroupPrefix),
                 new MapStructBeanTransformer<>(
                         PermissionGroup.class, FastJsonPermissionGroup.class, BeanMapper.class
+                )
+        );
+    }
+
+    @Bean
+    @SuppressWarnings("unchecked")
+    public RedisBatchBaseCache<PermissionMetaKey, PermissionMeta, FastJsonPermissionMeta>
+    permissionMetaCacheDelegate() {
+        return new RedisBatchBaseCache<>(
+                (RedisTemplate<String, FastJsonPermissionMeta>) template,
+                new PermissionMetaStringKeyFormatter(permissionMetaPrefix),
+                new MapStructBeanTransformer<>(
+                        PermissionMeta.class, FastJsonPermissionMeta.class, BeanMapper.class
                 )
         );
     }

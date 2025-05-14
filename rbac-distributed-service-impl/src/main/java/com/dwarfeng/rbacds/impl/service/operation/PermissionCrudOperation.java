@@ -1,11 +1,12 @@
 package com.dwarfeng.rbacds.impl.service.operation;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
-import com.dwarfeng.rbacds.stack.cache.PermissionCache;
-import com.dwarfeng.rbacds.stack.cache.PermissionUserCache;
-import com.dwarfeng.rbacds.stack.cache.RolePermissionCache;
-import com.dwarfeng.rbacds.stack.cache.UserPermissionCache;
+import com.dwarfeng.rbacds.stack.bean.entity.PermissionMeta;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionMetaKey;
+import com.dwarfeng.rbacds.stack.cache.*;
 import com.dwarfeng.rbacds.stack.dao.PermissionDao;
+import com.dwarfeng.rbacds.stack.dao.PermissionMetaDao;
+import com.dwarfeng.rbacds.stack.service.PermissionMetaMaintainService;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
@@ -14,12 +15,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class PermissionCrudOperation implements BatchCrudOperation<StringIdKey, Permission> {
 
     private final PermissionDao permissionDao;
     private final PermissionCache permissionCache;
+
+    private final PermissionMetaDao permissionMetaDao;
+    private final PermissionMetaCache permissionMetaCache;
 
     private final UserPermissionCache userPermissionCache;
     private final RolePermissionCache rolePermissionCache;
@@ -31,12 +36,16 @@ public class PermissionCrudOperation implements BatchCrudOperation<StringIdKey, 
     public PermissionCrudOperation(
             PermissionDao permissionDao,
             PermissionCache permissionCache,
+            PermissionMetaDao permissionMetaDao,
+            PermissionMetaCache permissionMetaCache,
             UserPermissionCache userPermissionCache,
             RolePermissionCache rolePermissionCache,
             PermissionUserCache permissionUserCache
     ) {
         this.permissionDao = permissionDao;
         this.permissionCache = permissionCache;
+        this.permissionMetaDao = permissionMetaDao;
+        this.permissionMetaCache = permissionMetaCache;
         this.userPermissionCache = userPermissionCache;
         this.rolePermissionCache = rolePermissionCache;
         this.permissionUserCache = permissionUserCache;
@@ -98,6 +107,13 @@ public class PermissionCrudOperation implements BatchCrudOperation<StringIdKey, 
         rolePermissionCache.clear();
         // 清空权限用户缓存。
         permissionUserCache.clear();
+
+        // 删除与权限相关的元数据。
+        List<PermissionMetaKey> permissionMetaKeys = permissionMetaDao.lookup(
+                PermissionMetaMaintainService.CHILD_FOR_PERMISSION, new Object[]{key}
+        ).stream().map(PermissionMeta::getKey).collect(Collectors.toList());
+        permissionMetaDao.batchDelete(permissionMetaKeys);
+        permissionMetaCache.batchDelete(permissionMetaKeys);
 
         // 删除权限自身。
         permissionCache.delete(key);

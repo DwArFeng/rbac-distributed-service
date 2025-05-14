@@ -1,7 +1,9 @@
 package com.dwarfeng.rbacds.impl.bean;
 
 import com.dwarfeng.rbacds.impl.bean.entity.*;
+import com.dwarfeng.rbacds.impl.bean.key.HibernatePermissionMetaKey;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionMetaKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
@@ -33,7 +35,14 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     StringIdKey stringIdKeyFromHibernate(HibernateStringIdKey hibernateStringIdKey);
 
+    // -----------------------------------------------------------Rbac Key-----------------------------------------------------------
+    HibernatePermissionMetaKey permissionMetaKeyToHibernate(PermissionMetaKey permissionMetaKey);
+
+    @InheritInverseConfiguration
+    PermissionMetaKey permissionMetaKeyFromHibernate(HibernatePermissionMetaKey hibernatePermissionMetaKey);
+
     // -----------------------------------------------------------Rbac Entity-----------------------------------------------------------
+    @Mapping(target = "metas", ignore = true)
     @Mapping(target = "modifiedDatamark", ignore = true)
     @Mapping(target = "createdDatamark", ignore = true)
     @Mapping(target = "stringId", ignore = true)
@@ -84,4 +93,15 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     User userFromHibernate(HibernateUser hibernateUser);
+
+    @Mapping(target = "permissionStringId", ignore = true)
+    @Mapping(target = "permission", ignore = true)
+    @Mapping(target = "parentStringId", ignore = true)
+    @Mapping(target = "modifiedDatamark", ignore = true)
+    @Mapping(target = "metaStringId", ignore = true)
+    @Mapping(target = "createdDatamark", ignore = true)
+    HibernatePermissionMeta permissionMetaToHibernate(PermissionMeta permissionMeta);
+
+    @InheritInverseConfiguration
+    PermissionMeta permissionMetaFromHibernate(HibernatePermissionMeta hibernatePermissionMeta);
 }

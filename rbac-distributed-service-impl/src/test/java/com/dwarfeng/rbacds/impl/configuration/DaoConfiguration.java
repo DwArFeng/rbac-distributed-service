@@ -2,8 +2,10 @@ package com.dwarfeng.rbacds.impl.configuration;
 
 import com.dwarfeng.rbacds.impl.bean.BeanMapper;
 import com.dwarfeng.rbacds.impl.bean.entity.*;
+import com.dwarfeng.rbacds.impl.bean.key.HibernatePermissionMetaKey;
 import com.dwarfeng.rbacds.impl.dao.preset.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionMetaKey;
 import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
 import com.dwarfeng.subgrade.impl.dao.HibernateBatchBaseDao;
 import com.dwarfeng.subgrade.impl.dao.HibernateBatchRelationDao;
@@ -30,6 +32,7 @@ public class DaoConfiguration {
     private final UserPresetCriteriaMaker userPresetCriteriaMaker;
     private final PermissionPresetCriteriaMaker permissionPresetCriteriaMaker;
     private final PermissionGroupPresetCriteriaMaker permissionGroupPresetCriteriaMaker;
+    private final PermissionMetaPresetCriteriaMaker permissionMetaPresetCriteriaMaker;
 
     public DaoConfiguration(
             HibernateTemplate template,
@@ -37,7 +40,8 @@ public class DaoConfiguration {
             RolePresetCriteriaMaker rolePresetCriteriaMaker,
             UserPresetCriteriaMaker userPresetCriteriaMaker,
             PermissionPresetCriteriaMaker permissionPresetCriteriaMaker,
-            PermissionGroupPresetCriteriaMaker permissionGroupPresetCriteriaMaker
+            PermissionGroupPresetCriteriaMaker permissionGroupPresetCriteriaMaker,
+            PermissionMetaPresetCriteriaMaker permissionMetaPresetCriteriaMaker
     ) {
         this.template = template;
         this.pexpPresetCriteriaMaker = pexpPresetCriteriaMaker;
@@ -45,6 +49,7 @@ public class DaoConfiguration {
         this.userPresetCriteriaMaker = userPresetCriteriaMaker;
         this.permissionPresetCriteriaMaker = permissionPresetCriteriaMaker;
         this.permissionGroupPresetCriteriaMaker = permissionGroupPresetCriteriaMaker;
+        this.permissionMetaPresetCriteriaMaker = permissionMetaPresetCriteriaMaker;
     }
 
     @Bean
@@ -227,6 +232,46 @@ public class DaoConfiguration {
                 ),
                 HibernatePermissionGroup.class,
                 permissionGroupPresetCriteriaMaker
+        );
+    }
+
+    @Bean
+    public HibernateBatchBaseDao<PermissionMetaKey, HibernatePermissionMetaKey, PermissionMeta,
+            HibernatePermissionMeta> permissionMetaDaoDelegate() {
+        return new HibernateBatchBaseDao<>(
+                template,
+                new MapStructBeanTransformer<>(
+                        PermissionMetaKey.class, HibernatePermissionMetaKey.class, BeanMapper.class
+                ),
+                new MapStructBeanTransformer<>(
+                        PermissionMeta.class, HibernatePermissionMeta.class, BeanMapper.class
+                ),
+                HibernatePermissionMeta.class
+        );
+    }
+
+    @Bean
+    public HibernateEntireLookupDao<PermissionMeta, HibernatePermissionMeta>
+    permissionMetaHibernateEntireLookupDao() {
+        return new HibernateEntireLookupDao<>(
+                template,
+                new MapStructBeanTransformer<>(
+                        PermissionMeta.class, HibernatePermissionMeta.class, BeanMapper.class
+                ),
+                HibernatePermissionMeta.class
+        );
+    }
+
+    @Bean
+    public HibernatePresetLookupDao<PermissionMeta, HibernatePermissionMeta>
+    permissionMetaHibernatePresetLookupDao() {
+        return new HibernatePresetLookupDao<>(
+                template,
+                new MapStructBeanTransformer<>(
+                        PermissionMeta.class, HibernatePermissionMeta.class, BeanMapper.class
+                ),
+                HibernatePermissionMeta.class,
+                permissionMetaPresetCriteriaMaker
         );
     }
 }

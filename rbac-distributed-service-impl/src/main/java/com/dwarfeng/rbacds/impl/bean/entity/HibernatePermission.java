@@ -7,7 +7,9 @@ import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Entity
 @IdClass(HibernateStringIdKey.class)
@@ -15,8 +17,8 @@ import java.util.Optional;
 @EntityListeners(DatamarkEntityListener.class)
 public class HibernatePermission implements Bean {
 
-    private static final long serialVersionUID = -960582545242515498L;
-
+    private static final long serialVersionUID = -1812492804895220905L;
+    
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
     @Column(name = "id", length = Constraints.LENGTH_ID, nullable = false, unique = true)
@@ -39,6 +41,10 @@ public class HibernatePermission implements Bean {
             @JoinColumn(name = "group_id", referencedColumnName = "id", insertable = false, updatable = false), //
     })
     private HibernatePermissionGroup group;
+
+    // -----------------------------------------------------------一对多-----------------------------------------------------------
+    @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernatePermissionMeta.class, mappedBy = "permission")
+    private Set<HibernatePermissionMeta> metas = new HashSet<>();
 
     // -----------------------------------------------------------审计-----------------------------------------------------------
     @DatamarkField(handlerName = "permissionDatamarkHandler")
@@ -115,6 +121,14 @@ public class HibernatePermission implements Bean {
 
     public void setGroup(HibernatePermissionGroup group) {
         this.group = group;
+    }
+
+    public Set<HibernatePermissionMeta> getMetas() {
+        return metas;
+    }
+
+    public void setMetas(Set<HibernatePermissionMeta> metas) {
+        this.metas = metas;
     }
 
     public String getCreatedDatamark() {

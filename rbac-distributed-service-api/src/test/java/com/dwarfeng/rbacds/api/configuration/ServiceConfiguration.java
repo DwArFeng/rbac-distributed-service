@@ -2,6 +2,7 @@ package com.dwarfeng.rbacds.api.configuration;
 
 import com.dwarfeng.rbacds.impl.service.operation.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionMetaKey;
 import com.dwarfeng.rbacds.stack.dao.*;
 import com.dwarfeng.subgrade.impl.generation.ExceptionKeyGenerator;
 import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
@@ -31,6 +32,8 @@ public class ServiceConfiguration {
     private final PexpDao pexpDao;
     private final PermissionGroupCrudOperation permissionGroupCrudOperation;
     private final PermissionGroupDao permissionGroupDao;
+    private final PermissionMetaCrudOperation permissionMetaCrudOperation;
+    private final PermissionMetaDao permissionMetaDao;
 
     public ServiceConfiguration(
             ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration,
@@ -45,7 +48,9 @@ public class ServiceConfiguration {
             PexpCrudOperation pexpCrudOperation,
             PexpDao pexpDao,
             PermissionGroupCrudOperation permissionGroupCrudOperation,
-            PermissionGroupDao permissionGroupDao
+            PermissionGroupDao permissionGroupDao,
+            PermissionMetaCrudOperation permissionMetaCrudOperation,
+            PermissionMetaDao permissionMetaDao
     ) {
         this.serviceExceptionMapperConfiguration = serviceExceptionMapperConfiguration;
         this.generateConfiguration = generateConfiguration;
@@ -60,6 +65,8 @@ public class ServiceConfiguration {
         this.pexpDao = pexpDao;
         this.permissionGroupCrudOperation = permissionGroupCrudOperation;
         this.permissionGroupDao = permissionGroupDao;
+        this.permissionMetaCrudOperation = permissionMetaCrudOperation;
+        this.permissionMetaDao = permissionMetaDao;
     }
 
     @Bean
@@ -208,6 +215,34 @@ public class ServiceConfiguration {
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 permissionGroupDao
+        );
+    }
+
+    @Bean
+    public CustomBatchCrudService<PermissionMetaKey, PermissionMeta> permissionMetaCustomBatchCrudService() {
+        return new CustomBatchCrudService<>(
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                permissionMetaCrudOperation,
+                new ExceptionKeyGenerator<>()
+        );
+    }
+
+    @Bean
+    public DaoOnlyEntireLookupService<PermissionMeta> permissionMetaDaoOnlyEntireLookupService() {
+        return new DaoOnlyEntireLookupService<>(
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                permissionMetaDao
+        );
+    }
+
+    @Bean
+    public DaoOnlyPresetLookupService<PermissionMeta> permissionMetaDaoOnlyPresetLookupService() {
+        return new DaoOnlyPresetLookupService<>(
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                permissionMetaDao
         );
     }
 }
