@@ -1,10 +1,7 @@
 package com.dwarfeng.rbacds.impl.configuration;
 
 import com.alibaba.fastjson.parser.ParserConfig;
-import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonPermission;
-import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonPexp;
-import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonRole;
-import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonUser;
+import com.dwarfeng.rbacds.sdk.bean.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +18,7 @@ public class FastJsonConfiguration {
         ParserConfig.getGlobalInstance().addAccept(FastJsonPexp.class.getCanonicalName());
         ParserConfig.getGlobalInstance().addAccept(FastJsonPermission.class.getCanonicalName());
         ParserConfig.getGlobalInstance().addAccept(FastJsonUser.class.getCanonicalName());
+        ParserConfig.getGlobalInstance().addAccept(FastJsonPermissionGroup.class.getCanonicalName());
         LOGGER.debug("FastJson autotype 白名单配置完毕");
     }
 }

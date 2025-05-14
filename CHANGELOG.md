@@ -17,7 +17,8 @@
 
 #### Bug修复
 
-- (无)
+- 修正 `FastJsonConfiguration` 中缺失 autotype 白名单实体配置的 bug。
+  - com.dwarfeng.rbacds.sdk.bean.entity.FastJsonPermissionGroup。
 
 #### 功能移除
 
