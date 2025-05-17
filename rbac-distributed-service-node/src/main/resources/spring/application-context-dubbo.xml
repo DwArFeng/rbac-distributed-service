@@ -59,11 +59,6 @@
             group="${dubbo.provider.group}"
     />
     <dubbo:service
-            interface="com.dwarfeng.rbacds.stack.service.PermissionMetaMaintainService"
-            ref="permissionMetaMaintainServiceImpl"
-            group="${dubbo.provider.group}"
-    />
-    <dubbo:service
             interface="com.dwarfeng.rbacds.stack.service.PermissionFilterSupportMaintainService"
             ref="permissionFilterSupportMaintainServiceImpl"
             group="${dubbo.provider.group}"

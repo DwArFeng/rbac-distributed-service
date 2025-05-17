@@ -6,7 +6,6 @@
 
 - 新增实体及其维护服务，并通过单元测试。
   - com.dwarfeng.rbacds.stack.bean.entity.PermissionFilterSupport。
-  - com.dwarfeng.rbacds.stack.bean.entity.PermissionMeta。
 
 - 优化部分字符串字段的长度约束。
   - com.dwarfeng.rbacds.impl.bean.entity.HibernatePermission。

@@ -1,10 +1,7 @@
 package com.dwarfeng.rbacds.sdk.bean;
 
 import com.dwarfeng.rbacds.sdk.bean.entity.*;
-import com.dwarfeng.rbacds.sdk.bean.key.FastJsonPermissionMetaKey;
-import com.dwarfeng.rbacds.sdk.bean.key.WebInputPermissionMetaKey;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
-import com.dwarfeng.rbacds.stack.bean.key.PermissionMetaKey;
 import com.dwarfeng.subgrade.sdk.bean.key.FastJsonLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.JSFixedFastJsonLongIdKey;
@@ -46,17 +43,6 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     LongIdKey longIdKeyFromWebInput(WebInputLongIdKey webInputLongIdKey);
-
-    // -----------------------------------------------------------Rbac Key-----------------------------------------------------------
-    FastJsonPermissionMetaKey permissionMetaKeyToFastJson(PermissionMetaKey permissionMetaKey);
-
-    @InheritInverseConfiguration
-    PermissionMetaKey permissionMetaKeyFromFastJson(FastJsonPermissionMetaKey fastJsonPermissionMetaKey);
-
-    WebInputPermissionMetaKey permissionMetaKeyToWebInput(PermissionMetaKey permissionMetaKey);
-
-    @InheritInverseConfiguration
-    PermissionMetaKey permissionMetaKeyFromWebInput(WebInputPermissionMetaKey webInputPermissionMetaKey);
 
     // -----------------------------------------------------------Rbac Entity-----------------------------------------------------------
     FastJsonPermission permissionToFastJson(Permission permission);
@@ -113,16 +99,6 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     User userFromWebInput(WebInputUser webInputUser);
-
-    FastJsonPermissionMeta permissionMetaToFastJson(PermissionMeta permissionMeta);
-
-    @InheritInverseConfiguration
-    PermissionMeta permissionMetaFromFastJson(FastJsonPermissionMeta fastJsonPermissionMeta);
-
-    WebInputPermissionMeta permissionMetaToWebInput(PermissionMeta permissionMeta);
-
-    @InheritInverseConfiguration
-    PermissionMeta permissionMetaFromWebInput(WebInputPermissionMeta webInputPermissionMeta);
 
     FastJsonPermissionFilterSupport permissionFilterSupportToFastJson(PermissionFilterSupport permissionFilterSupport);
 
