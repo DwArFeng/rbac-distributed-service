@@ -7,6 +7,13 @@
 - 实现核心机制。
   - 重置机制。
 
+- 实现预设重置器。
+  - com.dwarfeng.rbacds.impl.handler.resetter.CronResetter。
+  - com.dwarfeng.rbacds.impl.handler.resetter.DubboResetter。
+  - com.dwarfeng.rbacds.impl.handler.resetter.FixedDelayResetter。
+  - com.dwarfeng.rbacds.impl.handler.resetter.FixedRateResetter。
+  - com.dwarfeng.rbacds.impl.handler.resetter.NeverResetter。
+
 - 实现运维指令。
   - com.dwarfeng.rbacds.impl.service.telqos.MapLocalCacheCommand。
 

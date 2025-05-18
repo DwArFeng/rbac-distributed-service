@@ -14,6 +14,39 @@
     <context:component-scan
             base-package="com.dwarfeng.rbacds.impl.handler.resetter" use-default-filters="false"
     >
+        <!-- 加载 CronResetter -->
+        <!--
+        <context:include-filter
+                type="assignable" expression="com.dwarfeng.rbacds.impl.handler.resetter.CronResetter"
+        />
+        -->
 
+        <!-- 加载 DubboResetter -->
+        <!--
+        <context:include-filter
+                type="assignable" expression="com.dwarfeng.rbacds.impl.handler.resetter.DubboResetter"
+        />
+        -->
+
+        <!-- 加载 FixedDelayResetter -->
+        <!--
+        <context:include-filter
+                type="assignable" expression="com.dwarfeng.rbacds.impl.handler.resetter.FixedDelayResetter"
+        />
+        -->
+
+        <!-- 加载 FixedRateResetter -->
+        <!--
+        <context:include-filter
+                type="assignable" expression="com.dwarfeng.rbacds.impl.handler.resetter.FixedRateResetter"
+        />
+        -->
+
+        <!-- 加载 NeverResetter -->
+        <!--
+        <context:include-filter
+                type="assignable" expression="com.dwarfeng.rbacds.impl.handler.resetter.NeverResetter"
+        />
+        -->
     </context:component-scan>
 </beans>
