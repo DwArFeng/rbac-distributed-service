@@ -12,51 +12,51 @@
 
     <!--扫描handler的实现包。 -->
     <context:component-scan base-package="com.dwarfeng.rbacds.impl.handler.pfilter" use-default-filters="false">
-        <!-- 加载 DirectSubGroupPermissionFilter -->
+        <!-- 加载 DirectSubGroupPermissionFilterRegistry -->
         <!--
         <context:include-filter
                 type="assignable"
-                expression="com.dwarfeng.rbacds.impl.handler.pfilter.DirectSubGroupPermissionFilter"
+                expression="com.dwarfeng.rbacds.impl.handler.pfilter.DirectSubGroupPermissionFilterRegistry"
         />
         -->
 
-        <!-- 加载 ExactPermissionFilter -->
+        <!-- 加载 ExactPermissionFilterRegistry -->
         <!--
         <context:include-filter
                 type="assignable"
-                expression="com.dwarfeng.rbacds.impl.handler.pfilter.ExactPermissionFilter"
+                expression="com.dwarfeng.rbacds.impl.handler.pfilter.ExactPermissionFilterRegistry"
         />
         -->
 
-        <!-- 加载 IdPrefixPermissionFilter -->
+        <!-- 加载 IdPrefixPermissionFilterRegistry -->
         <!--
         <context:include-filter
                 type="assignable"
-                expression="com.dwarfeng.rbacds.impl.handler.pfilter.IdPrefixPermissionFilter"
+                expression="com.dwarfeng.rbacds.impl.handler.pfilter.IdPrefixPermissionFilterRegistry"
         />
         -->
 
-        <!-- 加载 IdRegexPermissionFilter -->
+        <!-- 加载 IdRegexPermissionFilterRegistry -->
         <!--
         <context:include-filter
                 type="assignable"
-                expression="com.dwarfeng.rbacds.impl.handler.pfilter.IdRegexPermissionFilter"
+                expression="com.dwarfeng.rbacds.impl.handler.pfilter.IdRegexPermissionFilterRegistry"
         />
         -->
 
-        <!-- 加载 NameRegexPermissionFilter -->
+        <!-- 加载 NameRegexPermissionFilterRegistry -->
         <!--
         <context:include-filter
                 type="assignable"
-                expression="com.dwarfeng.rbacds.impl.handler.pfilter.NameRegexPermissionFilter"
+                expression="com.dwarfeng.rbacds.impl.handler.pfilter.NameRegexPermissionFilterRegistry"
         />
         -->
 
-        <!-- 加载 NestedSubGroupPermissionFilter -->
+        <!-- 加载 NestedSubGroupPermissionFilterRegistry -->
         <!--
         <context:include-filter
                 type="assignable"
-                expression="com.dwarfeng.rbacds.impl.handler.pfilter.NestedSubGroupPermissionFilter"
+                expression="com.dwarfeng.rbacds.impl.handler.pfilter.NestedSubGroupPermissionFilterRegistry"
         />
         -->
     </context:component-scan>

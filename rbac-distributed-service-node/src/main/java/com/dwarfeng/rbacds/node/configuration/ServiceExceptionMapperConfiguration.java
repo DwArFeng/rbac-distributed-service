@@ -22,6 +22,10 @@ public class ServiceExceptionMapperConfiguration {
         destination.put(PermissionNotExistsException.class, ServiceExceptionCodes.PERMISSION_NOT_EXISTS);
         destination.put(RoleNotExistsException.class, ServiceExceptionCodes.ROLE_NOT_EXISTS);
         destination.put(UserNotExistsException.class, ServiceExceptionCodes.USER_NOT_EXISTS);
+        destination.put(PermissionFilterException.class, ServiceExceptionCodes.PERMISSION_FILTER_FAILED);
+        destination.put(PermissionFilterMakeException.class, ServiceExceptionCodes.PERMISSION_FILTER_MAKE_FAILED);
+        destination.put(UnsupportedPermissionFilterTypeException.class, ServiceExceptionCodes.PERMISSION_FILTER_TYPE_UNSUPPORTED);
+        destination.put(PermissionFilterExecutionException.class, ServiceExceptionCodes.PERMISSION_FILTER_EXECUTION_FAILED);
         return new MapServiceExceptionMapper(destination, com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes.UNDEFINED);
     }
 }

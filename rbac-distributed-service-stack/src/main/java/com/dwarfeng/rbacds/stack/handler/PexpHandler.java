@@ -43,6 +43,37 @@ public interface PexpHandler extends Handler {
      * @since 1.0.0
      */
     enum PermissionReception {
-        NOT_ACCEPT, ACCEPT, REJECT, GLOBAL_REJECT
+
+        /**
+         * 接受程度：未通过。
+         *
+         * <p>
+         * 该枚举表示权限表达式没有通过判断。
+         */
+        NOT_ACCEPT,
+
+        /**
+         * 接受程度：接受。
+         *
+         * <p>
+         * 该枚举表示权限表达式已经通过判断，且为接受状态。
+         */
+        ACCEPT,
+
+        /**
+         * 接受程度：拒绝。
+         *
+         * <p>
+         * 该枚举表示权限表达式已经通过判断，且为拒绝状态。
+         */
+        REJECT,
+
+        /**
+         * 接受程度：全局拒绝。
+         *
+         * <p>
+         * 该枚举表示权限表达式已经通过判断，且为全局拒绝状态。
+         */
+        GLOBAL_REJECT
     }
 }

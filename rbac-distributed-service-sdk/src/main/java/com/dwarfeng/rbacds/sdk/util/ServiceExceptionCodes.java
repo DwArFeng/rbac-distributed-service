@@ -42,6 +42,15 @@ public final class ServiceExceptionCodes {
     public static final ServiceException.Code ROLE_NOT_EXISTS =
             new ServiceException.Code(offset(40), "role not exists");
 
+    public static final ServiceException.Code PERMISSION_FILTER_FAILED =
+            new ServiceException.Code(offset(50), "permission filter failed");
+    public static final ServiceException.Code PERMISSION_FILTER_MAKE_FAILED =
+            new ServiceException.Code(offset(51), "permission filter make failed");
+    public static final ServiceException.Code PERMISSION_FILTER_TYPE_UNSUPPORTED =
+            new ServiceException.Code(offset(52), "permission filter type unsupported");
+    public static final ServiceException.Code PERMISSION_FILTER_EXECUTION_FAILED =
+            new ServiceException.Code(offset(53), "permission filter execution failed");
+
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;
     }
@@ -70,6 +79,10 @@ public final class ServiceExceptionCodes {
         PERMISSION_NOT_EXISTS.setCode(offset(20));
         PEXP_TEST_ERROR.setCode(offset(30));
         ROLE_NOT_EXISTS.setCode(offset(40));
+        PERMISSION_FILTER_FAILED.setCode(offset(50));
+        PERMISSION_FILTER_MAKE_FAILED.setCode(offset(51));
+        PERMISSION_FILTER_TYPE_UNSUPPORTED.setCode(offset(52));
+        PERMISSION_FILTER_EXECUTION_FAILED.setCode(offset(53));
     }
 
     private ServiceExceptionCodes() {
