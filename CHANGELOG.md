@@ -5,7 +5,13 @@
 #### 功能构建
 
 - 实现核心机制。
+  - 推送机制。
   - 重置机制。
+
+- 实现预设推送器。
+  - com.dwarfeng.rbacds.impl.handler.pusher.DrainPusher。
+  - com.dwarfeng.rbacds.impl.handler.pusher.LogPusher。
+  - com.dwarfeng.rbacds.impl.handler.pusher.MultiPusher。
 
 - 实现预设重置器。
   - com.dwarfeng.rbacds.impl.handler.resetter.CronResetter。
