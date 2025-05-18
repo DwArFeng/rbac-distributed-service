@@ -90,15 +90,15 @@ public class PermissionLookupServiceImplV2Test {
         pexp6 = new Pexp(
                 new LongIdKey(6L), roleC.getKey(), "v2;!id_regex@^.*$|exact@permission.c.3", "精确:去除permission.c.3"
         );
-        permission1 = new Permission(new StringIdKey("permission.a.1"), null, "测试权限a.1", "测试用权限");
-        permission2 = new Permission(new StringIdKey("permission.a.2"), null, "测试权限a.2", "测试用权限");
-        permission3 = new Permission(new StringIdKey("permission.a.3"), null, "测试权限a.3", "测试用权限");
-        permission4 = new Permission(new StringIdKey("permission.b.1"), null, "测试权限b.1", "测试用权限");
-        permission5 = new Permission(new StringIdKey("permission.b.2"), null, "测试权限b.2", "测试用权限");
-        permission6 = new Permission(new StringIdKey("permission.b.3"), null, "测试权限b.3", "测试用权限");
-        permission7 = new Permission(new StringIdKey("permission.c.1"), null, "测试权限c.1", "测试用权限");
-        permission8 = new Permission(new StringIdKey("permission.c.2"), null, "测试权限c.2", "测试用权限");
-        permission9 = new Permission(new StringIdKey("permission.c.3"), null, "测试权限c.3", "测试用权限");
+        permission1 = new Permission(new StringIdKey("permission.a.1"), null, "测试权限a.1", "测试用权限", 12450);
+        permission2 = new Permission(new StringIdKey("permission.a.2"), null, "测试权限a.2", "测试用权限", 12450);
+        permission3 = new Permission(new StringIdKey("permission.a.3"), null, "测试权限a.3", "测试用权限", 12450);
+        permission4 = new Permission(new StringIdKey("permission.b.1"), null, "测试权限b.1", "测试用权限", 12450);
+        permission5 = new Permission(new StringIdKey("permission.b.2"), null, "测试权限b.2", "测试用权限", 12450);
+        permission6 = new Permission(new StringIdKey("permission.b.3"), null, "测试权限b.3", "测试用权限", 12450);
+        permission7 = new Permission(new StringIdKey("permission.c.1"), null, "测试权限c.1", "测试用权限", 12450);
+        permission8 = new Permission(new StringIdKey("permission.c.2"), null, "测试权限c.2", "测试用权限", 12450);
+        permission9 = new Permission(new StringIdKey("permission.c.3"), null, "测试权限c.3", "测试用权限", 12450);
     }
 
     @After

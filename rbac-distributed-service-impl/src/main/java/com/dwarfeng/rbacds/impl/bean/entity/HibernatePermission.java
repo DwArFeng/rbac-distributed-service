@@ -15,7 +15,7 @@ import java.util.Optional;
 @EntityListeners(DatamarkEntityListener.class)
 public class HibernatePermission implements Bean {
 
-    private static final long serialVersionUID = -1812492804895220905L;
+    private static final long serialVersionUID = -7985932144962633665L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -32,6 +32,9 @@ public class HibernatePermission implements Bean {
 
     @Column(name = "remark", length = Constraints.LENGTH_REMARK)
     private String remark;
+
+    @Column(name = "level")
+    private int level;
 
     // -----------------------------------------------------------多对一-----------------------------------------------------------
     @ManyToOne(targetEntity = HibernatePermissionGroup.class)
@@ -109,6 +112,14 @@ public class HibernatePermission implements Bean {
         this.remark = remark;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public HibernatePermissionGroup getGroup() {
         return group;
     }
@@ -140,6 +151,7 @@ public class HibernatePermission implements Bean {
                 "groupStringId = " + groupStringId + ", " +
                 "name = " + name + ", " +
                 "remark = " + remark + ", " +
+                "level = " + level + ", " +
                 "group = " + group + ", " +
                 "createdDatamark = " + createdDatamark + ", " +
                 "modifiedDatamark = " + modifiedDatamark + ")";

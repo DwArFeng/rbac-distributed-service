@@ -47,7 +47,8 @@ public class PermissionMaintainServiceImplTest {
                     new StringIdKey("permission." + i),
                     new StringIdKey("permission_group"),
                     "权限" + i,
-                    "测试用权限"
+                    "测试用权限",
+                    12450
             );
             permissions.add(permission);
         }

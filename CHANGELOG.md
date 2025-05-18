@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 新增实体字段。
+  - com.dwarfeng.rbacds.stack.bean.entity.Permission.level。
+
 - 实现核心机制。
   - 推送机制。
   - 重置机制。

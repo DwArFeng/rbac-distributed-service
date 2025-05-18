@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 public class FastJsonPermission implements Bean {
 
-    private static final long serialVersionUID = -1611452886001308613L;
+    private static final long serialVersionUID = -2363050831673303464L;
 
     public static FastJsonPermission of(Permission permission) {
         if (Objects.isNull(permission)) {
@@ -25,7 +25,8 @@ public class FastJsonPermission implements Bean {
                 FastJsonStringIdKey.of(permission.getKey()),
                 FastJsonStringIdKey.of(permission.getGroupKey()),
                 permission.getName(),
-                permission.getRemark()
+                permission.getRemark(),
+                permission.getLevel()
         );
     }
 
@@ -41,14 +42,20 @@ public class FastJsonPermission implements Bean {
     @JSONField(name = "remark", ordinal = 4)
     private String remark;
 
+    @JSONField(name = "level", ordinal = 5)
+    private int level;
+
     public FastJsonPermission() {
     }
 
-    public FastJsonPermission(FastJsonStringIdKey key, FastJsonStringIdKey groupKey, String name, String remark) {
+    public FastJsonPermission(
+            FastJsonStringIdKey key, FastJsonStringIdKey groupKey, String name, String remark, int level
+    ) {
         this.key = key;
         this.groupKey = groupKey;
         this.name = name;
         this.remark = remark;
+        this.level = level;
     }
 
     public FastJsonStringIdKey getKey() {
@@ -83,6 +90,14 @@ public class FastJsonPermission implements Bean {
         this.remark = remark;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     @Override
     public String toString() {
         return "FastJsonPermission{" +
@@ -90,6 +105,7 @@ public class FastJsonPermission implements Bean {
                 ", groupKey=" + groupKey +
                 ", name='" + name + '\'' +
                 ", remark='" + remark + '\'' +
+                ", level=" + level +
                 '}';
     }
 }

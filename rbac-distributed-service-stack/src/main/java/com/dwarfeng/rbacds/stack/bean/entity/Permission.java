@@ -11,21 +11,32 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
  */
 public class Permission implements Entity<StringIdKey> {
 
-    private static final long serialVersionUID = -1534203776335886L;
-
+    private static final long serialVersionUID = 4858980545164383670L;
+    
     private StringIdKey key;
     private StringIdKey groupKey;
     private String name;
     private String remark;
 
+    /**
+     * 权限等级。
+     *
+     * <p>
+     * 该字段表示权限的等级，值越大，权限越高。
+     *
+     * @since 1.8.0
+     */
+    private int level;
+
     public Permission() {
     }
 
-    public Permission(StringIdKey key, StringIdKey groupKey, String name, String remark) {
+    public Permission(StringIdKey key, StringIdKey groupKey, String name, String remark, int level) {
         this.key = key;
         this.groupKey = groupKey;
         this.name = name;
         this.remark = remark;
+        this.level = level;
     }
 
     @Override
@@ -62,6 +73,14 @@ public class Permission implements Entity<StringIdKey> {
         this.remark = remark;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     @Override
     public String toString() {
         return "Permission{" +
@@ -69,6 +88,7 @@ public class Permission implements Entity<StringIdKey> {
                 ", groupKey=" + groupKey +
                 ", name='" + name + '\'' +
                 ", remark='" + remark + '\'' +
+                ", level=" + level +
                 '}';
     }
 }

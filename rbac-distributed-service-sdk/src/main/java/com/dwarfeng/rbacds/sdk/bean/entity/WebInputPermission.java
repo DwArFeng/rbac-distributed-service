@@ -20,7 +20,7 @@ import java.util.Objects;
  */
 public class WebInputPermission implements Bean {
 
-    private static final long serialVersionUID = 2975808424068392878L;
+    private static final long serialVersionUID = 2512617598216145098L;
 
     public static Permission toStackBean(WebInputPermission webInputPermission) {
         if (Objects.isNull(webInputPermission)) {
@@ -30,7 +30,8 @@ public class WebInputPermission implements Bean {
                 WebInputStringIdKey.toStackBean(webInputPermission.getKey()),
                 WebInputStringIdKey.toStackBean(webInputPermission.getGroupKey()),
                 webInputPermission.getName(),
-                webInputPermission.getRemark()
+                webInputPermission.getRemark(),
+                webInputPermission.getLevel()
         );
     }
 
@@ -52,6 +53,9 @@ public class WebInputPermission implements Bean {
     @JSONField(name = "remark")
     @Length(max = Constraints.LENGTH_REMARK)
     private String remark;
+
+    @JSONField(name = "level")
+    private int level;
 
     public WebInputPermission() {
     }
@@ -88,6 +92,14 @@ public class WebInputPermission implements Bean {
         this.remark = remark;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     @Override
     public String toString() {
         return "WebInputPermission{" +
@@ -95,6 +107,7 @@ public class WebInputPermission implements Bean {
                 ", groupKey=" + groupKey +
                 ", name='" + name + '\'' +
                 ", remark='" + remark + '\'' +
+                ", level=" + level +
                 '}';
     }
 }
