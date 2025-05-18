@@ -15,6 +15,7 @@
   - com.dwarfeng.rbacds.impl.handler.resetter.NeverResetter。
 
 - 实现运维指令。
+  - com.dwarfeng.rbacds.impl.service.telqos.ResetCommand。
   - com.dwarfeng.rbacds.impl.service.telqos.MapLocalCacheCommand。
 
 - 重构权限表达式机制。
