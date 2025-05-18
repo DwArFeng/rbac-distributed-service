@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 实现核心机制。
+  - 重置机制。
+
 - 实现运维指令。
   - com.dwarfeng.rbacds.impl.service.telqos.MapLocalCacheCommand。
 
