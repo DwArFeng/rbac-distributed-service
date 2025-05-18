@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 实现运维指令。
+  - com.dwarfeng.rbacds.impl.service.telqos.MapLocalCacheCommand。
+
 - 重构权限表达式机制。
   - 重构权限过滤器，使其成为标准的插件式组件。
   - 重构权限表达式的解析机制，将解析过程委托给 `PexpHandler`，并在内部实现中使用解析引擎进行解析。
