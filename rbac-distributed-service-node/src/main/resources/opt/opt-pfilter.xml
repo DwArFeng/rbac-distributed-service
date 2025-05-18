@@ -59,5 +59,13 @@
                 expression="com.dwarfeng.rbacds.impl.handler.pfilter.NestedSubGroupPermissionFilterRegistry"
         />
         -->
+
+        <!-- 加载 LevelPermissionFilterRegistry -->
+        <!--
+        <context:include-filter
+                type="assignable"
+                expression="com.dwarfeng.rbacds.impl.handler.pfilter.LevelPermissionFilterRegistry"
+        />
+        -->
     </context:component-scan>
 </beans>

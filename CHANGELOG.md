@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 实现预设权限过滤器。
+  - com.dwarfeng.rbacds.impl.handler.pfilter.LevelPermissionFilterRegistry。
+
 - 新增实体字段。
   - com.dwarfeng.rbacds.stack.bean.entity.Permission.level。
 

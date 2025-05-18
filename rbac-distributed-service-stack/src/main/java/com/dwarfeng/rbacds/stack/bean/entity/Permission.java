@@ -12,7 +12,7 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 public class Permission implements Entity<StringIdKey> {
 
     private static final long serialVersionUID = 4858980545164383670L;
-    
+
     private StringIdKey key;
     private StringIdKey groupKey;
     private String name;
