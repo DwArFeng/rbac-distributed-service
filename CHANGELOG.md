@@ -4,6 +4,11 @@
 
 #### 功能构建
 
+- 更新 README.md。
+
+- Wiki 更新。
+  - docs/wiki/zh_CN/Introduction.md。
+
 - Wiki 编写。
   - docs/wiki/zh_CN/PexpGeneral.md。
   - docs/wiki/zh_CN/PexpV1.md。
