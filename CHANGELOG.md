@@ -4,6 +4,11 @@
 
 #### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh_CN/PexpGeneral.md。
+  - docs/wiki/zh_CN/PexpV1.md。
+  - docs/wiki/zh_CN/PexpV2.md。
+
 - 实现预设权限过滤器。
   - com.dwarfeng.rbacds.impl.handler.pfilter.LevelPermissionFilterRegistry。
 
