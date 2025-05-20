@@ -77,3 +77,9 @@ buildNumber.properties
 ## Optext Files
 #################
 /rbac-distributed-service-node/optext/
+
+#################
+## Confext Files
+#################
+/rbac-distributed-service-node/confext/
+
