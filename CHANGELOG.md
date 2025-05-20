@@ -8,6 +8,9 @@
 
 #### Bug修复
 
+- 更正 wiki 中错误的内容。
+  - docs/wiki/zh_CN/PexpV2.md。
+
 - 补充 `.gitignore` 中缺失的配置。
 
 #### 功能移除
