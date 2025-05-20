@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 @TelqosCommand
-public class MapLocalCacheCommand extends CliCommand {
+public class PermissionFilterLocalCacheCommand extends CliCommand {
 
     private static final String COMMAND_OPTION_LOOKUP = "l";
     private static final String COMMAND_OPTION_CLEAR = "c";
@@ -42,7 +42,7 @@ public class MapLocalCacheCommand extends CliCommand {
 
     private final PermissionFilterQosService permissionFilterQosService;
 
-    public MapLocalCacheCommand(PermissionFilterQosService permissionFilterQosService) {
+    public PermissionFilterLocalCacheCommand(PermissionFilterQosService permissionFilterQosService) {
         super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
         this.permissionFilterQosService = permissionFilterQosService;
     }

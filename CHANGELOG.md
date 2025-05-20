@@ -8,6 +8,9 @@
 
 #### Bug修复
 
+- 更正运维指令错误的类名。
+  - MapLocalCacheCommand -> PermissionFilterLocalCacheCommand。
+
 - 更正 wiki 中错误的内容。
   - docs/wiki/zh_CN/PexpV2.md。
 
