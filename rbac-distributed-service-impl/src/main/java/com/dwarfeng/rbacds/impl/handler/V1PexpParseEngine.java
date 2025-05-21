@@ -1,7 +1,8 @@
 package com.dwarfeng.rbacds.impl.handler;
 
+import com.dwarfeng.rbacds.stack.handler.PexpParseHandler;
+import com.dwarfeng.rbacds.stack.handler.PexpParseHandler.Modifier;
 import com.dwarfeng.rbacds.stack.handler.PexpParseHandler.ParseResult;
-import com.dwarfeng.rbacds.stack.handler.PexpParseHandler.PipeModifier;
 import com.dwarfeng.rbacds.stack.handler.PexpParseHandler.PipeUnit;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import org.apache.commons.lang3.StringUtils;
@@ -101,16 +102,16 @@ public class V1PexpParseEngine implements PexpParseEngine {
         }
 
         // 解析 pipeModifier。
-        PipeModifier pipeModifier;
+        Modifier pipeModifier;
         switch (modifier) {
             case MODIFIER_STRING_ACCEPT:
-                pipeModifier = PipeModifier.ACCEPT;
+                pipeModifier = Modifier.ACCEPT;
                 break;
             case MODIFIER_STRING_REJECT:
-                pipeModifier = PipeModifier.REJECT;
+                pipeModifier = Modifier.REJECT;
                 break;
             case MODIFIER_STRING_GLOBAL_REJECT:
-                pipeModifier = PipeModifier.GLOBAL_REJECT;
+                pipeModifier = PexpParseHandler.Modifier.GLOBAL_REJECT;
                 break;
             default:
                 throw new IllegalStateException("不应该执行到此处, 请联系开发人员");

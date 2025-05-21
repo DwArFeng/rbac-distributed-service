@@ -4,7 +4,8 @@
 
 #### 功能构建
 
-- (无)
+- 优化权限表达式解析逻辑相关的部分类名。
+  - PexpParseHandler.PipeModifier -> PexpParseHandler.Modifier。
 
 #### Bug修复
 

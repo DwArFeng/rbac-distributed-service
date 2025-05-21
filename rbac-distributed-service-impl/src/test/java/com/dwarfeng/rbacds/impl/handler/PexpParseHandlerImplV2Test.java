@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.dwarfeng.rbacds.stack.handler.PexpParseHandler.PipeModifier.*;
+import static com.dwarfeng.rbacds.stack.handler.PexpParseHandler.Modifier.*;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -281,7 +281,7 @@ public class PexpParseHandlerImplV2Test {
      *
      * <p>
      * 参数 <code>resultData</code> 的内容应该是一个长度为 <code>2n + 1</code> 的数组，数组中的第 <code>0</code>
-     * 个元素表示  <code>{@link PexpParseHandler.PipeModifier} modifier</code>。<br>
+     * 个元素表示  <code>{@link PexpParseHandler.Modifier} modifier</code>。<br>
      * 剩余元素 <code>2</code> 个元素一：<br>
      * 第 <code>0</code> 个元素表示 <code>{@link String} filterType</code>。<br>
      * 第 <code>1</code> 个元素表示 <code>{@link String} filterPattern</code>。
@@ -294,8 +294,8 @@ public class PexpParseHandlerImplV2Test {
         if (resultData.length < 3 || (resultData.length - 1) % 2 != 0) {
             throw new IllegalArgumentException("resultData 的长度不合法");
         }
-        // 获取第 0 个元素，转换为 PipeModifier。
-        PexpParseHandler.PipeModifier pipeModifier = (PexpParseHandler.PipeModifier) resultData[0];
+        // 获取第 0 个元素，转换为 Modifier。
+        PexpParseHandler.Modifier modifier = (PexpParseHandler.Modifier) resultData[0];
         // 剩余元素，每 2 个元素一组，转换为 FilterType 和 FilterPattern，并构造 PipeUnit。
         List<PexpParseHandler.PipeUnit> pipeUnits = new ArrayList<>();
         for (int i = 1; i < resultData.length; i += 2) {
@@ -304,7 +304,7 @@ public class PexpParseHandlerImplV2Test {
             pipeUnits.add(new PexpParseHandler.PipeUnit(filterType, filterPattern));
         }
         // 返回结果。
-        return new PexpParseHandler.ParseResult(pipeModifier, pipeUnits);
+        return new PexpParseHandler.ParseResult(modifier, pipeUnits);
     }
 
     @After

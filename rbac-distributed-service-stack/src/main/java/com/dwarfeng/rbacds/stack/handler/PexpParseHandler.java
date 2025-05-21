@@ -35,15 +35,15 @@ public interface PexpParseHandler extends Handler {
      */
     final class ParseResult {
 
-        private final PipeModifier modifier;
+        private final Modifier modifier;
         private final List<PipeUnit> pipe;
 
-        public ParseResult(PipeModifier modifier, List<PipeUnit> pipe) {
+        public ParseResult(Modifier modifier, List<PipeUnit> pipe) {
             this.modifier = modifier;
             this.pipe = pipe;
         }
 
-        public PipeModifier getModifier() {
+        public Modifier getModifier() {
             return modifier;
         }
 
@@ -81,7 +81,7 @@ public interface PexpParseHandler extends Handler {
      * @author DwArFeng
      * @since 1.8.0
      */
-    enum PipeModifier {
+    enum Modifier {
 
         /**
          * 修饰符：接受。

@@ -56,7 +56,7 @@ public class PexpHandlerImpl implements PexpHandler {
             }
 
             // 否则，根据修饰符，返回对应的结果。
-            PexpParseHandler.PipeModifier modifier = parseResult.getModifier();
+            PexpParseHandler.Modifier modifier = parseResult.getModifier();
             switch (modifier) {
                 case ACCEPT:
                     return PermissionReception.ACCEPT;
@@ -112,7 +112,7 @@ public class PexpHandlerImpl implements PexpHandler {
             // 构造结果并返回。
             Map<PermissionReception, List<Permission>> result = new EnumMap<>(PermissionReception.class);
             result.put(PermissionReception.NOT_ACCEPT, notAcceptedPermissions);
-            PexpParseHandler.PipeModifier modifier = parseResult.getModifier();
+            PexpParseHandler.Modifier modifier = parseResult.getModifier();
             switch (modifier) {
                 case ACCEPT:
                     result.put(PermissionReception.ACCEPT, acceptedPermissions);

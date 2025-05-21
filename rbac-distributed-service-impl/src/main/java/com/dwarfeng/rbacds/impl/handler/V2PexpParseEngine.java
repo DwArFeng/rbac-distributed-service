@@ -1,7 +1,8 @@
 package com.dwarfeng.rbacds.impl.handler;
 
+import com.dwarfeng.rbacds.stack.handler.PexpParseHandler;
+import com.dwarfeng.rbacds.stack.handler.PexpParseHandler.Modifier;
 import com.dwarfeng.rbacds.stack.handler.PexpParseHandler.ParseResult;
-import com.dwarfeng.rbacds.stack.handler.PexpParseHandler.PipeModifier;
 import com.dwarfeng.rbacds.stack.handler.PexpParseHandler.PipeUnit;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import org.apache.commons.lang3.StringUtils;
@@ -71,7 +72,7 @@ public class V2PexpParseEngine implements PexpParseEngine {
     private StringBuilder parsingPipeUnitFilterTypeBuilder;
     private StringBuilder parsingPipeUnitFilterPatternBuilder;
 
-    private PipeModifier parsedPipeModifier;
+    private Modifier parsedModifier;
     private List<PipeUnit> parsedPipe;
     private String parsedPipeUnitFilterType;
     private String parsedPipeUnitFilterPattern;
@@ -126,7 +127,7 @@ public class V2PexpParseEngine implements PexpParseEngine {
                     throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
             }
         }
-        ParseResult parseResult = new ParseResult(parsedPipeModifier, parsedPipe);
+        ParseResult parseResult = new ParseResult(parsedModifier, parsedPipe);
         LOGGER.debug("解析结束, 结果: {}", parseResult);
         return parseResult;
     }
@@ -153,14 +154,14 @@ public class V2PexpParseEngine implements PexpParseEngine {
         char modifierChar = pexpContent.charAt(index++);
         LOGGER.debug("当前字符: {}", modifierChar);
         if (Objects.equals(modifierChar, MODIFIER_CHAR_ACCEPT)) {
-            LOGGER.debug("当前字符为接受修饰符, 设置修饰符, 值: {}", PipeModifier.ACCEPT);
-            parsedPipeModifier = PipeModifier.ACCEPT;
+            LOGGER.debug("当前字符为接受修饰符, 设置修饰符, 值: {}", Modifier.ACCEPT);
+            parsedModifier = PexpParseHandler.Modifier.ACCEPT;
         } else if (Objects.equals(modifierChar, MODIFIER_CHAR_REJECT)) {
-            LOGGER.debug("当前字符为拒绝修饰符, 设置修饰符, 值: {}", PipeModifier.REJECT);
-            parsedPipeModifier = PipeModifier.REJECT;
+            LOGGER.debug("当前字符为拒绝修饰符, 设置修饰符, 值: {}", Modifier.REJECT);
+            parsedModifier = Modifier.REJECT;
         } else if (Objects.equals(modifierChar, MODIFIER_CHAR_GLOBAL_REJECT)) {
-            LOGGER.debug("当前字符为全局拒绝修饰符, 设置修饰符, 值: {}", PipeModifier.GLOBAL_REJECT);
-            parsedPipeModifier = PipeModifier.GLOBAL_REJECT;
+            LOGGER.debug("当前字符为全局拒绝修饰符, 设置修饰符, 值: {}", Modifier.GLOBAL_REJECT);
+            parsedModifier = Modifier.GLOBAL_REJECT;
         } else {
             LOGGER.debug("当前字符不属于任何修饰符, 将抛出异常...");
             String detailMessage = "非法的修饰符: " + modifierChar;
@@ -334,7 +335,7 @@ public class V2PexpParseEngine implements PexpParseEngine {
                 ", parsingPipe=" + parsingPipe +
                 ", parsingPipeUnitFilterTypeBuilder=" + parsingPipeUnitFilterTypeBuilder +
                 ", parsingPipeUnitFilterPatternBuilder=" + parsingPipeUnitFilterPatternBuilder +
-                ", parsedPipeModifier=" + parsedPipeModifier +
+                ", parsedModifier=" + parsedModifier +
                 ", parsedPipe=" + parsedPipe +
                 ", parsedPipeUnitFilterType='" + parsedPipeUnitFilterType + '\'' +
                 ", parsedPipeUnitFilterPattern='" + parsedPipeUnitFilterPattern + '\'' +
