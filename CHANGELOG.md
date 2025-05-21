@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh_CN/ConfDirectory.md。
+
 - 优化权限表达式解析逻辑相关的部分类名。
   - PexpParseHandler.PipeModifier -> PexpParseHandler.Modifier。
 
