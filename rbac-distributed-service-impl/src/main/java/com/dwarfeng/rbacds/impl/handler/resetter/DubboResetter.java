@@ -44,7 +44,7 @@ public class DubboResetter extends AbstractResetter {
     private ServiceConfig<DubboResetService> dubboService = null;
     private boolean startFlag = false;
 
-    @SuppressWarnings({"SpringJavaInjectionPointsAutowiringInspection"})
+    @SuppressWarnings({"SpringJavaInjectionPointsAutowiringInspection", "RedundantSuppression"})
     public DubboResetter(
             ApplicationContext ctx,
             RegistryConfig registry,
