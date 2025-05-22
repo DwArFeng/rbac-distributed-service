@@ -29,13 +29,6 @@ public final class Constraints {
     public static final int LENGTH_NAME = 20;
 
     /**
-     * 用户的长度。
-     *
-     * @since 1.8.0
-     */
-    public static final int LENGTH_USER = 50;
-
-    /**
      * 类型的长度约束。
      *
      * @since 1.8.0

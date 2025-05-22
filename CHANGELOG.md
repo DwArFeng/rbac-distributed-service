@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 删除部分工具类中没有使用的常量。
+  - com.dwarfeng.rbacds.sdk.util.Constraints.LENGTH_USER。
+
 - Wiki 编写。
   - docs/wiki/zh_CN/ConfDirectory.md。
 
