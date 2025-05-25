@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- Wiki 更新。
+  - docs/wiki/zh_CN/UsingTelqos.md。
+
 - Wiki 编写。
   - docs/wiki/zh_CN/OptDirectory.md。
 
