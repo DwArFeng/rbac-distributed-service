@@ -34,12 +34,5 @@
                 type="assignable" expression="com.dwarfeng.rbacds.impl.handler.pusher.MultiPusher"
         />
         -->
-
-        <!-- 加载 NativeKafkaPusher -->
-        <!--
-        <context:include-filter
-                type="assignable" expression="com.dwarfeng.rbacds.impl.handler.pusher.NativeKafkaPusher"
-        />
-        -->
     </context:component-scan>
 </beans>
