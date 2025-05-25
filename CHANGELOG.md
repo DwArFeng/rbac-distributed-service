@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh_CN/OptDirectory.md。
+
 - 调整约束类中的部分常量字段的值，以适应现代化配置的需求。
   - `LENGTH_ID` 的值从 `100` 调整为 `150`。
   - `LENGTH_REMARK` 的值从 `100` 调整为 `200`。
