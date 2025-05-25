@@ -11,12 +11,12 @@ public final class Constraints {
     /**
      * ID的长度约束。
      */
-    public static final int LENGTH_ID = 100;
+    public static final int LENGTH_ID = 150;
 
     /**
      * 备注的长度约束。
      */
-    public static final int LENGTH_REMARK = 100;
+    public static final int LENGTH_REMARK = 200;
 
     /**
      * 内容的长度约束。
@@ -26,7 +26,7 @@ public final class Constraints {
     /**
      * 名称的长度。
      */
-    public static final int LENGTH_NAME = 20;
+    public static final int LENGTH_NAME = 150;
 
     /**
      * 类型的长度约束。
