@@ -250,6 +250,7 @@ public class PermissionLookupHandlerImplTest {
     @Component
     public static class AopTester {
 
+        @SuppressWarnings("unused")
         @PermissionRequired({
                 "permission.a.1",
                 "permission.a.2",
