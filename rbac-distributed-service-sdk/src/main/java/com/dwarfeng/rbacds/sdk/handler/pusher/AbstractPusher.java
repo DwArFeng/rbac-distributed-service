@@ -20,8 +20,8 @@ public abstract class AbstractPusher implements Pusher {
     public AbstractPusher() {
     }
 
-    public AbstractPusher(String sinkType) {
-        this.pusherType = sinkType;
+    public AbstractPusher(String pusherType) {
+        this.pusherType = pusherType;
     }
 
     @Override

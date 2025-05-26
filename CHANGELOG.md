@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 优化部分类中的构造器方法的参数名称。
+  - com.dwarfeng.rbacds.sdk.handler.pusher.AbstractPusher。
+
 - Wiki 更新。
   - docs/wiki/zh_CN/UsingTelqos.md。
 
