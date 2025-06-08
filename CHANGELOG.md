@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh_CN/SystemRequirements.md。
+
 - Wiki 更新。
   - docs/wiki/zh_CN/Introduction.md。
 
