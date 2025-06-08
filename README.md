@@ -25,19 +25,22 @@ wiki 为项目的开发人员为本项目编写的详细文档，包含不同语
 
 1. 下载源码
 
-   - 使用 git 进行源码下载：
-      ```shell
-      git clone git@github.com:DwArFeng/rbac-weapon-rack.git
-      ```
+   使用 git 进行源码下载：
 
-   - 对于中国用户，可以使用 gitee 进行高速下载：
-      ```shell
-      git clone git@gitee.com:dwarfeng/rbac-weapon-rack.git
-      ```
+   ```shell
+   git clone git@github.com:DwArFeng/rbac-weapon-rack.git
+   ```
+
+   对于中国用户，可以使用 gitee 进行高速下载：
+
+   ```shell
+   git clone git@gitee.com:dwarfeng/rbac-weapon-rack.git
+   ```
 
 2. 项目打包
 
    进入项目根目录，执行 maven 命令：
+
    ```shell
    mvn clean package
    ```
@@ -45,9 +48,11 @@ wiki 为项目的开发人员为本项目编写的详细文档，包含不同语
 3. 解压
 
    找到打包后的目标文件：
+
    ```
    rbac-weapon-rack-node/target/rbacwr-[version]-release.tar.gz
    ```
+
    将其解压至 windows 系统或者 linux 系统。
 
 4. 配置
