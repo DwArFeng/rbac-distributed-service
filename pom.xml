@@ -10,7 +10,7 @@
 
     <groupId>com.dwarfeng</groupId>
     <artifactId>rbac-distributed-service</artifactId>
-    <version>1.8.3.a</version>
+    <version>1.8.4.a-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -408,17 +408,17 @@
             <dependency>
                 <groupId>com.dwarfeng</groupId>
                 <artifactId>rbac-distributed-service-stack</artifactId>
-                <version>1.8.3.a</version>
+                <version>1.8.4.a-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.dwarfeng</groupId>
                 <artifactId>rbac-distributed-service-sdk</artifactId>
-                <version>1.8.3.a</version>
+                <version>1.8.4.a-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.dwarfeng</groupId>
                 <artifactId>rbac-distributed-service-impl</artifactId>
-                <version>1.8.3.a</version>
+                <version>1.8.4.a-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
