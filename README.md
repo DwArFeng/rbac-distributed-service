@@ -18,8 +18,8 @@
 
 wiki 为项目的开发人员为本项目编写的详细文档，包含不同语言的版本，主要入口为：
 
-1. [简介](./docs/wiki/zh_CN/Introduction.md) - 镜像的 `README.md`，与本文件内容基本相同。
-2. [目录](./docs/wiki/zh_CN/Contents.md) - 文档目录。
+1. [简介](docs/wiki/zh-CN/Introduction.md) - 镜像的 `README.md`，与本文件内容基本相同。
+2. [目录](docs/wiki/zh-CN/Contents.md) - 文档目录。
 
 ## 安装说明
 
@@ -94,7 +94,7 @@ wiki 为项目的开发人员为本项目编写的详细文档，包含不同语
 
 权限表达式是本项目中的一个重要概念，权限表达式是一个字符串，表示一个权限的匹配规则。
 
-有关权限表达式的详细信息，请参考 [目录](./docs/wiki/zh_CN/Contents.md) 中有关权限表达式的部分章节。
+有关权限表达式的详细信息，请参考 [目录](docs/wiki/zh-CN/Contents.md) 中有关权限表达式的部分章节。
 
 ## 插件
 
