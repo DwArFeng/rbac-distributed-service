@@ -4,6 +4,12 @@
 
 ### 功能构建
 
+- 依赖升级。
+  - 升级 `snowflake` 依赖版本为 `1.7.1.a` 以规避漏洞。
+  - 升级 `subgrade` 依赖版本为 `1.5.11.a` 以规避漏洞。
+  - 升级 `spring-telqos` 依赖版本为 `1.1.14.a` 以规避漏洞。
+  - 升级 `dwarfeng-datamark` 依赖版本为 `1.0.3.a` 以规避漏洞。
+
 - 增加预设查询。
   - PexpMaintainService.PEXP_FOR_ROLE_DESCRIPTION_ASC。
   - PexpMaintainService.PEXP_FOR_ROLE_DESCRIPTION_LIKE_DESCRIPTION_ASC。
