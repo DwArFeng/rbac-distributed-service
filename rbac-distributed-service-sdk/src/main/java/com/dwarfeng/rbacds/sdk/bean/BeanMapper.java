@@ -2,10 +2,7 @@ package com.dwarfeng.rbacds.sdk.bean;
 
 import com.dwarfeng.rbacds.sdk.bean.entity.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonLongIdKey;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
-import com.dwarfeng.subgrade.sdk.bean.key.JSFixedFastJsonLongIdKey;
-import com.dwarfeng.subgrade.sdk.bean.key.WebInputLongIdKey;
+import com.dwarfeng.subgrade.sdk.bean.key.*;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.mapstruct.InheritInverseConfiguration;
@@ -43,6 +40,11 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     LongIdKey longIdKeyFromWebInput(WebInputLongIdKey webInputLongIdKey);
+
+    WebInputStringIdKey stringIdKeyToWebInput(StringIdKey stringIdKey);
+
+    @InheritInverseConfiguration
+    StringIdKey stringIdKeyFromWebInput(WebInputStringIdKey webInputStringIdKey);
 
     // -----------------------------------------------------------Rbac Entity-----------------------------------------------------------
     FastJsonPermission permissionToFastJson(Permission permission);
