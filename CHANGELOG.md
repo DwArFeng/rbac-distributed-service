@@ -1,24 +1,24 @@
 # ChangeLog
 
-### Release_1.9.0_20250812_build_A
+## Release_1.9.0_20250812_build_A
 
-#### 功能构建
-
-- (无)
-
-#### Bug修复
+### 功能构建
 
 - (无)
 
-#### 功能移除
+### Bug 修复
+
+- (无)
+
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.8.4_20250608_build_A
+## Release_1.8.4_20250608_build_A
 
-#### 功能构建
+### 功能构建
 
 - Wiki 编写。
   - docs/wiki/zh_CN/SystemRequirements.md。
@@ -33,19 +33,19 @@
   - 升级 `subgrade` 依赖版本为 `1.5.10.a` 以规避漏洞。
   - 升级 `dwarfeng-datamark` 依赖版本为 `1.0.2.a` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.8.3_20250526_build_A
+## Release_1.8.3_20250526_build_A
 
-#### 功能构建
+### 功能构建
 
 - 优化部分类中的构造器方法的参数名称。
   - com.dwarfeng.rbacds.sdk.handler.pusher.AbstractPusher。
@@ -61,20 +61,20 @@
   - `LENGTH_REMARK` 的值从 `100` 调整为 `200`。
   - `LENGTH_NAME` 的值从 `20` 调整为 `150`。
 
-#### Bug修复
+### Bug 修复
 
 - 删除 opt 目录中部分文件的多余配置。
   - `opt-pusher.xml`。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.8.2_20250522_build_A
+## Release_1.8.2_20250522_build_A
 
-#### 功能构建
+### 功能构建
 
 - 删除部分工具类中没有使用的常量。
   - com.dwarfeng.rbacds.sdk.util.Constraints.LENGTH_USER。
@@ -85,24 +85,24 @@
 - 优化权限表达式解析逻辑相关的部分类名。
   - PexpParseHandler.PipeModifier -> PexpParseHandler.Modifier。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.8.1_20250520_build_A
+## Release_1.8.1_20250520_build_A
 
-#### 功能构建
+### 功能构建
 
 - Wiki 编写。
   - docs/wiki/zh_CN/TelqosCommands.md。
 
-#### Bug修复
+### Bug 修复
 
 - 更正运维指令错误的类名。
   - MapLocalCacheCommand -> PermissionFilterLocalCacheCommand。
@@ -112,15 +112,15 @@
 
 - 补充 `.gitignore` 中缺失的配置。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.8.0_20250519_build_A
+## Release_1.8.0_20250519_build_A
 
-#### 功能构建
+### 功能构建
 
 - 更新 README.md。
 
@@ -177,38 +177,38 @@
   - com.dwarfeng.rbacds.sdk.bean.entity.WebInputRole。
   - com.dwarfeng.rbacds.sdk.bean.entity.WebInputUser。
 
-#### Bug修复
+### Bug 修复
 
 - 修正 `FastJsonConfiguration` 中缺失 autotype 白名单实体配置的 bug。
   - com.dwarfeng.rbacds.sdk.bean.entity.FastJsonPermissionGroup。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.7.2_20250513_build_A
+## Release_1.7.2_20250513_build_A
 
-#### 功能构建
+### 功能构建
 
 - Wiki 编写。
   - docs/wiki/zh_CN/UsingTelqos.md。
 
-#### Bug修复
+### Bug 修复
 
 - 修复部分单元测试代码执行后未从数据库中清除所有数据的 bug。
   - com.dwarfeng.rbacds.impl.service.UserMaintainServiceImplTest。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.7.1_20250512_build_A
+## Release_1.7.1_20250512_build_A
 
-#### 功能构建
+### 功能构建
 
 - 优化默认数据标记值仓库文件中的内容。
   - 优化 `api` 模块 `datamark/default.storage` 中的内容。
@@ -227,19 +227,19 @@
 - Wiki 更新。
   - docs/wiki/zh_CN/Introduction.md。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.7.0_20250510_build_A
+## Release_1.7.0_20250510_build_A
 
-#### 功能构建
+### 功能构建
 
 - 更新 README.md。
 
@@ -290,7 +290,7 @@
   - 升级 `spring-terminator` 依赖版本为 `1.0.14.a` 以规避漏洞。
   - 升级 `spring-telqos` 依赖版本为 `1.1.13.a` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - 修正错误的 dubbo 应用名称。
   - 修正 `api` 模块中错误的 dubbo 应用名称。
@@ -302,15 +302,15 @@
 - 修复部分单元测试执行完毕后，测试实体没有全部删除的 bug。
   - com.dwarfeng.rbacds.impl.service.UserMaintainServiceImplTest。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.6.0_20241117_build_A
+## Release_1.6.0_20241117_build_A
 
-#### 功能构建
+### 功能构建
 
 - 为 dubbo 增加超时时间的配置选项。
 
@@ -373,7 +373,7 @@
   - 升级 `spring-terminator` 依赖版本为 `1.0.13.a` 以规避漏洞。
   - 升级 `spring-telqos` 依赖版本为 `1.1.10.a` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - 修复服务异常代号的 bug。
   - 修复 `ServiceExceptionCodes` 设置服务异常代号的偏移量时，服务异常代号中的代码值未更新的的 bug。
@@ -381,16 +381,16 @@
 - 修复部分服务异常代号的冲突问题。
   - ServiceExceptionCodes.ROLE_NOT_EXISTS。
 
-#### 功能移除
+### 功能移除
 
 - 删除不需要的依赖。
   - 删除 `aopalliance` 依赖。
 
 ---
 
-### Release_1.5.4_20230620_build_A
+## Release_1.5.4_20230620_build_A
 
-#### 功能构建
+### 功能构建
 
 - 依赖升级。
   - 升级 `dubbo` 依赖版本为 `2.7.22` 以规避漏洞。
@@ -399,53 +399,53 @@
 - 优化配置文件。
   - 优化 `application-context-database.xml`，使得更多属性可以在配置文件中配置。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.5.3_20230509_build_A
+## Release_1.5.3_20230509_build_A
 
-#### 功能构建
+### 功能构建
 
 - 依赖升级。
   - 升级 `subgrade` 依赖版本为 `1.4.0.a` 并解决兼容性问题，以应用其新功能。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.5.2_20230427_build_A
+## Release_1.5.2_20230427_build_A
 
-#### 功能构建
+### 功能构建
 
 - 增加预设查询。
   - PermissionGroupMaintainService.NAME_LIKE。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.5.1_20230421_build_A
+## Release_1.5.1_20230421_build_A
 
-#### 功能构建
+### 功能构建
 
 - 重新组织权限过滤器的结构。
   - 添加 com.dwarfeng.rbacds.impl.handler.pfilter.AbstractPermissionFilter。
@@ -471,19 +471,19 @@
   - 升级 `spring-terminator` 依赖版本为 `1.0.11.a` 以规避漏洞。
   - 升级 `spring-telqos` 依赖版本为 `1.1.6.a` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.5.0_20221130_build_A
+## Release_1.5.0_20221130_build_A
 
-#### 功能构建
+### 功能构建
 
 - Dubbo 微服务增加分组配置。
 
@@ -510,11 +510,11 @@
   - 升级 `spring-terminator` 依赖版本为 `1.0.10.a` 以规避漏洞。
   - 升级 `spring-telqos` 依赖版本为 `1.1.5.a` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - 修正 `DirectSubGroupPermissionFilter` 代码中潜在的空指针异常。
 
-#### 功能移除
+### 功能移除
 
 - 删除不需要的依赖。
   - 删除 `el` 依赖。
@@ -526,9 +526,9 @@
 
 ---
 
-### Release_1.4.2_20220912_build_A
+## Release_1.4.2_20220912_build_A
 
-#### 功能构建
+### 功能构建
 
 - 依赖升级。
   - 升级 `spring-terminator` 依赖版本为 `1.0.9.a`。
@@ -540,19 +540,19 @@
 - 插件升级。
   - 升级 `maven-deploy-plugin` 插件版本为 `2.8.2`。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.4.1_20220607_build_A
+## Release_1.4.1_20220607_build_A
 
-#### 功能构建
+### 功能构建
 
 - 依赖升级。
   - 升级 `junit` 依赖版本为 `4.13.2` 以规避漏洞。
@@ -572,11 +572,11 @@
 
 - 将工程中的 `Spring Bean` 注册方式尽可能地由 `@Autowired` 变更为构造器注入。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - 移除无用的依赖（定义）。
   - 移除 `joda-time` 依赖。
@@ -587,26 +587,26 @@
 
 ---
 
-### Release_1.4.0_20211025_build_A
+## Release_1.4.0_20211025_build_A
 
-#### 功能构建
+### 功能构建
 
 - 预设查询 `UserMaintainService.CHILD_FOR_ROLE` 更名为 `UserMaintainService.CHILD_FOR_ROLE_SET`。
 - 重设预设查询 `UserMaintainService.CHILD_FOR_ROLE`，使其查询单个角色下的用户。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.3.1_20211024_build_A
+## Release_1.3.1_20211024_build_A
 
-#### 功能构建
+### 功能构建
 
 - 更新部分接口方法的命名，使其更合理。
   - com.dwarfeng.rbacds.stack.service.PermissionLookupService。
@@ -622,88 +622,88 @@
   - `commons-io`。
   - `commons-net`。
 
-#### Bug修复
+### Bug 修复
 
 - 修复查询接口中的查询方法不包含事务的 bug。
   - com.dwarfeng.rbacds.stack.service.PermissionLookupService。
   - com.dwarfeng.rbacds.stack.service.UserLookupService。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.3.0_20211003_build_A
+## Release_1.3.0_20211003_build_A
 
-#### 功能构建
-
-- (无)
-
-#### Bug修复
+### 功能构建
 
 - (无)
 
-#### 功能移除
+### Bug 修复
+
+- (无)
+
+### 功能移除
 
 - 删除实体。
   - com.dwarfeng.rbacds.stack.bean.entity.RoleGroup。
 
 ---
 
-### Release_1.2.4_20210824_build_A
+## Release_1.2.4_20210824_build_A
 
-#### 功能构建
+### 功能构建
 
 - 增加角色对应的权限的查询服务方法。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.2.3_20210824_build_A
+## Release_1.2.3_20210824_build_A
 
-#### 功能构建
+### 功能构建
 
 - (无)
 
-#### Bug修复
+### Bug 修复
 
 - 修复角色更新后会丢失角色与用户关联的bug。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.2.2_20210118_build_A
+## Release_1.2.2_20210118_build_A
 
-#### 功能构建
+### 功能构建
 
 - (无)
 
-#### Bug修复
+### Bug 修复
 
 - 修复下列实体删除时，无法取消子实体的关联的bug。
   - com.dwarfeng.rbacds.stack.bean.entity.PermissionGroup
   - com.dwarfeng.rbacds.stack.bean.entity.RoleGroup
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.2.1_20210106_build_A
+## Release_1.2.1_20210106_build_A
 
-#### 功能构建
+### 功能构建
 
 - 数据访问层的父项属性查询支持 null
   - com.dwarfeng.rbacds.impl.dao.preset.PermissionGroupPresetCriteriaMaker
@@ -711,19 +711,19 @@
   - com.dwarfeng.rbacds.impl.dao.preset.RoleGroupPresetCriteriaMaker
   - com.dwarfeng.rbacds.impl.dao.preset.RolePresetCriteriaMaker
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.2.0_20210105_build_A
+## Release_1.2.0_20210105_build_A
 
-#### 功能构建
+### 功能构建
 
 - 添加实体或增加实体字段
   - com.dwarfeng.rbacds.stack.bean.entity.Permission
@@ -738,19 +738,19 @@
   - com.dwarfeng.rbacds.impl.handler.pfilter.NameRegexPermissionFilter
   - com.dwarfeng.rbacds.impl.handler.pfilter.NestedSubGroupPermissionFilter
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.1.0_20201217_build_A
+## Release_1.1.0_20201217_build_A
 
-#### 功能构建
+### 功能构建
 
 - 更新依赖的版本。
 - 优化数据库配置文件。
@@ -769,61 +769,61 @@
   - 通过权限反查相关用户。
 - 优化 BehaviorAnalyse，取消有可能产生大量文本的返回结果以及入口参数的记录。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.0.2_20200828_build_A
+## Release_1.0.2_20200828_build_A
 
-#### 功能构建
+### 功能构建
 
 - 修正程序在dubbo中注册的应用名称。
 - 规范数据库连接名称。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.0.1_20200828_build_A
+## Release_1.0.1_20200828_build_A
 
-#### 功能构建
+### 功能构建
 
 - 修改项目打包后的输出路径。
 - 优化启动、停止脚本。
 - 解决依赖冲突、删除无用依赖。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.0.0_20200828_build_A
+## Release_1.0.0_20200828_build_A
 
-#### 功能构建
+### 功能构建
 
 - 代码迁移。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
