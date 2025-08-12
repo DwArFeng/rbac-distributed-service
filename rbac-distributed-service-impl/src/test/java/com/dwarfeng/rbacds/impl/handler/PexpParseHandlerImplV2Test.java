@@ -273,7 +273,7 @@ public class PexpParseHandlerImplV2Test {
      * @return 包含指定内容的权限表达式。
      */
     private Pexp createPexp(String content) {
-        return new Pexp(PEXP_KEY, ROLE_KEY, content, "remark");
+        return new Pexp(PEXP_KEY, ROLE_KEY, content, "description", "remark");
     }
 
     /**

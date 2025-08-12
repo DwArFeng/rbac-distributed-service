@@ -72,12 +72,24 @@ public class PermissionLookupServiceImplTest {
         roleA = new Role(new StringIdKey("role.a"), "角色A", true, "测试用角色");
         roleB = new Role(new StringIdKey("role.b"), "角色B", false, "测试用角色");
         roleC = new Role(new StringIdKey("role.c"), "角色C", true, "测试用角色");
-        pexp1 = new Pexp(new LongIdKey(1L), roleA.getKey(), "+id_regex@^.*\\.1$", "正则:匹配所有以1结尾的权限");
-        pexp2 = new Pexp(new LongIdKey(2L), roleA.getKey(), "!exact@permission.a.1", "精确:去除permission.a.1");
-        pexp3 = new Pexp(new LongIdKey(3L), roleB.getKey(), "!id_regex@^.*$", "正则:去除所有权限");
-        pexp4 = new Pexp(new LongIdKey(4L), roleB.getKey(), "!id_regex@^.*$", "正则:去除所有权限");
-        pexp5 = new Pexp(new LongIdKey(5L), roleC.getKey(), "+id_regex@^.*\\.3$", "正则:匹配所有以3结尾的权限");
-        pexp6 = new Pexp(new LongIdKey(6L), roleC.getKey(), "!exact@permission.c.3", "精确:去除permission.c.3");
+        pexp1 = new Pexp(
+                new LongIdKey(1L), roleA.getKey(), "+id_regex@^.*\\.1$", "正则:匹配所有以1结尾的权限",
+                "正则:匹配所有以1结尾的权限"
+        );
+        pexp2 = new Pexp(
+                new LongIdKey(2L), roleA.getKey(), "!exact@permission.a.1",
+                "精确:去除permission.a.1", "精确:去除permission.a.1"
+        );
+        pexp3 = new Pexp(new LongIdKey(3L), roleB.getKey(), "!id_regex@^.*$", "正则:去除所有权限", "正则:去除所有权限");
+        pexp4 = new Pexp(new LongIdKey(4L), roleB.getKey(), "!id_regex@^.*$", "正则:去除所有权限", "正则:去除所有权限");
+        pexp5 = new Pexp(
+                new LongIdKey(5L), roleC.getKey(), "+id_regex@^.*\\.3$", "正则:匹配所有以3结尾的权限",
+                "正则:匹配所有以3结尾的权限"
+        );
+        pexp6 = new Pexp(
+                new LongIdKey(6L), roleC.getKey(), "!exact@permission.c.3", "精确:去除permission.c.3",
+                "精确:去除permission.c.3"
+        );
         permission1 = new Permission(new StringIdKey("permission.a.1"), null, "测试权限a.1", "测试用权限", 12450);
         permission2 = new Permission(new StringIdKey("permission.a.2"), null, "测试权限a.2", "测试用权限", 12450);
         permission3 = new Permission(new StringIdKey("permission.a.3"), null, "测试权限a.3", "测试用权限", 12450);

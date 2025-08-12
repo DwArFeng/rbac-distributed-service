@@ -14,6 +14,13 @@ public final class Constraints {
     public static final int LENGTH_ID = 150;
 
     /**
+     * 描述的长度约束。
+     *
+     * @since 1.9.0
+     */
+    public static final int LENGTH_DESCRIPTION = 200;
+
+    /**
      * 备注的长度约束。
      */
     public static final int LENGTH_REMARK = 200;

@@ -16,8 +16,8 @@ import java.util.Optional;
 @EntityListeners(DatamarkEntityListener.class)
 public class HibernatePexp implements Bean {
 
-    private static final long serialVersionUID = 2112197332733629188L;
-    
+    private static final long serialVersionUID = -4542945676813642181L;
+
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
     @Column(name = "id", nullable = false, unique = true)
@@ -30,6 +30,9 @@ public class HibernatePexp implements Bean {
     // -----------------------------------------------------------主属性字段-----------------------------------------------------------
     @Column(name = "content", length = Constraints.LENGTH_CONTENT, nullable = false)
     private String content;
+
+    @Column(name = "description", length = Constraints.LENGTH_DESCRIPTION)
+    private String description;
 
     @Column(name = "remark", length = Constraints.LENGTH_REMARK)
     private String remark;
@@ -78,13 +81,12 @@ public class HibernatePexp implements Bean {
     }
 
     // -----------------------------------------------------------常规属性区-----------------------------------------------------------
-
     public Long getLongId() {
         return longId;
     }
 
-    public void setLongId(Long guid) {
-        this.longId = guid;
+    public void setLongId(Long longId) {
+        this.longId = longId;
     }
 
     public String getRoleId() {
@@ -101,6 +103,14 @@ public class HibernatePexp implements Bean {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getRemark() {
@@ -141,6 +151,7 @@ public class HibernatePexp implements Bean {
                 "longId = " + longId + ", " +
                 "roleId = " + roleId + ", " +
                 "content = " + content + ", " +
+                "description = " + description + ", " +
                 "remark = " + remark + ", " +
                 "role = " + role + ", " +
                 "createdDatamark = " + createdDatamark + ", " +

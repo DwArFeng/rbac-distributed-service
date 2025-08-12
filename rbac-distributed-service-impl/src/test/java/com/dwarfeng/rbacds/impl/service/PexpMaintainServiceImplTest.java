@@ -45,12 +45,12 @@ public class PexpMaintainServiceImplTest {
         moderator = new Role(new StringIdKey("moderator"), "操作员", true, "测试用角色");
         guest = new Role(new StringIdKey("guest"), "访客", false, "测试用角色");
 
-        pexpA = new Pexp(new LongIdKey(1L), admin.getKey(), "pexp.a", "测试用权限表达式");
-        pexpB = new Pexp(new LongIdKey(2L), admin.getKey(), "pexp.b", "测试用权限表达式");
-        pexpC = new Pexp(new LongIdKey(3L), moderator.getKey(), "pexp.c", "测试用权限表达式");
-        pexpD = new Pexp(new LongIdKey(4L), moderator.getKey(), "pexp.d", "测试用权限表达式");
-        pexpE = new Pexp(new LongIdKey(5L), guest.getKey(), "pexp.e", "测试用权限表达式");
-        pexpF = new Pexp(new LongIdKey(6L), guest.getKey(), "pexp.f", "测试用权限表达式");
+        pexpA = new Pexp(new LongIdKey(1L), admin.getKey(), "pexp.a", "content", "测试用权限表达式");
+        pexpB = new Pexp(new LongIdKey(2L), admin.getKey(), "pexp.b", "content", "测试用权限表达式");
+        pexpC = new Pexp(new LongIdKey(3L), moderator.getKey(), "pexp.c", "content", "测试用权限表达式");
+        pexpD = new Pexp(new LongIdKey(4L), moderator.getKey(), "pexp.d", "content", "测试用权限表达式");
+        pexpE = new Pexp(new LongIdKey(5L), guest.getKey(), "pexp.e", "content", "测试用权限表达式");
+        pexpF = new Pexp(new LongIdKey(6L), guest.getKey(), "pexp.f", "content", "测试用权限表达式");
     }
 
     @After

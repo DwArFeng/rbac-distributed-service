@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class FastJsonPexp implements Bean {
 
-    private static final long serialVersionUID = 6913527582734758032L;
+    private static final long serialVersionUID = -6892961140938834916L;
 
     public static FastJsonPexp of(Pexp pexp) {
         if (Objects.isNull(pexp)) {
@@ -26,6 +26,7 @@ public class FastJsonPexp implements Bean {
                 FastJsonLongIdKey.of(pexp.getKey()),
                 FastJsonStringIdKey.of(pexp.getRoleKey()),
                 pexp.getContent(),
+                pexp.getDescription(),
                 pexp.getRemark()
         );
     }
@@ -39,16 +40,22 @@ public class FastJsonPexp implements Bean {
     @JSONField(name = "content", ordinal = 3)
     private String content;
 
-    @JSONField(name = "remark", ordinal = 4)
+    @JSONField(name = "description", ordinal = 4)
+    private String description;
+
+    @JSONField(name = "remark", ordinal = 5)
     private String remark;
 
     public FastJsonPexp() {
     }
 
-    public FastJsonPexp(FastJsonLongIdKey key, FastJsonStringIdKey roleKey, String content, String remark) {
+    public FastJsonPexp(
+            FastJsonLongIdKey key, FastJsonStringIdKey roleKey, String content, String description, String remark
+    ) {
         this.key = key;
         this.roleKey = roleKey;
         this.content = content;
+        this.description = description;
         this.remark = remark;
     }
 
@@ -76,6 +83,14 @@ public class FastJsonPexp implements Bean {
         this.content = content;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getRemark() {
         return remark;
     }
@@ -86,10 +101,11 @@ public class FastJsonPexp implements Bean {
 
     @Override
     public String toString() {
-        return "JsonPexp{" +
+        return "FastJsonPexp{" +
                 "key=" + key +
                 ", roleKey=" + roleKey +
                 ", content='" + content + '\'' +
+                ", description='" + description + '\'' +
                 ", remark='" + remark + '\'' +
                 '}';
     }

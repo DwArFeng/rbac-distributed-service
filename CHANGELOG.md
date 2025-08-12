@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 增加实体字段。
+  - com.dwarfeng.rbacds.stack.bean.entity.Pexp.description。
+
 - 优化 `node` 模块中的 `pom.xml` 文件的配置。
 
 - 补全实体映射器中缺少的映射方法。

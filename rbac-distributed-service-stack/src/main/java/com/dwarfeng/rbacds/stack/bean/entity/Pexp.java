@@ -12,20 +12,32 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
  */
 public class Pexp implements Entity<LongIdKey> {
 
-    private static final long serialVersionUID = -7246102861329325491L;
+    private static final long serialVersionUID = -4697696222624115901L;
 
     private LongIdKey key;
     private StringIdKey roleKey;
     private String content;
+
+    /**
+     * 描述。
+     *
+     * <p>
+     * 对权限表达式有意义的说明内容，用于排序和筛选。
+     *
+     * @since 1.9.0
+     */
+    private String description;
+
     private String remark;
 
     public Pexp() {
     }
 
-    public Pexp(LongIdKey key, StringIdKey roleKey, String content, String remark) {
+    public Pexp(LongIdKey key, StringIdKey roleKey, String content, String description, String remark) {
         this.key = key;
         this.roleKey = roleKey;
         this.content = content;
+        this.description = description;
         this.remark = remark;
     }
 
@@ -55,6 +67,14 @@ public class Pexp implements Entity<LongIdKey> {
         this.content = content;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getRemark() {
         return remark;
     }
@@ -69,6 +89,7 @@ public class Pexp implements Entity<LongIdKey> {
                 "key=" + key +
                 ", roleKey=" + roleKey +
                 ", content='" + content + '\'' +
+                ", description='" + description + '\'' +
                 ", remark='" + remark + '\'' +
                 '}';
     }

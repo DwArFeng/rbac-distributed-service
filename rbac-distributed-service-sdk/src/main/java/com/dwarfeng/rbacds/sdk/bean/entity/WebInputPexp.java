@@ -22,7 +22,7 @@ import java.util.Objects;
  */
 public class WebInputPexp implements Bean {
 
-    private static final long serialVersionUID = 961370488723095386L;
+    private static final long serialVersionUID = -7939569734171035493L;
 
     public static Pexp toStackBean(WebInputPexp webInputPexp) {
         if (Objects.isNull(webInputPexp)) {
@@ -32,6 +32,7 @@ public class WebInputPexp implements Bean {
                 WebInputLongIdKey.toStackBean(webInputPexp.getKey()),
                 WebInputStringIdKey.toStackBean(webInputPexp.getRoleKey()),
                 webInputPexp.getContent(),
+                webInputPexp.getDescription(),
                 webInputPexp.getRemark()
         );
     }
@@ -50,6 +51,10 @@ public class WebInputPexp implements Bean {
     @NotEmpty
     @Length(max = Constraints.LENGTH_CONTENT)
     private String content;
+
+    @JSONField(name = "description")
+    @Length(max = Constraints.LENGTH_DESCRIPTION)
+    private String description;
 
     @JSONField(name = "remark")
     @Length(max = Constraints.LENGTH_REMARK)
@@ -82,6 +87,14 @@ public class WebInputPexp implements Bean {
         this.content = content;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getRemark() {
         return remark;
     }
@@ -96,6 +109,7 @@ public class WebInputPexp implements Bean {
                 "key=" + key +
                 ", roleKey=" + roleKey +
                 ", content='" + content + '\'' +
+                ", description='" + description + '\'' +
                 ", remark='" + remark + '\'' +
                 '}';
     }
