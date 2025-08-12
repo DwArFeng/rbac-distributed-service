@@ -87,7 +87,9 @@ public class UserLookupHandlerImpl implements UserLookupHandler {
         List<Role> roles = roleMaintainService.lookup(RoleMaintainService.ENABLED, new Object[0]).getData();
         Map<Role, List<Pexp>> pexpsMap = new HashMap<>();
         for (Role role : roles) {
-            List<Pexp> pexps = pexpMaintainService.lookup(PexpMaintainService.PEXP_FOR_ROLE, new Object[]{role.getKey()}).getData();
+            List<Pexp> pexps = pexpMaintainService.lookup(
+                    PexpMaintainService.PEXP_FOR_ROLE, new Object[]{role.getKey()}
+            ).getData();
             pexpsMap.put(role, pexps);
         }
 

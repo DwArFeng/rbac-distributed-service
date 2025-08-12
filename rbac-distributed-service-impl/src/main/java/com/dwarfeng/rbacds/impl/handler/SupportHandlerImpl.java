@@ -27,7 +27,8 @@ public class SupportHandlerImpl implements SupportHandler {
             List<PermissionFilterSupporter> permissionFilterSupporters
     ) {
         this.permissionFilterSupportMaintainService = permissionFilterSupportMaintainService;
-        this.permissionFilterSupporters = Optional.ofNullable(permissionFilterSupporters).orElse(Collections.emptyList());
+        this.permissionFilterSupporters =
+                Optional.ofNullable(permissionFilterSupporters).orElse(Collections.emptyList());
     }
 
     @Override

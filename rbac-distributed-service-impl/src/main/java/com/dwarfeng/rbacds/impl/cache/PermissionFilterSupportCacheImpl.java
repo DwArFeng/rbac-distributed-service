@@ -20,7 +20,8 @@ public class PermissionFilterSupportCacheImpl implements PermissionFilterSupport
             permissionFilterSupportBatchBaseDelegate;
 
     public PermissionFilterSupportCacheImpl(
-            RedisBatchBaseCache<StringIdKey, PermissionFilterSupport, FastJsonPermissionFilterSupport> permissionFilterSupportBatchBaseDelegate
+            RedisBatchBaseCache<StringIdKey, PermissionFilterSupport, FastJsonPermissionFilterSupport>
+                    permissionFilterSupportBatchBaseDelegate
     ) {
         this.permissionFilterSupportBatchBaseDelegate = permissionFilterSupportBatchBaseDelegate;
     }

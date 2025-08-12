@@ -4,6 +4,17 @@
 
 ### 功能构建
 
+- 优化部分类中的代码格式。
+  - com.dwarfeng.rbacds.impl.cache.PermissionFilterSupportCacheImpl。
+  - com.dwarfeng.rbacds.impl.cache.RolePermissionCacheImpl。
+  - com.dwarfeng.rbacds.impl.cache.UserPermissionCacheImpl。
+  - com.dwarfeng.rbacds.impl.dao.RoleDaoImpl。
+  - com.dwarfeng.rbacds.impl.dao.UserDaoImpl。
+  - com.dwarfeng.rbacds.impl.handler.SupportHandlerImpl。
+  - com.dwarfeng.rbacds.impl.handler.UserLookupHandlerImpl。
+  - com.dwarfeng.rbacds.impl.service.PermissionFilterSupportMaintainServiceImpl。
+  - com.dwarfeng.rbacds.impl.service.PermissionGroupMaintainServiceImpl。
+
 - 优化支持实体机制。
   - 新建支持 QoS 服务 com.dwarfeng.rbacds.stack.service.SupportQosService。
   - 将支持实体维护服务的重置功能迁移至 QoS 服务。

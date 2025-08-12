@@ -215,7 +215,8 @@ public class RoleDaoImpl implements RoleDao {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDeleteUserRelations(StringIdKey roleKey, @SkipRecord List<StringIdKey> userKeys) throws DaoException {
+    public void batchDeleteUserRelations(StringIdKey roleKey, @SkipRecord List<StringIdKey> userKeys)
+            throws DaoException {
         relationDelegate.batchDeleteRelations(roleKey, userKeys);
     }
 }

@@ -76,14 +76,16 @@ public class UserPermissionCacheImpl implements UserPermissionCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void leftPush(StringIdKey key, @SkipRecord Collection<Permission> entities, long timeout) throws CacheException {
+    public void leftPush(StringIdKey key, @SkipRecord Collection<Permission> entities, long timeout)
+            throws CacheException {
         redisKeyListDelegate.leftPush(key, entities, timeout);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void rightPush(StringIdKey key, @SkipRecord Collection<Permission> entities, long timeout) throws CacheException {
+    public void rightPush(StringIdKey key, @SkipRecord Collection<Permission> entities, long timeout)
+            throws CacheException {
         redisKeyListDelegate.rightPush(key, entities, timeout);
     }
 

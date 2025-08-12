@@ -160,7 +160,8 @@ public class PermissionFilterSupportMaintainServiceImpl implements PermissionFil
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsertIfExists(@SkipRecord List<PermissionFilterSupport> elements) throws ServiceException {
+    public List<StringIdKey> batchInsertIfExists(@SkipRecord List<PermissionFilterSupport> elements)
+            throws ServiceException {
         return crudService.batchInsertIfExists(elements);
     }
 
@@ -168,7 +169,8 @@ public class PermissionFilterSupportMaintainServiceImpl implements PermissionFil
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsertIfNotExists(@SkipRecord List<PermissionFilterSupport> elements) throws ServiceException {
+    public List<StringIdKey> batchInsertIfNotExists(@SkipRecord List<PermissionFilterSupport> elements)
+            throws ServiceException {
         return crudService.batchInsertIfNotExists(elements);
     }
 
@@ -190,7 +192,8 @@ public class PermissionFilterSupportMaintainServiceImpl implements PermissionFil
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsertOrUpdate(@SkipRecord List<PermissionFilterSupport> elements) throws ServiceException {
+    public List<StringIdKey> batchInsertOrUpdate(@SkipRecord List<PermissionFilterSupport> elements)
+            throws ServiceException {
         return crudService.batchInsertOrUpdate(elements);
     }
 
@@ -238,7 +241,8 @@ public class PermissionFilterSupportMaintainServiceImpl implements PermissionFil
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public PagedData<PermissionFilterSupport> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+    public PagedData<PermissionFilterSupport> lookup(String preset, Object[] objs, PagingInfo pagingInfo)
+            throws ServiceException {
         return presetLookupService.lookup(preset, objs, pagingInfo);
     }
 
@@ -254,7 +258,8 @@ public class PermissionFilterSupportMaintainServiceImpl implements PermissionFil
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<PermissionFilterSupport> lookupAsList(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+    public List<PermissionFilterSupport> lookupAsList(String preset, Object[] objs, PagingInfo pagingInfo)
+            throws ServiceException {
         return presetLookupService.lookupAsList(preset, objs, pagingInfo);
     }
 

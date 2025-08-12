@@ -168,7 +168,8 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsertIfNotExists(@SkipRecord List<PermissionGroup> elements) throws ServiceException {
+    public List<StringIdKey> batchInsertIfNotExists(@SkipRecord List<PermissionGroup> elements)
+            throws ServiceException {
         return batchCrudService.batchInsertIfNotExists(elements);
     }
 
@@ -254,7 +255,8 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public PagedData<PermissionGroup> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+    public PagedData<PermissionGroup> lookup(String preset, Object[] objs, PagingInfo pagingInfo)
+            throws ServiceException {
         return presetLookupService.lookup(preset, objs, pagingInfo);
     }
 
@@ -270,7 +272,8 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<PermissionGroup> lookupAsList(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+    public List<PermissionGroup> lookupAsList(String preset, Object[] objs, PagingInfo pagingInfo)
+            throws ServiceException {
         return presetLookupService.lookupAsList(preset, objs, pagingInfo);
     }
 
