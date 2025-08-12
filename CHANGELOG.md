@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 实现运维指令。
+  - com.dwarfeng.rbacds.impl.service.telqos.SupportCommand。
+
 - 优化部分类中的代码格式。
   - com.dwarfeng.rbacds.impl.cache.PermissionFilterSupportCacheImpl。
   - com.dwarfeng.rbacds.impl.cache.RolePermissionCacheImpl。
