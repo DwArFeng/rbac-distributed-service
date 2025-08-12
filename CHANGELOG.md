@@ -14,7 +14,8 @@
 
 ### 功能移除
 
-- (无)
+- 去除支持实体维护服务的重置功能。
+  - com.dwarfeng.rbacds.stack.service.PermissionFilterSupportMaintainService。
 
 ---
 

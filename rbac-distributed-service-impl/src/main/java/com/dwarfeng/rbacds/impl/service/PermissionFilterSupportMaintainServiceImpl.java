@@ -1,27 +1,20 @@
 package com.dwarfeng.rbacds.impl.service;
 
-import com.dwarfeng.rbacds.sdk.handler.PermissionFilterSupporter;
 import com.dwarfeng.rbacds.stack.bean.entity.PermissionFilterSupport;
 import com.dwarfeng.rbacds.stack.service.PermissionFilterSupportMaintainService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
 import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
-import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionHelper;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
-import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
-import com.dwarfeng.subgrade.stack.log.LogLevel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class PermissionFilterSupportMaintainServiceImpl implements PermissionFilterSupportMaintainService {
@@ -30,26 +23,14 @@ public class PermissionFilterSupportMaintainServiceImpl implements PermissionFil
     private final DaoOnlyEntireLookupService<PermissionFilterSupport> entireLookupService;
     private final DaoOnlyPresetLookupService<PermissionFilterSupport> presetLookupService;
 
-    private final List<PermissionFilterSupporter> permissionFilterSupporters;
-
-    private final ServiceExceptionMapper sem;
-
     public PermissionFilterSupportMaintainServiceImpl(
             GeneralBatchCrudService<StringIdKey, PermissionFilterSupport> crudService,
             DaoOnlyEntireLookupService<PermissionFilterSupport> entireLookupService,
-            DaoOnlyPresetLookupService<PermissionFilterSupport> presetLookupService,
-            List<PermissionFilterSupporter> permissionFilterSupporters,
-            ServiceExceptionMapper sem
+            DaoOnlyPresetLookupService<PermissionFilterSupport> presetLookupService
     ) {
         this.crudService = crudService;
         this.entireLookupService = entireLookupService;
         this.presetLookupService = presetLookupService;
-        if (Objects.isNull(permissionFilterSupporters)) {
-            this.permissionFilterSupporters = new ArrayList<>();
-        } else {
-            this.permissionFilterSupporters = permissionFilterSupporters;
-        }
-        this.sem = sem;
     }
 
     @Override
@@ -275,25 +256,6 @@ public class PermissionFilterSupportMaintainServiceImpl implements PermissionFil
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public List<PermissionFilterSupport> lookupAsList(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
         return presetLookupService.lookupAsList(preset, objs, pagingInfo);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    public void reset() throws ServiceException {
-        try {
-            List<StringIdKey> mapperKeys = entireLookupService.lookupAsList().stream()
-                    .map(PermissionFilterSupport::getKey).collect(Collectors.toList());
-            crudService.batchDelete(mapperKeys);
-            List<PermissionFilterSupport> permissionFilterSupports = permissionFilterSupporters.stream().map(supporter -> new PermissionFilterSupport(
-                    new StringIdKey(supporter.provideType()),
-                    supporter.provideLabel(),
-                    supporter.provideDescription(),
-                    supporter.provideExamplePattern()
-            )).collect(Collectors.toList());
-            crudService.batchInsert(permissionFilterSupports);
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("重置权限过滤器支持时发生异常", LogLevel.WARN, e, sem);
-        }
     }
 
     /**
