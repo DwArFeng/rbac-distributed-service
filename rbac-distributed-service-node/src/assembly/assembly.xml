@@ -20,6 +20,13 @@
 
     <fileSets>
         <fileSet>
+            <outputDirectory>docs</outputDirectory>
+            <directory>../docs</directory>
+            <filtered>false</filtered>
+            <fileMode>644</fileMode>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <fileSet>
             <outputDirectory>bin</outputDirectory>
             <directory>src/main/resources/binres</directory>
             <includes>
