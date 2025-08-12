@@ -15,4 +15,14 @@ public interface PexpMaintainService extends BatchCrudService<LongIdKey, Pexp>, 
 
     String PEXP_FOR_ROLE = "pexp_for_role";
     String PEXP_FOR_ROLE_SET = "pexp_for_role_set";
+
+    /**
+     * @since 1.9.0
+     */
+    String PEXP_FOR_ROLE_DESCRIPTION_ASC = "pexp_for_role_description_asc";
+
+    /**
+     * @since 1.9.0
+     */
+    String PEXP_FOR_ROLE_DESCRIPTION_LIKE_DESCRIPTION_ASC = "pexp_for_role_description_like_description_asc";
 }

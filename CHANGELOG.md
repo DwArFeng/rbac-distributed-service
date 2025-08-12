@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- 增加预设查询。
+  - PexpMaintainService.PEXP_FOR_ROLE_DESCRIPTION_ASC。
+  - PexpMaintainService.PEXP_FOR_ROLE_DESCRIPTION_LIKE_DESCRIPTION_ASC。
+
 - 增加实体字段。
   - com.dwarfeng.rbacds.stack.bean.entity.Pexp.description。
 
