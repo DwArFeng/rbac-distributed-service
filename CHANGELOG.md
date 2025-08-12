@@ -4,7 +4,9 @@
 
 ### 功能构建
 
-- (无)
+- 优化支持实体机制。
+  - 新建支持 QoS 服务 com.dwarfeng.rbacds.stack.service.SupportQosService。
+  - 将支持实体维护服务的重置功能迁移至 QoS 服务。
 
 ### Bug 修复
 

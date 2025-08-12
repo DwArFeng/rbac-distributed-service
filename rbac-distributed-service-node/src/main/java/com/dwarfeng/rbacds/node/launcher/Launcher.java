@@ -1,8 +1,8 @@
 package com.dwarfeng.rbacds.node.launcher;
 
 import com.dwarfeng.rbacds.node.handler.LauncherSettingHandler;
-import com.dwarfeng.rbacds.stack.service.PermissionFilterSupportMaintainService;
 import com.dwarfeng.rbacds.stack.service.ResetQosService;
+import com.dwarfeng.rbacds.stack.service.SupportQosService;
 import com.dwarfeng.springterminator.sdk.util.ApplicationUtil;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import org.slf4j.Logger;
@@ -40,15 +40,18 @@ public class Launcher {
         // 获取启动器设置处理器，用于获取启动器设置，并按照设置选择性执行功能。
         LauncherSettingHandler launcherSettingHandler = ctx.getBean(LauncherSettingHandler.class);
 
-        //判断是否重置权限过滤器。
-        if (launcherSettingHandler.isResetPermissionFilterSupport()) {
-            LOGGER.info("重置权限过滤器支持...");
-            PermissionFilterSupportMaintainService maintainService = ctx.getBean(PermissionFilterSupportMaintainService.class);
-            try {
-                maintainService.reset();
-            } catch (ServiceException e) {
-                LOGGER.warn("权限过滤器支持重置失败，异常信息如下", e);
-            }
+        // 如果不重置权限过滤器，则返回。
+        if (!launcherSettingHandler.isResetPermissionFilterSupport()) {
+            return;
+        }
+
+        // 重置权限过滤器支持。
+        LOGGER.info("重置权限过滤器支持...");
+        SupportQosService supportQosService = ctx.getBean(SupportQosService.class);
+        try {
+            supportQosService.resetPermissionFilter();
+        } catch (ServiceException e) {
+            LOGGER.warn("权限过滤器支持重置失败，异常信息如下", e);
         }
     }
 
