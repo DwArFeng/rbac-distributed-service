@@ -4,6 +4,8 @@
 
 ### 功能构建
 
+- 优化 `node` 模块中的 `pom.xml` 文件的配置。
+
 - 补全实体映射器中缺少的映射方法。
   - com.dwarfeng.rbacds.sdk.bean.BeanMapper。
 
