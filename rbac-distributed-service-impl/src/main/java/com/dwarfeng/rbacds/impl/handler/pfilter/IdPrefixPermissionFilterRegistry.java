@@ -6,6 +6,7 @@ import com.dwarfeng.rbacds.stack.exception.PermissionFilterMakeException;
 import com.dwarfeng.rbacds.stack.handler.PermissionFilter;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -74,7 +75,7 @@ public class IdPrefixPermissionFilterRegistry extends AbstractPermissionFilterRe
         protected boolean doAccept(String pattern, Permission permission) {
             String permissionId = Optional.ofNullable(permission).map(Permission::getKey).map(StringIdKey::getStringId)
                     .orElse(StringUtils.EMPTY);
-            return StringUtils.startsWith(permissionId, pattern);
+            return Strings.CS.startsWith(permissionId, pattern);
         }
 
         @Override

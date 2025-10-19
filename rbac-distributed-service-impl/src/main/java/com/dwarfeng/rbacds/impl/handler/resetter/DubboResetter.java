@@ -136,6 +136,7 @@ public class DubboResetter extends AbstractResetter {
          * @return 恒为 true。
          * @throws ServiceException 服务异常。
          */
+        @SuppressWarnings("SameReturnValue")
         boolean resetPermissionFilter() throws ServiceException;
     }
 

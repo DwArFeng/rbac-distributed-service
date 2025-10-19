@@ -2,7 +2,7 @@ package com.dwarfeng.rbacds.impl.handler.pfilter;
 
 import com.dwarfeng.rbacds.sdk.handler.PermissionFilterMaker;
 import com.dwarfeng.rbacds.sdk.handler.PermissionFilterSupporter;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /**
  * 抽象权限过滤器注册。
@@ -23,7 +23,7 @@ public abstract class AbstractPermissionFilterRegistry implements PermissionFilt
 
     @Override
     public boolean supportType(String type) {
-        return StringUtils.equalsIgnoreCase(permissionFilterType, type);
+        return Strings.CI.equals(permissionFilterType, type);
     }
 
     @Override

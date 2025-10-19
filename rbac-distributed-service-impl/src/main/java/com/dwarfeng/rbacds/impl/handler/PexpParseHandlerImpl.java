@@ -6,6 +6,7 @@ import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -53,13 +54,13 @@ public class PexpParseHandlerImpl implements PexpParseHandler {
         String contentWithoutVersion;
 
         // 如果 content 以 PEXP_CONTENT_VERSION_PREFIX_V1 开头，则使用 V1 版本。
-        if (StringUtils.startsWithIgnoreCase(content, PEXP_CONTENT_VERSION_PREFIX_V1)) {
+        if (Strings.CI.startsWith(content, PEXP_CONTENT_VERSION_PREFIX_V1)) {
             LOGGER.debug("权限表达式内容以 V1 版本前缀开头, 使用 V1 版本进行解析...");
             usingVersion = UsingVersion.V1;
             contentWithoutVersion = content.substring(PEXP_CONTENT_VERSION_PREFIX_V1.length());
         }
         // 如果 content 以 PEXP_CONTENT_VERSION_PREFIX_V2 开头，则使用 V2 版本。
-        else if (StringUtils.startsWithIgnoreCase(content, PEXP_CONTENT_VERSION_PREFIX_V2)) {
+        else if (Strings.CI.startsWith(content, PEXP_CONTENT_VERSION_PREFIX_V2)) {
             LOGGER.debug("权限表达式内容以 V2 版本前缀开头, 使用 V2 版本进行解析...");
             usingVersion = UsingVersion.V2;
             contentWithoutVersion = content.substring(PEXP_CONTENT_VERSION_PREFIX_V2.length());
