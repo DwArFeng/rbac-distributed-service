@@ -39,7 +39,7 @@
         <snakeyaml.version>2.0</snakeyaml.version>
         <dubbo.version>2.7.22</dubbo.version>
         <netty.version>4.1.119.Final</netty.version>
-        <zookeeper.version>3.9.3</zookeeper.version>
+        <zookeeper.version>3.9.4</zookeeper.version>
         <guava.version>32.0.1-jre</guava.version>
         <curator.version>4.3.0</curator.version>
         <aspectj.version>1.8.2</aspectj.version>
@@ -50,11 +50,11 @@
         <jboss-logging.version>3.4.3.Final</jboss-logging.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <dutil.version>beta-0.3.2.a</dutil.version>
-        <snowflake.version>1.7.1.a</snowflake.version>
-        <subgrade.version>1.5.11.a</subgrade.version>
+        <snowflake.version>1.7.2.a</snowflake.version>
+        <subgrade.version>1.6.0.a</subgrade.version>
         <spring-terminator.version>1.0.14.a</spring-terminator.version>
         <spring-telqos.version>1.1.14.a</spring-telqos.version>
-        <dwarfeng-datamark.version>1.0.3.a</dwarfeng-datamark.version>
+        <dwarfeng-datamark.version>1.0.4.a</dwarfeng-datamark.version>
         <!-- Maven 插件版本声明 -->
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
