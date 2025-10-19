@@ -21,6 +21,16 @@ wiki 为项目的开发人员为本项目编写的详细文档，包含不同语
 1. [简介](./Introduction.md) - 即本文件。
 2. [目录](./Contents.md) - 文档目录。
 
+## 运行截图
+
+Telnet 运维平台 banner：
+
+![Telnet 运维平台 banner](./images/TelqosBanner.png "Telnet 运维平台 banner")
+
+Telnet 运维平台指令合集：
+
+![Telnet 运维平台指令合集](./images/TelqosCommands.png "Telnet 运维平台指令合集")
+
 ## 安装说明
 
 1. 下载源码

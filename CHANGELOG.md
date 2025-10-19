@@ -4,6 +4,11 @@
 
 ### 功能构建
 
+- 更新 README.md。
+
+- Wiki 编写。
+  - docs/wiki/zh-CN/Introduction.md。
+
 - 优化启停脚本注释，以规避潜在的字符集问题。
   - binres/rbac-start.bat。
   - binres/rbac-start.sh。
