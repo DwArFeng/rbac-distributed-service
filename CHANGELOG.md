@@ -4,6 +4,11 @@
 
 ### 功能构建
 
+- 优化部分单元测试的代码中的测试实体的主键，以规避潜在的与正式数据冲突的问题。
+  - com.dwarfeng.rbacds.impl.service.PexpMaintainServiceImplTest。
+  - com.dwarfeng.rbacds.impl.service.RoleMaintainServiceImplTest。
+  - com.dwarfeng.rbacds.impl.service.UserMaintainServiceImplTest。
+
 - 增加预设的运维指令。
   - com.dwarfeng.springtelqos.api.integration.system.UptimeCommand。
   - com.dwarfeng.springtelqos.api.integration.system.JmxRemoteCommand。

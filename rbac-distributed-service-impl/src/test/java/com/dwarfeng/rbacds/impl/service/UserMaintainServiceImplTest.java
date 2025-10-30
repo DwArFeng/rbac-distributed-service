@@ -46,9 +46,9 @@ public class UserMaintainServiceImplTest {
         liSi = new User(new StringIdKey("li_si"), "测试用账号");
         wangWu = new User(new StringIdKey("wang_wu"), "测试用账号");
         zhaoLiu = new User(new StringIdKey("zhao_liu"), "测试用账号");
-        admin = new Role(new StringIdKey("admin"), "管理员", true, "测试用角色");
-        moderator = new Role(new StringIdKey("moderator"), "操作员", true, "测试用角色");
-        guest = new Role(new StringIdKey("guest"), "访客", false, "测试用角色");
+        admin = new Role(new StringIdKey("test.admin"), "管理员", true, "测试用角色");
+        moderator = new Role(new StringIdKey("test.moderator"), "操作员", true, "测试用角色");
+        guest = new Role(new StringIdKey("test.guest"), "访客", false, "测试用角色");
     }
 
     @After
