@@ -28,7 +28,6 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
     private final PermissionDao permissionDao;
     private final PermissionCache permissionCache;
 
-    private final PermissionListCache permissionListCache;
     private final UserPermissionCache userPermissionCache;
     private final RolePermissionCache rolePermissionCache;
     private final PermissionUserCache permissionUserCache;
@@ -41,7 +40,6 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
             PermissionGroupCache permissionGroupCache,
             PermissionDao permissionDao,
             PermissionCache permissionCache,
-            PermissionListCache permissionListCache,
             UserPermissionCache userPermissionCache,
             RolePermissionCache rolePermissionCache,
             PermissionUserCache permissionUserCache
@@ -50,7 +48,6 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
         this.permissionGroupCache = permissionGroupCache;
         this.permissionDao = permissionDao;
         this.permissionCache = permissionCache;
-        this.permissionListCache = permissionListCache;
         this.userPermissionCache = userPermissionCache;
         this.rolePermissionCache = rolePermissionCache;
         this.permissionUserCache = permissionUserCache;
@@ -77,8 +74,6 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
 
     @Override
     public StringIdKey insert(PermissionGroup permissionGroup) throws Exception {
-        // 清空权限列表缓存。
-        permissionListCache.clear();
         // 清空用户权限缓存。
         userPermissionCache.clear();
         // 清空角色权限缓存。
@@ -94,8 +89,6 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
 
     @Override
     public void update(PermissionGroup permissionGroup) throws Exception {
-        // 清空权限列表缓存。
-        permissionListCache.clear();
         // 清空用户权限缓存。
         userPermissionCache.clear();
         // 清空角色权限缓存。
@@ -110,8 +103,6 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
 
     @Override
     public void delete(StringIdKey key) throws Exception {
-        // 清空权限列表缓存。
-        permissionListCache.clear();
         // 清空用户权限缓存。
         userPermissionCache.clear();
         // 清空角色权限缓存。
@@ -173,8 +164,6 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
 
     @Override
     public List<StringIdKey> batchInsert(List<PermissionGroup> permissionGroups) throws Exception {
-        // 清空权限列表缓存。
-        permissionListCache.clear();
         // 清空用户权限缓存。
         userPermissionCache.clear();
         // 清空角色权限缓存。
@@ -189,8 +178,6 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
 
     @Override
     public void batchUpdate(List<PermissionGroup> permissionGroups) throws Exception {
-        // 清空权限列表缓存。
-        permissionListCache.clear();
         // 清空用户权限缓存。
         userPermissionCache.clear();
         // 清空角色权限缓存。
@@ -205,8 +192,6 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
 
     @Override
     public void batchDelete(List<StringIdKey> keys) throws Exception {
-        // 清空权限列表缓存。
-        permissionListCache.clear();
         // 清空用户权限缓存。
         userPermissionCache.clear();
         // 清空角色权限缓存。

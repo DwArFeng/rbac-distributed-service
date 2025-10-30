@@ -6,7 +6,6 @@ import com.dwarfeng.rbacds.stack.bean.entity.*;
 import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
 import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.impl.cache.RedisKeyListCache;
-import com.dwarfeng.subgrade.impl.cache.RedisListCache;
 import com.dwarfeng.subgrade.sdk.redis.formatter.LongIdStringKeyFormatter;
 import com.dwarfeng.subgrade.sdk.redis.formatter.StringIdStringKeyFormatter;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
@@ -29,8 +28,6 @@ public class CacheConfiguration {
     private String rolePrefix;
     @Value("${cache.prefix.entity.user}")
     private String userPrefix;
-    @Value("${cache.key.list.permission}")
-    private String permissionListKey;
     @Value("${cache.prefix.list.user_has_permission}")
     private String userPermissionListKey;
     @Value("${cache.prefix.list.role_has_permission}")
@@ -52,16 +49,6 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPermission>) template,
                 new StringIdStringKeyFormatter(permissionPrefix),
-                new MapStructBeanTransformer<>(Permission.class, FastJsonPermission.class, BeanMapper.class)
-        );
-    }
-
-    @Bean
-    @SuppressWarnings("unchecked")
-    public RedisListCache<Permission, FastJsonPermission> permissionRedisListCache() {
-        return new RedisListCache<>(
-                permissionListKey,
-                (RedisTemplate<String, FastJsonPermission>) template,
                 new MapStructBeanTransformer<>(Permission.class, FastJsonPermission.class, BeanMapper.class)
         );
     }

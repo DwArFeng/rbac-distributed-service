@@ -31,6 +31,9 @@
 
 ### 功能移除
 
+- 移除无用的缓存。
+  - com.dwarfeng.rbacds.stack.cache.PermissionListCache。
+
 - 移除部分功能性服务。
   - com.dwarfeng.rbacds.stack.service.PermissionLookupService。
   - com.dwarfeng.rbacds.stack.service.UserLookupService。
