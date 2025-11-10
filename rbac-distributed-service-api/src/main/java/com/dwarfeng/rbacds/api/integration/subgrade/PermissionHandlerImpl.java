@@ -7,7 +7,6 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import com.dwarfeng.subgrade.stack.handler.PermissionHandler;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
  * 权限处理器的实现。
  *
  * @author DwArFeng
- * @since 1.0.0
+ * @since 2.0.0
  */
 @Component
 public class PermissionHandlerImpl implements PermissionHandler {
@@ -28,8 +27,10 @@ public class PermissionHandlerImpl implements PermissionHandler {
     }
 
     @Override
-    public boolean hasPermission(StringIdKey userKey, String permissionNode) throws HandlerException {
+    public boolean hasPermission(String userId, String permission) throws HandlerException {
         try {
+            StringIdKey userKey = userIdToKey(userId);
+            String permissionNode = permissionToPermissionNode(permission);
             List<String> ownedPermissionNodes = service.lookupForUser(userKey).stream()
                     .map(Permission::getKey).map(StringIdKey::getStringId).collect(Collectors.toList());
             return ownedPermissionNodes.contains(permissionNode);
@@ -38,9 +39,14 @@ public class PermissionHandlerImpl implements PermissionHandler {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     @Override
-    public boolean hasPermission(StringIdKey userKey, List<String> permissionNodes) throws HandlerException {
+    public boolean hasPermission(String userId, List<String> permissions) throws HandlerException {
         try {
+            StringIdKey userKey = userIdToKey(userId);
+            List<String> permissionNodes = permissions.stream()
+                    .map(this::permissionToPermissionNode)
+                    .collect(Collectors.toList());
             List<String> ownedPermissionNodes = service.lookupForUser(userKey).stream()
                     .map(Permission::getKey).map(StringIdKey::getStringId).collect(Collectors.toList());
             return new HashSet<>(ownedPermissionNodes).containsAll(permissionNodes);
@@ -49,17 +55,29 @@ public class PermissionHandlerImpl implements PermissionHandler {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     @Override
-    public List<String> getMissingPermissions(StringIdKey userKey, List<String> permissionNodes)
-            throws HandlerException {
+    public List<String> getMissingPermissions(String userId, List<String> permissions) throws HandlerException {
         try {
+            StringIdKey userKey = userIdToKey(userId);
+            List<String> permissionNodes = permissions.stream()
+                    .map(this::permissionToPermissionNode)
+                    .collect(Collectors.toList());
             List<String> ownedPermissionNodes = service.lookupForUser(userKey).stream()
                     .map(Permission::getKey).map(StringIdKey::getStringId).collect(Collectors.toList());
-            List<String> dejaVu = new ArrayList<>(permissionNodes);
+            List<String> dejaVu = new java.util.ArrayList<>(permissionNodes);
             dejaVu.removeAll(ownedPermissionNodes);
             return dejaVu;
         } catch (Exception e) {
             throw new HandlerException(e);
         }
+    }
+
+    private StringIdKey userIdToKey(String userId) {
+        return new StringIdKey(userId);
+    }
+
+    private String permissionToPermissionNode(String permission) {
+        return permission;
     }
 }
