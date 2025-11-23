@@ -44,16 +44,6 @@
             group="${dubbo.provider.group}"
     />
     <dubbo:service
-            interface="com.dwarfeng.rbacds.stack.service.PermissionLookupService"
-            ref="permissionLookupServiceImpl"
-            group="${dubbo.provider.group}"
-    />
-    <dubbo:service
-            interface="com.dwarfeng.rbacds.stack.service.UserLookupService"
-            ref="userLookupServiceImpl"
-            group="${dubbo.provider.group}"
-    />
-    <dubbo:service
             interface="com.dwarfeng.rbacds.stack.service.PermissionGroupMaintainService"
             ref="permissionGroupMaintainServiceImpl"
             group="${dubbo.provider.group}"

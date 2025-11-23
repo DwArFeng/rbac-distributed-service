@@ -25,7 +25,9 @@
 
 ### 功能移除
 
-- (无)
+- 移除部分功能性服务。
+  - com.dwarfeng.rbacds.stack.service.PermissionLookupService。
+  - com.dwarfeng.rbacds.stack.service.UserLookupService。
 
 ---
 
