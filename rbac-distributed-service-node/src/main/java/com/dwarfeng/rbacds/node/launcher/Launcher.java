@@ -28,30 +28,30 @@ public class Launcher {
                 "file:opt/opt*.xml",
                 "file:optext/opt*.xml"
         }, ctx -> {
-            // 根据启动器设置处理器的设置，选择性重置权限过滤器。
-            mayResetPermissionFilter(ctx);
+            // 根据启动器设置处理器的设置，选择性重置过滤器。
+            mayResetFilter(ctx);
 
             // 根据启动器设置处理器的设置，选择性启动重置服务。
             mayStartReset(ctx);
         });
     }
 
-    private static void mayResetPermissionFilter(ApplicationContext ctx) {
+    private static void mayResetFilter(ApplicationContext ctx) {
         // 获取启动器设置处理器，用于获取启动器设置，并按照设置选择性执行功能。
         LauncherSettingHandler launcherSettingHandler = ctx.getBean(LauncherSettingHandler.class);
 
-        // 如果不重置权限过滤器，则返回。
-        if (!launcherSettingHandler.isResetPermissionFilterSupport()) {
+        // 如果不重置过滤器，则返回。
+        if (!launcherSettingHandler.isResetFilterSupport()) {
             return;
         }
 
-        // 重置权限过滤器支持。
-        LOGGER.info("重置权限过滤器支持...");
+        // 重置过滤器支持。
+        LOGGER.info("重置过滤器支持...");
         SupportQosService supportQosService = ctx.getBean(SupportQosService.class);
         try {
-            supportQosService.resetPermissionFilter();
+            supportQosService.resetFilter();
         } catch (ServiceException e) {
-            LOGGER.warn("权限过滤器支持重置失败，异常信息如下", e);
+            LOGGER.warn("过滤器支持重置失败，异常信息如下", e);
         }
     }
 

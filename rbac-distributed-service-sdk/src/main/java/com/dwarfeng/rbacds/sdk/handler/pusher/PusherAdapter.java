@@ -30,7 +30,7 @@ public abstract class PusherAdapter extends AbstractPusher {
 
     @SuppressWarnings("RedundantThrows")
     @Override
-    public void permissionFilterReset() throws HandlerException {
+    public void filterReset() throws HandlerException {
     }
 
     @Override

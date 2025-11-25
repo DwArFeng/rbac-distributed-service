@@ -1,9 +1,9 @@
 package com.dwarfeng.rbacds.impl.handler;
 
-import com.dwarfeng.rbacds.sdk.handler.PermissionFilterSupporter;
-import com.dwarfeng.rbacds.stack.bean.entity.PermissionFilterSupport;
+import com.dwarfeng.rbacds.sdk.handler.FilterSupporter;
+import com.dwarfeng.rbacds.stack.bean.entity.FilterSupport;
 import com.dwarfeng.rbacds.stack.handler.SupportHandler;
-import com.dwarfeng.rbacds.stack.service.PermissionFilterSupportMaintainService;
+import com.dwarfeng.rbacds.stack.service.FilterSupportMaintainService;
 import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
@@ -18,41 +18,41 @@ import java.util.stream.Collectors;
 @Component
 public class SupportHandlerImpl implements SupportHandler {
 
-    private final PermissionFilterSupportMaintainService permissionFilterSupportMaintainService;
+    private final FilterSupportMaintainService filterSupportMaintainService;
 
-    private final List<PermissionFilterSupporter> permissionFilterSupporters;
+    private final List<FilterSupporter> filterSupporters;
 
     public SupportHandlerImpl(
-            PermissionFilterSupportMaintainService permissionFilterSupportMaintainService,
-            List<PermissionFilterSupporter> permissionFilterSupporters
+            FilterSupportMaintainService filterSupportMaintainService,
+            List<FilterSupporter> filterSupporters
     ) {
-        this.permissionFilterSupportMaintainService = permissionFilterSupportMaintainService;
-        this.permissionFilterSupporters =
-                Optional.ofNullable(permissionFilterSupporters).orElse(Collections.emptyList());
+        this.filterSupportMaintainService = filterSupportMaintainService;
+        this.filterSupporters =
+                Optional.ofNullable(filterSupporters).orElse(Collections.emptyList());
     }
 
     @Override
     @BehaviorAnalyse
-    public void resetPermissionFilter() throws HandlerException {
+    public void resetFilter() throws HandlerException {
         try {
-            doResetPermissionFilter();
+            doResetFilter();
         } catch (Exception e) {
             throw HandlerExceptionHelper.parse(e);
         }
     }
 
-    private void doResetPermissionFilter() throws Exception {
-        List<StringIdKey> permissionFilterKeys = permissionFilterSupportMaintainService.lookupAsList().stream()
-                .map(PermissionFilterSupport::getKey).collect(Collectors.toList());
-        permissionFilterSupportMaintainService.batchDelete(permissionFilterKeys);
-        List<PermissionFilterSupport> permissionFilterSupports = permissionFilterSupporters.stream().map(
-                supporter -> new PermissionFilterSupport(
+    private void doResetFilter() throws Exception {
+        List<StringIdKey> filterKeys = filterSupportMaintainService.lookupAsList().stream()
+                .map(FilterSupport::getKey).collect(Collectors.toList());
+        filterSupportMaintainService.batchDelete(filterKeys);
+        List<FilterSupport> filterSupports = filterSupporters.stream().map(
+                supporter -> new FilterSupport(
                         new StringIdKey(supporter.provideType()),
                         supporter.provideLabel(),
                         supporter.provideDescription(),
                         supporter.provideExamplePattern()
                 )
         ).collect(Collectors.toList());
-        permissionFilterSupportMaintainService.batchInsert(permissionFilterSupports);
+        filterSupportMaintainService.batchInsert(filterSupports);
     }
 }

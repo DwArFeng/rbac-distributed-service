@@ -2,7 +2,7 @@ package com.dwarfeng.rbacds.node.configuration;
 
 import com.dwarfeng.rbacds.impl.service.operation.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
-import com.dwarfeng.rbacds.stack.cache.PermissionFilterSupportCache;
+import com.dwarfeng.rbacds.stack.cache.FilterSupportCache;
 import com.dwarfeng.rbacds.stack.dao.*;
 import com.dwarfeng.subgrade.impl.generation.ExceptionKeyGenerator;
 import com.dwarfeng.subgrade.impl.service.*;
@@ -30,11 +30,11 @@ public class ServiceConfiguration {
     private final PexpDao pexpDao;
     private final PermissionGroupCrudOperation permissionGroupCrudOperation;
     private final PermissionGroupDao permissionGroupDao;
-    private final PermissionFilterSupportCache permissionFilterSupportCache;
-    private final PermissionFilterSupportDao permissionFilterSupportDao;
+    private final FilterSupportCache filterSupportCache;
+    private final FilterSupportDao filterSupportDao;
 
-    @Value("${cache.timeout.entity.permission_filter_support}")
-    private long permissionFilterSupportTimeout;
+    @Value("${cache.timeout.entity.filter_support}")
+    private long filterSupportTimeout;
 
     public ServiceConfiguration(
             ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration,
@@ -50,8 +50,8 @@ public class ServiceConfiguration {
             PexpDao pexpDao,
             PermissionGroupCrudOperation permissionGroupCrudOperation,
             PermissionGroupDao permissionGroupDao,
-            PermissionFilterSupportCache permissionFilterSupportCache,
-            PermissionFilterSupportDao permissionFilterSupportDao
+            FilterSupportCache filterSupportCache,
+            FilterSupportDao filterSupportDao
     ) {
         this.serviceExceptionMapperConfiguration = serviceExceptionMapperConfiguration;
         this.generateConfiguration = generateConfiguration;
@@ -66,8 +66,8 @@ public class ServiceConfiguration {
         this.pexpDao = pexpDao;
         this.permissionGroupCrudOperation = permissionGroupCrudOperation;
         this.permissionGroupDao = permissionGroupDao;
-        this.permissionFilterSupportCache = permissionFilterSupportCache;
-        this.permissionFilterSupportDao = permissionFilterSupportDao;
+        this.filterSupportCache = filterSupportCache;
+        this.filterSupportDao = filterSupportDao;
     }
 
     @Bean
@@ -220,33 +220,33 @@ public class ServiceConfiguration {
     }
 
     @Bean
-    public GeneralBatchCrudService<StringIdKey, PermissionFilterSupport>
-    permissionFilterSupportGeneralBatchCrudService() {
+    public GeneralBatchCrudService<StringIdKey, FilterSupport>
+    filterSupportGeneralBatchCrudService() {
         return new GeneralBatchCrudService<>(
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
-                permissionFilterSupportDao,
-                permissionFilterSupportCache,
+                filterSupportDao,
+                filterSupportCache,
                 new ExceptionKeyGenerator<>(),
-                permissionFilterSupportTimeout
+                filterSupportTimeout
         );
     }
 
     @Bean
-    public DaoOnlyEntireLookupService<PermissionFilterSupport> permissionFilterSupportDaoOnlyEntireLookupService() {
+    public DaoOnlyEntireLookupService<FilterSupport> filterSupportDaoOnlyEntireLookupService() {
         return new DaoOnlyEntireLookupService<>(
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
-                permissionFilterSupportDao
+                filterSupportDao
         );
     }
 
     @Bean
-    public DaoOnlyPresetLookupService<PermissionFilterSupport> permissionFilterSupportDaoOnlyPresetLookupService() {
+    public DaoOnlyPresetLookupService<FilterSupport> filterSupportDaoOnlyPresetLookupService() {
         return new DaoOnlyPresetLookupService<>(
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
-                permissionFilterSupportDao
+                filterSupportDao
         );
     }
 }

@@ -35,8 +35,8 @@ public class LogPusher extends AbstractPusher {
     }
 
     @Override
-    public void permissionFilterReset() throws HandlerException {
-        String title = "推送权限过滤重置消息:";
+    public void filterReset() throws HandlerException {
+        String title = "推送过滤重置消息:";
         String message = StringUtils.EMPTY;
         logData(title, message);
     }

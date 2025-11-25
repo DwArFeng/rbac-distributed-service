@@ -128,7 +128,7 @@ public class DubboResetter extends AbstractResetter {
     public interface DubboResetService extends Service {
 
         /**
-         * 重置权限过滤功能。
+         * 重置过滤功能。
          *
          * <p>
          * 因为 Dubbo 广播响应机制无法处理 void 返回类型，所以方法需要返回一个结果。
@@ -137,7 +137,7 @@ public class DubboResetter extends AbstractResetter {
          * @throws ServiceException 服务异常。
          */
         @SuppressWarnings("SameReturnValue")
-        boolean resetPermissionFilter() throws ServiceException;
+        boolean resetFilter() throws ServiceException;
     }
 
     @org.springframework.stereotype.Service
@@ -150,10 +150,10 @@ public class DubboResetter extends AbstractResetter {
         }
 
         @Override
-        public boolean resetPermissionFilter() throws ServiceException {
+        public boolean resetFilter() throws ServiceException {
             try {
-                LOGGER.info("接收到权限过滤功能重置消息, 正在重置权限过滤功能...");
-                context.resetPermissionFilter();
+                LOGGER.info("接收到过滤功能重置消息, 正在重置过滤功能...");
+                context.resetFilter();
                 return true;
             } catch (Exception e) {
                 throw ServiceExceptionHelper.logParse("发生异常", LogLevel.WARN, e, sem);

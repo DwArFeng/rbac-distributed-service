@@ -1,6 +1,6 @@
 package com.dwarfeng.rbacds.impl.handler;
 
-import com.dwarfeng.rbacds.stack.handler.PermissionFilterLocalCacheHandler;
+import com.dwarfeng.rbacds.stack.handler.FilterLocalCacheHandler;
 import com.dwarfeng.rbacds.stack.handler.PushHandler;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import org.slf4j.Logger;
@@ -18,27 +18,27 @@ public class ResetProcessor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResetProcessor.class);
 
-    private final PermissionFilterLocalCacheHandler permissionFilterLocalCacheHandler;
+    private final FilterLocalCacheHandler filterLocalCacheHandler;
 
     private final PushHandler pushHandler;
 
     public ResetProcessor(
-            PermissionFilterLocalCacheHandler permissionFilterLocalCacheHandler,
+            FilterLocalCacheHandler filterLocalCacheHandler,
             PushHandler pushHandler
     ) {
-        this.permissionFilterLocalCacheHandler = permissionFilterLocalCacheHandler;
+        this.filterLocalCacheHandler = filterLocalCacheHandler;
         this.pushHandler = pushHandler;
     }
 
-    public void resetPermissionFilter() throws HandlerException {
-        // 重置权限过滤。
-        permissionFilterLocalCacheHandler.clear();
+    public void resetFilter() throws HandlerException {
+        // 重置过滤。
+        filterLocalCacheHandler.clear();
 
         // 推送消息。
         try {
-            pushHandler.permissionFilterReset();
+            pushHandler.filterReset();
         } catch (Exception e) {
-            LOGGER.warn("推送权限过滤功能重置消息时发生异常, 本次消息将不会被推送, 异常信息如下: ", e);
+            LOGGER.warn("推送过滤功能重置消息时发生异常, 本次消息将不会被推送, 异常信息如下: ", e);
         }
     }
 }

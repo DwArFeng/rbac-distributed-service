@@ -33,8 +33,8 @@ public class PushHandlerImpl implements PushHandler {
     }
 
     @Override
-    public void permissionFilterReset() throws HandlerException {
-        pusher.permissionFilterReset();
+    public void filterReset() throws HandlerException {
+        pusher.filterReset();
     }
 
     @Override

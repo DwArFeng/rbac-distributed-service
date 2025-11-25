@@ -30,7 +30,7 @@ public class DaoConfiguration {
     private final UserPresetCriteriaMaker userPresetCriteriaMaker;
     private final PermissionPresetCriteriaMaker permissionPresetCriteriaMaker;
     private final PermissionGroupPresetCriteriaMaker permissionGroupPresetCriteriaMaker;
-    private final PermissionFilterSupportPresetCriteriaMaker permissionFilterSupportPresetCriteriaMaker;
+    private final FilterSupportPresetCriteriaMaker filterSupportPresetCriteriaMaker;
 
     public DaoConfiguration(
             HibernateTemplate template,
@@ -39,7 +39,7 @@ public class DaoConfiguration {
             UserPresetCriteriaMaker userPresetCriteriaMaker,
             PermissionPresetCriteriaMaker permissionPresetCriteriaMaker,
             PermissionGroupPresetCriteriaMaker permissionGroupPresetCriteriaMaker,
-            PermissionFilterSupportPresetCriteriaMaker permissionFilterSupportPresetCriteriaMaker
+            FilterSupportPresetCriteriaMaker filterSupportPresetCriteriaMaker
     ) {
         this.template = template;
         this.pexpPresetCriteriaMaker = pexpPresetCriteriaMaker;
@@ -47,7 +47,7 @@ public class DaoConfiguration {
         this.userPresetCriteriaMaker = userPresetCriteriaMaker;
         this.permissionPresetCriteriaMaker = permissionPresetCriteriaMaker;
         this.permissionGroupPresetCriteriaMaker = permissionGroupPresetCriteriaMaker;
-        this.permissionFilterSupportPresetCriteriaMaker = permissionFilterSupportPresetCriteriaMaker;
+        this.filterSupportPresetCriteriaMaker = filterSupportPresetCriteriaMaker;
     }
 
     @Bean
@@ -234,40 +234,32 @@ public class DaoConfiguration {
     }
 
     @Bean
-    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, PermissionFilterSupport,
-            HibernatePermissionFilterSupport> permissionFilterSupportHibernateBatchBaseDao() {
+    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, FilterSupport, HibernateFilterSupport>
+    filterSupportHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
                 new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
-                new MapStructBeanTransformer<>(
-                        PermissionFilterSupport.class, HibernatePermissionFilterSupport.class, BeanMapper.class
-                ),
-                HibernatePermissionFilterSupport.class
+                new MapStructBeanTransformer<>(FilterSupport.class, HibernateFilterSupport.class, BeanMapper.class),
+                HibernateFilterSupport.class
         );
     }
 
     @Bean
-    public HibernateEntireLookupDao<PermissionFilterSupport, HibernatePermissionFilterSupport>
-    permissionFilterSupportHibernateEntireLookupDao() {
+    public HibernateEntireLookupDao<FilterSupport, HibernateFilterSupport> filterSupportHibernateEntireLookupDao() {
         return new HibernateEntireLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(
-                        PermissionFilterSupport.class, HibernatePermissionFilterSupport.class, BeanMapper.class
-                ),
-                HibernatePermissionFilterSupport.class
+                new MapStructBeanTransformer<>(FilterSupport.class, HibernateFilterSupport.class, BeanMapper.class),
+                HibernateFilterSupport.class
         );
     }
 
     @Bean
-    public HibernatePresetLookupDao<PermissionFilterSupport, HibernatePermissionFilterSupport>
-    permissionFilterSupportHibernatePresetLookupDao() {
+    public HibernatePresetLookupDao<FilterSupport, HibernateFilterSupport> filterSupportHibernatePresetLookupDao() {
         return new HibernatePresetLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(
-                        PermissionFilterSupport.class, HibernatePermissionFilterSupport.class, BeanMapper.class
-                ),
-                HibernatePermissionFilterSupport.class,
-                permissionFilterSupportPresetCriteriaMaker
+                new MapStructBeanTransformer<>(FilterSupport.class, HibernateFilterSupport.class, BeanMapper.class),
+                HibernateFilterSupport.class,
+                filterSupportPresetCriteriaMaker
         );
     }
 }

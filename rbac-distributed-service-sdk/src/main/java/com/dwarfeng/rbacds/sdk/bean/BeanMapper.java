@@ -102,10 +102,8 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     User userFromWebInput(WebInputUser webInputUser);
 
-    FastJsonPermissionFilterSupport permissionFilterSupportToFastJson(PermissionFilterSupport permissionFilterSupport);
+    FastJsonFilterSupport filterSupportToFastJson(FilterSupport filterSupport);
 
     @InheritInverseConfiguration
-    PermissionFilterSupport permissionFilterSupportFromFastJson(
-            FastJsonPermissionFilterSupport fastJsonPermissionFilterSupport
-    );
+    FilterSupport filterSupportFromFastJson(FastJsonFilterSupport fastJsonFilterSupport);
 }

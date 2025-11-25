@@ -12,9 +12,10 @@ import com.dwarfeng.subgrade.stack.handler.Handler;
 public interface SupportHandler extends Handler {
 
     /**
-     * 重置权限过滤器。
+     * 重置过滤器。
      *
      * @throws HandlerException 处理器异常。
+     * @since 2.0.0
      */
-    void resetPermissionFilter() throws HandlerException;
+    void resetFilter() throws HandlerException;
 }

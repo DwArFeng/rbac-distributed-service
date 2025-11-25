@@ -39,8 +39,8 @@ public class CacheConfiguration {
     private String permissionUserListKey;
     @Value("${cache.prefix.entity.permission_group}")
     private String permissionGroupPrefix;
-    @Value("${cache.prefix.entity.permission_filter_support}")
-    private String permissionFilterSupportPrefix;
+    @Value("${cache.prefix.entity.filter_support}")
+    private String filterSupportPrefix;
 
     public CacheConfiguration(RedisTemplate<String, ?> template) {
         this.template = template;
@@ -140,13 +140,12 @@ public class CacheConfiguration {
 
     @Bean
     @SuppressWarnings("unchecked")
-    public RedisBatchBaseCache<StringIdKey, PermissionFilterSupport, FastJsonPermissionFilterSupport>
-    permissionFilterSupportRedisBatchBaseCache() {
+    public RedisBatchBaseCache<StringIdKey, FilterSupport, FastJsonFilterSupport> filterSupportRedisBatchBaseCache() {
         return new RedisBatchBaseCache<>(
-                (RedisTemplate<String, FastJsonPermissionFilterSupport>) template,
-                new StringIdStringKeyFormatter(permissionFilterSupportPrefix),
+                (RedisTemplate<String, FastJsonFilterSupport>) template,
+                new StringIdStringKeyFormatter(filterSupportPrefix),
                 new MapStructBeanTransformer<>(
-                        PermissionFilterSupport.class, FastJsonPermissionFilterSupport.class, BeanMapper.class
+                        FilterSupport.class, FastJsonFilterSupport.class, BeanMapper.class
                 )
         );
     }

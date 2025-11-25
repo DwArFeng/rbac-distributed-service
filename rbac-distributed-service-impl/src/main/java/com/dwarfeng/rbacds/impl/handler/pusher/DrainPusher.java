@@ -19,7 +19,7 @@ public class DrainPusher extends AbstractPusher {
     }
 
     @Override
-    public void permissionFilterReset() {
+    public void filterReset() {
     }
 
     @Override

@@ -29,7 +29,7 @@ public class ResetterHandlerImpl implements ResetterHandler {
 
     @PostConstruct
     public void init() {
-        LOGGER.info("初始化权限过滤器...");
+        LOGGER.info("初始化过滤器...");
         resetters.forEach(resetter -> resetter.init(resetterContext));
     }
 
@@ -41,8 +41,8 @@ public class ResetterHandlerImpl implements ResetterHandler {
     private class InternalResetterContext implements Resetter.Context {
 
         @Override
-        public void resetPermissionFilter() throws Exception {
-            resetProcessor.resetPermissionFilter();
+        public void resetFilter() throws Exception {
+            resetProcessor.resetFilter();
         }
     }
 }

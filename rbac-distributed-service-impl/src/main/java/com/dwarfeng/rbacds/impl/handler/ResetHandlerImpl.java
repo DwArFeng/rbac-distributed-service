@@ -64,10 +64,10 @@ public class ResetHandlerImpl implements ResetHandler {
     }
 
     @Override
-    public void resetPermissionFilter() throws HandlerException {
+    public void resetFilter() throws HandlerException {
         lock.lock();
         try {
-            resetProcessor.resetPermissionFilter();
+            resetProcessor.resetFilter();
         } finally {
             lock.unlock();
         }

@@ -4,6 +4,12 @@
 
 ### 功能构建
 
+- 重构过滤器及其相关机制命名，将 `PermissionFilter` 重命名为 `Filter`。
+  - 重命名相关实体及其维护服务。
+  - 重命名相关功能方法名称。
+  - 重命名相关配置键。
+  - 重命名相关文档注释及代码注释。
+
 - 优化部分单元测试的代码中的测试实体的主键，以规避潜在的与正式数据冲突的问题。
   - com.dwarfeng.rbacds.impl.service.PexpMaintainServiceImplTest。
   - com.dwarfeng.rbacds.impl.service.RoleMaintainServiceImplTest。

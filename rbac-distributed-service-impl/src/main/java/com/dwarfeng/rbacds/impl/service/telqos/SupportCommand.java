@@ -15,20 +15,20 @@ import java.util.List;
 @TelqosCommand
 public class SupportCommand extends CliCommand {
 
-    private static final String COMMAND_OPTION_RESET_PERMISSION_FILTER = "reset-permission-filter";
+    private static final String COMMAND_OPTION_RESET_filter = "reset-filter";
 
     private static final String[] COMMAND_OPTION_ARRAY = new String[]{
-            COMMAND_OPTION_RESET_PERMISSION_FILTER,
+            COMMAND_OPTION_RESET_filter,
     };
 
     private static final String IDENTITY = "support";
     private static final String DESCRIPTION = "支持操作";
 
-    private static final String CMD_LINE_SYNTAX_RESET_PERMISSION_FILTER = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_RESET_PERMISSION_FILTER);
+    private static final String CMD_LINE_SYNTAX_RESET_filter = IDENTITY + " " +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_RESET_filter);
 
     private static final String[] CMD_LINE_ARRAY = new String[]{
-            CMD_LINE_SYNTAX_RESET_PERMISSION_FILTER,
+            CMD_LINE_SYNTAX_RESET_filter,
     };
 
     private static final String CMD_LINE_SYNTAX = CommandUtil.syntax(CMD_LINE_ARRAY);
@@ -43,7 +43,7 @@ public class SupportCommand extends CliCommand {
     @Override
     protected List<Option> buildOptions() {
         List<Option> list = new ArrayList<>();
-        list.add(Option.builder().longOpt(COMMAND_OPTION_RESET_PERMISSION_FILTER).desc("重置权限过滤器").build());
+        list.add(Option.builder().longOpt(COMMAND_OPTION_RESET_filter).desc("重置过滤器").build());
         return list;
     }
 
@@ -58,9 +58,9 @@ public class SupportCommand extends CliCommand {
                 return;
             }
             switch (pair.getLeft()) {
-                case COMMAND_OPTION_RESET_PERMISSION_FILTER:
-                    supportQosService.resetPermissionFilter();
-                    context.sendMessage("重置权限过滤器成功。");
+                case COMMAND_OPTION_RESET_filter:
+                    supportQosService.resetFilter();
+                    context.sendMessage("重置过滤器成功。");
                     break;
             }
         } catch (Exception e) {

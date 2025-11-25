@@ -44,10 +44,11 @@ public interface Resetter {
     interface Context {
 
         /**
-         * 重置权限过滤。
+         * 重置过滤器。
          *
          * @throws Exception 执行重置时抛出的任何异常。
+         * @since 2.0.0
          */
-        void resetPermissionFilter() throws Exception;
+        void resetFilter() throws Exception;
     }
 }

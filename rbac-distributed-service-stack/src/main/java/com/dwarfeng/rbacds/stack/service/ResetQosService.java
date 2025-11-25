@@ -45,9 +45,10 @@ public interface ResetQosService extends Service {
     void stop() throws ServiceException;
 
     /**
-     * 重置权限过滤。
+     * 重置过滤。
      *
      * @throws ServiceException 服务异常。
+     * @since 2.0.0
      */
-    void resetPermissionFilter() throws ServiceException;
+    void resetFilter() throws ServiceException;
 }

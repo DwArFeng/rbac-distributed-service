@@ -2,9 +2,9 @@ package com.dwarfeng.rbacds.impl.handler;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
-import com.dwarfeng.rbacds.stack.exception.UnsupportedPermissionFilterTypeException;
-import com.dwarfeng.rbacds.stack.handler.PermissionFilter;
-import com.dwarfeng.rbacds.stack.handler.PermissionFilterLocalCacheHandler;
+import com.dwarfeng.rbacds.stack.exception.UnsupportedFilterTypeException;
+import com.dwarfeng.rbacds.stack.handler.Filter;
+import com.dwarfeng.rbacds.stack.handler.FilterLocalCacheHandler;
 import com.dwarfeng.rbacds.stack.handler.PexpHandler;
 import com.dwarfeng.rbacds.stack.handler.PexpParseHandler;
 import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
@@ -19,14 +19,14 @@ import java.util.*;
 public class PexpHandlerImpl implements PexpHandler {
 
     private final PexpParseHandler pexpParseHandler;
-    private final PermissionFilterLocalCacheHandler permissionFilterLocalCacheHandler;
+    private final FilterLocalCacheHandler filterLocalCacheHandler;
 
     public PexpHandlerImpl(
             PexpParseHandler pexpParseHandler,
-            PermissionFilterLocalCacheHandler permissionFilterLocalCacheHandler
+            FilterLocalCacheHandler filterLocalCacheHandler
     ) {
         this.pexpParseHandler = pexpParseHandler;
-        this.permissionFilterLocalCacheHandler = permissionFilterLocalCacheHandler;
+        this.filterLocalCacheHandler = filterLocalCacheHandler;
     }
 
     @Override
@@ -40,11 +40,11 @@ public class PexpHandlerImpl implements PexpHandler {
             boolean acceptFlag = true;
             for (PexpParseHandler.PipeUnit pipeUnit : parseResult.getPipe()) {
                 String filterType = pipeUnit.getFilterType();
-                PermissionFilter permissionFilter = permissionFilterLocalCacheHandler.get(filterType);
-                if (Objects.isNull(permissionFilter)) {
-                    throw new UnsupportedPermissionFilterTypeException(filterType);
+                Filter filter = filterLocalCacheHandler.get(filterType);
+                if (Objects.isNull(filter)) {
+                    throw new UnsupportedFilterTypeException(filterType);
                 }
-                if (!permissionFilter.accept(pipeUnit.getFilterPattern(), permission)) {
+                if (!filter.accept(pipeUnit.getFilterPattern(), permission)) {
                     acceptFlag = false;
                     break;
                 }
@@ -90,17 +90,17 @@ public class PexpHandlerImpl implements PexpHandler {
             List<Permission> acceptedPermissions = new ArrayList<>();
             List<Permission> notAcceptedPermissions = new ArrayList<>();
 
-            // 遍历所有权限，确认权限过滤器的接收情况。
+            // 遍历所有权限，确认过滤器的接收情况。
             outer:
             for (Permission permission : permissions) {
                 // 判断权限表达式是否被接受。
                 for (PexpParseHandler.PipeUnit pipeUnit : parseResult.getPipe()) {
                     String filterType = pipeUnit.getFilterType();
-                    PermissionFilter permissionFilter = permissionFilterLocalCacheHandler.get(filterType);
-                    if (Objects.isNull(permissionFilter)) {
-                        throw new UnsupportedPermissionFilterTypeException(filterType);
+                    Filter filter = filterLocalCacheHandler.get(filterType);
+                    if (Objects.isNull(filter)) {
+                        throw new UnsupportedFilterTypeException(filterType);
                     }
-                    if (!permissionFilter.accept(pipeUnit.getFilterPattern(), permission)) {
+                    if (!filter.accept(pipeUnit.getFilterPattern(), permission)) {
                         notAcceptedPermissions.add(permission);
                         continue outer;
                     }

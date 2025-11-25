@@ -86,12 +86,8 @@ public interface BeanMapper {
     User userFromHibernate(HibernateUser hibernateUser);
 
     @Mapping(target = "stringId", ignore = true)
-    HibernatePermissionFilterSupport permissionFilterSupportToHibernate(
-            PermissionFilterSupport permissionFilterSupport
-    );
+    HibernateFilterSupport filterSupportToHibernate(FilterSupport filterSupport);
 
     @InheritInverseConfiguration
-    PermissionFilterSupport permissionFilterSupportFromHibernate(
-            HibernatePermissionFilterSupport hibernatePermissionFilterSupport
-    );
+    FilterSupport filterSupportFromHibernate(HibernateFilterSupport hibernateFilterSupport);
 }

@@ -22,11 +22,11 @@ public class SupportQosServiceImpl implements SupportQosService {
     }
 
     @Override
-    public void resetPermissionFilter() throws ServiceException {
+    public void resetFilter() throws ServiceException {
         try {
-            supportHandler.resetPermissionFilter();
+            supportHandler.resetFilter();
         } catch (HandlerException e) {
-            throw ServiceExceptionHelper.logParse("重置权限过滤器时发生异常", LogLevel.WARN, e, sem);
+            throw ServiceExceptionHelper.logParse("重置过滤器时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

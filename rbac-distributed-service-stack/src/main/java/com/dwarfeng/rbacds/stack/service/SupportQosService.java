@@ -12,9 +12,10 @@ import com.dwarfeng.subgrade.stack.service.Service;
 public interface SupportQosService extends Service {
 
     /**
-     * 重置权限过滤器。
+     * 重置过滤器。
      *
      * @throws ServiceException 服务异常。
+     * @since 2.0.0
      */
-    void resetPermissionFilter() throws ServiceException;
+    void resetFilter() throws ServiceException;
 }

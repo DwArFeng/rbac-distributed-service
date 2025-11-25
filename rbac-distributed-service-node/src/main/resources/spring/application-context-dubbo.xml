@@ -49,8 +49,8 @@
             group="${dubbo.provider.group}"
     />
     <dubbo:service
-            interface="com.dwarfeng.rbacds.stack.service.PermissionFilterSupportMaintainService"
-            ref="permissionFilterSupportMaintainServiceImpl"
+            interface="com.dwarfeng.rbacds.stack.service.FilterSupportMaintainService"
+            ref="filterSupportMaintainServiceImpl"
             group="${dubbo.provider.group}"
     />
 

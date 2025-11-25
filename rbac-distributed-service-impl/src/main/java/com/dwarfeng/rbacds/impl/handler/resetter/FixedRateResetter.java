@@ -55,11 +55,11 @@ public class FixedRateResetter extends AbstractResetter {
         @Override
         public void run() {
             try {
-                LOGGER.info("计划时间已到, 重置权限过滤功能...");
-                context.resetPermissionFilter();
+                LOGGER.info("计划时间已到, 重置过滤功能...");
+                context.resetFilter();
             } catch (Exception e) {
                 String message = "重置器 " + FixedRateResetter.this +
-                        " 执行重置调度时发生异常, 权限过滤功能将不会重置, 异常信息如下: ";
+                        " 执行重置调度时发生异常, 过滤功能将不会重置, 异常信息如下: ";
                 LOGGER.warn(message, e);
             }
         }

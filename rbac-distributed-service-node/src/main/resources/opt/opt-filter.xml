@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress SpringFacetInspection -->
+<beans
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.springframework.org/schema/beans"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+>
+
+    <!--扫描handler的实现包。 -->
+    <context:component-scan base-package="com.dwarfeng.rbacds.impl.handler.filter" use-default-filters="false">
+        <!-- 加载 DirectSubGroupFilterRegistry -->
+        <!--
+        <context:include-filter
+                type="assignable"
+                expression="com.dwarfeng.rbacds.impl.handler.filter.DirectSubGroupFilterRegistry"
+        />
+        -->
+
+        <!-- 加载 ExactFilterRegistry -->
+        <!--
+        <context:include-filter
+                type="assignable"
+                expression="com.dwarfeng.rbacds.impl.handler.filter.ExactFilterRegistry"
+        />
+        -->
+
+        <!-- 加载 IdPrefixFilterRegistry -->
+        <!--
+        <context:include-filter
+                type="assignable"
+                expression="com.dwarfeng.rbacds.impl.handler.filter.IdPrefixFilterRegistry"
+        />
+        -->
+
+        <!-- 加载 IdRegexFilterRegistry -->
+        <!--
+        <context:include-filter
+                type="assignable"
+                expression="com.dwarfeng.rbacds.impl.handler.filter.IdRegexFilterRegistry"
+        />
+        -->
+
+        <!-- 加载 NameRegexFilterRegistry -->
+        <!--
+        <context:include-filter
+                type="assignable"
+                expression="com.dwarfeng.rbacds.impl.handler.filter.NameRegexFilterRegistry"
+        />
+        -->
+
+        <!-- 加载 NestedSubGroupFilterRegistry -->
+        <!--
+        <context:include-filter
+                type="assignable"
+                expression="com.dwarfeng.rbacds.impl.handler.filter.NestedSubGroupFilterRegistry"
+        />
+        -->
+
+        <!-- 加载 LevelFilterRegistry -->
+        <!--
+        <context:include-filter
+                type="assignable"
+                expression="com.dwarfeng.rbacds.impl.handler.filter.LevelFilterRegistry"
+        />
+        -->
+    </context:component-scan>
+</beans>

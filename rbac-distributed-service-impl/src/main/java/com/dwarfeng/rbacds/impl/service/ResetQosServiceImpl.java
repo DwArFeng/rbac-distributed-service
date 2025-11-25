@@ -73,11 +73,11 @@ public class ResetQosServiceImpl implements ResetQosService {
     }
 
     @Override
-    public void resetPermissionFilter() throws ServiceException {
+    public void resetFilter() throws ServiceException {
         try {
-            resetHandler.resetPermissionFilter();
+            resetHandler.resetFilter();
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("重置权限过滤时发生异常", LogLevel.WARN, e, sem);
+            throw ServiceExceptionHelper.logParse("重置过滤时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

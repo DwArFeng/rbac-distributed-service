@@ -19,7 +19,9 @@ public interface Pusher {
     boolean supportType(String type);
 
     /**
-     * 权限过滤重置时执行的推送操作。
+     * 过滤重置时执行的推送操作。
+     *
+     * @since 2.0.0
      */
-    void permissionFilterReset() throws HandlerException;
+    void filterReset() throws HandlerException;
 }
