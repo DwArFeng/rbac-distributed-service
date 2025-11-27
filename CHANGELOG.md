@@ -31,6 +31,11 @@
 
 ### 功能移除
 
+- 移除旧的权限查询功能使用的缓存。
+  - com.dwarfeng.rbacds.stack.cache.PermissionUserCache。
+  - com.dwarfeng.rbacds.stack.cache.UserPermissionCache。
+  - com.dwarfeng.rbacds.stack.cache.RolePermissionCache。
+
 - 移除无用的缓存。
   - com.dwarfeng.rbacds.stack.cache.PermissionListCache。
 

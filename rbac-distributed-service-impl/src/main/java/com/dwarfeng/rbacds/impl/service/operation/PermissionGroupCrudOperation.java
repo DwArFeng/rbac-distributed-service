@@ -2,7 +2,8 @@ package com.dwarfeng.rbacds.impl.service.operation;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.entity.PermissionGroup;
-import com.dwarfeng.rbacds.stack.cache.*;
+import com.dwarfeng.rbacds.stack.cache.PermissionCache;
+import com.dwarfeng.rbacds.stack.cache.PermissionGroupCache;
 import com.dwarfeng.rbacds.stack.dao.PermissionDao;
 import com.dwarfeng.rbacds.stack.dao.PermissionGroupDao;
 import com.dwarfeng.rbacds.stack.service.PermissionGroupMaintainService;
@@ -10,8 +11,6 @@ import com.dwarfeng.rbacds.stack.service.PermissionMaintainService;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.CacheException;
-import com.dwarfeng.subgrade.stack.exception.DaoException;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -28,10 +27,6 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
     private final PermissionDao permissionDao;
     private final PermissionCache permissionCache;
 
-    private final UserPermissionCache userPermissionCache;
-    private final RolePermissionCache rolePermissionCache;
-    private final PermissionUserCache permissionUserCache;
-
     @Value("${cache.timeout.entity.permission_group}")
     private long permissionGroupTimeout;
 
@@ -39,18 +34,12 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
             PermissionGroupDao permissionGroupDao,
             PermissionGroupCache permissionGroupCache,
             PermissionDao permissionDao,
-            PermissionCache permissionCache,
-            UserPermissionCache userPermissionCache,
-            RolePermissionCache rolePermissionCache,
-            PermissionUserCache permissionUserCache
+            PermissionCache permissionCache
     ) {
         this.permissionGroupDao = permissionGroupDao;
         this.permissionGroupCache = permissionGroupCache;
         this.permissionDao = permissionDao;
         this.permissionCache = permissionCache;
-        this.userPermissionCache = userPermissionCache;
-        this.rolePermissionCache = rolePermissionCache;
-        this.permissionUserCache = permissionUserCache;
     }
 
     @Override
@@ -74,14 +63,6 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
 
     @Override
     public StringIdKey insert(PermissionGroup permissionGroup) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空角色权限缓存。
-        rolePermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        // 插入权限组自身。
         permissionGroupDao.insert(permissionGroup);
         permissionGroupCache.push(permissionGroup, permissionGroupTimeout);
         return permissionGroup.getKey();
@@ -89,32 +70,12 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
 
     @Override
     public void update(PermissionGroup permissionGroup) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空角色权限缓存。
-        rolePermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        // 更新权限组自身。
         permissionGroupCache.push(permissionGroup, permissionGroupTimeout);
         permissionGroupDao.update(permissionGroup);
     }
 
     @Override
     public void delete(StringIdKey key) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空角色权限缓存。
-        rolePermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        // 删除权限组自身。
-        delete0(key);
-    }
-
-    private void delete0(StringIdKey key) throws DaoException, CacheException {
         // 清除子权限组的关联。
         List<PermissionGroup> childPermissionGroups = permissionGroupDao.lookup(
                 PermissionGroupMaintainService.CHILD_FOR_PARENT, new Object[]{key}
@@ -164,44 +125,20 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
 
     @Override
     public List<StringIdKey> batchInsert(List<PermissionGroup> permissionGroups) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空角色权限缓存。
-        rolePermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        // 插入权限组自身。
         permissionGroupCache.batchPush(permissionGroups, permissionGroupTimeout);
         return permissionGroupDao.batchInsert(permissionGroups);
     }
 
     @Override
     public void batchUpdate(List<PermissionGroup> permissionGroups) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空角色权限缓存。
-        rolePermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        // 更新权限组自身。
         permissionGroupCache.batchPush(permissionGroups, permissionGroupTimeout);
         permissionGroupDao.batchUpdate(permissionGroups);
     }
 
     @Override
     public void batchDelete(List<StringIdKey> keys) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空角色权限缓存。
-        rolePermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        // 删除权限组自身。
         for (StringIdKey key : keys) {
-            delete0(key);
+            delete(key);
         }
     }
 }

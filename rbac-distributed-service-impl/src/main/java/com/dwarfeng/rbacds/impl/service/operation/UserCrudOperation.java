@@ -2,18 +2,14 @@ package com.dwarfeng.rbacds.impl.service.operation;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.rbacds.stack.bean.entity.User;
-import com.dwarfeng.rbacds.stack.cache.PermissionUserCache;
 import com.dwarfeng.rbacds.stack.cache.RoleCache;
 import com.dwarfeng.rbacds.stack.cache.UserCache;
-import com.dwarfeng.rbacds.stack.cache.UserPermissionCache;
 import com.dwarfeng.rbacds.stack.dao.RoleDao;
 import com.dwarfeng.rbacds.stack.dao.UserDao;
 import com.dwarfeng.rbacds.stack.service.RoleMaintainService;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.CacheException;
-import com.dwarfeng.subgrade.stack.exception.DaoException;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -30,9 +26,6 @@ public class UserCrudOperation implements BatchCrudOperation<StringIdKey, User> 
     private final RoleDao roleDao;
     private final RoleCache roleCache;
 
-    private final UserPermissionCache userPermissionCache;
-    private final PermissionUserCache permissionUserCache;
-
     @Value("${cache.timeout.entity.user}")
     private long userTimeout;
 
@@ -40,16 +33,12 @@ public class UserCrudOperation implements BatchCrudOperation<StringIdKey, User> 
             UserDao userDao,
             UserCache userCache,
             RoleDao roleDao,
-            RoleCache roleCache,
-            UserPermissionCache userPermissionCache,
-            PermissionUserCache permissionUserCache
+            RoleCache roleCache
     ) {
         this.userDao = userDao;
         this.userCache = userCache;
         this.roleDao = roleDao;
         this.roleCache = roleCache;
-        this.userPermissionCache = userPermissionCache;
-        this.permissionUserCache = permissionUserCache;
     }
 
     @Override
@@ -73,12 +62,6 @@ public class UserCrudOperation implements BatchCrudOperation<StringIdKey, User> 
 
     @Override
     public StringIdKey insert(User user) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        // 插入用户自身。
         userDao.insert(user);
         userCache.push(user, userTimeout);
         return user.getKey();
@@ -86,27 +69,12 @@ public class UserCrudOperation implements BatchCrudOperation<StringIdKey, User> 
 
     @Override
     public void update(User user) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        // 更新用户自身。
         userCache.push(user, userTimeout);
         userDao.update(user);
     }
 
     @Override
     public void delete(StringIdKey key) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        delete0(key);
-    }
-
-    private void delete0(StringIdKey key) throws DaoException, CacheException {
         // 查找并清除所有相关的角色的关联。
         List<StringIdKey> roleKeys = roleDao.lookup(
                 RoleMaintainService.ROLE_FOR_USER, new Object[]{key}
@@ -145,38 +113,20 @@ public class UserCrudOperation implements BatchCrudOperation<StringIdKey, User> 
 
     @Override
     public List<StringIdKey> batchInsert(List<User> users) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        // 插入用户自身。
         userCache.batchPush(users, userTimeout);
         return userDao.batchInsert(users);
     }
 
     @Override
     public void batchUpdate(List<User> users) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        // 更新用户自身。
         userCache.batchPush(users, userTimeout);
         userDao.batchUpdate(users);
     }
 
     @Override
     public void batchDelete(List<StringIdKey> keys) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        // 删除用户自身。
         for (StringIdKey key : keys) {
-            delete0(key);
+            delete(key);
         }
     }
 }

@@ -1,8 +1,6 @@
 package com.dwarfeng.rbacds.impl.service;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
-import com.dwarfeng.rbacds.stack.cache.PermissionUserCache;
-import com.dwarfeng.rbacds.stack.cache.UserPermissionCache;
 import com.dwarfeng.rbacds.stack.service.RoleMaintainService;
 import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyBatchRelationService;
@@ -31,9 +29,6 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
     private final DaoOnlyPresetLookupService<Role> presetLookupService;
     private final DaoOnlyBatchRelationService<StringIdKey, StringIdKey> relationService;
 
-    private final UserPermissionCache userPermissionCache;
-    private final PermissionUserCache permissionUserCache;
-
     private final ServiceExceptionMapper sem;
 
     public RoleMaintainServiceImpl(
@@ -42,16 +37,12 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
             DaoOnlyPresetLookupService<Role> presetLookupService,
             @Qualifier("roleDaoOnlyBatchRelationService")
             DaoOnlyBatchRelationService<StringIdKey, StringIdKey> relationService,
-            UserPermissionCache userPermissionCache,
-            PermissionUserCache permissionUserCache,
             ServiceExceptionMapper sem
     ) {
         this.batchCrudService = batchCrudService;
         this.entireLookupService = entireLookupService;
         this.presetLookupService = presetLookupService;
         this.relationService = relationService;
-        this.userPermissionCache = userPermissionCache;
-        this.permissionUserCache = permissionUserCache;
         this.sem = sem;
     }
 
@@ -324,8 +315,6 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void addUserRelation(StringIdKey roleKey, StringIdKey userKey) throws ServiceException {
         try {
-            userPermissionCache.clear();
-            permissionUserCache.clear();
             relationService.addRelation(roleKey, userKey);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logParse("添加角色与用户的关联时发生异常", LogLevel.WARN, e, sem);
@@ -337,8 +326,6 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void deleteUserRelation(StringIdKey roleKey, StringIdKey userKey) throws ServiceException {
         try {
-            userPermissionCache.clear();
-            permissionUserCache.clear();
             relationService.deleteRelation(roleKey, userKey);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logParse("删除角色与用户的关联时发生异常", LogLevel.WARN, e, sem);
@@ -367,8 +354,6 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
     public void batchAddUserRelations(StringIdKey roleKey, @SkipRecord List<StringIdKey> userKey)
             throws ServiceException {
         try {
-            userPermissionCache.clear();
-            permissionUserCache.clear();
             relationService.batchAddRelations(roleKey, userKey);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logParse("批量添加角色与用户的关联时发生异常", LogLevel.WARN, e, sem);
@@ -381,8 +366,6 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
     public void batchDeleteUserRelations(StringIdKey roleKey, @SkipRecord List<StringIdKey> userKey)
             throws ServiceException {
         try {
-            userPermissionCache.clear();
-            permissionUserCache.clear();
             relationService.batchDeleteRelations(roleKey, userKey);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logParse("批量删除角色与用户的关联时发生异常", LogLevel.WARN, e, sem);

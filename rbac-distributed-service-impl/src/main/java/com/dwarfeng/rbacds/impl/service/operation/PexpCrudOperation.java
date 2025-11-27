@@ -1,10 +1,7 @@
 package com.dwarfeng.rbacds.impl.service.operation;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
-import com.dwarfeng.rbacds.stack.cache.PermissionUserCache;
 import com.dwarfeng.rbacds.stack.cache.PexpCache;
-import com.dwarfeng.rbacds.stack.cache.RolePermissionCache;
-import com.dwarfeng.rbacds.stack.cache.UserPermissionCache;
 import com.dwarfeng.rbacds.stack.dao.PexpDao;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
@@ -21,25 +18,15 @@ public class PexpCrudOperation implements BatchCrudOperation<LongIdKey, Pexp> {
     private final PexpDao pexpDao;
     private final PexpCache pexpCache;
 
-    private final UserPermissionCache userPermissionCache;
-    private final RolePermissionCache rolePermissionCache;
-    private final PermissionUserCache permissionUserCache;
-
     @Value("${cache.timeout.entity.pexp}")
     private long pexpTimeout;
 
     public PexpCrudOperation(
             PexpDao pexpDao,
-            PexpCache pexpCache,
-            UserPermissionCache userPermissionCache,
-            RolePermissionCache rolePermissionCache,
-            PermissionUserCache permissionUserCache
+            PexpCache pexpCache
     ) {
         this.pexpDao = pexpDao;
         this.pexpCache = pexpCache;
-        this.userPermissionCache = userPermissionCache;
-        this.rolePermissionCache = rolePermissionCache;
-        this.permissionUserCache = permissionUserCache;
     }
 
     @Override
@@ -63,14 +50,6 @@ public class PexpCrudOperation implements BatchCrudOperation<LongIdKey, Pexp> {
 
     @Override
     public LongIdKey insert(Pexp pexp) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空角色权限缓存。
-        rolePermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        // 插入权限表达式自身。
         pexpDao.insert(pexp);
         pexpCache.push(pexp, pexpTimeout);
         return pexp.getKey();
@@ -78,27 +57,12 @@ public class PexpCrudOperation implements BatchCrudOperation<LongIdKey, Pexp> {
 
     @Override
     public void update(Pexp pexp) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空角色权限缓存。
-        rolePermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        // 更新权限表达式自身。
         pexpCache.push(pexp, pexpTimeout);
         pexpDao.update(pexp);
     }
 
     @Override
     public void delete(LongIdKey key) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空角色权限缓存。
-        rolePermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
         // 删除权限表达式自身。
         pexpCache.delete(key);
         pexpDao.delete(key);
@@ -130,43 +94,20 @@ public class PexpCrudOperation implements BatchCrudOperation<LongIdKey, Pexp> {
 
     @Override
     public List<LongIdKey> batchInsert(List<Pexp> pexps) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空角色权限缓存。
-        rolePermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        // 插入权限表达式自身。
         pexpCache.batchPush(pexps, pexpTimeout);
         return pexpDao.batchInsert(pexps);
     }
 
     @Override
     public void batchUpdate(List<Pexp> pexps) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空角色权限缓存。
-        rolePermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        // 更新权限表达式自身。
         pexpCache.batchPush(pexps, pexpTimeout);
         pexpDao.batchUpdate(pexps);
     }
 
     @Override
     public void batchDelete(List<LongIdKey> keys) throws Exception {
-        // 清空用户权限缓存。
-        userPermissionCache.clear();
-        // 清空角色权限缓存。
-        rolePermissionCache.clear();
-        // 清空权限用户缓存。
-        permissionUserCache.clear();
-
-        // 删除权限表达式自身。
-        pexpCache.batchDelete(keys);
-        pexpDao.batchDelete(keys);
+        for (LongIdKey key : keys) {
+            delete(key);
+        }
     }
 }
