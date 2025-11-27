@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- 重构权限表达式处理器输出结构。
+  - 将 `PexpHandler` 的 `PermissionReception` 枚举重命名为 `Reception` 并同步相关接口。
+  - 将 `testAll` 返回值改为按输入顺序输出的 `Reception` 列表，便于调用方直接映射结果。
+
 - 重构过滤器及其相关机制命名，将 `PermissionFilter` 重命名为 `Filter`。
   - 重命名相关实体及其维护服务。
   - 重命名相关功能方法名称。

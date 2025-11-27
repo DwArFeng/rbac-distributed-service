@@ -13,7 +13,10 @@ import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 @Component
 public class PexpHandlerImpl implements PexpHandler {
@@ -31,7 +34,7 @@ public class PexpHandlerImpl implements PexpHandler {
 
     @Override
     @BehaviorAnalyse
-    public PermissionReception test(Pexp pexp, Permission permission) throws HandlerException {
+    public Reception test(Pexp pexp, Permission permission) throws HandlerException {
         try {
             // 分析并取得权限表达式的信息。
             PexpParseHandler.ParseResult parseResult = pexpParseHandler.parse(pexp);
@@ -52,18 +55,18 @@ public class PexpHandlerImpl implements PexpHandler {
 
             // 如果权限表达式不被接受，则返回 NOT_ACCEPT。
             if (!acceptFlag) {
-                return PermissionReception.NOT_ACCEPT;
+                return Reception.NOT_ACCEPT;
             }
 
             // 否则，根据修饰符，返回对应的结果。
             PexpParseHandler.Modifier modifier = parseResult.getModifier();
             switch (modifier) {
                 case ACCEPT:
-                    return PermissionReception.ACCEPT;
+                    return Reception.ACCEPT;
                 case REJECT:
-                    return PermissionReception.REJECT;
+                    return Reception.REJECT;
                 case GLOBAL_REJECT:
-                    return PermissionReception.GLOBAL_REJECT;
+                    return Reception.GLOBAL_REJECT;
                 default:
                     throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
             }
@@ -75,22 +78,37 @@ public class PexpHandlerImpl implements PexpHandler {
     @Override
     @BehaviorAnalyse
     @SkipRecord
-    public Map<PermissionReception, List<Permission>> testAll(Pexp pexp, @SkipRecord List<Permission> permissions)
-            throws HandlerException {
+    public List<Reception> testAll(Pexp pexp, List<Permission> permissions) throws HandlerException {
         try {
             // 特殊情况判断。
             if (permissions.isEmpty()) {
-                return Collections.emptyMap();
+                return Collections.emptyList();
             }
 
             // 分析并取得权限表达式的信息。
             PexpParseHandler.ParseResult parseResult = pexpParseHandler.parse(pexp);
+            PexpParseHandler.Modifier modifier = parseResult.getModifier();
 
-            // 定义列表，存放接受和不接受的权限。
-            List<Permission> acceptedPermissions = new ArrayList<>();
-            List<Permission> notAcceptedPermissions = new ArrayList<>();
+            // 确定权限接受时的接受程度。
+            Reception acceptReception;
+            switch (modifier) {
+                case ACCEPT:
+                    acceptReception = Reception.ACCEPT;
+                    break;
+                case REJECT:
+                    acceptReception = Reception.REJECT;
+                    break;
+                case GLOBAL_REJECT:
+                    acceptReception = Reception.GLOBAL_REJECT;
+                    break;
+                default:
+                    throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
+            }
 
-            // 遍历所有权限，确认过滤器的接收情况。
+            // 构造结果列表。
+            List<Reception> result = new ArrayList<>();
+
+            // 遍历所有权限，填充结果列表。
             outer:
             for (Permission permission : permissions) {
                 // 判断权限表达式是否被接受。
@@ -100,38 +118,17 @@ public class PexpHandlerImpl implements PexpHandler {
                     if (Objects.isNull(filter)) {
                         throw new UnsupportedFilterTypeException(filterType);
                     }
+                    // 如果有任一过滤器不接受该权限，则该权限不被接受，向结果列表中加入 NOT_ACCEPT。
                     if (!filter.accept(pipeUnit.getFilterPattern(), permission)) {
-                        notAcceptedPermissions.add(permission);
+                        result.add(Reception.NOT_ACCEPT);
                         continue outer;
                     }
                 }
-                // 如果管道中的每一个单元都接受了该权限，则加入到接受列表中。
-                acceptedPermissions.add(permission);
+                // 如果管道中的每一个单元都接受了该权限，则该权限被接受，向结果列表中加入 acceptReception。
+                result.add(acceptReception);
             }
 
-            // 构造结果并返回。
-            Map<PermissionReception, List<Permission>> result = new EnumMap<>(PermissionReception.class);
-            result.put(PermissionReception.NOT_ACCEPT, notAcceptedPermissions);
-            PexpParseHandler.Modifier modifier = parseResult.getModifier();
-            switch (modifier) {
-                case ACCEPT:
-                    result.put(PermissionReception.ACCEPT, acceptedPermissions);
-                    result.put(PermissionReception.REJECT, Collections.emptyList());
-                    result.put(PermissionReception.GLOBAL_REJECT, Collections.emptyList());
-                    break;
-                case REJECT:
-                    result.put(PermissionReception.ACCEPT, Collections.emptyList());
-                    result.put(PermissionReception.REJECT, acceptedPermissions);
-                    result.put(PermissionReception.GLOBAL_REJECT, Collections.emptyList());
-                    break;
-                case GLOBAL_REJECT:
-                    result.put(PermissionReception.ACCEPT, Collections.emptyList());
-                    result.put(PermissionReception.REJECT, Collections.emptyList());
-                    result.put(PermissionReception.GLOBAL_REJECT, acceptedPermissions);
-                    break;
-                default:
-                    throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
-            }
+            // 返回结果。
             return result;
         } catch (Exception e) {
             throw HandlerExceptionHelper.parse(e);

@@ -6,13 +6,12 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import com.dwarfeng.subgrade.stack.handler.Handler;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 权限表达式处理器。
  *
  * @author DwArFeng
- * @since 1.0.0
+ * @since 2.0.0
  */
 public interface PexpHandler extends Handler {
 
@@ -24,7 +23,7 @@ public interface PexpHandler extends Handler {
      * @return 指定的权限表达式对指定的权限的接受程度。
      * @throws HandlerException 处理器异常。
      */
-    PermissionReception test(Pexp pexp, Permission permission) throws HandlerException;
+    Reception test(Pexp pexp, Permission permission) throws HandlerException;
 
     /**
      * 测试指定的权限表达式对指定的权限列表的接受程度。
@@ -34,15 +33,15 @@ public interface PexpHandler extends Handler {
      * @return 指定的权限表达式对指定的权限列表的接受程度。
      * @throws HandlerException 处理器异常。
      */
-    Map<PermissionReception, List<Permission>> testAll(Pexp pexp, List<Permission> permissions) throws HandlerException;
+    List<Reception> testAll(Pexp pexp, List<Permission> permissions) throws HandlerException;
 
     /**
      * 权限接受程度枚举。
      *
      * @author DwArFeng
-     * @since 1.0.0
+     * @since 2.0.0
      */
-    enum PermissionReception {
+    enum Reception {
 
         /**
          * 接受程度：未通过。
