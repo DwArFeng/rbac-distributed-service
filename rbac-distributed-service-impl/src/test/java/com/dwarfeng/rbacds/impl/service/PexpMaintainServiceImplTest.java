@@ -80,18 +80,18 @@ public class PexpMaintainServiceImplTest {
             pexpMaintainService.insertOrUpdate(pexpE);
             pexpMaintainService.insertOrUpdate(pexpF);
 
-            //此处用断点观测roles的值，判断是否正确。
-            //noinspection unused
+            // 此处用断点观测 roles 的值，判断是否正确。
+            // noinspection unused
             List<Pexp> pexps = pexpMaintainService.lookup(PexpMaintainService.PEXP_FOR_ROLE, new Object[]{admin.getKey()}).getData();
-            //noinspection UnusedAssignment
+            // noinspection UnusedAssignment
             pexps = pexpMaintainService.lookup(PexpMaintainService.PEXP_FOR_ROLE, new Object[]{moderator.getKey()}).getData();
-            //noinspection UnusedAssignment
+            // noinspection UnusedAssignment
             pexps = pexpMaintainService.lookup(PexpMaintainService.PEXP_FOR_ROLE, new Object[]{guest.getKey()}).getData();
-            //noinspection UnusedAssignment
+            // noinspection UnusedAssignment
             pexps = pexpMaintainService.lookup(PexpMaintainService.PEXP_FOR_ROLE_SET, new Object[]{Arrays.asList(admin.getKey(), moderator.getKey())}).getData();
-            //noinspection UnusedAssignment
+            // noinspection UnusedAssignment
             pexps = pexpMaintainService.lookup(PexpMaintainService.PEXP_FOR_ROLE_SET, new Object[]{Arrays.asList(moderator.getKey(), guest.getKey())}).getData();
-            //noinspection UnusedAssignment
+            // noinspection UnusedAssignment
             pexps = null;
         } finally {
             if (Objects.nonNull(pexpF.getKey())) {

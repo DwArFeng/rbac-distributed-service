@@ -4,6 +4,15 @@
 
 ### 功能构建
 
+- `rbac-distributed-service-impl` 子模块类优化注释、文档注释格式、代码换行格式。
+  - com.dwarfeng.rbacds.impl.service.PermissionLookupServiceImplV2Test。
+  - com.dwarfeng.rbacds.impl.handler.UserLookupHandlerImpl。
+  - com.dwarfeng.rbacds.impl.service.PermissionLookupServiceImplTest。
+  - com.dwarfeng.rbacds.impl.service.PermissionLookupServiceImplV1Test。
+  - com.dwarfeng.rbacds.impl.service.PexpMaintainServiceImplTest。
+  - com.dwarfeng.rbacds.impl.service.RoleMaintainServiceImplTest。
+  - com.dwarfeng.rbacds.impl.service.UserLookupServiceImplTest。
+
 - `rbac-distributed-service-sdk` 子模块类优化注释、文档注释格式、代码换行格式。
   - com.dwarfeng.rbacds.sdk.util.Constraints。
 

@@ -106,7 +106,7 @@ public class RoleMaintainServiceImplTest {
             roleMaintainService.batchAddUserRelations(moderator.getKey(), Arrays.asList(zhangSan.getKey(), liSi.getKey()));
             roleMaintainService.batchAddUserRelations(guest.getKey(), Arrays.asList(zhangSan.getKey(), liSi.getKey(), wangWu.getKey()));
 
-            //此处用断点观测roles的值，判断是否正确。
+            // 此处用断点观测 roles 的值，判断是否正确。
             List<Role> roles = roleMaintainService.lookup(RoleMaintainService.ROLE_FOR_USER, new Object[]{zhangSan.getKey()}).getData();
             List<StringIdKey> keys = roles.stream().map(Role::getKey).collect(Collectors.toList());
             assertTrue(keys.containsAll(Arrays.asList(admin.getKey(), moderator.getKey(), guest.getKey())));

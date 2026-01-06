@@ -123,8 +123,8 @@ public class UserLookupHandlerImpl implements UserLookupHandler {
             users = Collections.emptyList();
         }
 
-        // Debug输出用户获得的所有权限表达式。
-        LOGGER.debug("查询获得权限 {} 对应的用户:", permissionKey.toString());
+        // Debug 输出用户获得的所有权限表达式。
+        LOGGER.debug("查询获得权限 {} 对应的用户: ", permissionKey.toString());
         users.forEach(user -> LOGGER.debug("\t{}", user));
 
         // 返回权限对应的用户。
