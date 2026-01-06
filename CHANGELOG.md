@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- `rbac-distributed-service-api` 子模块类优化注释、文档注释格式、代码换行格式。
+  - com.dwarfeng.rbacds.api.integration.subgrade.PermissionLookupHandlerImplTest。
+
 - `rbac-distributed-service-impl` 子模块类优化注释、文档注释格式、代码换行格式。
   - com.dwarfeng.rbacds.impl.service.PermissionLookupServiceImplV2Test。
   - com.dwarfeng.rbacds.impl.handler.UserLookupHandlerImpl。
