@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- 优化部分说明文件中的格式。
+  - libext/README.md。
+  - optext/README.md。
+
 - `rbac-distributed-service-api` 子模块类优化注释、文档注释格式、代码换行格式。
   - com.dwarfeng.rbacds.api.integration.subgrade.PermissionLookupHandlerImplTest。
 
