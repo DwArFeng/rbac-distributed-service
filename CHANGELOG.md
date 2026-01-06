@@ -7,6 +7,8 @@
 - 更新 README.md。
 
 - Wiki 更新。
+  - docs/wiki/en-US/README.md。
+  - docs/wiki/zh-CN/README.md。
   - docs/wiki/zh-CN/Introduction.md。
 
 - 增加预设的运维指令。
