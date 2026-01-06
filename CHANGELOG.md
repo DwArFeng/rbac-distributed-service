@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- 增加预设的运维指令。
+  - com.dwarfeng.springtelqos.api.integration.system.UptimeCommand。
+  - com.dwarfeng.springtelqos.api.integration.system.JmxRemoteCommand。
+
 - 优化部分说明文件中的格式。
   - libext/README.md。
   - optext/README.md。
