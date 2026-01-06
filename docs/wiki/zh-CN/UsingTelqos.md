@@ -2,7 +2,7 @@
 
 ## 说明
 
-Telqos 是本项目的 telnet 运维平台。该文档详细说明了本项目的Telqos命令。
+Telqos 是本项目的 telnet 运维平台。该文档详细说明了本项目的 Telqos 命令。
 
 Telqos 是作者的一个开源项目，它能使用简单的配置快速搭建一个 telnet 运维平台。
 Telqos 项目地址：[Github](https://github.com/DwArFeng/spring-telqos)

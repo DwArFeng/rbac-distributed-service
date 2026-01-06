@@ -117,7 +117,8 @@ OK
 #### 更新数据标记值
 
 ```text
-datamark -update -hn permissionDatamarkHandler -dv test@1.8.1更新成功!
+datamark -update -hn permissionDatamarkHandler -dv test@1.8.1
+更新成功!
 处理器名称: permissionDatamarkHandler, 更新的数据标记值: test@1.8.1
 OK
 ```

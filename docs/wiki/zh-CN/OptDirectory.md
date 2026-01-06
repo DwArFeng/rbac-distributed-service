@@ -33,7 +33,7 @@ opt
         http://www.springframework.org/schema/context/spring-context.xsd"
 >
 
-    <!--扫描handler的实现包。 -->
+    <!--扫描 handler 的实现包。 -->
     <context:component-scan base-package="com.dwarfeng.rbacds.impl.handler.pfilter" use-default-filters="false">
         <!-- 加载 DirectSubGroupPermissionFilterRegistry -->
         <!--

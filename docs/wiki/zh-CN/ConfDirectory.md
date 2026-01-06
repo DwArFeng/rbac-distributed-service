@@ -637,8 +637,8 @@ launcher.reset_permission_filter_support=true
 #
 # 程序启动完成后，启动重置的延时时间。
 # 有些数据仓库以及重置器在启动后可能会需要一些时间进行自身的初始化，调整该参数以妥善的处理这些数据源和推送器。
-# 该参数等于0，意味着启动后立即启动重置服务。
-# 该参数小于0，意味着程序不主动启动重置服务，需要手动启动。
+# 该参数等于 0，意味着启动后立即启动重置服务。
+# 该参数小于 0，意味着程序不主动启动重置服务，需要手动启动。
 launcher.start_reset_delay=30000
 ```
 
@@ -664,7 +664,7 @@ pusher.type=drain
 ###################################################
 #                      drain                      #
 ###################################################
-# drain推送器没有任何配置。
+# drain 推送器没有任何配置。
 #
 ###################################################
 #                      multi                      #
@@ -734,38 +734,38 @@ resetter.cron.cron=0 0 1 * * *
 Redis 连接配置文件。
 
 ```properties
-#ip地址
+# ip 地址。
 redis.hostName=your-host-here
-#端口号
+# 端口号。
 redis.port=6379
-#如果有密码
+# 如果有密码。
 redis.password=your-password-here
-#客户端超时时间单位是毫秒 默认是2000
+# 客户端超时时间单位是毫秒 默认是 2000。
 redis.timeout=10000
-#最大空闲数
+# 最大空闲数。
 redis.maxIdle=300
-#连接池的最大数据库连接数。设为0表示无限制,如果是jedis 2.4以后用redis.maxTotal
-#redis.maxActive=600
-#控制一个pool可分配多少个jedis实例,用来替换上面的redis.maxActive,如果是jedis 2.4以后用该属性
+# 连接池的最大数据库连接数。设为 0 表示无限制，如果是 jedis 2.4 以后用 redis.maxTotal。
+# redis.maxActive=600
+# 控制一个 pool 可分配多少个 jedis 实例，用来替换上面的 redis.maxActive，如果是 jedis 2.4 以后用该属性。
 redis.maxTotal=1000
-#最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
+# 最大建立连接等待时间。如果超过此时间将接到异常。设为-1 表示无限制。
 redis.maxWaitMillis=1000
-#连接的最小空闲时间 默认1800000毫秒(30分钟)
+# 连接的最小空闲时间 默认 1800000 毫秒(30 分钟)。
 redis.minEvictableIdleTimeMillis=300000
-#每次释放连接的最大数目,默认3
+# 每次释放连接的最大数目，默认 3。
 redis.numTestsPerEvictionRun=1024
-#逐出扫描的时间间隔(毫秒) 如果为负数,则不运行逐出线程, 默认-1
+# 逐出扫描的时间间隔(毫秒) 如果为负数，则不运行逐出线程， 默认 -1。
 redis.timeBetweenEvictionRunsMillis=30000
-#是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个
+# 是否在从池中取出连接前进行检验，如果检验失败，则从池中去除连接并尝试取出另一个。
 redis.testOnBorrow=true
-#在空闲时检查有效性, 默认false
+# 在空闲时检查有效性， 默认 false。
 redis.testWhileIdle=true
-#redis.sentinel.host1=172.20.1.230
-#redis.sentinel.port1=26379
-#redis.sentinel.host2=172.20.1.231
-#redis.sentinel.port2=26379
-#redis.sentinel.host3=172.20.1.232
-#redis.sentinel.port3=26379
+# redis.sentinel.host1=172.20.1.230
+# redis.sentinel.port1=26379
+# redis.sentinel.host2=172.20.1.231
+# redis.sentinel.port2=26379
+# redis.sentinel.host3=172.20.1.232
+# redis.sentinel.port3=26379
 ```
 
 ### prefix.properties

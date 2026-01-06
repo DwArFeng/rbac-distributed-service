@@ -7,6 +7,11 @@
 - 更新 README.md。
 
 - Wiki 更新。
+  - docs/wiki/zh-CN/ConfDirectory.md。
+  - docs/wiki/zh-CN/OptDirectory.md。
+  - docs/wiki/zh-CN/SystemRequirements.md。
+  - docs/wiki/zh-CN/TelqosCommands.md。
+  - docs/wiki/zh-CN/UsingTelqos.md。
   - docs/wiki/en-US/README.md。
   - docs/wiki/zh-CN/README.md。
   - docs/wiki/zh-CN/Introduction.md。
