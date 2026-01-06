@@ -9,7 +9,7 @@
         http://www.springframework.org/schema/context/spring-context.xsd"
 >
 
-    <!-- 设置配置文件的路径 -->
+    <!-- 设置配置文件的路径。 -->
     <context:property-placeholder
             location="classpath:database/*.properties,classpath:dubbo/*.properties,classpath:rbacds/*.properties,
                     classpath:redis/*.properties,classpath:datamark/*.properties,classpath:telqos/*.properties"
@@ -17,7 +17,7 @@
             properties-ref="refProperties"
     />
 
-    <!-- 设置本地文件覆盖的路径 -->
+    <!-- 设置本地文件覆盖的路径。 -->
     <bean id="refProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations">
             <list>

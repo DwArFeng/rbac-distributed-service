@@ -9,7 +9,7 @@
         http://dwarfeng.com/schema/dwarfeng-datamark/dwarfeng-datamark.xsd"
 >
 
-    <!-- Role 数据标识 -->
+    <!-- Role 数据标识。 -->
     <datamark:handler
             handler-name="roleDatamarkHandler"
             resource-url="${datamark.role.resource_url}"
@@ -17,7 +17,7 @@
             update-allowed="${datamark.role.update_allowed}"
     />
 
-    <!-- Permission 数据标识 -->
+    <!-- Permission 数据标识。 -->
     <datamark:handler
             handler-name="permissionDatamarkHandler"
             resource-url="${datamark.permission.resource_url}"
@@ -25,7 +25,7 @@
             update-allowed="${datamark.permission.update_allowed}"
     />
 
-    <!-- User 数据标识 -->
+    <!-- User 数据标识。 -->
     <datamark:handler
             handler-name="userDatamarkHandler"
             resource-url="${datamark.user.resource_url}"
@@ -33,6 +33,6 @@
             update-allowed="${datamark.user.update_allowed}"
     />
 
-    <!-- QoS 服务 -->
+    <!-- QoS 服务。 -->
     <datamark:qos/>
 </beans>
