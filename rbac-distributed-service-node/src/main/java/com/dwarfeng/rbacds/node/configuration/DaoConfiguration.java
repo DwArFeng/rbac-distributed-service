@@ -2,8 +2,10 @@ package com.dwarfeng.rbacds.node.configuration;
 
 import com.dwarfeng.rbacds.impl.bean.BeanMapper;
 import com.dwarfeng.rbacds.impl.bean.entity.*;
+import com.dwarfeng.rbacds.impl.bean.key.HibernateRoleUserRelationKey;
 import com.dwarfeng.rbacds.impl.dao.preset.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
+import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
 import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
 import com.dwarfeng.subgrade.impl.dao.HibernateBatchBaseDao;
 import com.dwarfeng.subgrade.impl.dao.HibernateBatchRelationDao;
@@ -32,6 +34,7 @@ public class DaoConfiguration {
     private final PermissionPresetCriteriaMaker permissionPresetCriteriaMaker;
     private final PermissionGroupPresetCriteriaMaker permissionGroupPresetCriteriaMaker;
     private final FilterSupportPresetCriteriaMaker filterSupportPresetCriteriaMaker;
+    private final RoleUserRelationPresetCriteriaMaker roleUserRelationPresetCriteriaMaker;
 
     @Value("${hibernate.jdbc.batch_size}")
     private int batchSize;
@@ -43,7 +46,8 @@ public class DaoConfiguration {
             UserPresetCriteriaMaker userPresetCriteriaMaker,
             PermissionPresetCriteriaMaker permissionPresetCriteriaMaker,
             PermissionGroupPresetCriteriaMaker permissionGroupPresetCriteriaMaker,
-            FilterSupportPresetCriteriaMaker filterSupportPresetCriteriaMaker
+            FilterSupportPresetCriteriaMaker filterSupportPresetCriteriaMaker,
+            RoleUserRelationPresetCriteriaMaker roleUserRelationPresetCriteriaMaker
     ) {
         this.template = template;
         this.pexpPresetCriteriaMaker = pexpPresetCriteriaMaker;
@@ -52,6 +56,7 @@ public class DaoConfiguration {
         this.permissionPresetCriteriaMaker = permissionPresetCriteriaMaker;
         this.permissionGroupPresetCriteriaMaker = permissionGroupPresetCriteriaMaker;
         this.filterSupportPresetCriteriaMaker = filterSupportPresetCriteriaMaker;
+        this.roleUserRelationPresetCriteriaMaker = roleUserRelationPresetCriteriaMaker;
     }
 
     @Bean
@@ -274,6 +279,48 @@ public class DaoConfiguration {
                 new MapStructBeanTransformer<>(FilterSupport.class, HibernateFilterSupport.class, BeanMapper.class),
                 HibernateFilterSupport.class,
                 filterSupportPresetCriteriaMaker
+        );
+    }
+
+    @Bean
+    public HibernateBatchBaseDao<RoleUserRelationKey, HibernateRoleUserRelationKey, RoleUserRelation,
+            HibernateRoleUserRelation> roleUserRelationSupportHibernateBatchBaseDao() {
+        return new HibernateBatchBaseDao<>(
+                template,
+                new MapStructBeanTransformer<>(
+                        RoleUserRelationKey.class, HibernateRoleUserRelationKey.class, BeanMapper.class
+                ),
+                new MapStructBeanTransformer<>(
+                        RoleUserRelation.class, HibernateRoleUserRelation.class, BeanMapper.class
+                ),
+                HibernateRoleUserRelation.class,
+                new DefaultDeletionMod<>(),
+                batchSize
+        );
+    }
+
+    @Bean
+    public HibernateEntireLookupDao<RoleUserRelation, HibernateRoleUserRelation>
+    roleUserRelationSupportHibernateEntireLookupDao() {
+        return new HibernateEntireLookupDao<>(
+                template,
+                new MapStructBeanTransformer<>(
+                        RoleUserRelation.class, HibernateRoleUserRelation.class, BeanMapper.class
+                ),
+                HibernateRoleUserRelation.class
+        );
+    }
+
+    @Bean
+    public HibernatePresetLookupDao<RoleUserRelation, HibernateRoleUserRelation>
+    roleUserRelationSupportHibernatePresetLookupDao() {
+        return new HibernatePresetLookupDao<>(
+                template,
+                new MapStructBeanTransformer<>(
+                        RoleUserRelation.class, HibernateRoleUserRelation.class, BeanMapper.class
+                ),
+                HibernateRoleUserRelation.class,
+                roleUserRelationPresetCriteriaMaker
         );
     }
 }

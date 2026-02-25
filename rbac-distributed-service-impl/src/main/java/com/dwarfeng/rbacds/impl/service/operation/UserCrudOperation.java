@@ -1,12 +1,17 @@
 package com.dwarfeng.rbacds.impl.service.operation;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
+import com.dwarfeng.rbacds.stack.bean.entity.RoleUserRelation;
 import com.dwarfeng.rbacds.stack.bean.entity.User;
+import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
 import com.dwarfeng.rbacds.stack.cache.RoleCache;
+import com.dwarfeng.rbacds.stack.cache.RoleUserRelationCache;
 import com.dwarfeng.rbacds.stack.cache.UserCache;
 import com.dwarfeng.rbacds.stack.dao.RoleDao;
+import com.dwarfeng.rbacds.stack.dao.RoleUserRelationDao;
 import com.dwarfeng.rbacds.stack.dao.UserDao;
 import com.dwarfeng.rbacds.stack.service.RoleMaintainService;
+import com.dwarfeng.rbacds.stack.service.RoleUserRelationMaintainService;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
@@ -26,6 +31,9 @@ public class UserCrudOperation implements BatchCrudOperation<StringIdKey, User> 
     private final RoleDao roleDao;
     private final RoleCache roleCache;
 
+    private final RoleUserRelationDao roleUserRelationDao;
+    private final RoleUserRelationCache roleUserRelationCache;
+
     @Value("${cache.timeout.entity.user}")
     private long userTimeout;
 
@@ -33,12 +41,16 @@ public class UserCrudOperation implements BatchCrudOperation<StringIdKey, User> 
             UserDao userDao,
             UserCache userCache,
             RoleDao roleDao,
-            RoleCache roleCache
+            RoleCache roleCache,
+            RoleUserRelationDao roleUserRelationDao,
+            RoleUserRelationCache roleUserRelationCache
     ) {
         this.userDao = userDao;
         this.userCache = userCache;
         this.roleDao = roleDao;
         this.roleCache = roleCache;
+        this.roleUserRelationDao = roleUserRelationDao;
+        this.roleUserRelationCache = roleUserRelationCache;
     }
 
     @Override
@@ -81,6 +93,13 @@ public class UserCrudOperation implements BatchCrudOperation<StringIdKey, User> 
         ).stream().map(Role::getKey).collect(Collectors.toList());
         roleCache.batchDelete(roleKeys);
         userDao.batchDeleteRoleRelations(key, roleKeys);
+
+        // 删除与用户相关的角色用户关联信息。
+        List<RoleUserRelationKey> roleUserRelationKeys = roleUserRelationDao.lookup(
+                RoleUserRelationMaintainService.CHILD_FOR_USER, new Object[]{key}
+        ).stream().map(RoleUserRelation::getKey).collect(Collectors.toList());
+        roleUserRelationCache.batchDelete(roleUserRelationKeys);
+        roleUserRelationDao.batchDelete(roleUserRelationKeys);
 
         // 删除用户自身。
         userCache.delete(key);

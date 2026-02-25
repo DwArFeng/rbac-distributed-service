@@ -2,7 +2,9 @@ package com.dwarfeng.rbacds.impl.configuration;
 
 import com.dwarfeng.rbacds.sdk.bean.BeanMapper;
 import com.dwarfeng.rbacds.sdk.bean.entity.*;
+import com.dwarfeng.rbacds.sdk.bean.key.formatter.RoleUserRelationStringKeyFormatter;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
+import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
 import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
 import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.sdk.redis.formatter.LongIdStringKeyFormatter;
@@ -31,6 +33,8 @@ public class CacheConfiguration {
     private String permissionGroupPrefix;
     @Value("${cache.prefix.entity.filter_support}")
     private String filterSupportPrefix;
+    @Value("${cache.prefix.entity.role_user_relation}")
+    private String roleUserRelationPrefix;
 
     public CacheConfiguration(RedisTemplate<String, ?> template) {
         this.template = template;
@@ -97,6 +101,17 @@ public class CacheConfiguration {
                 new MapStructBeanTransformer<>(
                         FilterSupport.class, FastJsonFilterSupport.class, BeanMapper.class
                 )
+        );
+    }
+
+    @Bean
+    @SuppressWarnings("unchecked")
+    public RedisBatchBaseCache<RoleUserRelationKey, RoleUserRelation, FastJsonRoleUserRelation>
+    roleUserRelationCacheDelegate() {
+        return new RedisBatchBaseCache<>(
+                (RedisTemplate<String, FastJsonRoleUserRelation>) template,
+                new RoleUserRelationStringKeyFormatter(roleUserRelationPrefix),
+                new MapStructBeanTransformer<>(RoleUserRelation.class, FastJsonRoleUserRelation.class, BeanMapper.class)
         );
     }
 }

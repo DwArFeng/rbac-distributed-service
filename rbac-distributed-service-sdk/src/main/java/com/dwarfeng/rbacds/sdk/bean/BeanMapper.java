@@ -1,7 +1,10 @@
 package com.dwarfeng.rbacds.sdk.bean;
 
 import com.dwarfeng.rbacds.sdk.bean.entity.*;
+import com.dwarfeng.rbacds.sdk.bean.key.FastJsonRoleUserRelationKey;
+import com.dwarfeng.rbacds.sdk.bean.key.WebInputRoleUserRelationKey;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
+import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
 import com.dwarfeng.subgrade.sdk.bean.key.*;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
@@ -45,6 +48,17 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     StringIdKey stringIdKeyFromWebInput(WebInputStringIdKey webInputStringIdKey);
+
+    // -----------------------------------------------------------Rbac Key-----------------------------------------------------------
+    FastJsonRoleUserRelationKey roleUserRelationKeyToFastJson(RoleUserRelationKey roleUserRelationKey);
+
+    @InheritInverseConfiguration
+    RoleUserRelationKey roleUserRelationKeyFromFastJson(FastJsonRoleUserRelationKey fastJsonRoleUserRelationKey);
+
+    WebInputRoleUserRelationKey roleUserRelationKeyToWebInput(RoleUserRelationKey roleUserRelationKey);
+
+    @InheritInverseConfiguration
+    RoleUserRelationKey roleUserRelationKeyFromWebInput(WebInputRoleUserRelationKey webInputRoleUserRelationKey);
 
     // -----------------------------------------------------------Rbac Entity-----------------------------------------------------------
     FastJsonPermission permissionToFastJson(Permission permission);
@@ -106,4 +120,14 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     FilterSupport filterSupportFromFastJson(FastJsonFilterSupport fastJsonFilterSupport);
+
+    FastJsonRoleUserRelation roleUserRelationToFastJson(RoleUserRelation roleUserRelation);
+
+    @InheritInverseConfiguration
+    RoleUserRelation roleUserRelationFromFastJson(FastJsonRoleUserRelation fastJsonRoleUserRelation);
+
+    WebInputRoleUserRelation roleUserRelationToWebInput(RoleUserRelation roleUserRelation);
+
+    @InheritInverseConfiguration
+    RoleUserRelation roleUserRelationFromWebInput(WebInputRoleUserRelation webInputRoleUserRelation);
 }

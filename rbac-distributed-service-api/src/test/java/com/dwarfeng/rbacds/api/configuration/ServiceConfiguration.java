@@ -2,7 +2,9 @@ package com.dwarfeng.rbacds.api.configuration;
 
 import com.dwarfeng.rbacds.impl.service.operation.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
+import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
 import com.dwarfeng.rbacds.stack.cache.FilterSupportCache;
+import com.dwarfeng.rbacds.stack.cache.RoleUserRelationCache;
 import com.dwarfeng.rbacds.stack.dao.*;
 import com.dwarfeng.subgrade.impl.generation.ExceptionKeyGenerator;
 import com.dwarfeng.subgrade.impl.service.*;
@@ -32,9 +34,13 @@ public class ServiceConfiguration {
     private final PermissionGroupDao permissionGroupDao;
     private final FilterSupportCache filterSupportCache;
     private final FilterSupportDao filterSupportDao;
+    private final RoleUserRelationDao roleUserRelationDao;
+    private final RoleUserRelationCache roleUserRelationCache;
 
     @Value("${cache.timeout.entity.filter_support}")
     private long filterSupportTimeout;
+    @Value("${cache.timeout.entity.role_user_relation}")
+    private long roleUserRelationTimeout;
 
     public ServiceConfiguration(
             ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration,
@@ -51,7 +57,9 @@ public class ServiceConfiguration {
             PermissionGroupCrudOperation permissionGroupCrudOperation,
             PermissionGroupDao permissionGroupDao,
             FilterSupportCache filterSupportCache,
-            FilterSupportDao filterSupportDao
+            FilterSupportDao filterSupportDao,
+            RoleUserRelationDao roleUserRelationDao,
+            RoleUserRelationCache roleUserRelationCache
     ) {
         this.serviceExceptionMapperConfiguration = serviceExceptionMapperConfiguration;
         this.generateConfiguration = generateConfiguration;
@@ -68,6 +76,8 @@ public class ServiceConfiguration {
         this.permissionGroupDao = permissionGroupDao;
         this.filterSupportCache = filterSupportCache;
         this.filterSupportDao = filterSupportDao;
+        this.roleUserRelationDao = roleUserRelationDao;
+        this.roleUserRelationCache = roleUserRelationCache;
     }
 
     @Bean
@@ -247,6 +257,36 @@ public class ServiceConfiguration {
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 filterSupportDao
+        );
+    }
+
+    @Bean
+    public GeneralBatchCrudService<RoleUserRelationKey, RoleUserRelation> roleUserRelationGeneralBatchCrudService() {
+        return new GeneralBatchCrudService<>(
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                roleUserRelationDao,
+                roleUserRelationCache,
+                new ExceptionKeyGenerator<>(),
+                roleUserRelationTimeout
+        );
+    }
+
+    @Bean
+    public DaoOnlyEntireLookupService<RoleUserRelation> roleUserRelationDaoOnlyEntireLookupService() {
+        return new DaoOnlyEntireLookupService<>(
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                roleUserRelationDao
+        );
+    }
+
+    @Bean
+    public DaoOnlyPresetLookupService<RoleUserRelation> roleUserRelationDaoOnlyPresetLookupService() {
+        return new DaoOnlyPresetLookupService<>(
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                roleUserRelationDao
         );
     }
 }

@@ -20,6 +20,7 @@ public class FastJsonConfiguration {
         ParserConfig.getGlobalInstance().addAccept(FastJsonUser.class.getCanonicalName());
         ParserConfig.getGlobalInstance().addAccept(FastJsonPermissionGroup.class.getCanonicalName());
         ParserConfig.getGlobalInstance().addAccept(FastJsonFilterSupport.class.getCanonicalName());
+        ParserConfig.getGlobalInstance().addAccept(FastJsonRoleUserRelation.class.getCanonicalName());
         LOGGER.debug("FastJson autotype 白名单配置完毕");
     }
 }

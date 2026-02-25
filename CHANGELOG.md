@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 添加实体以及维护服务，并通过单元测试。
+  - com.dwarfeng.rbacds.stack.bean.entity.RoleUserRelation。
+
 - 重构权限表达式处理器输出结构。
   - 将 `PexpHandler` 的 `PermissionReception` 枚举重命名为 `Reception` 并同步相关接口。
   - 将 `testAll` 返回值改为按输入顺序输出的 `Reception` 列表，便于调用方直接映射结果。

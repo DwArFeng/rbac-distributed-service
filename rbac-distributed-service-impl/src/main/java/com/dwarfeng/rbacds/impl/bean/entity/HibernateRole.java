@@ -17,7 +17,7 @@ import java.util.Set;
 @EntityListeners(DatamarkEntityListener.class)
 public class HibernateRole implements Bean {
 
-    private static final long serialVersionUID = 6625754350915885268L;
+    private static final long serialVersionUID = -99928403625136293L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -35,6 +35,9 @@ public class HibernateRole implements Bean {
     private String remark;
 
     // -----------------------------------------------------------一对多-----------------------------------------------------------
+    @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateRoleUserRelation.class, mappedBy = "role")
+    private Set<HibernateRoleUserRelation> roleUserRelations = new HashSet<>();
+
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernatePexp.class, mappedBy = "role")
     private Set<HibernatePexp> pexps = new HashSet<>();
 
@@ -106,6 +109,14 @@ public class HibernateRole implements Bean {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Set<HibernateRoleUserRelation> getRoleUserRelations() {
+        return roleUserRelations;
+    }
+
+    public void setRoleUserRelations(Set<HibernateRoleUserRelation> roleUserRelations) {
+        this.roleUserRelations = roleUserRelations;
     }
 
     public Set<HibernatePexp> getPexps() {

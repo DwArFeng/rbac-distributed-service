@@ -1,7 +1,9 @@
 package com.dwarfeng.rbacds.impl.bean;
 
 import com.dwarfeng.rbacds.impl.bean.entity.*;
+import com.dwarfeng.rbacds.impl.bean.key.HibernateRoleUserRelationKey;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
+import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
@@ -32,6 +34,12 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     StringIdKey stringIdKeyFromHibernate(HibernateStringIdKey hibernateStringIdKey);
+
+    // -----------------------------------------------------------Rbac Key-----------------------------------------------------------
+    HibernateRoleUserRelationKey roleUserRelationKeyToHibernate(RoleUserRelationKey roleUserRelationKey);
+
+    @InheritInverseConfiguration
+    RoleUserRelationKey roleUserRelationKeyFromHibernate(HibernateRoleUserRelationKey hibernateRoleUserRelationKey);
 
     // -----------------------------------------------------------Rbac Entity-----------------------------------------------------------
     @Mapping(target = "modifiedDatamark", ignore = true)
@@ -66,20 +74,22 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     Pexp pexpFromHibernate(HibernatePexp hibernatePexp);
 
-    @Mapping(target = "modifiedDatamark", ignore = true)
-    @Mapping(target = "createdDatamark", ignore = true)
     @Mapping(target = "users", ignore = true)
     @Mapping(target = "stringId", ignore = true)
+    @Mapping(target = "roleUserRelations", ignore = true)
     @Mapping(target = "pexps", ignore = true)
+    @Mapping(target = "modifiedDatamark", ignore = true)
+    @Mapping(target = "createdDatamark", ignore = true)
     HibernateRole roleToHibernate(Role role);
 
     @InheritInverseConfiguration
     Role roleFromHibernate(HibernateRole hibernateRole);
 
-    @Mapping(target = "modifiedDatamark", ignore = true)
-    @Mapping(target = "createdDatamark", ignore = true)
     @Mapping(target = "stringId", ignore = true)
     @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "roleUserRelations", ignore = true)
+    @Mapping(target = "modifiedDatamark", ignore = true)
+    @Mapping(target = "createdDatamark", ignore = true)
     HibernateUser userToHibernate(User user);
 
     @InheritInverseConfiguration
@@ -90,4 +100,15 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     FilterSupport filterSupportFromHibernate(HibernateFilterSupport hibernateFilterSupport);
+
+    @Mapping(target = "userStringId", ignore = true)
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "roleStringId", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "modifiedDatamark", ignore = true)
+    @Mapping(target = "createdDatamark", ignore = true)
+    HibernateRoleUserRelation roleUserRelationToHibernate(RoleUserRelation roleUserRelation);
+
+    @InheritInverseConfiguration
+    RoleUserRelation roleUserRelationFromHibernate(HibernateRoleUserRelation hibernateRoleUserRelation);
 }
