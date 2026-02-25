@@ -14,6 +14,7 @@ import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.sdk.hibernate.modification.DefaultDeletionMod;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTemplate;
@@ -31,6 +32,9 @@ public class DaoConfiguration {
     private final PermissionPresetCriteriaMaker permissionPresetCriteriaMaker;
     private final PermissionGroupPresetCriteriaMaker permissionGroupPresetCriteriaMaker;
     private final FilterSupportPresetCriteriaMaker filterSupportPresetCriteriaMaker;
+
+    @Value("${hibernate.jdbc.batch_size}")
+    private int batchSize;
 
     public DaoConfiguration(
             HibernateTemplate template,
@@ -57,7 +61,9 @@ public class DaoConfiguration {
                 template,
                 new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(Permission.class, HibernatePermission.class, BeanMapper.class),
-                HibernatePermission.class
+                HibernatePermission.class,
+                new DefaultDeletionMod<>(),
+                batchSize
         );
     }
 
@@ -86,7 +92,9 @@ public class DaoConfiguration {
                 template,
                 new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(Pexp.class, HibernatePexp.class, BeanMapper.class),
-                HibernatePexp.class
+                HibernatePexp.class,
+                new DefaultDeletionMod<>(),
+                batchSize
         );
     }
 
@@ -108,6 +116,7 @@ public class DaoConfiguration {
                 new MapStructBeanTransformer<>(Role.class, HibernateRole.class, BeanMapper.class),
                 HibernateRole.class,
                 new DefaultDeletionMod<>(),
+                batchSize,
                 Collections.singleton("users")
         );
     }
@@ -138,7 +147,8 @@ public class DaoConfiguration {
                 new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(User.class, HibernateUser.class, BeanMapper.class),
                 HibernateUser.class,
-                new DefaultDeletionMod<>()
+                new DefaultDeletionMod<>(),
+                batchSize
         );
     }
 
@@ -204,7 +214,9 @@ public class DaoConfiguration {
                 new MapStructBeanTransformer<>(
                         PermissionGroup.class, HibernatePermissionGroup.class, BeanMapper.class
                 ),
-                HibernatePermissionGroup.class
+                HibernatePermissionGroup.class,
+                new DefaultDeletionMod<>(),
+                batchSize
         );
     }
 
@@ -240,7 +252,9 @@ public class DaoConfiguration {
                 template,
                 new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(FilterSupport.class, HibernateFilterSupport.class, BeanMapper.class),
-                HibernateFilterSupport.class
+                HibernateFilterSupport.class,
+                new DefaultDeletionMod<>(),
+                batchSize
         );
     }
 

@@ -31,7 +31,8 @@
 
 ### Bug 修复
 
-- (无)
+- 修复部分配置项在部分场景下未生效的 bug。
+  - `database/performance.properties` 中的 `hibernate.jdbc.batch_size` 配置项。
 
 ### 功能移除
 
