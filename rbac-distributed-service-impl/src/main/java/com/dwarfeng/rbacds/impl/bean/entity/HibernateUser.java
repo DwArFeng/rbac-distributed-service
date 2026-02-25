@@ -17,7 +17,7 @@ import java.util.Set;
 @EntityListeners(DatamarkEntityListener.class)
 public class HibernateUser implements Bean {
 
-    private static final long serialVersionUID = -7928048385632760565L;
+    private static final long serialVersionUID = 3125572221479399205L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -31,10 +31,6 @@ public class HibernateUser implements Bean {
     // -----------------------------------------------------------一对多-----------------------------------------------------------
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateRoleUserRelation.class, mappedBy = "user")
     private Set<HibernateRoleUserRelation> roleUserRelations = new HashSet<>();
-
-    // -----------------------------------------------------------多对多-----------------------------------------------------------
-    @ManyToMany(targetEntity = HibernateRole.class, cascade = CascadeType.MERGE, mappedBy = "users")
-    private Set<HibernateRole> roles = new HashSet<>();
 
     // -----------------------------------------------------------审计-----------------------------------------------------------
     @DatamarkField(handlerName = "userDatamarkHandler")
@@ -87,14 +83,6 @@ public class HibernateUser implements Bean {
 
     public void setRoleUserRelations(Set<HibernateRoleUserRelation> roleUserRelations) {
         this.roleUserRelations = roleUserRelations;
-    }
-
-    public Set<HibernateRole> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<HibernateRole> roles) {
-        this.roles = roles;
     }
 
     public String getCreatedDatamark() {

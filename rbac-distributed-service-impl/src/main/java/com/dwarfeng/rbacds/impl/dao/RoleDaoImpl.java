@@ -1,12 +1,9 @@
 package com.dwarfeng.rbacds.impl.dao;
 
 import com.dwarfeng.rbacds.impl.bean.entity.HibernateRole;
-import com.dwarfeng.rbacds.impl.bean.entity.HibernateUser;
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
-import com.dwarfeng.rbacds.stack.bean.entity.User;
 import com.dwarfeng.rbacds.stack.dao.RoleDao;
 import com.dwarfeng.subgrade.impl.dao.HibernateBatchBaseDao;
-import com.dwarfeng.subgrade.impl.dao.HibernateBatchRelationDao;
 import com.dwarfeng.subgrade.impl.dao.HibernateEntireLookupDao;
 import com.dwarfeng.subgrade.impl.dao.HibernatePresetLookupDao;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
@@ -26,20 +23,15 @@ public class RoleDaoImpl implements RoleDao {
     private final HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, Role, HibernateRole> batchDelegate;
     private final HibernatePresetLookupDao<Role, HibernateRole> presetDelegate;
     private final HibernateEntireLookupDao<Role, HibernateRole> entireLookupDelegate;
-    private final HibernateBatchRelationDao<StringIdKey, Role, StringIdKey, User, HibernateStringIdKey, HibernateRole,
-            HibernateStringIdKey, HibernateUser> relationDelegate;
 
     public RoleDaoImpl(
             HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, Role, HibernateRole> batchDelegate,
             HibernatePresetLookupDao<Role, HibernateRole> presetDelegate,
             HibernateEntireLookupDao<Role, HibernateRole> entireLookupDelegate
-            , HibernateBatchRelationDao<StringIdKey, Role, StringIdKey, User, HibernateStringIdKey, HibernateRole,
-                    HibernateStringIdKey, HibernateUser> relationDelegate
     ) {
         this.batchDelegate = batchDelegate;
         this.presetDelegate = presetDelegate;
         this.entireLookupDelegate = entireLookupDelegate;
-        this.relationDelegate = relationDelegate;
     }
 
     @Override
@@ -166,57 +158,5 @@ public class RoleDaoImpl implements RoleDao {
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public int lookupCount() throws DaoException {
         return entireLookupDelegate.lookupCount();
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean existsUserRelation(StringIdKey roleKey, StringIdKey userKey) throws DaoException {
-        return relationDelegate.existsRelation(roleKey, userKey);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void addUserRelation(StringIdKey roleKey, StringIdKey userKey) throws DaoException {
-        relationDelegate.addRelation(roleKey, userKey);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void deleteUserRelation(StringIdKey roleKey, StringIdKey userKey) throws DaoException {
-        relationDelegate.deleteRelation(roleKey, userKey);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean existsAllUserRelations(StringIdKey roleKey, @SkipRecord List<StringIdKey> userKeys)
-            throws DaoException {
-        return relationDelegate.existsAllRelations(roleKey, userKeys);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean existsNonUserRelations(StringIdKey roleKey, @SkipRecord List<StringIdKey> userKeys)
-            throws DaoException {
-        return relationDelegate.existsNonRelations(roleKey, userKeys);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchAddUserRelations(StringIdKey roleKey, @SkipRecord List<StringIdKey> userKeys) throws DaoException {
-        relationDelegate.batchAddRelations(roleKey, userKeys);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDeleteUserRelations(StringIdKey roleKey, @SkipRecord List<StringIdKey> userKeys)
-            throws DaoException {
-        relationDelegate.batchDeleteRelations(roleKey, userKeys);
     }
 }

@@ -7,7 +7,10 @@ import com.dwarfeng.rbacds.stack.cache.FilterSupportCache;
 import com.dwarfeng.rbacds.stack.cache.RoleUserRelationCache;
 import com.dwarfeng.rbacds.stack.dao.*;
 import com.dwarfeng.subgrade.impl.generation.ExceptionKeyGenerator;
-import com.dwarfeng.subgrade.impl.service.*;
+import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
+import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
+import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
+import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.log.LogLevel;
@@ -20,7 +23,6 @@ public class ServiceConfiguration {
 
     private final ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration;
     private final GenerateConfiguration generateConfiguration;
-    private final DaoConfiguration daoConfiguration;
 
     private final UserCrudOperation userCrudOperation;
     private final UserDao userDao;
@@ -45,7 +47,6 @@ public class ServiceConfiguration {
     public ServiceConfiguration(
             ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration,
             GenerateConfiguration generateConfiguration,
-            DaoConfiguration daoConfiguration,
             UserCrudOperation userCrudOperation,
             UserDao userDao,
             RoleCrudOperation roleCrudOperation,
@@ -63,7 +64,6 @@ public class ServiceConfiguration {
     ) {
         this.serviceExceptionMapperConfiguration = serviceExceptionMapperConfiguration;
         this.generateConfiguration = generateConfiguration;
-        this.daoConfiguration = daoConfiguration;
         this.userCrudOperation = userCrudOperation;
         this.userDao = userDao;
         this.roleCrudOperation = roleCrudOperation;
@@ -109,15 +109,6 @@ public class ServiceConfiguration {
     }
 
     @Bean
-    public DaoOnlyBatchRelationService<StringIdKey, StringIdKey> userDaoOnlyBatchRelationService() {
-        return new DaoOnlyBatchRelationService<>(
-                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN,
-                daoConfiguration.userRoleBatchRelationDao()
-        );
-    }
-
-    @Bean
     public CustomBatchCrudService<StringIdKey, Role> roleCustomBatchCrudService() {
         return new CustomBatchCrudService<>(
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
@@ -142,15 +133,6 @@ public class ServiceConfiguration {
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 roleDao
-        );
-    }
-
-    @Bean
-    public DaoOnlyBatchRelationService<StringIdKey, StringIdKey> roleDaoOnlyBatchRelationService() {
-        return new DaoOnlyBatchRelationService<>(
-                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN,
-                daoConfiguration.roleUserBatchRelationDao()
         );
     }
 

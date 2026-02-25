@@ -74,7 +74,6 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     Pexp pexpFromHibernate(HibernatePexp hibernatePexp);
 
-    @Mapping(target = "users", ignore = true)
     @Mapping(target = "stringId", ignore = true)
     @Mapping(target = "roleUserRelations", ignore = true)
     @Mapping(target = "pexps", ignore = true)
@@ -86,7 +85,6 @@ public interface BeanMapper {
     Role roleFromHibernate(HibernateRole hibernateRole);
 
     @Mapping(target = "stringId", ignore = true)
-    @Mapping(target = "roles", ignore = true)
     @Mapping(target = "roleUserRelations", ignore = true)
     @Mapping(target = "modifiedDatamark", ignore = true)
     @Mapping(target = "createdDatamark", ignore = true)

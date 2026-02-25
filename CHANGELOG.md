@@ -39,6 +39,8 @@
 
 ### 功能移除
 
+- 移除角色实体和用户实体的多对多关联及其相关功能。
+
 - 移除旧的权限查询功能使用的缓存。
   - com.dwarfeng.rbacds.stack.cache.PermissionUserCache。
   - com.dwarfeng.rbacds.stack.cache.UserPermissionCache。

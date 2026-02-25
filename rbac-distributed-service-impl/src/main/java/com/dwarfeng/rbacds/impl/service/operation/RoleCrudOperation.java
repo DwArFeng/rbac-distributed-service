@@ -3,19 +3,15 @@ package com.dwarfeng.rbacds.impl.service.operation;
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.rbacds.stack.bean.entity.RoleUserRelation;
-import com.dwarfeng.rbacds.stack.bean.entity.User;
 import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
 import com.dwarfeng.rbacds.stack.cache.PexpCache;
 import com.dwarfeng.rbacds.stack.cache.RoleCache;
 import com.dwarfeng.rbacds.stack.cache.RoleUserRelationCache;
-import com.dwarfeng.rbacds.stack.cache.UserCache;
 import com.dwarfeng.rbacds.stack.dao.PexpDao;
 import com.dwarfeng.rbacds.stack.dao.RoleDao;
 import com.dwarfeng.rbacds.stack.dao.RoleUserRelationDao;
-import com.dwarfeng.rbacds.stack.dao.UserDao;
 import com.dwarfeng.rbacds.stack.service.PexpMaintainService;
 import com.dwarfeng.rbacds.stack.service.RoleUserRelationMaintainService;
-import com.dwarfeng.rbacds.stack.service.UserMaintainService;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
@@ -33,9 +29,6 @@ public class RoleCrudOperation implements BatchCrudOperation<StringIdKey, Role> 
     private final RoleDao roleDao;
     private final RoleCache roleCache;
 
-    private final UserDao userDao;
-    private final UserCache userCache;
-
     private final PexpDao pexpDao;
     private final PexpCache pexpCache;
 
@@ -48,8 +41,6 @@ public class RoleCrudOperation implements BatchCrudOperation<StringIdKey, Role> 
     public RoleCrudOperation(
             RoleDao roleDao,
             RoleCache roleCache,
-            UserDao userDao,
-            UserCache userCache,
             PexpDao pexpDao,
             PexpCache pexpCache,
             RoleUserRelationDao roleUserRelationDao,
@@ -57,8 +48,6 @@ public class RoleCrudOperation implements BatchCrudOperation<StringIdKey, Role> 
     ) {
         this.roleDao = roleDao;
         this.roleCache = roleCache;
-        this.userDao = userDao;
-        this.userCache = userCache;
         this.pexpDao = pexpDao;
         this.pexpCache = pexpCache;
         this.roleUserRelationDao = roleUserRelationDao;
@@ -99,13 +88,6 @@ public class RoleCrudOperation implements BatchCrudOperation<StringIdKey, Role> 
 
     @Override
     public void delete(StringIdKey key) throws Exception {
-        // 删除与角色相关的用户。
-        List<StringIdKey> userKeys = userDao.lookup(
-                UserMaintainService.CHILD_FOR_ROLE, new Object[]{key}
-        ).stream().map(User::getKey).collect(Collectors.toList());
-        userCache.batchDelete(userKeys);
-        roleDao.batchDeleteUserRelations(key, userKeys);
-
         // 删除与角色相关的权限表达式。
         List<LongIdKey> pexpKeys = pexpDao.lookup(
                 PexpMaintainService.PEXP_FOR_ROLE, new Object[]{key}

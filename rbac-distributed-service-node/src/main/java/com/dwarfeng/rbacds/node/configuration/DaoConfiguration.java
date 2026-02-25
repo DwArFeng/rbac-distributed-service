@@ -8,7 +8,6 @@ import com.dwarfeng.rbacds.stack.bean.entity.*;
 import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
 import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
 import com.dwarfeng.subgrade.impl.dao.HibernateBatchBaseDao;
-import com.dwarfeng.subgrade.impl.dao.HibernateBatchRelationDao;
 import com.dwarfeng.subgrade.impl.dao.HibernateEntireLookupDao;
 import com.dwarfeng.subgrade.impl.dao.HibernatePresetLookupDao;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
@@ -173,40 +172,6 @@ public class DaoConfiguration {
                 template,
                 new MapStructBeanTransformer<>(User.class, HibernateUser.class, BeanMapper.class),
                 HibernateUser.class
-        );
-    }
-
-    @Bean
-    public HibernateBatchRelationDao<StringIdKey, User, StringIdKey, Role, HibernateStringIdKey, HibernateUser,
-            HibernateStringIdKey, HibernateRole> userRoleBatchRelationDao() {
-        return new HibernateBatchRelationDao<>(
-                template,
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
-                new MapStructBeanTransformer<>(User.class, HibernateUser.class, BeanMapper.class),
-                new MapStructBeanTransformer<>(Role.class, HibernateRole.class, BeanMapper.class),
-                HibernateUser.class,
-                HibernateRole.class,
-                "roles",
-                "users",
-                HibernateBatchRelationDao.JoinType.JOIN_BY_CHILD
-        );
-    }
-
-    @Bean
-    public HibernateBatchRelationDao<StringIdKey, Role, StringIdKey, User, HibernateStringIdKey, HibernateRole,
-            HibernateStringIdKey, HibernateUser> roleUserBatchRelationDao() {
-        return new HibernateBatchRelationDao<>(
-                template,
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
-                new MapStructBeanTransformer<>(Role.class, HibernateRole.class, BeanMapper.class),
-                new MapStructBeanTransformer<>(User.class, HibernateUser.class, BeanMapper.class),
-                HibernateRole.class,
-                HibernateUser.class,
-                "users",
-                "roles",
-                HibernateBatchRelationDao.JoinType.JOIN_BY_PARENT
         );
     }
 

@@ -3,19 +3,14 @@ package com.dwarfeng.rbacds.impl.service;
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.rbacds.stack.service.RoleMaintainService;
 import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyBatchRelationService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
-import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionHelper;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
-import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
-import com.dwarfeng.subgrade.stack.log.LogLevel;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,23 +22,15 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
     private final CustomBatchCrudService<StringIdKey, Role> batchCrudService;
     private final DaoOnlyEntireLookupService<Role> entireLookupService;
     private final DaoOnlyPresetLookupService<Role> presetLookupService;
-    private final DaoOnlyBatchRelationService<StringIdKey, StringIdKey> relationService;
-
-    private final ServiceExceptionMapper sem;
 
     public RoleMaintainServiceImpl(
             CustomBatchCrudService<StringIdKey, Role> batchCrudService,
             DaoOnlyEntireLookupService<Role> entireLookupService,
-            DaoOnlyPresetLookupService<Role> presetLookupService,
-            @Qualifier("roleDaoOnlyBatchRelationService")
-            DaoOnlyBatchRelationService<StringIdKey, StringIdKey> relationService,
-            ServiceExceptionMapper sem
+            DaoOnlyPresetLookupService<Role> presetLookupService
     ) {
         this.batchCrudService = batchCrudService;
         this.entireLookupService = entireLookupService;
         this.presetLookupService = presetLookupService;
-        this.relationService = relationService;
-        this.sem = sem;
     }
 
     @Override
@@ -301,74 +288,5 @@ public class RoleMaintainServiceImpl implements RoleMaintainService {
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public int lookupCount(String preset, Object[] objs) throws ServiceException {
         return presetLookupService.lookupCount(preset, objs);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean existsUserRelation(StringIdKey roleKey, StringIdKey userKey) throws ServiceException {
-        return relationService.existsRelation(roleKey, userKey);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void addUserRelation(StringIdKey roleKey, StringIdKey userKey) throws ServiceException {
-        try {
-            relationService.addRelation(roleKey, userKey);
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("添加角色与用户的关联时发生异常", LogLevel.WARN, e, sem);
-        }
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void deleteUserRelation(StringIdKey roleKey, StringIdKey userKey) throws ServiceException {
-        try {
-            relationService.deleteRelation(roleKey, userKey);
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("删除角色与用户的关联时发生异常", LogLevel.WARN, e, sem);
-        }
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean existsAllUserRelations(StringIdKey roleKey, @SkipRecord List<StringIdKey> userKeys)
-            throws ServiceException {
-        return relationService.existsAllRelations(roleKey, userKeys);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean existsNonUserRelations(StringIdKey roleKey, @SkipRecord List<StringIdKey> userKeys)
-            throws ServiceException {
-        return relationService.existsNonRelations(roleKey, userKeys);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchAddUserRelations(StringIdKey roleKey, @SkipRecord List<StringIdKey> userKey)
-            throws ServiceException {
-        try {
-            relationService.batchAddRelations(roleKey, userKey);
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("批量添加角色与用户的关联时发生异常", LogLevel.WARN, e, sem);
-        }
-    }
-
-    @Override
-    @BehaviorAnalyse
-    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDeleteUserRelations(StringIdKey roleKey, @SkipRecord List<StringIdKey> userKey)
-            throws ServiceException {
-        try {
-            relationService.batchDeleteRelations(roleKey, userKey);
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("批量删除角色与用户的关联时发生异常", LogLevel.WARN, e, sem);
-        }
     }
 }

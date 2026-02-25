@@ -1,16 +1,12 @@
 package com.dwarfeng.rbacds.impl.service.operation;
 
-import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.rbacds.stack.bean.entity.RoleUserRelation;
 import com.dwarfeng.rbacds.stack.bean.entity.User;
 import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
-import com.dwarfeng.rbacds.stack.cache.RoleCache;
 import com.dwarfeng.rbacds.stack.cache.RoleUserRelationCache;
 import com.dwarfeng.rbacds.stack.cache.UserCache;
-import com.dwarfeng.rbacds.stack.dao.RoleDao;
 import com.dwarfeng.rbacds.stack.dao.RoleUserRelationDao;
 import com.dwarfeng.rbacds.stack.dao.UserDao;
-import com.dwarfeng.rbacds.stack.service.RoleMaintainService;
 import com.dwarfeng.rbacds.stack.service.RoleUserRelationMaintainService;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
@@ -28,9 +24,6 @@ public class UserCrudOperation implements BatchCrudOperation<StringIdKey, User> 
     private final UserDao userDao;
     private final UserCache userCache;
 
-    private final RoleDao roleDao;
-    private final RoleCache roleCache;
-
     private final RoleUserRelationDao roleUserRelationDao;
     private final RoleUserRelationCache roleUserRelationCache;
 
@@ -40,15 +33,11 @@ public class UserCrudOperation implements BatchCrudOperation<StringIdKey, User> 
     public UserCrudOperation(
             UserDao userDao,
             UserCache userCache,
-            RoleDao roleDao,
-            RoleCache roleCache,
             RoleUserRelationDao roleUserRelationDao,
             RoleUserRelationCache roleUserRelationCache
     ) {
         this.userDao = userDao;
         this.userCache = userCache;
-        this.roleDao = roleDao;
-        this.roleCache = roleCache;
         this.roleUserRelationDao = roleUserRelationDao;
         this.roleUserRelationCache = roleUserRelationCache;
     }
@@ -87,13 +76,6 @@ public class UserCrudOperation implements BatchCrudOperation<StringIdKey, User> 
 
     @Override
     public void delete(StringIdKey key) throws Exception {
-        // 查找并清除所有相关的角色的关联。
-        List<StringIdKey> roleKeys = roleDao.lookup(
-                RoleMaintainService.ROLE_FOR_USER, new Object[]{key}
-        ).stream().map(Role::getKey).collect(Collectors.toList());
-        roleCache.batchDelete(roleKeys);
-        userDao.batchDeleteRoleRelations(key, roleKeys);
-
         // 删除与用户相关的角色用户关联信息。
         List<RoleUserRelationKey> roleUserRelationKeys = roleUserRelationDao.lookup(
                 RoleUserRelationMaintainService.CHILD_FOR_USER, new Object[]{key}
