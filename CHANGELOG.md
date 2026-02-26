@@ -4,6 +4,11 @@
 
 ### 功能构建
 
+- 优化部分单元测试代码，以规避潜在的 bug。
+  - com.dwarfeng.rbacds.impl.service.FilterSupportMaintainServiceImplTest。
+  - com.dwarfeng.rbacds.impl.service.RoleMaintainServiceImplTest。
+  - com.dwarfeng.rbacds.impl.service.UserMaintainServiceImplTest。
+
 - 修改部分 `FilterRegistry` 的类名以及代码，以适配实体字段的变更。
   - com.dwarfeng.rbacds.impl.handler.filter.DirectSubGroupFilterRegistry。
   - com.dwarfeng.rbacds.impl.handler.filter.ExactFilterRegistry。

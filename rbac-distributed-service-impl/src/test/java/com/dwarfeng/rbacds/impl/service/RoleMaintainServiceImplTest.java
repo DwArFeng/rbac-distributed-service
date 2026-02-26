@@ -53,7 +53,7 @@ public class RoleMaintainServiceImplTest {
             }
         } finally {
             for (Role role : roles) {
-                if (Objects.isNull(role)) {
+                if (Objects.isNull(role.getKey())) {
                     continue;
                 }
                 roleMaintainService.deleteIfExists(role.getKey());

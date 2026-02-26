@@ -53,7 +53,7 @@ public class UserMaintainServiceImplTest {
             }
         } finally {
             for (User user : users) {
-                if (Objects.isNull(user)) {
+                if (Objects.isNull(user.getKey())) {
                     continue;
                 }
                 userMaintainService.deleteIfExists(user.getKey());
