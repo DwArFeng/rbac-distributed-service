@@ -4,6 +4,11 @@
 
 ### 功能构建
 
+- 新增 telqos 指令。
+  - com.dwarfeng.rbacds.impl.service.telqos.PermissionCommand。
+  - com.dwarfeng.rbacds.impl.service.telqos.PermissionGroupCommand。
+  - com.dwarfeng.rbacds.impl.service.telqos.PexpCommand。
+
 - 新增实体操作服务。
   - com.dwarfeng.rbacds.stack.service.PermissionGroupOperateService。
   - com.dwarfeng.rbacds.stack.service.PermissionOperateService。
