@@ -1,27 +1,27 @@
 package com.dwarfeng.rbacds.stack.bean.entity;
 
+import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
 import com.dwarfeng.subgrade.stack.bean.entity.Entity;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 
 /**
  * 权限组。
  *
  * @author DwArFeng
- * @since 1.2.0
+ * @since 2.0.0
  */
-public class PermissionGroup implements Entity<StringIdKey> {
+public class PermissionGroup implements Entity<PermissionGroupKey> {
 
-    private static final long serialVersionUID = 5082174087000324332L;
+    private static final long serialVersionUID = 5540724740545327297L;
 
-    private StringIdKey key;
-    private StringIdKey parentKey;
+    private PermissionGroupKey key;
+    private PermissionGroupKey parentKey;
     private String name;
     private String remark;
 
     public PermissionGroup() {
     }
 
-    public PermissionGroup(StringIdKey key, StringIdKey parentKey, String name, String remark) {
+    public PermissionGroup(PermissionGroupKey key, PermissionGroupKey parentKey, String name, String remark) {
         this.key = key;
         this.parentKey = parentKey;
         this.name = name;
@@ -29,20 +29,20 @@ public class PermissionGroup implements Entity<StringIdKey> {
     }
 
     @Override
-    public StringIdKey getKey() {
+    public PermissionGroupKey getKey() {
         return key;
     }
 
     @Override
-    public void setKey(StringIdKey key) {
+    public void setKey(PermissionGroupKey key) {
         this.key = key;
     }
 
-    public StringIdKey getParentKey() {
+    public PermissionGroupKey getParentKey() {
         return parentKey;
     }
 
-    public void setParentKey(StringIdKey parentKey) {
+    public void setParentKey(PermissionGroupKey parentKey) {
         this.parentKey = parentKey;
     }
 

@@ -2,25 +2,27 @@ package com.dwarfeng.rbacds.impl.configuration;
 
 import com.dwarfeng.rbacds.impl.bean.BeanMapper;
 import com.dwarfeng.rbacds.impl.bean.entity.*;
+import com.dwarfeng.rbacds.impl.bean.key.HibernatePermissionGroupKey;
+import com.dwarfeng.rbacds.impl.bean.key.HibernatePermissionKey;
+import com.dwarfeng.rbacds.impl.bean.key.HibernatePexpKey;
 import com.dwarfeng.rbacds.impl.bean.key.HibernateRoleUserRelationKey;
 import com.dwarfeng.rbacds.impl.dao.preset.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
+import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
 import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
 import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
 import com.dwarfeng.subgrade.impl.dao.HibernateBatchBaseDao;
 import com.dwarfeng.subgrade.impl.dao.HibernateEntireLookupDao;
 import com.dwarfeng.subgrade.impl.dao.HibernatePresetLookupDao;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.sdk.hibernate.modification.DefaultDeletionMod;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTemplate;
-
-import java.util.Collections;
 
 @Configuration
 public class DaoConfiguration {
@@ -34,6 +36,7 @@ public class DaoConfiguration {
     private final PermissionGroupPresetCriteriaMaker permissionGroupPresetCriteriaMaker;
     private final FilterSupportPresetCriteriaMaker filterSupportPresetCriteriaMaker;
     private final RoleUserRelationPresetCriteriaMaker roleUserRelationPresetCriteriaMaker;
+    private final ScopePresetCriteriaMaker scopePresetCriteriaMaker;
 
     @Value("${hibernate.jdbc.batch_size}")
     private int batchSize;
@@ -46,7 +49,8 @@ public class DaoConfiguration {
             PermissionPresetCriteriaMaker permissionPresetCriteriaMaker,
             PermissionGroupPresetCriteriaMaker permissionGroupPresetCriteriaMaker,
             FilterSupportPresetCriteriaMaker filterSupportPresetCriteriaMaker,
-            RoleUserRelationPresetCriteriaMaker roleUserRelationPresetCriteriaMaker
+            RoleUserRelationPresetCriteriaMaker roleUserRelationPresetCriteriaMaker,
+            ScopePresetCriteriaMaker scopePresetCriteriaMaker
     ) {
         this.template = template;
         this.pexpPresetCriteriaMaker = pexpPresetCriteriaMaker;
@@ -56,14 +60,15 @@ public class DaoConfiguration {
         this.permissionGroupPresetCriteriaMaker = permissionGroupPresetCriteriaMaker;
         this.filterSupportPresetCriteriaMaker = filterSupportPresetCriteriaMaker;
         this.roleUserRelationPresetCriteriaMaker = roleUserRelationPresetCriteriaMaker;
+        this.scopePresetCriteriaMaker = scopePresetCriteriaMaker;
     }
 
     @Bean
-    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, Permission, HibernatePermission>
+    public HibernateBatchBaseDao<PermissionKey, HibernatePermissionKey, Permission, HibernatePermission>
     permissionDaoDelegate() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(PermissionKey.class, HibernatePermissionKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(Permission.class, HibernatePermission.class, BeanMapper.class),
                 HibernatePermission.class,
                 new DefaultDeletionMod<>(),
@@ -91,10 +96,10 @@ public class DaoConfiguration {
     }
 
     @Bean
-    public HibernateBatchBaseDao<LongIdKey, HibernateLongIdKey, Pexp, HibernatePexp> pexpDaoDelegate() {
+    public HibernateBatchBaseDao<PexpKey, HibernatePexpKey, Pexp, HibernatePexp> pexpDaoDelegate() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(PexpKey.class, HibernatePexpKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(Pexp.class, HibernatePexp.class, BeanMapper.class),
                 HibernatePexp.class,
                 new DefaultDeletionMod<>(),
@@ -120,8 +125,7 @@ public class DaoConfiguration {
                 new MapStructBeanTransformer<>(Role.class, HibernateRole.class, BeanMapper.class),
                 HibernateRole.class,
                 new DefaultDeletionMod<>(),
-                batchSize,
-                Collections.singleton("users")
+                batchSize
         );
     }
 
@@ -176,11 +180,13 @@ public class DaoConfiguration {
     }
 
     @Bean
-    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, PermissionGroup, HibernatePermissionGroup>
-    permissionGroupDaoDelegate() {
+    public HibernateBatchBaseDao<PermissionGroupKey, HibernatePermissionGroupKey, PermissionGroup,
+            HibernatePermissionGroup> permissionGroupDaoDelegate() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(
+                        PermissionGroupKey.class, HibernatePermissionGroupKey.class, BeanMapper.class
+                ),
                 new MapStructBeanTransformer<>(
                         PermissionGroup.class, HibernatePermissionGroup.class, BeanMapper.class
                 ),
@@ -286,6 +292,38 @@ public class DaoConfiguration {
                 ),
                 HibernateRoleUserRelation.class,
                 roleUserRelationPresetCriteriaMaker
+        );
+    }
+
+    @Bean
+    public HibernateBatchBaseDao<StringIdKey, HibernateStringIdKey, Scope, HibernateScope>
+    scopeSupportHibernateBatchBaseDao() {
+        return new HibernateBatchBaseDao<>(
+                template,
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(Scope.class, HibernateScope.class, BeanMapper.class),
+                HibernateScope.class,
+                new DefaultDeletionMod<>(),
+                batchSize
+        );
+    }
+
+    @Bean
+    public HibernateEntireLookupDao<Scope, HibernateScope> scopeSupportHibernateEntireLookupDao() {
+        return new HibernateEntireLookupDao<>(
+                template,
+                new MapStructBeanTransformer<>(Scope.class, HibernateScope.class, BeanMapper.class),
+                HibernateScope.class
+        );
+    }
+
+    @Bean
+    public HibernatePresetLookupDao<Scope, HibernateScope> scopeSupportHibernatePresetLookupDao() {
+        return new HibernatePresetLookupDao<>(
+                template,
+                new MapStructBeanTransformer<>(Scope.class, HibernateScope.class, BeanMapper.class),
+                HibernateScope.class,
+                scopePresetCriteriaMaker
         );
     }
 }

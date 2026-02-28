@@ -27,6 +27,7 @@ public class RoleUserRelationPresetCriteriaMaker implements PresetCriteriaMaker 
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void childForRole(DetachedCriteria criteria, Object[] objs) {
         try {
             if (Objects.isNull(objs[0])) {

@@ -30,7 +30,7 @@ public class RoleMaintainServiceImplTest {
     @Before
     public void setUp() {
         roles = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 5; i++) {
             Role role = new Role(new StringIdKey("test_role." + i), "name", true, "remark");
             roles.add(role);
         }

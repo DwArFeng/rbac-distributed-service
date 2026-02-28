@@ -3,6 +3,7 @@ package com.dwarfeng.rbacds.impl.service.operation;
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.rbacds.stack.bean.entity.RoleUserRelation;
+import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
 import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
 import com.dwarfeng.rbacds.stack.cache.PexpCache;
 import com.dwarfeng.rbacds.stack.cache.RoleCache;
@@ -14,7 +15,6 @@ import com.dwarfeng.rbacds.stack.service.PexpMaintainService;
 import com.dwarfeng.rbacds.stack.service.RoleUserRelationMaintainService;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Value;
@@ -89,8 +89,8 @@ public class RoleCrudOperation implements BatchCrudOperation<StringIdKey, Role> 
     @Override
     public void delete(StringIdKey key) throws Exception {
         // 删除与角色相关的权限表达式。
-        List<LongIdKey> pexpKeys = pexpDao.lookup(
-                PexpMaintainService.PEXP_FOR_ROLE, new Object[]{key}
+        List<PexpKey> pexpKeys = pexpDao.lookup(
+                PexpMaintainService.CHILD_FOR_ROLE, new Object[]{key}
         ).stream().map(Pexp::getKey).collect(Collectors.toList());
         pexpCache.batchDelete(pexpKeys);
         pexpDao.batchDelete(pexpKeys);

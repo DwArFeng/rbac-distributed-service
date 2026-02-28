@@ -1,62 +1,39 @@
 package com.dwarfeng.rbacds.stack.bean.entity;
 
+import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
 import com.dwarfeng.subgrade.stack.bean.entity.Entity;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 
 /**
  * 权限表达式。
  *
  * @author DwArFeng
- * @since 1.0.0
+ * @since 2.0.0
  */
-public class Pexp implements Entity<LongIdKey> {
+public class Pexp implements Entity<PexpKey> {
 
-    private static final long serialVersionUID = -4697696222624115901L;
+    private static final long serialVersionUID = 4614717080523655380L;
 
-    private LongIdKey key;
-    private StringIdKey roleKey;
+    private PexpKey key;
     private String content;
-
-    /**
-     * 描述。
-     *
-     * <p>
-     * 对权限表达式有意义的说明内容，用于排序和筛选。
-     *
-     * @since 1.9.0
-     */
-    private String description;
-
     private String remark;
 
     public Pexp() {
     }
 
-    public Pexp(LongIdKey key, StringIdKey roleKey, String content, String description, String remark) {
+    public Pexp(PexpKey key, String content, String remark) {
         this.key = key;
-        this.roleKey = roleKey;
         this.content = content;
-        this.description = description;
         this.remark = remark;
     }
 
     @Override
-    public LongIdKey getKey() {
+    public PexpKey getKey() {
         return key;
     }
 
     @Override
-    public void setKey(LongIdKey key) {
+    public void setKey(PexpKey key) {
         this.key = key;
-    }
-
-    public StringIdKey getRoleKey() {
-        return roleKey;
-    }
-
-    public void setRoleKey(StringIdKey roleKey) {
-        this.roleKey = roleKey;
     }
 
     public String getContent() {
@@ -65,14 +42,6 @@ public class Pexp implements Entity<LongIdKey> {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getRemark() {
@@ -87,9 +56,7 @@ public class Pexp implements Entity<LongIdKey> {
     public String toString() {
         return "Pexp{" +
                 "key=" + key +
-                ", roleKey=" + roleKey +
                 ", content='" + content + '\'' +
-                ", description='" + description + '\'' +
                 ", remark='" + remark + '\'' +
                 '}';
     }

@@ -1,9 +1,8 @@
 package com.dwarfeng.rbacds.impl.handler;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
+import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
 import com.dwarfeng.rbacds.stack.handler.PexpParseHandler;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,8 +25,9 @@ public class PexpParseHandlerImplV1Test {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PexpParseHandlerImplV1Test.class);
 
-    private static final LongIdKey PEXP_KEY = new LongIdKey(12450);
-    private static final StringIdKey ROLE_KEY = new StringIdKey("test.role");
+    private static final String SCOPE_STRING_ID = "test_scope";
+    private static final String ROLE_STRING_ID = "test_role";
+    private static final String PEXP_STRING_ID = "test_pexp";
 
     @Autowired
     private PexpParseHandler pexpParseHandler;
@@ -159,7 +159,7 @@ public class PexpParseHandlerImplV1Test {
      * @return 包含指定内容的权限表达式。
      */
     private Pexp createPexp(String content) {
-        return new Pexp(PEXP_KEY, ROLE_KEY, content, "description", "remark");
+        return new Pexp(new PexpKey(SCOPE_STRING_ID, ROLE_STRING_ID, PEXP_STRING_ID), content, "remark");
     }
 
     /**

@@ -9,12 +9,28 @@
         http://dwarfeng.com/schema/dwarfeng-datamark/dwarfeng-datamark.xsd"
 >
 
+    <!-- User 数据标识 -->
+    <datamark:handler
+            handler-name="userDatamarkHandler"
+            resource-url="${datamark.user.resource_url}"
+            resource-charset="${datamark.user.resource_charset}"
+            update-allowed="${datamark.user.update_allowed}"
+    />
+
     <!-- Role 数据标识 -->
     <datamark:handler
             handler-name="roleDatamarkHandler"
             resource-url="${datamark.role.resource_url}"
             resource-charset="${datamark.role.resource_charset}"
             update-allowed="${datamark.role.update_allowed}"
+    />
+
+    <!-- Pexp 数据标识 -->
+    <datamark:handler
+            handler-name="pexpDatamarkHandler"
+            resource-url="${datamark.pexp.resource_url}"
+            resource-charset="${datamark.pexp.resource_charset}"
+            update-allowed="${datamark.pexp.update_allowed}"
     />
 
     <!-- Permission 数据标识 -->
@@ -25,12 +41,20 @@
             update-allowed="${datamark.permission.update_allowed}"
     />
 
-    <!-- User 数据标识 -->
+    <!-- PermissionGroup 数据标识 -->
     <datamark:handler
-            handler-name="userDatamarkHandler"
-            resource-url="${datamark.user.resource_url}"
-            resource-charset="${datamark.user.resource_charset}"
-            update-allowed="${datamark.user.update_allowed}"
+            handler-name="permissionGroupDatamarkHandler"
+            resource-url="${datamark.permission_group.resource_url}"
+            resource-charset="${datamark.permission_group.resource_charset}"
+            update-allowed="${datamark.permission_group.update_allowed}"
+    />
+
+    <!-- Scope 数据标识 -->
+    <datamark:handler
+            handler-name="scopeDatamarkHandler"
+            resource-url="${datamark.scope.resource_url}"
+            resource-charset="${datamark.scope.resource_charset}"
+            update-allowed="${datamark.scope.update_allowed}"
     />
 
     <!-- QoS 服务 -->

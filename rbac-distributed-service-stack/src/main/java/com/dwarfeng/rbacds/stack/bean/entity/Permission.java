@@ -1,20 +1,23 @@
 package com.dwarfeng.rbacds.stack.bean.entity;
 
+import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.subgrade.stack.bean.entity.Entity;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+
+import java.util.Arrays;
 
 /**
  * 权限。
  *
  * @author DwArFeng
- * @since 1.0.0
+ * @since 2.0.0
  */
-public class Permission implements Entity<StringIdKey> {
+public class Permission implements Entity<PermissionKey> {
 
-    private static final long serialVersionUID = 4858980545164383670L;
+    private static final long serialVersionUID = 2513417150315478306L;
 
-    private StringIdKey key;
-    private StringIdKey groupKey;
+    private PermissionKey key;
+    private PermissionGroupKey groupKey;
     private String name;
     private String remark;
 
@@ -23,37 +26,46 @@ public class Permission implements Entity<StringIdKey> {
      *
      * <p>
      * 该字段表示权限的等级，值越大，权限越高。
-     *
-     * @since 1.8.0
      */
     private int level;
+
+    /**
+     * 权限组路径。
+     *
+     * <p>
+     * 该字段表示权限所属权限组的路径，冗余字段，用于加速查询速度。
+     */
+    private String[] groupPath;
 
     public Permission() {
     }
 
-    public Permission(StringIdKey key, StringIdKey groupKey, String name, String remark, int level) {
+    public Permission(
+            PermissionKey key, PermissionGroupKey groupKey, String name, String remark, int level, String[] groupPath
+    ) {
         this.key = key;
         this.groupKey = groupKey;
         this.name = name;
         this.remark = remark;
         this.level = level;
+        this.groupPath = groupPath;
     }
 
     @Override
-    public StringIdKey getKey() {
+    public PermissionKey getKey() {
         return key;
     }
 
     @Override
-    public void setKey(StringIdKey key) {
+    public void setKey(PermissionKey key) {
         this.key = key;
     }
 
-    public StringIdKey getGroupKey() {
+    public PermissionGroupKey getGroupKey() {
         return groupKey;
     }
 
-    public void setGroupKey(StringIdKey groupKey) {
+    public void setGroupKey(PermissionGroupKey groupKey) {
         this.groupKey = groupKey;
     }
 
@@ -81,6 +93,14 @@ public class Permission implements Entity<StringIdKey> {
         this.level = level;
     }
 
+    public String[] getGroupPath() {
+        return groupPath;
+    }
+
+    public void setGroupPath(String[] groupPath) {
+        this.groupPath = groupPath;
+    }
+
     @Override
     public String toString() {
         return "Permission{" +
@@ -89,6 +109,7 @@ public class Permission implements Entity<StringIdKey> {
                 ", name='" + name + '\'' +
                 ", remark='" + remark + '\'' +
                 ", level=" + level +
+                ", groupPath=" + Arrays.toString(groupPath) +
                 '}';
     }
 }

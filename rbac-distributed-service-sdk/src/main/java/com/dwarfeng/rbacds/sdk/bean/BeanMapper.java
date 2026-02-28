@@ -1,9 +1,11 @@
 package com.dwarfeng.rbacds.sdk.bean;
 
 import com.dwarfeng.rbacds.sdk.bean.entity.*;
-import com.dwarfeng.rbacds.sdk.bean.key.FastJsonRoleUserRelationKey;
-import com.dwarfeng.rbacds.sdk.bean.key.WebInputRoleUserRelationKey;
+import com.dwarfeng.rbacds.sdk.bean.key.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
+import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
 import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
 import com.dwarfeng.subgrade.sdk.bean.key.*;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
@@ -50,10 +52,40 @@ public interface BeanMapper {
     StringIdKey stringIdKeyFromWebInput(WebInputStringIdKey webInputStringIdKey);
 
     // -----------------------------------------------------------Rbac Key-----------------------------------------------------------
+    FastJsonPermissionGroupKey permissionGroupKeyToFastJson(PermissionGroupKey permissionGroupKey);
+
+    @InheritInverseConfiguration
+    PermissionGroupKey permissionGroupKeyFromFastJson(FastJsonPermissionGroupKey fastJsonPermissionGroupKey);
+
+    FastJsonPermissionKey permissionKeyToFastJson(PermissionKey permissionKey);
+
+    @InheritInverseConfiguration
+    PermissionKey permissionKeyFromFastJson(FastJsonPermissionKey fastJsonPermissionKey);
+
+    FastJsonPexpKey pexpKeyToFastJson(PexpKey pexpKey);
+
+    @InheritInverseConfiguration
+    PexpKey pexpKeyFromFastJson(FastJsonPexpKey fastJsonPexpKey);
+
     FastJsonRoleUserRelationKey roleUserRelationKeyToFastJson(RoleUserRelationKey roleUserRelationKey);
 
     @InheritInverseConfiguration
     RoleUserRelationKey roleUserRelationKeyFromFastJson(FastJsonRoleUserRelationKey fastJsonRoleUserRelationKey);
+
+    WebInputPermissionGroupKey permissionGroupKeyToWebInput(PermissionGroupKey permissionGroupKey);
+
+    @InheritInverseConfiguration
+    PermissionGroupKey permissionGroupKeyFromWebInput(WebInputPermissionGroupKey webInputPermissionGroupKey);
+
+    WebInputPermissionKey permissionKeyToWebInput(PermissionKey permissionKey);
+
+    @InheritInverseConfiguration
+    PermissionKey permissionKeyFromWebInput(WebInputPermissionKey webInputPermissionKey);
+
+    WebInputPexpKey pexpKeyToWebInput(PexpKey pexpKey);
+
+    @InheritInverseConfiguration
+    PexpKey pexpKeyFromWebInput(WebInputPexpKey webInputPexpKey);
 
     WebInputRoleUserRelationKey roleUserRelationKeyToWebInput(RoleUserRelationKey roleUserRelationKey);
 
@@ -61,6 +93,11 @@ public interface BeanMapper {
     RoleUserRelationKey roleUserRelationKeyFromWebInput(WebInputRoleUserRelationKey webInputRoleUserRelationKey);
 
     // -----------------------------------------------------------Rbac Entity-----------------------------------------------------------
+    FastJsonFilterSupport filterSupportToFastJson(FilterSupport filterSupport);
+
+    @InheritInverseConfiguration
+    FilterSupport filterSupportFromFastJson(FastJsonFilterSupport fastJsonFilterSupport);
+
     FastJsonPermission permissionToFastJson(Permission permission);
 
     @InheritInverseConfiguration
@@ -81,53 +118,38 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     Role roleFromFastJson(FastJsonRole fastJsonRole);
 
+    FastJsonRoleUserRelation roleUserRelationToFastJson(RoleUserRelation roleUserRelation);
+
+    @InheritInverseConfiguration
+    RoleUserRelation roleUserRelationFromFastJson(FastJsonRoleUserRelation fastJsonRoleUserRelation);
+
+    FastJsonScope scopeToFastJson(Scope scope);
+
+    @InheritInverseConfiguration
+    Scope scopeFromFastJson(FastJsonScope fastJsonScope);
+
     FastJsonUser userToFastJson(User user);
 
     @InheritInverseConfiguration
     User userFromFastJson(FastJsonUser fastJsonUser);
-
-    JSFixedFastJsonPexp pexpToJSFixedFastJson(Pexp pexp);
-
-    @InheritInverseConfiguration
-    Pexp pexpFromJSFixedFastJson(JSFixedFastJsonPexp jSFixedFastJsonPexp);
-
-    WebInputPermission permissionToWebInput(Permission permission);
-
-    @InheritInverseConfiguration
-    Permission permissionFromWebInput(WebInputPermission webInputPermission);
-
-    WebInputPermissionGroup permissionGroupToWebInput(PermissionGroup permissionGroup);
-
-    @InheritInverseConfiguration
-    PermissionGroup permissionGroupFromWebInput(WebInputPermissionGroup webInputPermissionGroup);
-
-    WebInputPexp pexpToWebInput(Pexp pexp);
-
-    @InheritInverseConfiguration
-    Pexp pexpFromWebInput(WebInputPexp webInputPexp);
 
     WebInputRole roleToWebInput(Role role);
 
     @InheritInverseConfiguration
     Role roleFromWebInput(WebInputRole webInputRole);
 
-    WebInputUser userToWebInput(User user);
-
-    @InheritInverseConfiguration
-    User userFromWebInput(WebInputUser webInputUser);
-
-    FastJsonFilterSupport filterSupportToFastJson(FilterSupport filterSupport);
-
-    @InheritInverseConfiguration
-    FilterSupport filterSupportFromFastJson(FastJsonFilterSupport fastJsonFilterSupport);
-
-    FastJsonRoleUserRelation roleUserRelationToFastJson(RoleUserRelation roleUserRelation);
-
-    @InheritInverseConfiguration
-    RoleUserRelation roleUserRelationFromFastJson(FastJsonRoleUserRelation fastJsonRoleUserRelation);
-
     WebInputRoleUserRelation roleUserRelationToWebInput(RoleUserRelation roleUserRelation);
 
     @InheritInverseConfiguration
     RoleUserRelation roleUserRelationFromWebInput(WebInputRoleUserRelation webInputRoleUserRelation);
+
+    WebInputScope scopeToWebInput(Scope scope);
+
+    @InheritInverseConfiguration
+    Scope scopeFromWebInput(WebInputScope webInputScope);
+
+    WebInputUser userToWebInput(User user);
+
+    @InheritInverseConfiguration
+    User userFromWebInput(WebInputUser webInputUser);
 }

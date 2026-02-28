@@ -1,6 +1,7 @@
 package com.dwarfeng.rbacds.impl.service;
 
 import com.dwarfeng.rbacds.stack.bean.entity.PermissionGroup;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
 import com.dwarfeng.rbacds.stack.service.PermissionGroupMaintainService;
 import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
@@ -9,7 +10,6 @@ import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,12 +19,12 @@ import java.util.List;
 @Service
 public class PermissionGroupMaintainServiceImpl implements PermissionGroupMaintainService {
 
-    private final CustomBatchCrudService<StringIdKey, PermissionGroup> batchCrudService;
+    private final CustomBatchCrudService<PermissionGroupKey, PermissionGroup> batchCrudService;
     private final DaoOnlyEntireLookupService<PermissionGroup> entireLookupService;
     private final DaoOnlyPresetLookupService<PermissionGroup> presetLookupService;
 
     public PermissionGroupMaintainServiceImpl(
-            CustomBatchCrudService<StringIdKey, PermissionGroup> batchCrudService,
+            CustomBatchCrudService<PermissionGroupKey, PermissionGroup> batchCrudService,
             DaoOnlyEntireLookupService<PermissionGroup> entireLookupService,
             DaoOnlyPresetLookupService<PermissionGroup> presetLookupService
     ) {
@@ -36,21 +36,21 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean exists(StringIdKey key) throws ServiceException {
+    public boolean exists(PermissionGroupKey key) throws ServiceException {
         return batchCrudService.exists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public PermissionGroup get(StringIdKey key) throws ServiceException {
+    public PermissionGroup get(PermissionGroupKey key) throws ServiceException {
         return batchCrudService.get(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public StringIdKey insert(PermissionGroup element) throws ServiceException {
+    public PermissionGroupKey insert(PermissionGroup element) throws ServiceException {
         return batchCrudService.insert(element);
     }
 
@@ -64,21 +64,21 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void delete(StringIdKey key) throws ServiceException {
+    public void delete(PermissionGroupKey key) throws ServiceException {
         batchCrudService.delete(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public PermissionGroup getIfExists(StringIdKey key) throws ServiceException {
+    public PermissionGroup getIfExists(PermissionGroupKey key) throws ServiceException {
         return batchCrudService.getIfExists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public StringIdKey insertIfNotExists(PermissionGroup element) throws ServiceException {
+    public PermissionGroupKey insertIfNotExists(PermissionGroup element) throws ServiceException {
         return batchCrudService.insertIfNotExists(element);
     }
 
@@ -92,28 +92,28 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void deleteIfExists(StringIdKey key) throws ServiceException {
+    public void deleteIfExists(PermissionGroupKey key) throws ServiceException {
         batchCrudService.deleteIfExists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public StringIdKey insertOrUpdate(PermissionGroup element) throws ServiceException {
+    public PermissionGroupKey insertOrUpdate(PermissionGroup element) throws ServiceException {
         return batchCrudService.insertOrUpdate(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean allExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
+    public boolean allExists(@SkipRecord List<PermissionGroupKey> keys) throws ServiceException {
         return batchCrudService.allExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean nonExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
+    public boolean nonExists(@SkipRecord List<PermissionGroupKey> keys) throws ServiceException {
         return batchCrudService.nonExists(keys);
     }
 
@@ -121,7 +121,7 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<PermissionGroup> batchGet(@SkipRecord List<StringIdKey> keys) throws ServiceException {
+    public List<PermissionGroup> batchGet(@SkipRecord List<PermissionGroupKey> keys) throws ServiceException {
         return batchCrudService.batchGet(keys);
     }
 
@@ -129,7 +129,7 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsert(@SkipRecord List<PermissionGroup> elements) throws ServiceException {
+    public List<PermissionGroupKey> batchInsert(@SkipRecord List<PermissionGroup> elements) throws ServiceException {
         return batchCrudService.batchInsert(elements);
     }
 
@@ -143,7 +143,7 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDelete(@SkipRecord List<StringIdKey> keys) throws ServiceException {
+    public void batchDelete(@SkipRecord List<PermissionGroupKey> keys) throws ServiceException {
         batchCrudService.batchDelete(keys);
     }
 
@@ -151,7 +151,7 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<PermissionGroup> batchGetIfExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
+    public List<PermissionGroup> batchGetIfExists(@SkipRecord List<PermissionGroupKey> keys) throws ServiceException {
         return batchCrudService.batchGetIfExists(keys);
     }
 
@@ -160,7 +160,7 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsertIfExists(@SkipRecord List<PermissionGroup> elements) throws ServiceException {
+    public List<PermissionGroupKey> batchInsertIfExists(@SkipRecord List<PermissionGroup> elements) throws ServiceException {
         return batchCrudService.batchInsertIfExists(elements);
     }
 
@@ -168,7 +168,7 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsertIfNotExists(@SkipRecord List<PermissionGroup> elements)
+    public List<PermissionGroupKey> batchInsertIfNotExists(@SkipRecord List<PermissionGroup> elements)
             throws ServiceException {
         return batchCrudService.batchInsertIfNotExists(elements);
     }
@@ -183,7 +183,7 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDeleteIfExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
+    public void batchDeleteIfExists(@SkipRecord List<PermissionGroupKey> keys) throws ServiceException {
         batchCrudService.batchDeleteIfExists(keys);
     }
 
@@ -191,7 +191,7 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsertOrUpdate(@SkipRecord List<PermissionGroup> elements) throws ServiceException {
+    public List<PermissionGroupKey> batchInsertOrUpdate(@SkipRecord List<PermissionGroup> elements) throws ServiceException {
         return batchCrudService.batchInsertOrUpdate(elements);
     }
 

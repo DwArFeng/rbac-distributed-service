@@ -4,7 +4,20 @@
 
 ### 功能构建
 
+- 修改部分 `FilterRegistry` 的类名以及代码，以适配实体字段的变更。
+  - com.dwarfeng.rbacds.impl.handler.filter.DirectSubGroupFilterRegistry。
+  - com.dwarfeng.rbacds.impl.handler.filter.ExactFilterRegistry。
+  - com.dwarfeng.rbacds.impl.handler.filter.IdPrefixFilterRegistry。
+  - com.dwarfeng.rbacds.impl.handler.filter.IdRegexFilterRegistry。
+  - com.dwarfeng.rbacds.impl.handler.filter.NestedSubGroupFilterRegistry。
+
+- 修改实体字段以及相关业务逻辑，并通过单元测试。
+  - com.dwarfeng.rbacds.stack.bean.entity.Permission。
+  - com.dwarfeng.rbacds.stack.bean.entity.PermissionGroup。
+  - com.dwarfeng.rbacds.stack.bean.entity.Pexp。
+
 - 添加实体以及维护服务，并通过单元测试。
+  - com.dwarfeng.rbacds.stack.bean.entity.Scope。
   - com.dwarfeng.rbacds.stack.bean.entity.RoleUserRelation。
 
 - 重构权限表达式处理器输出结构。

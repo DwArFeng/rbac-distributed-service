@@ -2,11 +2,11 @@ package com.dwarfeng.rbacds.impl.cache;
 
 import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonPexp;
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
+import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
 import com.dwarfeng.rbacds.stack.cache.PexpCache;
 import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.exception.CacheException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +16,10 @@ import java.util.List;
 @Repository
 public class PexpCacheImpl implements PexpCache {
 
-    private final RedisBatchBaseCache<LongIdKey, Pexp, FastJsonPexp> delegate;
+    private final RedisBatchBaseCache<PexpKey, Pexp, FastJsonPexp> delegate;
 
     public PexpCacheImpl(
-            RedisBatchBaseCache<LongIdKey, Pexp, FastJsonPexp> delegate
+            RedisBatchBaseCache<PexpKey, Pexp, FastJsonPexp> delegate
     ) {
         this.delegate = delegate;
     }
@@ -27,14 +27,14 @@ public class PexpCacheImpl implements PexpCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean exists(LongIdKey key) throws CacheException {
+    public boolean exists(PexpKey key) throws CacheException {
         return delegate.exists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public Pexp get(LongIdKey key) throws CacheException {
+    public Pexp get(PexpKey key) throws CacheException {
         return delegate.get(key);
     }
 
@@ -48,7 +48,7 @@ public class PexpCacheImpl implements PexpCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void delete(LongIdKey key) throws CacheException {
+    public void delete(PexpKey key) throws CacheException {
         delegate.delete(key);
     }
 
@@ -62,14 +62,14 @@ public class PexpCacheImpl implements PexpCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean allExists(@SkipRecord List<LongIdKey> keys) throws CacheException {
+    public boolean allExists(@SkipRecord List<PexpKey> keys) throws CacheException {
         return delegate.allExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean nonExists(@SkipRecord List<LongIdKey> keys) throws CacheException {
+    public boolean nonExists(@SkipRecord List<PexpKey> keys) throws CacheException {
         return delegate.nonExists(keys);
     }
 
@@ -77,7 +77,7 @@ public class PexpCacheImpl implements PexpCache {
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     @SkipRecord
-    public List<Pexp> batchGet(@SkipRecord List<LongIdKey> keys) throws CacheException {
+    public List<Pexp> batchGet(@SkipRecord List<PexpKey> keys) throws CacheException {
         return delegate.batchGet(keys);
     }
 
@@ -91,7 +91,7 @@ public class PexpCacheImpl implements PexpCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDelete(@SkipRecord List<LongIdKey> keys) throws CacheException {
+    public void batchDelete(@SkipRecord List<PexpKey> keys) throws CacheException {
         delegate.batchDelete(keys);
     }
 }

@@ -2,7 +2,7 @@ package com.dwarfeng.rbacds.sdk.bean.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.dwarfeng.rbacds.sdk.util.Constraints;
-import com.dwarfeng.rbacds.stack.bean.entity.PermissionGroup;
+import com.dwarfeng.rbacds.stack.bean.entity.Scope;
 import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 import org.hibernate.validator.constraints.Length;
@@ -13,24 +13,23 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
- * WebInput 权限组。
+ * WebInput 作用域。
  *
  * @author DwArFeng
- * @since 1.2.0
+ * @since 2.0.0
  */
-public class WebInputPermissionGroup implements Bean {
+public class WebInputScope implements Bean {
 
-    private static final long serialVersionUID = -5706836672595777407L;
+    private static final long serialVersionUID = -6568168792282268590L;
 
-    public static PermissionGroup toStackBean(WebInputPermissionGroup webInputPermissionGroup) {
-        if (Objects.isNull(webInputPermissionGroup)) {
+    public static Scope toStackBean(WebInputScope webInputScope) {
+        if (Objects.isNull(webInputScope)) {
             return null;
         } else {
-            return new PermissionGroup(
-                    WebInputStringIdKey.toStackBean(webInputPermissionGroup.getKey()),
-                    WebInputStringIdKey.toStackBean(webInputPermissionGroup.getParentKey()),
-                    webInputPermissionGroup.getName(),
-                    webInputPermissionGroup.getRemark()
+            return new Scope(
+                    WebInputStringIdKey.toStackBean(webInputScope.getKey()),
+                    webInputScope.getName(),
+                    webInputScope.getRemark()
             );
         }
     }
@@ -39,10 +38,6 @@ public class WebInputPermissionGroup implements Bean {
     @Valid
     @NotNull
     private WebInputStringIdKey key;
-
-    @JSONField(name = "parent_key")
-    @Valid
-    private WebInputStringIdKey parentKey;
 
     @JSONField(name = "name")
     @NotNull
@@ -54,7 +49,7 @@ public class WebInputPermissionGroup implements Bean {
     @Length(max = Constraints.LENGTH_REMARK)
     private String remark;
 
-    public WebInputPermissionGroup() {
+    public WebInputScope() {
     }
 
     public WebInputStringIdKey getKey() {
@@ -63,14 +58,6 @@ public class WebInputPermissionGroup implements Bean {
 
     public void setKey(WebInputStringIdKey key) {
         this.key = key;
-    }
-
-    public WebInputStringIdKey getParentKey() {
-        return parentKey;
-    }
-
-    public void setParentKey(WebInputStringIdKey parentKey) {
-        this.parentKey = parentKey;
     }
 
     public String getName() {
@@ -91,9 +78,8 @@ public class WebInputPermissionGroup implements Bean {
 
     @Override
     public String toString() {
-        return "WebInputPermissionGroup{" +
+        return "WebInputScope{" +
                 "key=" + key +
-                ", parentKey=" + parentKey +
                 ", name='" + name + '\'' +
                 ", remark='" + remark + '\'' +
                 '}';

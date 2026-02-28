@@ -1,8 +1,14 @@
 package com.dwarfeng.rbacds.impl.bean;
 
 import com.dwarfeng.rbacds.impl.bean.entity.*;
+import com.dwarfeng.rbacds.impl.bean.key.HibernatePermissionGroupKey;
+import com.dwarfeng.rbacds.impl.bean.key.HibernatePermissionKey;
+import com.dwarfeng.rbacds.impl.bean.key.HibernatePexpKey;
 import com.dwarfeng.rbacds.impl.bean.key.HibernateRoleUserRelationKey;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
+import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
 import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
 import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
@@ -36,39 +42,62 @@ public interface BeanMapper {
     StringIdKey stringIdKeyFromHibernate(HibernateStringIdKey hibernateStringIdKey);
 
     // -----------------------------------------------------------Rbac Key-----------------------------------------------------------
+    HibernatePermissionGroupKey permissionGroupKeyToHibernate(PermissionGroupKey permissionGroupKey);
+
+    @InheritInverseConfiguration
+    PermissionGroupKey permissionGroupKeyFromHibernate(HibernatePermissionGroupKey hibernatePermissionGroupKey);
+
+    HibernatePermissionKey permissionKeyToHibernate(PermissionKey permissionKey);
+
+    @InheritInverseConfiguration
+    PermissionKey permissionKeyFromHibernate(HibernatePermissionKey hibernatePermissionKey);
+
+    HibernatePexpKey pexpKeyToHibernate(PexpKey pexpKey);
+
+    @InheritInverseConfiguration
+    PexpKey pexpKeyFromHibernate(HibernatePexpKey hibernatePexpKey);
+
     HibernateRoleUserRelationKey roleUserRelationKeyToHibernate(RoleUserRelationKey roleUserRelationKey);
 
     @InheritInverseConfiguration
     RoleUserRelationKey roleUserRelationKeyFromHibernate(HibernateRoleUserRelationKey hibernateRoleUserRelationKey);
 
     // -----------------------------------------------------------Rbac Entity-----------------------------------------------------------
+    @Mapping(target = "scopeStringId", ignore = true)
+    @Mapping(target = "scope", ignore = true)
+    @Mapping(target = "permissionStringId", ignore = true)
     @Mapping(target = "modifiedDatamark", ignore = true)
-    @Mapping(target = "createdDatamark", ignore = true)
-    @Mapping(target = "stringId", ignore = true)
-    @Mapping(target = "groupStringId", ignore = true)
+    @Mapping(target = "groupScopeStringId", ignore = true)
+    @Mapping(target = "groupPermissionGroupStringId", ignore = true)
     @Mapping(target = "group", ignore = true)
+    @Mapping(target = "createdDatamark", ignore = true)
     HibernatePermission permissionToHibernate(Permission permission);
 
     @InheritInverseConfiguration
     Permission permissionFromHibernate(HibernatePermission hibernatePermission);
 
+    @Mapping(target = "scopeStringId", ignore = true)
+    @Mapping(target = "scope", ignore = true)
+    @Mapping(target = "permissions", ignore = true)
+    @Mapping(target = "permissionGroupStringId", ignore = true)
+    @Mapping(target = "parentScopeStringId", ignore = true)
+    @Mapping(target = "parentPermissionGroupStringId", ignore = true)
+    @Mapping(target = "parent", ignore = true)
     @Mapping(target = "modifiedDatamark", ignore = true)
     @Mapping(target = "createdDatamark", ignore = true)
-    @Mapping(target = "stringId", ignore = true)
-    @Mapping(target = "permissions", ignore = true)
-    @Mapping(target = "parentStringId", ignore = true)
-    @Mapping(target = "parentGroup", ignore = true)
-    @Mapping(target = "childGroups", ignore = true)
+    @Mapping(target = "children", ignore = true)
     HibernatePermissionGroup permissionGroupToHibernate(PermissionGroup permissionGroup);
 
     @InheritInverseConfiguration
     PermissionGroup permissionGroupFromHibernate(HibernatePermissionGroup hibernatePermissionGroup);
 
+    @Mapping(target = "scopeStringId", ignore = true)
+    @Mapping(target = "scope", ignore = true)
+    @Mapping(target = "roleStringId", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "pexpStringId", ignore = true)
     @Mapping(target = "modifiedDatamark", ignore = true)
     @Mapping(target = "createdDatamark", ignore = true)
-    @Mapping(target = "roleId", ignore = true)
-    @Mapping(target = "role", ignore = true)
-    @Mapping(target = "longId", ignore = true)
     HibernatePexp pexpToHibernate(Pexp pexp);
 
     @InheritInverseConfiguration
@@ -109,4 +138,15 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     RoleUserRelation roleUserRelationFromHibernate(HibernateRoleUserRelation hibernateRoleUserRelation);
+
+    @Mapping(target = "stringId", ignore = true)
+    @Mapping(target = "pexps", ignore = true)
+    @Mapping(target = "permissions", ignore = true)
+    @Mapping(target = "permissionGroups", ignore = true)
+    @Mapping(target = "modifiedDatamark", ignore = true)
+    @Mapping(target = "createdDatamark", ignore = true)
+    HibernateScope scopeToHibernate(Scope scope);
+
+    @InheritInverseConfiguration
+    Scope scopeFromHibernate(HibernateScope hibernateScope);
 }

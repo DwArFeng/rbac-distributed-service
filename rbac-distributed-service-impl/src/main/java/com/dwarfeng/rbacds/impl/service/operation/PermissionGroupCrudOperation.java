@@ -2,6 +2,7 @@ package com.dwarfeng.rbacds.impl.service.operation;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.entity.PermissionGroup;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
 import com.dwarfeng.rbacds.stack.cache.PermissionCache;
 import com.dwarfeng.rbacds.stack.cache.PermissionGroupCache;
 import com.dwarfeng.rbacds.stack.dao.PermissionDao;
@@ -10,7 +11,6 @@ import com.dwarfeng.rbacds.stack.service.PermissionGroupMaintainService;
 import com.dwarfeng.rbacds.stack.service.PermissionMaintainService;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class PermissionGroupCrudOperation implements BatchCrudOperation<StringIdKey, PermissionGroup> {
+public class PermissionGroupCrudOperation implements BatchCrudOperation<PermissionGroupKey, PermissionGroup> {
 
     private final PermissionGroupDao permissionGroupDao;
     private final PermissionGroupCache permissionGroupCache;
@@ -43,12 +43,12 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
     }
 
     @Override
-    public boolean exists(StringIdKey key) throws Exception {
+    public boolean exists(PermissionGroupKey key) throws Exception {
         return permissionGroupCache.exists(key) || permissionGroupDao.exists(key);
     }
 
     @Override
-    public PermissionGroup get(StringIdKey key) throws Exception {
+    public PermissionGroup get(PermissionGroupKey key) throws Exception {
         if (permissionGroupCache.exists(key)) {
             return permissionGroupCache.get(key);
         } else {
@@ -62,7 +62,7 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
     }
 
     @Override
-    public StringIdKey insert(PermissionGroup permissionGroup) throws Exception {
+    public PermissionGroupKey insert(PermissionGroup permissionGroup) throws Exception {
         permissionGroupDao.insert(permissionGroup);
         permissionGroupCache.push(permissionGroup, permissionGroupTimeout);
         return permissionGroup.getKey();
@@ -75,7 +75,7 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
     }
 
     @Override
-    public void delete(StringIdKey key) throws Exception {
+    public void delete(PermissionGroupKey key) throws Exception {
         // 清除子权限组的关联。
         List<PermissionGroup> childPermissionGroups = permissionGroupDao.lookup(
                 PermissionGroupMaintainService.CHILD_FOR_PARENT, new Object[]{key}
@@ -100,17 +100,17 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
     }
 
     @Override
-    public boolean allExists(List<StringIdKey> keys) throws Exception {
+    public boolean allExists(List<PermissionGroupKey> keys) throws Exception {
         return permissionGroupCache.allExists(keys) || permissionGroupDao.allExists(keys);
     }
 
     @Override
-    public boolean nonExists(List<StringIdKey> keys) throws Exception {
+    public boolean nonExists(List<PermissionGroupKey> keys) throws Exception {
         return permissionGroupCache.nonExists(keys) && permissionGroupDao.nonExists(keys);
     }
 
     @Override
-    public List<PermissionGroup> batchGet(List<StringIdKey> keys) throws Exception {
+    public List<PermissionGroup> batchGet(List<PermissionGroupKey> keys) throws Exception {
         if (permissionGroupCache.allExists(keys)) {
             return permissionGroupCache.batchGet(keys);
         } else {
@@ -124,7 +124,7 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
     }
 
     @Override
-    public List<StringIdKey> batchInsert(List<PermissionGroup> permissionGroups) throws Exception {
+    public List<PermissionGroupKey> batchInsert(List<PermissionGroup> permissionGroups) throws Exception {
         permissionGroupCache.batchPush(permissionGroups, permissionGroupTimeout);
         return permissionGroupDao.batchInsert(permissionGroups);
     }
@@ -136,8 +136,8 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<StringId
     }
 
     @Override
-    public void batchDelete(List<StringIdKey> keys) throws Exception {
-        for (StringIdKey key : keys) {
+    public void batchDelete(List<PermissionGroupKey> keys) throws Exception {
+        for (PermissionGroupKey key : keys) {
             delete(key);
         }
     }

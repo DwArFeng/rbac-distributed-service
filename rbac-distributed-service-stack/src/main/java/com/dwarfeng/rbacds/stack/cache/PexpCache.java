@@ -1,7 +1,7 @@
 package com.dwarfeng.rbacds.stack.cache;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
+import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
 import com.dwarfeng.subgrade.stack.cache.BatchBaseCache;
 
 /**
@@ -9,6 +9,7 @@ import com.dwarfeng.subgrade.stack.cache.BatchBaseCache;
  *
  * @author DwArFeng
  * @since 1.0.0
+ * @since 2.0.1
  */
-public interface PexpCache extends BatchBaseCache<LongIdKey, Pexp> {
+public interface PexpCache extends BatchBaseCache<PexpKey, Pexp> {
 }

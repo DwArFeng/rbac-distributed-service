@@ -1,7 +1,7 @@
 package com.dwarfeng.rbacds.stack.dao;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.subgrade.stack.dao.BatchBaseDao;
 import com.dwarfeng.subgrade.stack.dao.EntireLookupDao;
 import com.dwarfeng.subgrade.stack.dao.PresetLookupDao;
@@ -12,6 +12,6 @@ import com.dwarfeng.subgrade.stack.dao.PresetLookupDao;
  * @author DwArFeng
  * @since 1.0.0
  */
-public interface PermissionDao extends BatchBaseDao<StringIdKey, Permission>, PresetLookupDao<Permission>,
+public interface PermissionDao extends BatchBaseDao<PermissionKey, Permission>, PresetLookupDao<Permission>,
         EntireLookupDao<Permission> {
 }

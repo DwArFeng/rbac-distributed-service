@@ -2,42 +2,47 @@ package com.dwarfeng.rbacds.impl.bean.entity;
 
 import com.dwarfeng.datamark.bean.jpa.DatamarkEntityListener;
 import com.dwarfeng.datamark.bean.jpa.DatamarkField;
+import com.dwarfeng.rbacds.impl.bean.key.HibernatePexpKey;
 import com.dwarfeng.rbacds.sdk.util.Constraints;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 
 import javax.persistence.*;
-import java.util.Optional;
+import java.util.Objects;
 
 @Entity
-@IdClass(HibernateLongIdKey.class)
+@IdClass(HibernatePexpKey.class)
 @Table(name = "tbl_pexp")
 @EntityListeners(DatamarkEntityListener.class)
 public class HibernatePexp implements Bean {
 
-    private static final long serialVersionUID = -4542945676813642181L;
+    private static final long serialVersionUID = -847743809356659532L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
-    @Column(name = "id", nullable = false, unique = true)
-    private Long longId;
+    @Column(name = "scope_id", length = Constraints.LENGTH_ID, nullable = false)
+    private String scopeStringId;
 
-    // -----------------------------------------------------------外键-----------------------------------------------------------
     @Column(name = "role_id", length = Constraints.LENGTH_ID)
-    private String roleId;
+    private String roleStringId;
+
+    @Id
+    @Column(name = "pexp_id", nullable = false)
+    private String pexpStringId;
 
     // -----------------------------------------------------------主属性字段-----------------------------------------------------------
     @Column(name = "content", length = Constraints.LENGTH_CONTENT, nullable = false)
     private String content;
 
-    @Column(name = "description", length = Constraints.LENGTH_DESCRIPTION)
-    private String description;
-
     @Column(name = "remark", length = Constraints.LENGTH_REMARK)
     private String remark;
 
     // -----------------------------------------------------------多对一-----------------------------------------------------------
+    @ManyToOne(targetEntity = HibernateScope.class)
+    @JoinColumns({ //
+            @JoinColumn(name = "scope_id", referencedColumnName = "id", insertable = false, updatable = false), //
+    })
+    private HibernateScope scope;
+
     @ManyToOne(targetEntity = HibernateRole.class)
     @JoinColumns({ //
             @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false), //
@@ -45,7 +50,7 @@ public class HibernatePexp implements Bean {
     private HibernateRole role;
 
     // -----------------------------------------------------------审计-----------------------------------------------------------
-    @DatamarkField(handlerName = "roleDatamarkHandler")
+    @DatamarkField(handlerName = "pexpDatamarkHandler")
     @Column(
             name = "created_datamark",
             length = com.dwarfeng.datamark.util.Constraints.LENGTH_DATAMARK_VALUE,
@@ -53,7 +58,7 @@ public class HibernatePexp implements Bean {
     )
     private String createdDatamark;
 
-    @DatamarkField(handlerName = "roleDatamarkHandler")
+    @DatamarkField(handlerName = "pexpDatamarkHandler")
     @Column(
             name = "modified_datamark",
             length = com.dwarfeng.datamark.util.Constraints.LENGTH_DATAMARK_VALUE
@@ -64,37 +69,48 @@ public class HibernatePexp implements Bean {
     }
 
     // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
-    public HibernateLongIdKey getKey() {
-        return Optional.ofNullable(longId).map(HibernateLongIdKey::new).orElse(null);
+    public HibernatePexpKey getKey() {
+        if (Objects.isNull(scopeStringId) || Objects.isNull(roleStringId) || Objects.isNull(pexpStringId)) {
+            return null;
+        }
+        return new HibernatePexpKey(scopeStringId, roleStringId, pexpStringId);
     }
 
-    public void setKey(HibernateLongIdKey guidKey) {
-        this.longId = Optional.ofNullable(guidKey).map(HibernateLongIdKey::getLongId).orElse(null);
-    }
-
-    public HibernateStringIdKey getRoleKey() {
-        return Optional.ofNullable(roleId).map(HibernateStringIdKey::new).orElse(null);
-    }
-
-    public void setRoleKey(HibernateStringIdKey guidKey) {
-        this.roleId = Optional.ofNullable(guidKey).map(HibernateStringIdKey::getStringId).orElse(null);
+    public void setKey(HibernatePexpKey key) {
+        if (Objects.isNull(key)) {
+            this.scopeStringId = null;
+            this.roleStringId = null;
+            this.pexpStringId = null;
+        } else {
+            this.scopeStringId = key.getScopeStringId();
+            this.roleStringId = key.getRoleStringId();
+            this.pexpStringId = key.getPexpStringId();
+        }
     }
 
     // -----------------------------------------------------------常规属性区-----------------------------------------------------------
-    public Long getLongId() {
-        return longId;
+    public String getScopeStringId() {
+        return scopeStringId;
     }
 
-    public void setLongId(Long longId) {
-        this.longId = longId;
+    public void setScopeStringId(String scopeStringId) {
+        this.scopeStringId = scopeStringId;
     }
 
-    public String getRoleId() {
-        return roleId;
+    public String getRoleStringId() {
+        return roleStringId;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setRoleStringId(String roleStringId) {
+        this.roleStringId = roleStringId;
+    }
+
+    public String getPexpStringId() {
+        return pexpStringId;
+    }
+
+    public void setPexpStringId(String pexpStringId) {
+        this.pexpStringId = pexpStringId;
     }
 
     public String getContent() {
@@ -105,20 +121,20 @@ public class HibernatePexp implements Bean {
         this.content = content;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getRemark() {
         return remark;
     }
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public HibernateScope getScope() {
+        return scope;
+    }
+
+    public void setScope(HibernateScope scope) {
+        this.scope = scope;
     }
 
     public HibernateRole getRole() {
@@ -148,11 +164,12 @@ public class HibernatePexp implements Bean {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
-                "longId = " + longId + ", " +
-                "roleId = " + roleId + ", " +
+                "scopeStringId = " + scopeStringId + ", " +
+                "pexpStringId = " + pexpStringId + ", " +
+                "roleStringId = " + roleStringId + ", " +
                 "content = " + content + ", " +
-                "description = " + description + ", " +
                 "remark = " + remark + ", " +
+                "scope = " + scope + ", " +
                 "role = " + role + ", " +
                 "createdDatamark = " + createdDatamark + ", " +
                 "modifiedDatamark = " + modifiedDatamark + ")";

@@ -1,10 +1,10 @@
 package com.dwarfeng.rbacds.impl.handler.filter;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.rbacds.stack.exception.FilterException;
 import com.dwarfeng.rbacds.stack.exception.FilterMakeException;
 import com.dwarfeng.rbacds.stack.handler.Filter;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ApplicationContext;
@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * 精确过滤器注册。
+ * 权限 ID 精确过滤器注册。
  *
  * @author DwArFeng
  * @since 2.0.0
@@ -34,18 +34,18 @@ public class ExactFilterRegistry extends AbstractFilterRegistry {
 
     @Override
     public String provideLabel() {
-        return "精确过滤器";
+        return "权限 ID 精确过滤器";
     }
 
     @Override
     public String provideDescription() {
-        return "精确匹配权限的 ID。\n" +
-                "如果权限的 ID 与指定的权限 ID 相同，则接受该权限；反之则拒绝。";
+        return "精确匹配权限的权限 ID 。\n" +
+                "如果权限的权限 ID 与指定的权限 ID 相同，则接受该权限；反之则拒绝。";
     }
 
     @Override
     public String provideExamplePattern() {
-        return "your-permission-id-here";
+        return "your-identifier-here";
     }
 
     @Override
@@ -73,9 +73,9 @@ public class ExactFilterRegistry extends AbstractFilterRegistry {
 
         @Override
         protected boolean doAccept(String pattern, Permission permission) {
-            String permissionId = Optional.ofNullable(permission).map(Permission::getKey).map(StringIdKey::getStringId)
-                    .orElse(StringUtils.EMPTY);
-            return Objects.equals(permissionId, pattern);
+            String permissionStringId = Optional.ofNullable(permission).map(Permission::getKey)
+                    .map(PermissionKey::getPermissionStringId).orElse(StringUtils.EMPTY);
+            return Objects.equals(permissionStringId, pattern);
         }
 
         @Override

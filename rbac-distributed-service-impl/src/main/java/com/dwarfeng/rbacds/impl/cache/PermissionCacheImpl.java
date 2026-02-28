@@ -2,11 +2,11 @@ package com.dwarfeng.rbacds.impl.cache;
 
 import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonPermission;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.rbacds.stack.cache.PermissionCache;
 import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.CacheException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +16,10 @@ import java.util.List;
 @Repository
 public class PermissionCacheImpl implements PermissionCache {
 
-    private final RedisBatchBaseCache<StringIdKey, Permission, FastJsonPermission> delegate;
+    private final RedisBatchBaseCache<PermissionKey, Permission, FastJsonPermission> delegate;
 
     public PermissionCacheImpl(
-            RedisBatchBaseCache<StringIdKey, Permission, FastJsonPermission> delegate
+            RedisBatchBaseCache<PermissionKey, Permission, FastJsonPermission> delegate
     ) {
         this.delegate = delegate;
     }
@@ -27,14 +27,14 @@ public class PermissionCacheImpl implements PermissionCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean exists(StringIdKey key) throws CacheException {
+    public boolean exists(PermissionKey key) throws CacheException {
         return delegate.exists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public Permission get(StringIdKey key) throws CacheException {
+    public Permission get(PermissionKey key) throws CacheException {
         return delegate.get(key);
     }
 
@@ -48,7 +48,7 @@ public class PermissionCacheImpl implements PermissionCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void delete(StringIdKey key) throws CacheException {
+    public void delete(PermissionKey key) throws CacheException {
         delegate.delete(key);
     }
 
@@ -62,14 +62,14 @@ public class PermissionCacheImpl implements PermissionCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean allExists(@SkipRecord List<StringIdKey> keys) throws CacheException {
+    public boolean allExists(@SkipRecord List<PermissionKey> keys) throws CacheException {
         return delegate.allExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean nonExists(@SkipRecord List<StringIdKey> keys) throws CacheException {
+    public boolean nonExists(@SkipRecord List<PermissionKey> keys) throws CacheException {
         return delegate.nonExists(keys);
     }
 
@@ -77,7 +77,7 @@ public class PermissionCacheImpl implements PermissionCache {
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     @SkipRecord
-    public List<Permission> batchGet(@SkipRecord List<StringIdKey> keys) throws CacheException {
+    public List<Permission> batchGet(@SkipRecord List<PermissionKey> keys) throws CacheException {
         return delegate.batchGet(keys);
     }
 
@@ -91,7 +91,7 @@ public class PermissionCacheImpl implements PermissionCache {
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDelete(@SkipRecord List<StringIdKey> keys) throws CacheException {
+    public void batchDelete(@SkipRecord List<PermissionKey> keys) throws CacheException {
         delegate.batchDelete(keys);
     }
 }

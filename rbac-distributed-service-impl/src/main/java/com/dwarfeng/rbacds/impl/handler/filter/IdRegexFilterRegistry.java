@@ -1,10 +1,10 @@
 package com.dwarfeng.rbacds.impl.handler.filter;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.rbacds.stack.exception.FilterException;
 import com.dwarfeng.rbacds.stack.exception.FilterMakeException;
 import com.dwarfeng.rbacds.stack.handler.Filter;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ApplicationContext;
@@ -14,26 +14,26 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 /**
- * ID 正则匹配过滤器注册。
+ * ID 正则匹配权限过滤器注册。
  *
  * @author DwArFeng
- * @since 2.0.0
+ * @since 1.8.0
  */
 @Component
 public class IdRegexFilterRegistry extends AbstractFilterRegistry {
 
-    public static final String FILTER_TYPE = "id_regex";
+    public static final String PERMISSION_FILTER_TYPE = "id_regex";
 
     private final ApplicationContext ctx;
 
     public IdRegexFilterRegistry(ApplicationContext ctx) {
-        super(FILTER_TYPE);
+        super(PERMISSION_FILTER_TYPE);
         this.ctx = ctx;
     }
 
     @Override
     public String provideLabel() {
-        return "ID 正则匹配过滤器";
+        return "ID 正则匹配权限过滤器";
     }
 
     @Override
@@ -72,9 +72,9 @@ public class IdRegexFilterRegistry extends AbstractFilterRegistry {
 
         @Override
         protected boolean doAccept(String pattern, Permission permission) {
-            String permissionId = Optional.ofNullable(permission).map(Permission::getKey).map(StringIdKey::getStringId)
-                    .orElse(StringUtils.EMPTY);
-            return permissionId.matches(pattern);
+            String permissionStringId = Optional.ofNullable(permission).map(Permission::getKey)
+                    .map(PermissionKey::getPermissionStringId).orElse(StringUtils.EMPTY);
+            return permissionStringId.matches(pattern);
         }
 
         @Override

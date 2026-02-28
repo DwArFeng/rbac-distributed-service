@@ -1,10 +1,10 @@
 package com.dwarfeng.rbacds.impl.handler.filter;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
 import com.dwarfeng.rbacds.stack.exception.FilterException;
 import com.dwarfeng.rbacds.stack.exception.FilterMakeException;
 import com.dwarfeng.rbacds.stack.handler.Filter;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ApplicationContext;
@@ -40,13 +40,13 @@ public class DirectSubGroupFilterRegistry extends AbstractFilterRegistry {
     @Override
     public String provideDescription() {
         return "接受直接属于指定权限组的权限。\n" +
-                "如果权限所属的权限组的主键与指定的权限组的主键相同，则接受该权限。\n" +
+                "如果权限所属的权限组的权限组 ID 与指定的权限组的权限组 ID 相同，则接受该权限。\n" +
                 "只有直接子分组的权限会被接受，即使权限属于指定权限组二级或多级子权限组，也会被拒绝。";
     }
 
     @Override
     public String provideExamplePattern() {
-        return "your-permission-group-id-here";
+        return "your-permission-group-identifier-here";
     }
 
     @Override
@@ -74,9 +74,9 @@ public class DirectSubGroupFilterRegistry extends AbstractFilterRegistry {
 
         @Override
         protected boolean doAccept(String pattern, Permission permission) {
-            String groupId = Optional.ofNullable(permission).map(Permission::getGroupKey).map(StringIdKey::getStringId)
-                    .orElse(StringUtils.EMPTY);
-            return Objects.equals(groupId, pattern);
+            String permissionGroupStringId = Optional.ofNullable(permission).map(Permission::getGroupKey)
+                    .map(PermissionGroupKey::getPermissionGroupStringId).orElse(StringUtils.EMPTY);
+            return Objects.equals(permissionGroupStringId, pattern);
         }
 
         @Override

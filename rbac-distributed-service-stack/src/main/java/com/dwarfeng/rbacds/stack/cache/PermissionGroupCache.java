@@ -1,7 +1,7 @@
 package com.dwarfeng.rbacds.stack.cache;
 
 import com.dwarfeng.rbacds.stack.bean.entity.PermissionGroup;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
 import com.dwarfeng.subgrade.stack.cache.BatchBaseCache;
 
 /**
@@ -10,5 +10,5 @@ import com.dwarfeng.subgrade.stack.cache.BatchBaseCache;
  * @author DwArFeng
  * @since 1.2.0
  */
-public interface PermissionGroupCache extends BatchBaseCache<StringIdKey, PermissionGroup> {
+public interface PermissionGroupCache extends BatchBaseCache<PermissionGroupKey, PermissionGroup> {
 }

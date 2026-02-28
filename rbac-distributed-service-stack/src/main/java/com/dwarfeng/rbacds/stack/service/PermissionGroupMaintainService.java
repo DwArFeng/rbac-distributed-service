@@ -1,7 +1,7 @@
 package com.dwarfeng.rbacds.stack.service;
 
 import com.dwarfeng.rbacds.stack.bean.entity.PermissionGroup;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
 import com.dwarfeng.subgrade.stack.service.BatchCrudService;
 import com.dwarfeng.subgrade.stack.service.EntireLookupService;
 import com.dwarfeng.subgrade.stack.service.PresetLookupService;
@@ -10,16 +10,29 @@ import com.dwarfeng.subgrade.stack.service.PresetLookupService;
  * 权限组维护服务。
  *
  * @author DwArFeng
- * @since 1.0.0
+ * @since 2.0.0
  */
-public interface PermissionGroupMaintainService extends BatchCrudService<StringIdKey, PermissionGroup>,
+public interface PermissionGroupMaintainService extends BatchCrudService<PermissionGroupKey, PermissionGroup>,
         PresetLookupService<PermissionGroup>, EntireLookupService<PermissionGroup> {
 
-    String CHILD_FOR_PARENT = "child_for_parent";
-    String ID_LIKE = "id_like";
+    // region 预设查询 - 级联
 
-    /**
-     * @since 1.5.2
-     */
-    String NAME_LIKE = "name_like";
+    String CHILD_FOR_SCOPE = "child_for_scope";
+    String CHILD_FOR_PARENT = "child_for_parent";
+
+    // endregion
+
+    // region 预设查询 - UI
+
+    String CHILD_FOR_PARENT_PERMISSION_GROUP_STRING_ID_ASC = "child_for_parent_permission_group_string_id_asc";
+    String PERMISSION_GROUP_STRING_ID_LIKE_PERMISSION_GROUP_STRING_ID_ASC =
+            "permission_group_string_id_like_permission_group_string_id_asc";
+    String CHILD_FOR_PARENT_PERMISSION_GROUP_STRING_ID_LIKE_PERMISSION_GROUP_STRING_ID_ASC =
+            "child_for_parent_permission_group_string_id_like_permission_group_string_id_asc";
+    String NAME_LIKE_PERMISSION_GROUP_STRING_ID_ASC = "name_like_permission_group_string_id_asc";
+    String CHILD_FOR_PARENT_NAME_LIKE_PERMISSION_GROUP_STRING_ID_ASC =
+            "child_for_parent_name_like_permission_group_string_id_asc";
+    String CHILD_FOR_SCOPE_ROOT_PERMISSION_GROUP_STRING_ID_ASC = "child_for_scope_root_permission_group_string_id_asc";
+
+    // endregion
 }

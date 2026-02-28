@@ -1,7 +1,7 @@
 package com.dwarfeng.rbacds.stack.dao;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
+import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
 import com.dwarfeng.subgrade.stack.dao.BatchBaseDao;
 import com.dwarfeng.subgrade.stack.dao.PresetLookupDao;
 
@@ -11,5 +11,5 @@ import com.dwarfeng.subgrade.stack.dao.PresetLookupDao;
  * @author DwArFeng
  * @since 1.0.0
  */
-public interface PexpDao extends BatchBaseDao<LongIdKey, Pexp>, PresetLookupDao<Pexp> {
+public interface PexpDao extends BatchBaseDao<PexpKey, Pexp>, PresetLookupDao<Pexp> {
 }

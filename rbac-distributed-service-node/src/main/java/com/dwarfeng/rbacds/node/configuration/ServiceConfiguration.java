@@ -2,6 +2,9 @@ package com.dwarfeng.rbacds.node.configuration;
 
 import com.dwarfeng.rbacds.impl.service.operation.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
+import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
+import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
 import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
 import com.dwarfeng.rbacds.stack.cache.FilterSupportCache;
 import com.dwarfeng.rbacds.stack.cache.RoleUserRelationCache;
@@ -11,7 +14,6 @@ import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
 import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.log.LogLevel;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +24,6 @@ import org.springframework.context.annotation.Configuration;
 public class ServiceConfiguration {
 
     private final ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration;
-    private final GenerateConfiguration generateConfiguration;
 
     private final UserCrudOperation userCrudOperation;
     private final UserDao userDao;
@@ -38,6 +39,8 @@ public class ServiceConfiguration {
     private final FilterSupportDao filterSupportDao;
     private final RoleUserRelationDao roleUserRelationDao;
     private final RoleUserRelationCache roleUserRelationCache;
+    private final ScopeCrudOperation scopeCrudOperation;
+    private final ScopeDao scopeDao;
 
     @Value("${cache.timeout.entity.filter_support}")
     private long filterSupportTimeout;
@@ -46,7 +49,6 @@ public class ServiceConfiguration {
 
     public ServiceConfiguration(
             ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration,
-            GenerateConfiguration generateConfiguration,
             UserCrudOperation userCrudOperation,
             UserDao userDao,
             RoleCrudOperation roleCrudOperation,
@@ -60,10 +62,11 @@ public class ServiceConfiguration {
             FilterSupportCache filterSupportCache,
             FilterSupportDao filterSupportDao,
             RoleUserRelationDao roleUserRelationDao,
-            RoleUserRelationCache roleUserRelationCache
+            RoleUserRelationCache roleUserRelationCache,
+            ScopeCrudOperation scopeCrudOperation,
+            ScopeDao scopeDao
     ) {
         this.serviceExceptionMapperConfiguration = serviceExceptionMapperConfiguration;
-        this.generateConfiguration = generateConfiguration;
         this.userCrudOperation = userCrudOperation;
         this.userDao = userDao;
         this.roleCrudOperation = roleCrudOperation;
@@ -78,6 +81,8 @@ public class ServiceConfiguration {
         this.filterSupportDao = filterSupportDao;
         this.roleUserRelationDao = roleUserRelationDao;
         this.roleUserRelationCache = roleUserRelationCache;
+        this.scopeCrudOperation = scopeCrudOperation;
+        this.scopeDao = scopeDao;
     }
 
     @Bean
@@ -137,7 +142,7 @@ public class ServiceConfiguration {
     }
 
     @Bean
-    public CustomBatchCrudService<StringIdKey, Permission> permissionCustomBatchCrudService() {
+    public CustomBatchCrudService<PermissionKey, Permission> permissionCustomBatchCrudService() {
         return new CustomBatchCrudService<>(
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
@@ -165,12 +170,12 @@ public class ServiceConfiguration {
     }
 
     @Bean
-    public CustomBatchCrudService<LongIdKey, Pexp> pexpCustomBatchCrudService() {
+    public CustomBatchCrudService<PexpKey, Pexp> pexpCustomBatchCrudService() {
         return new CustomBatchCrudService<>(
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 pexpCrudOperation,
-                generateConfiguration.snowflakeLongIdKeyGenerator()
+                new ExceptionKeyGenerator<>()
         );
     }
 
@@ -184,7 +189,7 @@ public class ServiceConfiguration {
     }
 
     @Bean
-    public CustomBatchCrudService<StringIdKey, PermissionGroup> permissionGroupCustomBatchCrudService() {
+    public CustomBatchCrudService<PermissionGroupKey, PermissionGroup> permissionGroupCustomBatchCrudService() {
         return new CustomBatchCrudService<>(
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
@@ -269,6 +274,34 @@ public class ServiceConfiguration {
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 roleUserRelationDao
+        );
+    }
+
+    @Bean
+    public CustomBatchCrudService<StringIdKey, Scope> scopeCustomBatchCrudService() {
+        return new CustomBatchCrudService<>(
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                scopeCrudOperation,
+                new ExceptionKeyGenerator<>()
+        );
+    }
+
+    @Bean
+    public DaoOnlyEntireLookupService<Scope> scopeDaoOnlyEntireLookupService() {
+        return new DaoOnlyEntireLookupService<>(
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                scopeDao
+        );
+    }
+
+    @Bean
+    public DaoOnlyPresetLookupService<Scope> scopeDaoOnlyPresetLookupService() {
+        return new DaoOnlyPresetLookupService<>(
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                scopeDao
         );
     }
 }

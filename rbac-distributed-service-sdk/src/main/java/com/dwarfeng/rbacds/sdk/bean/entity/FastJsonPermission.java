@@ -1,40 +1,44 @@
 package com.dwarfeng.rbacds.sdk.bean.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.dwarfeng.rbacds.sdk.bean.key.FastJsonPermissionGroupKey;
+import com.dwarfeng.rbacds.sdk.bean.key.FastJsonPermissionKey;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
  * FastJson 权限。
  *
  * @author DwArFeng
- * @since 1.0.0
+ * @since 2.0.0
  */
 public class FastJsonPermission implements Bean {
 
-    private static final long serialVersionUID = -2363050831673303464L;
+    private static final long serialVersionUID = 986194088117322968L;
 
     public static FastJsonPermission of(Permission permission) {
         if (Objects.isNull(permission)) {
             return null;
+        } else {
+            return new FastJsonPermission(
+                    FastJsonPermissionKey.of(permission.getKey()),
+                    FastJsonPermissionGroupKey.of(permission.getGroupKey()),
+                    permission.getName(),
+                    permission.getRemark(),
+                    permission.getLevel(),
+                    permission.getGroupPath()
+            );
         }
-        return new FastJsonPermission(
-                FastJsonStringIdKey.of(permission.getKey()),
-                FastJsonStringIdKey.of(permission.getGroupKey()),
-                permission.getName(),
-                permission.getRemark(),
-                permission.getLevel()
-        );
     }
 
     @JSONField(name = "key", ordinal = 1)
-    private FastJsonStringIdKey key;
+    private FastJsonPermissionKey key;
 
     @JSONField(name = "group_key", ordinal = 2)
-    private FastJsonStringIdKey groupKey;
+    private FastJsonPermissionGroupKey groupKey;
 
     @JSONField(name = "name", ordinal = 3)
     private String name;
@@ -45,32 +49,37 @@ public class FastJsonPermission implements Bean {
     @JSONField(name = "level", ordinal = 5)
     private int level;
 
+    @JSONField(name = "group_path", ordinal = 6)
+    private String[] groupPath;
+
     public FastJsonPermission() {
     }
 
     public FastJsonPermission(
-            FastJsonStringIdKey key, FastJsonStringIdKey groupKey, String name, String remark, int level
+            FastJsonPermissionKey key, FastJsonPermissionGroupKey groupKey, String name, String remark, int level,
+            String[] groupPath
     ) {
         this.key = key;
         this.groupKey = groupKey;
         this.name = name;
         this.remark = remark;
         this.level = level;
+        this.groupPath = groupPath;
     }
 
-    public FastJsonStringIdKey getKey() {
+    public FastJsonPermissionKey getKey() {
         return key;
     }
 
-    public void setKey(FastJsonStringIdKey key) {
+    public void setKey(FastJsonPermissionKey key) {
         this.key = key;
     }
 
-    public FastJsonStringIdKey getGroupKey() {
+    public FastJsonPermissionGroupKey getGroupKey() {
         return groupKey;
     }
 
-    public void setGroupKey(FastJsonStringIdKey groupKey) {
+    public void setGroupKey(FastJsonPermissionGroupKey groupKey) {
         this.groupKey = groupKey;
     }
 
@@ -98,6 +107,14 @@ public class FastJsonPermission implements Bean {
         this.level = level;
     }
 
+    public String[] getGroupPath() {
+        return groupPath;
+    }
+
+    public void setGroupPath(String[] groupPath) {
+        this.groupPath = groupPath;
+    }
+
     @Override
     public String toString() {
         return "FastJsonPermission{" +
@@ -106,6 +123,7 @@ public class FastJsonPermission implements Bean {
                 ", name='" + name + '\'' +
                 ", remark='" + remark + '\'' +
                 ", level=" + level +
+                ", groupPath=" + Arrays.toString(groupPath) +
                 '}';
     }
 }

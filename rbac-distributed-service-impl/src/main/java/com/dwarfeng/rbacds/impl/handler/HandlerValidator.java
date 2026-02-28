@@ -1,5 +1,6 @@
 package com.dwarfeng.rbacds.impl.handler;
 
+import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.rbacds.stack.exception.PermissionNotExistsException;
 import com.dwarfeng.rbacds.stack.exception.RoleNotExistsException;
 import com.dwarfeng.rbacds.stack.exception.UserNotExistsException;
@@ -57,7 +58,7 @@ public class HandlerValidator {
         }
     }
 
-    public void makeSurePermissionExists(StringIdKey permissionKey) throws HandlerException {
+    public void makeSurePermissionExists(PermissionKey permissionKey) throws HandlerException {
         try {
             if (!permissionMaintainService.exists(permissionKey)) {
                 throw new PermissionNotExistsException(permissionKey);

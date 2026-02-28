@@ -1,7 +1,7 @@
 package com.dwarfeng.rbacds.stack.service;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
+import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
 import com.dwarfeng.subgrade.stack.service.BatchCrudService;
 import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 
@@ -11,18 +11,24 @@ import com.dwarfeng.subgrade.stack.service.PresetLookupService;
  * @author DwArFeng
  * @since 1.0.0
  */
-public interface PexpMaintainService extends BatchCrudService<LongIdKey, Pexp>, PresetLookupService<Pexp> {
+public interface PexpMaintainService extends BatchCrudService<PexpKey, Pexp>, PresetLookupService<Pexp> {
 
-    String PEXP_FOR_ROLE = "pexp_for_role";
-    String PEXP_FOR_ROLE_SET = "pexp_for_role_set";
+    // region 预设查询 - 级联
 
-    /**
-     * @since 1.9.0
-     */
-    String PEXP_FOR_ROLE_DESCRIPTION_ASC = "pexp_for_role_description_asc";
+    String CHILD_FOR_SCOPE = "child_for_scope";
+    String CHILD_FOR_ROLE = "child_for_role";
 
-    /**
-     * @since 1.9.0
-     */
-    String PEXP_FOR_ROLE_DESCRIPTION_LIKE_DESCRIPTION_ASC = "pexp_for_role_description_like_description_asc";
+    // endregion
+
+    // region 预设查询 - 业务逻辑
+
+    String CHILD_FOR_SCOPE_CHILD_FOR_ROLE = "child_for_scope_child_for_role";
+
+    // endregion
+
+    // region 预设查询 - UI
+
+    String CHILD_FOR_SCOPE_CHILD_FOR_ROLE_PEXP_STRING_ID_ASC = "child_for_scope_child_for_role_identifier_asc";
+
+    // endregion
 }

@@ -1,11 +1,11 @@
 package com.dwarfeng.rbacds.impl.service.operation;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
+import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
 import com.dwarfeng.rbacds.stack.cache.PexpCache;
 import com.dwarfeng.rbacds.stack.dao.PexpDao;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
-import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class PexpCrudOperation implements BatchCrudOperation<LongIdKey, Pexp> {
+public class PexpCrudOperation implements BatchCrudOperation<PexpKey, Pexp> {
 
     private final PexpDao pexpDao;
     private final PexpCache pexpCache;
@@ -30,12 +30,12 @@ public class PexpCrudOperation implements BatchCrudOperation<LongIdKey, Pexp> {
     }
 
     @Override
-    public boolean exists(LongIdKey key) throws Exception {
+    public boolean exists(PexpKey key) throws Exception {
         return pexpCache.exists(key) || pexpDao.exists(key);
     }
 
     @Override
-    public Pexp get(LongIdKey key) throws Exception {
+    public Pexp get(PexpKey key) throws Exception {
         if (pexpCache.exists(key)) {
             return pexpCache.get(key);
         } else {
@@ -49,7 +49,7 @@ public class PexpCrudOperation implements BatchCrudOperation<LongIdKey, Pexp> {
     }
 
     @Override
-    public LongIdKey insert(Pexp pexp) throws Exception {
+    public PexpKey insert(Pexp pexp) throws Exception {
         pexpDao.insert(pexp);
         pexpCache.push(pexp, pexpTimeout);
         return pexp.getKey();
@@ -62,24 +62,24 @@ public class PexpCrudOperation implements BatchCrudOperation<LongIdKey, Pexp> {
     }
 
     @Override
-    public void delete(LongIdKey key) throws Exception {
+    public void delete(PexpKey key) throws Exception {
         // 删除权限表达式自身。
         pexpCache.delete(key);
         pexpDao.delete(key);
     }
 
     @Override
-    public boolean allExists(List<LongIdKey> keys) throws Exception {
+    public boolean allExists(List<PexpKey> keys) throws Exception {
         return pexpCache.allExists(keys) || pexpDao.allExists(keys);
     }
 
     @Override
-    public boolean nonExists(List<LongIdKey> keys) throws Exception {
+    public boolean nonExists(List<PexpKey> keys) throws Exception {
         return pexpCache.nonExists(keys) && pexpDao.nonExists(keys);
     }
 
     @Override
-    public List<Pexp> batchGet(List<LongIdKey> keys) throws Exception {
+    public List<Pexp> batchGet(List<PexpKey> keys) throws Exception {
         if (pexpCache.allExists(keys)) {
             return pexpCache.batchGet(keys);
         } else {
@@ -93,7 +93,7 @@ public class PexpCrudOperation implements BatchCrudOperation<LongIdKey, Pexp> {
     }
 
     @Override
-    public List<LongIdKey> batchInsert(List<Pexp> pexps) throws Exception {
+    public List<PexpKey> batchInsert(List<Pexp> pexps) throws Exception {
         pexpCache.batchPush(pexps, pexpTimeout);
         return pexpDao.batchInsert(pexps);
     }
@@ -105,8 +105,8 @@ public class PexpCrudOperation implements BatchCrudOperation<LongIdKey, Pexp> {
     }
 
     @Override
-    public void batchDelete(List<LongIdKey> keys) throws Exception {
-        for (LongIdKey key : keys) {
+    public void batchDelete(List<PexpKey> keys) throws Exception {
+        for (PexpKey key : keys) {
             delete(key);
         }
     }
