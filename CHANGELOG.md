@@ -16,6 +16,12 @@
   - com.dwarfeng.rbacds.stack.service.InspectService。
 
 - 新增 telqos 指令。
+  - com.dwarfeng.rbacds.impl.service.telqos.InspectCommand。
+  - com.dwarfeng.rbacds.impl.service.telqos.PermissionUserAnalysisLocalCacheCommand。
+  - com.dwarfeng.rbacds.impl.service.telqos.ScopedRolePermissionAnalysisLocalCacheCommand。
+  - com.dwarfeng.rbacds.impl.service.telqos.ScopedUserPermissionAnalysisLocalCacheCommand。
+  - com.dwarfeng.rbacds.impl.service.telqos.ScopePermissionAnalysisLocalCacheCommand。
+  - com.dwarfeng.rbacds.impl.service.telqos.UserRoleAnalysisLocalCacheCommand。
   - com.dwarfeng.rbacds.impl.service.telqos.PermissionCommand。
   - com.dwarfeng.rbacds.impl.service.telqos.PermissionGroupCommand。
   - com.dwarfeng.rbacds.impl.service.telqos.PexpCommand。
