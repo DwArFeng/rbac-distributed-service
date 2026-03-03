@@ -51,4 +51,15 @@ public interface ResetQosService extends Service {
      * @since 2.0.0
      */
     void resetFilter() throws ServiceException;
+
+    /**
+     * 重置分析结果。
+     *
+     * <p>
+     * 清空所有分析相关的本地缓存。
+     *
+     * @throws ServiceException 服务异常。
+     * @since 2.0.0
+     */
+    void resetAnalysis() throws ServiceException;
 }

@@ -22,13 +22,16 @@ public class ResetCommand extends CliCommand {
     private static final String COMMAND_OPTION_STATUS = "status";
     private static final String COMMAND_OPTION_RESET_FILTER = "rf";
     private static final String COMMAND_OPTION_RESET_FILTER_LONG_OPT = "reset-filter";
+    private static final String COMMAND_OPTION_RESET_ANALYSIS = "ra";
+    private static final String COMMAND_OPTION_RESET_ANALYSIS_LONG_OPT = "reset-analysis";
 
     private static final String[] COMMAND_OPTION_ARRAY = new String[]{
             COMMAND_OPTION_LOOKUP,
             COMMAND_OPTION_START,
             COMMAND_OPTION_STOP,
             COMMAND_OPTION_STATUS,
-            COMMAND_OPTION_RESET_FILTER
+            COMMAND_OPTION_RESET_FILTER,
+            COMMAND_OPTION_RESET_ANALYSIS
     };
 
     private static final String IDENTITY = "reset";
@@ -44,13 +47,16 @@ public class ResetCommand extends CliCommand {
             CommandUtil.concatOptionPrefix(COMMAND_OPTION_STATUS);
     private static final String CMD_LINE_SYNTAX_RESET_FILTER = IDENTITY + " " +
             CommandUtil.concatOptionPrefix(COMMAND_OPTION_RESET_FILTER);
+    private static final String CMD_LINE_SYNTAX_RESET_ANALYSIS = IDENTITY + " " +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_RESET_ANALYSIS);
 
     private static final String[] CMD_LINE_ARRAY = new String[]{
             CMD_LINE_SYNTAX_LOOKUP,
             CMD_LINE_SYNTAX_START,
             CMD_LINE_SYNTAX_STOP,
             CMD_LINE_SYNTAX_STATUS,
-            CMD_LINE_SYNTAX_RESET_FILTER
+            CMD_LINE_SYNTAX_RESET_FILTER,
+            CMD_LINE_SYNTAX_RESET_ANALYSIS
     };
 
     private static final String CMD_LINE_SYNTAX = CommandUtil.syntax(CMD_LINE_ARRAY);
@@ -73,6 +79,12 @@ public class ResetCommand extends CliCommand {
                 Option.builder(COMMAND_OPTION_RESET_FILTER)
                         .longOpt(COMMAND_OPTION_RESET_FILTER_LONG_OPT)
                         .desc("执行过滤重置操作")
+                        .build()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_RESET_ANALYSIS)
+                        .longOpt(COMMAND_OPTION_RESET_ANALYSIS_LONG_OPT)
+                        .desc("执行分析结果重置操作")
                         .build()
         );
         return list;
@@ -104,6 +116,10 @@ public class ResetCommand extends CliCommand {
                     break;
                 case COMMAND_OPTION_RESET_FILTER:
                     resetQosService.resetFilter();
+                    context.sendMessage("重置成功!");
+                    break;
+                case COMMAND_OPTION_RESET_ANALYSIS:
+                    resetQosService.resetAnalysis();
                     context.sendMessage("重置成功!");
                     break;
             }

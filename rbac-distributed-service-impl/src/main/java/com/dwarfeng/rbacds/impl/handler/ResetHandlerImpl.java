@@ -71,7 +71,16 @@ public class ResetHandlerImpl implements ResetHandler {
         } finally {
             lock.unlock();
         }
+    }
 
+    @Override
+    public void resetAnalysis() throws HandlerException {
+        lock.lock();
+        try {
+            resetProcessor.resetAnalysis();
+        } finally {
+            lock.unlock();
+        }
     }
 
     @Component

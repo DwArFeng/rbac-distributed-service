@@ -38,6 +38,11 @@ public class PushHandlerImpl implements PushHandler {
     }
 
     @Override
+    public void analysisReset() throws HandlerException {
+        pusher.analysisReset();
+    }
+
+    @Override
     public String toString() {
         return "PushHandlerImpl{" +
                 "pushers=" + pushers +

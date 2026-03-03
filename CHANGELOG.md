@@ -4,6 +4,11 @@
 
 ### 功能构建
 
+- 重置功能新增。
+  - com.dwarfeng.rbacds.stack.handler.Resetter 新增重置分析结果功能。
+  - com.dwarfeng.rbacds.stack.handler.PushHandler 增加分析结果重置推送事件。
+  - com.dwarfeng.rbacds.impl.service.telqos.ResetCommand 增加分析结果重置指令选项。
+
 - 优化部分 telqos 指令中的选项名称。
   - com.dwarfeng.rbacds.impl.service.telqos.ResetCommand。
 

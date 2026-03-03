@@ -18,4 +18,15 @@ public interface ResetHandler extends StartableHandler {
      * @since 2.0.0
      */
     void resetFilter() throws HandlerException;
+
+    /**
+     * 重置分析结果。
+     *
+     * <p>
+     * 清空所有分析相关的本地缓存。
+     *
+     * @throws HandlerException 处理器异常。
+     * @since 2.0.0
+     */
+    void resetAnalysis() throws HandlerException;
 }

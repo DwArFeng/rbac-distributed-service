@@ -58,6 +58,7 @@ public class CronResetter extends AbstractResetter {
             try {
                 LOGGER.info("计划时间已到, 重置过滤功能...");
                 context.resetFilter();
+                context.resetAnalysis();
             } catch (Exception e) {
                 String message = "重置器 " + CronResetter.this +
                         " 执行重置调度时发生异常, 过滤功能将不会重置, 异常信息如下: ";

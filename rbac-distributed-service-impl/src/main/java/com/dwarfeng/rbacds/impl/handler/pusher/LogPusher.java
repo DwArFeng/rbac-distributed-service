@@ -41,6 +41,13 @@ public class LogPusher extends AbstractPusher {
         logData(title, message);
     }
 
+    @Override
+    public void analysisReset() throws HandlerException {
+        String title = "推送分析结果重置消息:";
+        String message = StringUtils.EMPTY;
+        logData(title, message);
+    }
+
     private void logData(String title, String message) throws HandlerException {
         String logLevel = this.logLevel.toUpperCase();
         logString(title, logLevel);

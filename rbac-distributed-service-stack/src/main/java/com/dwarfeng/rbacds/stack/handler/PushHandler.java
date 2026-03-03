@@ -17,4 +17,11 @@ public interface PushHandler extends Handler {
      * @since 2.0.0
      */
     void filterReset() throws HandlerException;
+
+    /**
+     * 分析结果重置时执行的推送操作。
+     *
+     * @since 2.0.0
+     */
+    void analysisReset() throws HandlerException;
 }

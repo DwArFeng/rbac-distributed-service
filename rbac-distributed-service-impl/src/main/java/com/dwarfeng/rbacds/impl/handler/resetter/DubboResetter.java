@@ -138,6 +138,18 @@ public class DubboResetter extends AbstractResetter {
          */
         @SuppressWarnings("SameReturnValue")
         boolean resetFilter() throws ServiceException;
+
+        /**
+         * 重置分析结果。
+         *
+         * <p>
+         * 因为 Dubbo 广播响应机制无法处理 void 返回类型，所以方法需要返回一个结果。
+         *
+         * @return 恒为 true。
+         * @throws ServiceException 服务异常。
+         */
+        @SuppressWarnings("SameReturnValue")
+        boolean resetAnalysis() throws ServiceException;
     }
 
     @org.springframework.stereotype.Service
@@ -154,6 +166,18 @@ public class DubboResetter extends AbstractResetter {
             try {
                 LOGGER.info("接收到过滤功能重置消息, 正在重置过滤功能...");
                 context.resetFilter();
+                context.resetAnalysis();
+                return true;
+            } catch (Exception e) {
+                throw ServiceExceptionHelper.logParse("发生异常", LogLevel.WARN, e, sem);
+            }
+        }
+
+        @Override
+        public boolean resetAnalysis() throws ServiceException {
+            try {
+                LOGGER.info("接收到分析结果重置消息, 正在重置分析结果...");
+                context.resetAnalysis();
                 return true;
             } catch (Exception e) {
                 throw ServiceExceptionHelper.logParse("发生异常", LogLevel.WARN, e, sem);

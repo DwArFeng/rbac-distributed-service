@@ -44,5 +44,10 @@ public class ResetterHandlerImpl implements ResetterHandler {
         public void resetFilter() throws Exception {
             resetProcessor.resetFilter();
         }
+
+        @Override
+        public void resetAnalysis() throws Exception {
+            resetProcessor.resetAnalysis();
+        }
     }
 }
