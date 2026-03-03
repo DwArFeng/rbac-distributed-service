@@ -20,7 +20,7 @@ public class ResetCommand extends CliCommand {
     private static final String COMMAND_OPTION_START = "start";
     private static final String COMMAND_OPTION_STOP = "stop";
     private static final String COMMAND_OPTION_STATUS = "status";
-    private static final String COMMAND_OPTION_RESET_FILTER = "rpf";
+    private static final String COMMAND_OPTION_RESET_FILTER = "rf";
     private static final String COMMAND_OPTION_RESET_FILTER_LONG_OPT = "reset-filter";
 
     private static final String[] COMMAND_OPTION_ARRAY = new String[]{

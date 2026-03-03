@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 优化部分 telqos 指令中的选项名称。
+  - com.dwarfeng.rbacds.impl.service.telqos.ResetCommand。
+
 - 新增查询服务。
   - com.dwarfeng.rbacds.stack.service.InspectService。
 
