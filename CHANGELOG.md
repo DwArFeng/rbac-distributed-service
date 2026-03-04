@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 新增查询服务。
+  - com.dwarfeng.rbacds.stack.service.InspectService。
+
 - 新增 telqos 指令。
   - com.dwarfeng.rbacds.impl.service.telqos.PermissionCommand。
   - com.dwarfeng.rbacds.impl.service.telqos.PermissionGroupCommand。

@@ -5,10 +5,7 @@ import com.dwarfeng.rbacds.sdk.bean.entity.*;
 import com.dwarfeng.rbacds.sdk.bean.key.*;
 import com.dwarfeng.rbacds.stack.bean.dto.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
-import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
-import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
-import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
-import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
+import com.dwarfeng.rbacds.stack.bean.key.*;
 import com.dwarfeng.subgrade.sdk.bean.key.*;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
@@ -93,6 +90,26 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     RoleUserRelationKey roleUserRelationKeyFromWebInput(WebInputRoleUserRelationKey webInputRoleUserRelationKey);
+
+    FastJsonScopedRoleKey scopedRoleKeyToFastJson(ScopedRoleKey scopedRoleKey);
+
+    @InheritInverseConfiguration
+    ScopedRoleKey scopedRoleKeyFromFastJson(FastJsonScopedRoleKey fastJsonScopedRoleKey);
+
+    FastJsonScopedUserKey scopedUserKeyToFastJson(ScopedUserKey scopedUserKey);
+
+    @InheritInverseConfiguration
+    ScopedUserKey scopedUserKeyFromFastJson(FastJsonScopedUserKey fastJsonScopedUserKey);
+
+    WebInputScopedRoleKey scopedRoleKeyToWebInput(ScopedRoleKey scopedRoleKey);
+
+    @InheritInverseConfiguration
+    ScopedRoleKey scopedRoleKeyFromWebInput(WebInputScopedRoleKey webInputScopedRoleKey);
+
+    WebInputScopedUserKey scopedUserKeyToWebInput(ScopedUserKey scopedUserKey);
+
+    @InheritInverseConfiguration
+    ScopedUserKey scopedUserKeyFromWebInput(WebInputScopedUserKey webInputScopedUserKey);
 
     // -----------------------------------------------------------Rbac Entity-----------------------------------------------------------
     FastJsonFilterSupport filterSupportToFastJson(FilterSupport filterSupport);
@@ -233,4 +250,58 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     PexpUpdateInfo pexpUpdateInfoFromWebInput(WebInputPexpUpdateInfo webInputPexpUpdateInfo);
+
+    FastJsonPermissionUserInspectResult permissionUserInspectResultToFastJson(
+            PermissionUserInspectResult permissionUserInspectResult
+    );
+
+    @InheritInverseConfiguration
+    PermissionUserInspectResult permissionUserInspectResultFromFastJson(
+            FastJsonPermissionUserInspectResult fastJsonPermissionUserInspectResult
+    );
+
+    FastJsonRolePermissionInspectResult rolePermissionInspectResultToFastJson(
+            RolePermissionInspectResult rolePermissionInspectResult
+    );
+
+    @InheritInverseConfiguration
+    RolePermissionInspectResult rolePermissionInspectResultFromFastJson(
+            FastJsonRolePermissionInspectResult fastJsonRolePermissionInspectResult
+    );
+
+    FastJsonUserPermissionInspectResult userPermissionInspectResultToFastJson(
+            UserPermissionInspectResult userPermissionInspectResult
+    );
+
+    @InheritInverseConfiguration
+    UserPermissionInspectResult userPermissionInspectResultFromFastJson(
+            FastJsonUserPermissionInspectResult fastJsonUserPermissionInspectResult
+    );
+
+    WebInputPermissionUserInspectInfo permissionUserInspectInfoToWebInput(
+            PermissionUserInspectInfo permissionUserInspectInfo
+    );
+
+    @InheritInverseConfiguration
+    PermissionUserInspectInfo permissionUserInspectInfoFromWebInput(
+            WebInputPermissionUserInspectInfo webInputPermissionUserInspectInfo
+    );
+
+    WebInputRolePermissionInspectInfo rolePermissionInspectInfoToWebInput(
+            RolePermissionInspectInfo rolePermissionInspectInfo
+    );
+
+    @InheritInverseConfiguration
+    RolePermissionInspectInfo rolePermissionInspectInfoFromWebInput(
+            WebInputRolePermissionInspectInfo webInputRolePermissionInspectInfo
+    );
+
+    WebInputUserPermissionInspectInfo userPermissionInspectInfoToWebInput(
+            UserPermissionInspectInfo userPermissionInspectInfo
+    );
+
+    @InheritInverseConfiguration
+    UserPermissionInspectInfo userPermissionInspectInfoFromWebInput(
+            WebInputUserPermissionInspectInfo webInputUserPermissionInspectInfo
+    );
 }
