@@ -1,7 +1,9 @@
 package com.dwarfeng.rbacds.sdk.bean;
 
+import com.dwarfeng.rbacds.sdk.bean.dto.*;
 import com.dwarfeng.rbacds.sdk.bean.entity.*;
 import com.dwarfeng.rbacds.sdk.bean.key.*;
+import com.dwarfeng.rbacds.stack.bean.dto.*;
 import com.dwarfeng.rbacds.stack.bean.entity.*;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
@@ -152,4 +154,83 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     User userFromWebInput(WebInputUser webInputUser);
+
+    // -----------------------------------------------------------Rbac DTO-----------------------------------------------------------
+    FastJsonPermissionCreateResult permissionCreateResultToFastJson(PermissionCreateResult permissionCreateResult);
+
+    @InheritInverseConfiguration
+    PermissionCreateResult permissionCreateResultFromFastJson(
+            FastJsonPermissionCreateResult fastJsonPermissionCreateResult
+    );
+
+    FastJsonPermissionGroupCreateResult permissionGroupCreateResultToFastJson(
+            PermissionGroupCreateResult permissionGroupCreateResult
+    );
+
+    @InheritInverseConfiguration
+    PermissionGroupCreateResult permissionGroupCreateResultFromFastJson(
+            FastJsonPermissionGroupCreateResult fastJsonPermissionGroupCreateResult
+    );
+
+    FastJsonPexpCreateResult pexpCreateResultToFastJson(PexpCreateResult pexpCreateResult);
+
+    @InheritInverseConfiguration
+    PexpCreateResult pexpCreateResultFromFastJson(FastJsonPexpCreateResult fastJsonPexpCreateResult);
+
+    WebInputPermissionCreateInfo permissionCreateInfoToWebInput(PermissionCreateInfo permissionCreateInfo);
+
+    @InheritInverseConfiguration
+    PermissionCreateInfo permissionCreateInfoFromWebInput(WebInputPermissionCreateInfo webInputPermissionCreateInfo);
+
+    WebInputPermissionGroupCreateInfo permissionGroupCreateInfoToWebInput(
+            PermissionGroupCreateInfo permissionGroupCreateInfo
+    );
+
+    @InheritInverseConfiguration
+    PermissionGroupCreateInfo permissionGroupCreateInfoFromWebInput(
+            WebInputPermissionGroupCreateInfo webInputPermissionGroupCreateInfo
+    );
+
+    WebInputPermissionGroupRemoveInfo permissionGroupRemoveInfoToWebInput(
+            PermissionGroupRemoveInfo permissionGroupRemoveInfo
+    );
+
+    @InheritInverseConfiguration
+    PermissionGroupRemoveInfo permissionGroupRemoveInfoFromWebInput(
+            WebInputPermissionGroupRemoveInfo webInputPermissionGroupRemoveInfo
+    );
+
+    WebInputPermissionGroupUpdateInfo permissionGroupUpdateInfoToWebInput(
+            PermissionGroupUpdateInfo permissionGroupUpdateInfo
+    );
+
+    @InheritInverseConfiguration
+    PermissionGroupUpdateInfo permissionGroupUpdateInfoFromWebInput(
+            WebInputPermissionGroupUpdateInfo webInputPermissionGroupUpdateInfo
+    );
+
+    WebInputPermissionRemoveInfo permissionRemoveInfoToWebInput(PermissionRemoveInfo permissionRemoveInfo);
+
+    @InheritInverseConfiguration
+    PermissionRemoveInfo permissionRemoveInfoFromWebInput(WebInputPermissionRemoveInfo webInputPermissionRemoveInfo);
+
+    WebInputPermissionUpdateInfo permissionUpdateInfoToWebInput(PermissionUpdateInfo permissionUpdateInfo);
+
+    @InheritInverseConfiguration
+    PermissionUpdateInfo permissionUpdateInfoFromWebInput(WebInputPermissionUpdateInfo webInputPermissionUpdateInfo);
+
+    WebInputPexpCreateInfo pexpCreateInfoToWebInput(PexpCreateInfo pexpCreateInfo);
+
+    @InheritInverseConfiguration
+    PexpCreateInfo pexpCreateInfoFromWebInput(WebInputPexpCreateInfo webInputPexpCreateInfo);
+
+    WebInputPexpRemoveInfo pexpRemoveInfoToWebInput(PexpRemoveInfo pexpRemoveInfo);
+
+    @InheritInverseConfiguration
+    PexpRemoveInfo pexpRemoveInfoFromWebInput(WebInputPexpRemoveInfo webInputPexpRemoveInfo);
+
+    WebInputPexpUpdateInfo pexpUpdateInfoToWebInput(PexpUpdateInfo pexpUpdateInfo);
+
+    @InheritInverseConfiguration
+    PexpUpdateInfo pexpUpdateInfoFromWebInput(WebInputPexpUpdateInfo webInputPexpUpdateInfo);
 }

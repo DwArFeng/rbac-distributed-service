@@ -39,13 +39,28 @@
             group="${dubbo.provider.group}"
     />
     <dubbo:service
+            interface="com.dwarfeng.rbacds.stack.service.PexpOperateService"
+            ref="pexpOperateServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
             interface="com.dwarfeng.rbacds.stack.service.PermissionMaintainService"
             ref="permissionMaintainServiceImpl"
             group="${dubbo.provider.group}"
     />
     <dubbo:service
+            interface="com.dwarfeng.rbacds.stack.service.PermissionOperateService"
+            ref="permissionOperateServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
             interface="com.dwarfeng.rbacds.stack.service.PermissionGroupMaintainService"
             ref="permissionGroupMaintainServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
+            interface="com.dwarfeng.rbacds.stack.service.PermissionGroupOperateService"
+            ref="permissionGroupOperateServiceImpl"
             group="${dubbo.provider.group}"
     />
     <dubbo:service

@@ -4,6 +4,11 @@
 
 ### 功能构建
 
+- 新增实体操作服务。
+  - com.dwarfeng.rbacds.stack.service.PermissionGroupOperateService。
+  - com.dwarfeng.rbacds.stack.service.PermissionOperateService。
+  - com.dwarfeng.rbacds.stack.service.PexpOperateService。
+
 - 优化部分单元测试代码，以规避潜在的 bug。
   - com.dwarfeng.rbacds.impl.service.FilterSupportMaintainServiceImplTest。
   - com.dwarfeng.rbacds.impl.service.RoleMaintainServiceImplTest。

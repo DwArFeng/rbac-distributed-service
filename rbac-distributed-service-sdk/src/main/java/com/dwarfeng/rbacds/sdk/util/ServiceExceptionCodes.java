@@ -50,6 +50,20 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(52), "filter type unsupported");
     public static final ServiceException.Code FILTER_EXECUTION_FAILED =
             new ServiceException.Code(offset(53), "filter execution failed");
+    public static final ServiceException.Code PERMISSION_ALREADY_EXISTS =
+            new ServiceException.Code(offset(60), "permission identifier already exists");
+    public static final ServiceException.Code PERMISSION_GROUP_ALREADY_EXISTS =
+            new ServiceException.Code(offset(70), "permission group identifier already exists");
+    public static final ServiceException.Code PERMISSION_GROUP_NOT_EXISTS =
+            new ServiceException.Code(offset(80), "permission group not exists");
+    public static final ServiceException.Code PERMISSION_GROUP_NOT_IN_SCOPE =
+            new ServiceException.Code(offset(90), "permission group not in scope");
+    public static final ServiceException.Code PEXP_ALREADY_EXISTS =
+            new ServiceException.Code(offset(100), "pexp already exists");
+    public static final ServiceException.Code PEXP_NOT_EXISTS =
+            new ServiceException.Code(offset(110), "pexp not exists");
+    public static final ServiceException.Code SCOPE_NOT_EXISTS =
+            new ServiceException.Code(offset(120), "scope not exists");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;
@@ -83,6 +97,13 @@ public final class ServiceExceptionCodes {
         FILTER_MAKE_FAILED.setCode(offset(51));
         FILTER_TYPE_UNSUPPORTED.setCode(offset(52));
         FILTER_EXECUTION_FAILED.setCode(offset(53));
+        PERMISSION_ALREADY_EXISTS.setCode(offset(60));
+        PERMISSION_GROUP_ALREADY_EXISTS.setCode(offset(70));
+        PERMISSION_GROUP_NOT_EXISTS.setCode(offset(80));
+        PERMISSION_GROUP_NOT_IN_SCOPE.setCode(offset(90));
+        PEXP_ALREADY_EXISTS.setCode(offset(100));
+        PEXP_NOT_EXISTS.setCode(offset(110));
+        SCOPE_NOT_EXISTS.setCode(offset(120));
     }
 
     private ServiceExceptionCodes() {
