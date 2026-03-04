@@ -50,7 +50,6 @@
         <jboss-logging.version>3.4.3.Final</jboss-logging.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <dutil.version>beta-0.3.2.a</dutil.version>
-        <snowflake.version>1.8.2.a</snowflake.version>
         <subgrade.version>1.7.2.a</subgrade.version>
         <spring-terminator.version>1.0.14.a</spring-terminator.version>
         <spring-telqos.version>1.1.15.a</spring-telqos.version>
@@ -334,12 +333,6 @@
                 <groupId>com.dwarfeng</groupId>
                 <artifactId>dutil-basic</artifactId>
                 <version>${dutil.version}</version>
-            </dependency>
-            <!-- SnowFlake 服务 -->
-            <dependency>
-                <groupId>com.dwarfeng</groupId>
-                <artifactId>snowflake-distributed-service-api</artifactId>
-                <version>${snowflake.version}</version>
             </dependency>
             <!-- Subgrade 组件 -->
             <dependency>

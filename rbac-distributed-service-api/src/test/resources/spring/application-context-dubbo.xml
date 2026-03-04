@@ -21,12 +21,4 @@
             name="dubbo" port="${dubbo.protocol.dubbo.port}" host="${dubbo.protocol.dubbo.host}"
             dispatcher="message" threadpool="fixed" threads="100"
     />
-
-    <!-- 向注册中心注册暴露服务地址,注册消费者服务 -->
-    <dubbo:reference
-            id="snowflakeGenerateService"
-            interface="com.dwarfeng.sfds.stack.service.GenerateService"
-            check="false"
-            group="${dubbo.consumer.snowflake.group}"
-    />
 </beans>

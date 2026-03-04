@@ -13,8 +13,6 @@ public class ExceptionCodeOffsetConfiguration {
     private int exceptionCodeOffset;
     @Value("${rbacds.exception_code_offset.subgrade}")
     private int subgradeExceptionCodeOffset;
-    @Value("${rbacds.exception_code_offset.snowflake}")
-    private int snowflakeExceptionCodeOffset;
     @Value("${rbacds.exception_code_offset.dwarfeng_datamark}")
     private int dwarfengDatamarkExceptionCodeOffset;
 
@@ -22,7 +20,6 @@ public class ExceptionCodeOffsetConfiguration {
     public void init() {
         ServiceExceptionCodes.setExceptionCodeOffset(exceptionCodeOffset);
         com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes.setExceptionCodeOffset(subgradeExceptionCodeOffset);
-        com.dwarfeng.sfds.sdk.util.ServiceExceptionCodes.setExceptionCodeOffset(snowflakeExceptionCodeOffset);
         com.dwarfeng.datamark.util.ServiceExceptionCodes.setExceptionCodeOffset(dwarfengDatamarkExceptionCodeOffset);
     }
 }
