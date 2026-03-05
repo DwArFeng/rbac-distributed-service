@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 优化部分类中部分方法的行为分析行为。
+  - com.dwarfeng.rbacds.impl.handler.PexpHandlerImpl。
+
 - 新增 subgrade 权限处理器集成。
   - com.dwarfeng.rbacds.api.integration.subgrade.LegacyPermissionHandler。
   - com.dwarfeng.rbacds.api.integration.subgrade.ScopedPermissionHandler。

@@ -78,7 +78,7 @@ public class PexpHandlerImpl implements PexpHandler {
     @Override
     @BehaviorAnalyse
     @SkipRecord
-    public List<Reception> testAll(Pexp pexp, List<Permission> permissions) throws HandlerException {
+    public List<Reception> testAll(Pexp pexp, @SkipRecord List<Permission> permissions) throws HandlerException {
         try {
             // 特殊情况判断。
             if (permissions.isEmpty()) {
