@@ -4,6 +4,10 @@
 
 ### 功能构建
 
+- 新增 subgrade 权限处理器集成。
+  - com.dwarfeng.rbacds.api.integration.subgrade.LegacyPermissionHandler。
+  - com.dwarfeng.rbacds.api.integration.subgrade.ScopedPermissionHandler。
+
 - 重置功能新增。
   - com.dwarfeng.rbacds.stack.handler.Resetter 新增重置分析结果功能。
   - com.dwarfeng.rbacds.stack.handler.PushHandler 增加分析结果重置推送事件。
