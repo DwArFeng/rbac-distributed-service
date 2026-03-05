@@ -6,9 +6,9 @@
 
 ```text
 opt
-    opt-pfilter.xml
-    opt-pusher.xml
-    opt-resetter.xml
+├─ opt-filter.xml
+├─ opt-pusher.xml
+└─ opt-resetter.xml
 ```
 
 所有的可选配置都为每个单独的可选项提供了加载配置，默认是注释的，如果用户需要使用某个可选项，
@@ -16,7 +16,7 @@ opt
 
 此处展示默认的可选配置文件。
 
-## opt-pfilter.xml
+## opt-filter.xml
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -34,60 +34,60 @@ opt
 >
 
     <!--扫描handler的实现包。 -->
-    <context:component-scan base-package="com.dwarfeng.rbacds.impl.handler.pfilter" use-default-filters="false">
-        <!-- 加载 DirectSubGroupPermissionFilterRegistry -->
+    <context:component-scan base-package="com.dwarfeng.rbacds.impl.handler.filter" use-default-filters="false">
+        <!-- 加载 DirectSubGroupFilterRegistry -->
         <!--
         <context:include-filter
                 type="assignable"
-                expression="com.dwarfeng.rbacds.impl.handler.pfilter.DirectSubGroupPermissionFilterRegistry"
+                expression="com.dwarfeng.rbacds.impl.handler.filter.DirectSubGroupFilterRegistry"
         />
         -->
 
-        <!-- 加载 ExactPermissionFilterRegistry -->
+        <!-- 加载 ExactFilterRegistry -->
         <!--
         <context:include-filter
                 type="assignable"
-                expression="com.dwarfeng.rbacds.impl.handler.pfilter.ExactPermissionFilterRegistry"
+                expression="com.dwarfeng.rbacds.impl.handler.filter.ExactFilterRegistry"
         />
         -->
 
-        <!-- 加载 IdPrefixPermissionFilterRegistry -->
+        <!-- 加载 IdPrefixFilterRegistry -->
         <!--
         <context:include-filter
                 type="assignable"
-                expression="com.dwarfeng.rbacds.impl.handler.pfilter.IdPrefixPermissionFilterRegistry"
+                expression="com.dwarfeng.rbacds.impl.handler.filter.IdPrefixFilterRegistry"
         />
         -->
 
-        <!-- 加载 IdRegexPermissionFilterRegistry -->
+        <!-- 加载 IdRegexFilterRegistry -->
         <!--
         <context:include-filter
                 type="assignable"
-                expression="com.dwarfeng.rbacds.impl.handler.pfilter.IdRegexPermissionFilterRegistry"
+                expression="com.dwarfeng.rbacds.impl.handler.filter.IdRegexFilterRegistry"
         />
         -->
 
-        <!-- 加载 NameRegexPermissionFilterRegistry -->
+        <!-- 加载 NameRegexFilterRegistry -->
         <!--
         <context:include-filter
                 type="assignable"
-                expression="com.dwarfeng.rbacds.impl.handler.pfilter.NameRegexPermissionFilterRegistry"
+                expression="com.dwarfeng.rbacds.impl.handler.filter.NameRegexFilterRegistry"
         />
         -->
 
-        <!-- 加载 NestedSubGroupPermissionFilterRegistry -->
+        <!-- 加载 NestedSubGroupFilterRegistry -->
         <!--
         <context:include-filter
                 type="assignable"
-                expression="com.dwarfeng.rbacds.impl.handler.pfilter.NestedSubGroupPermissionFilterRegistry"
+                expression="com.dwarfeng.rbacds.impl.handler.filter.NestedSubGroupFilterRegistry"
         />
         -->
 
-        <!-- 加载 LevelPermissionFilterRegistry -->
+        <!-- 加载 LevelFilterRegistry -->
         <!--
         <context:include-filter
                 type="assignable"
-                expression="com.dwarfeng.rbacds.impl.handler.pfilter.LevelPermissionFilterRegistry"
+                expression="com.dwarfeng.rbacds.impl.handler.filter.LevelFilterRegistry"
         />
         -->
     </context:component-scan>
