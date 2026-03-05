@@ -18,13 +18,14 @@ conf
 ├─logging
 │      README.md
 │      settings.xml
-│      settings-linux.xml
-│      settings-windows.xml
+│      settings-ref-linux.xml
+│      settings-ref-windows.xml
 │
 ├─rbacds
 │      background.properties
 │      exception.properties
 │      launcher.properties
+│      local-cache.properties
 │      push.properties
 │      reset.properties
 │
@@ -139,35 +140,16 @@ dubbo.consumer.snowflake.group=
 
 ## logging 目录
 
-| 文件名                  | 说明                   |
-|----------------------|----------------------|
-| README.md            | 说明文档                 |
-| settings.xml         | 日志配置文件               |
-| settings-linux.xml   | Linux 系统中日志配置文件的参考   |
-| settings-windows.xml | Windows 系统中日志配置文件的参考 |
-
-### README.md
-
-logging 目录的说明文档。
-
-```markdown
-# logging - 日志配置文件夹
-
-该目录存放了日志配置文件及其不同操作系统的参考配置文件，以供用户自定义日志配置。
-
-该目录下 `settings.xml` 是日志配置文件的主文件，用户可以通过修改该文件来自定义日志配置。
-
-该目录下 `settings-*.xml` 是不同操作系统的参考配置文件。
-
-用户可以根据自己的需求将对应的参考配置文件中的内容复制到 `settings.xml` 中以应用对应操作系统的默认配置，
-或者直接修改 `settings.xml` 以自定义日志配置。
-```
+| 文件名                      | 说明                     |
+|--------------------------|------------------------|
+| README.md                | 说明文件                   |
+| settings.xml             | 日志配置的配置文件              |
+| settings-ref-linux.xml   | Linux 系统中日志配置的配置参考文件   |
+| settings-ref-windows.xml | Windows 系统中日志配置的配置参考文件 |
 
 ### settings.xml
 
-日志配置文件。
-
-需要注意的是，只有在该文件中的配置内容才会生效，`settings-os.xml` 中的内容仅作为参考，任何修改均不会生效。
+日志配置及其参考文件。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -194,402 +176,33 @@ logging 目录的说明文档。
     </properties>
 
     <Appenders>
-        <!--############################################### Console ###############################################-->
-        <Console name="std.console" target="SYSTEM_OUT" follow="true">
-            <ThresholdFilter level="${console.level}" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{DEFAULT}] [%p] [%t] [%c{1.}]: %m%n" charset="${console.encoding}"/>
-        </Console>
-        <Async name="sync.console">
-            <AppenderRef ref="std.console"/>
-        </Async>
-        <!--############################################# Rolling file ############################################-->
-        <RollingFile
-                name="std.debug.rolling_file" fileName="${rolling_file.dir}/debug.log"
-                filePattern="${rolling_file.dir}/%d{yyyy-MM}/debug-%d{MM-dd-yyyy}-%i.log.gz"
-        >
-            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{DEFAULT}] [%p] [%t] [%c{1.}]: %m%n" charset="${rolling_file.encoding}"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="${rolling_file.triggering.interval}" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="${rolling_file.triggering.size}"/>
-            </Policies>
-            <DefaultRolloverStrategy max="${rolling_file.rollover.max}">
-                <Delete basePath="${rolling_file.dir}" maxDepth="2">
-                    <IfFileName glob="*/*debug*.log.gz"/>
-                    <IfLastModified age="${rolling_file.rollover.delete_age}"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-        <RollingFile
-                name="std.info.rolling_file" fileName="${rolling_file.dir}/info.log"
-                filePattern="${rolling_file.dir}/%d{yyyy-MM}/info-%d{MM-dd-yyyy}-%i.log.gz"
-        >
-            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{DEFAULT}] [%p] [%t] [%c{1.}]: %m%n" charset="${rolling_file.encoding}"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="${rolling_file.triggering.interval}" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="${rolling_file.triggering.size}"/>
-            </Policies>
-            <DefaultRolloverStrategy max="${rolling_file.rollover.max}">
-                <Delete basePath="${rolling_file.dir}" maxDepth="2">
-                    <IfFileName glob="*/*info*.log.gz"/>
-                    <IfLastModified age="${rolling_file.rollover.delete_age}"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-        <RollingFile
-                name="std.warn.rolling_file" fileName="${rolling_file.dir}/warn.log"
-                filePattern="${rolling_file.dir}/%d{yyyy-MM}/warn-%d{MM-dd-yyyy}-%i.log.gz"
-        >
-            <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{DEFAULT}] [%p] [%t] [%c{1.}]: %m%n" charset="${rolling_file.encoding}"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="${rolling_file.triggering.interval}" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="${rolling_file.triggering.size}"/>
-            </Policies>
-            <DefaultRolloverStrategy max="${rolling_file.rollover.max}">
-                <Delete basePath="${rolling_file.dir}" maxDepth="2">
-                    <IfFileName glob="*/*warn*.log.gz"/>
-                    <IfLastModified age="${rolling_file.rollover.delete_age}"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-        <RollingFile
-                name="std.error.rolling_file" fileName="${rolling_file.dir}/error.log"
-                filePattern="${rolling_file.dir}/%d{yyyy-MM}/error-%d{MM-dd-yyyy}-%i.log.gz"
-        >
-            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{DEFAULT}] [%p] [%t] [%c{1.}]: %m%n" charset="${rolling_file.encoding}"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="${rolling_file.triggering.interval}" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="${rolling_file.triggering.size}"/>
-            </Policies>
-            <DefaultRolloverStrategy max="${rolling_file.rollover.max}">
-                <Delete basePath="${rolling_file.dir}" maxDepth="2">
-                    <IfFileName glob="*/*error*.log.gz"/>
-                    <IfLastModified age="${rolling_file.rollover.delete_age}"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-        <Async name="sync.console">
-            <AppenderRef ref="std.console"/>
-        </Async>
-        <Async name="sync.debug.rolling_file">
-            <AppenderRef ref="std.debug.rolling_file"/>
-        </Async>
-        <Async name="sync.info.rolling_file">
-            <AppenderRef ref="std.info.rolling_file"/>
-        </Async>
-        <Async name="sync.warn.rolling_file">
-            <AppenderRef ref="std.warn.rolling_file"/>
-        </Async>
-        <Async name="sync.error.rolling_file">
-            <AppenderRef ref="std.error.rolling_file"/>
-        </Async>
+        <!-- etc... -->
     </Appenders>
 
     <Loggers>
-        <!--############################################# Root logger #############################################-->
-        <Root level="ALL">
-            <appender-ref ref="sync.console"/>
-            <appender-ref ref="sync.debug.rolling_file"/>
-            <appender-ref ref="sync.info.rolling_file"/>
-            <appender-ref ref="sync.warn.rolling_file"/>
-            <appender-ref ref="sync.error.rolling_file"/>
-        </Root>
+        <!-- etc... -->
     </Loggers>
 </Configuration>
 ```
 
-### settings-linux.xml
+需要注意的是，日志配置 **必须** 定义在 `settings.xml` 中才能生效，所有的 `settings-ref-xxx.xml` 都是参考文件，
+在这些文件中进行任何配置的修改 **均不会生效**。
 
-Linux 系统中日志配置文件的参考。
+常用的做法是，针对不同的操作系统，将参考文件中的内容直接复制到 `settings.xml` 中，随后对 `settings.xml` 中的内容进行修改。
 
-如果项目部署在 Linux 系统中，可以把此文件中的全部内容粘贴到 `setting.xml` 中，以使用推荐的 Linux 系统的日志配置。
-
-需要注意的是，项目的日志配置只以 `setting.xml` 中的内容为准，在该文件中进行任何修改，均不会生效。
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<Configuration>
-    <properties>
-        <!--############################################### Console ###############################################-->
-        <!-- 控制台输出文本的编码 -->
-        <property name="console.encoding">UTF-8</property>
-        <!-- 控制台输出的日志级别 -->
-        <property name="console.level">INFO</property>
-        <!--############################################# Rolling file ############################################-->
-        <!-- 滚动文件的目录 -->
-        <property name="rolling_file.dir">/var/log/rbac</property>
-        <!-- 滚动文件的编码 -->
-        <property name="rolling_file.encoding">UTF-8</property>
-        <!-- 滚动文件的触发间隔（小时） -->
-        <property name="rolling_file.triggering.interval">1</property>
-        <!-- 滚动文件的触发大小 -->
-        <property name="rolling_file.triggering.size">40MB</property>
-        <!-- 滚动文件的最大数量 -->
-        <property name="rolling_file.rollover.max">100</property>
-        <!-- 滚动文件的删除时间 -->
-        <property name="rolling_file.rollover.delete_age">7D</property>
-    </properties>
-
-    <Appenders>
-        <!--############################################### Console ###############################################-->
-        <Console name="std.console" target="SYSTEM_OUT" follow="true">
-            <ThresholdFilter level="${console.level}" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{DEFAULT}] [%p] [%t] [%c{1.}]: %m%n" charset="${console.encoding}"/>
-        </Console>
-        <Async name="sync.console">
-            <AppenderRef ref="std.console"/>
-        </Async>
-        <!--############################################# Rolling file ############################################-->
-        <RollingFile
-                name="std.debug.rolling_file" fileName="${rolling_file.dir}/debug.log"
-                filePattern="${rolling_file.dir}/%d{yyyy-MM}/debug-%d{MM-dd-yyyy}-%i.log.gz"
-        >
-            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{DEFAULT}] [%p] [%t] [%c{1.}]: %m%n" charset="${rolling_file.encoding}"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="${rolling_file.triggering.interval}" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="${rolling_file.triggering.size}"/>
-            </Policies>
-            <DefaultRolloverStrategy max="${rolling_file.rollover.max}">
-                <Delete basePath="${rolling_file.dir}" maxDepth="2">
-                    <IfFileName glob="*/*debug*.log.gz"/>
-                    <IfLastModified age="${rolling_file.rollover.delete_age}"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-        <RollingFile
-                name="std.info.rolling_file" fileName="${rolling_file.dir}/info.log"
-                filePattern="${rolling_file.dir}/%d{yyyy-MM}/info-%d{MM-dd-yyyy}-%i.log.gz"
-        >
-            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{DEFAULT}] [%p] [%t] [%c{1.}]: %m%n" charset="${rolling_file.encoding}"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="${rolling_file.triggering.interval}" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="${rolling_file.triggering.size}"/>
-            </Policies>
-            <DefaultRolloverStrategy max="${rolling_file.rollover.max}">
-                <Delete basePath="${rolling_file.dir}" maxDepth="2">
-                    <IfFileName glob="*/*info*.log.gz"/>
-                    <IfLastModified age="${rolling_file.rollover.delete_age}"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-        <RollingFile
-                name="std.warn.rolling_file" fileName="${rolling_file.dir}/warn.log"
-                filePattern="${rolling_file.dir}/%d{yyyy-MM}/warn-%d{MM-dd-yyyy}-%i.log.gz"
-        >
-            <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{DEFAULT}] [%p] [%t] [%c{1.}]: %m%n" charset="${rolling_file.encoding}"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="${rolling_file.triggering.interval}" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="${rolling_file.triggering.size}"/>
-            </Policies>
-            <DefaultRolloverStrategy max="${rolling_file.rollover.max}">
-                <Delete basePath="${rolling_file.dir}" maxDepth="2">
-                    <IfFileName glob="*/*warn*.log.gz"/>
-                    <IfLastModified age="${rolling_file.rollover.delete_age}"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-        <RollingFile
-                name="std.error.rolling_file" fileName="${rolling_file.dir}/error.log"
-                filePattern="${rolling_file.dir}/%d{yyyy-MM}/error-%d{MM-dd-yyyy}-%i.log.gz"
-        >
-            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{DEFAULT}] [%p] [%t] [%c{1.}]: %m%n" charset="${rolling_file.encoding}"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="${rolling_file.triggering.interval}" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="${rolling_file.triggering.size}"/>
-            </Policies>
-            <DefaultRolloverStrategy max="${rolling_file.rollover.max}">
-                <Delete basePath="${rolling_file.dir}" maxDepth="2">
-                    <IfFileName glob="*/*error*.log.gz"/>
-                    <IfLastModified age="${rolling_file.rollover.delete_age}"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-        <Async name="sync.console">
-            <AppenderRef ref="std.console"/>
-        </Async>
-        <Async name="sync.debug.rolling_file">
-            <AppenderRef ref="std.debug.rolling_file"/>
-        </Async>
-        <Async name="sync.info.rolling_file">
-            <AppenderRef ref="std.info.rolling_file"/>
-        </Async>
-        <Async name="sync.warn.rolling_file">
-            <AppenderRef ref="std.warn.rolling_file"/>
-        </Async>
-        <Async name="sync.error.rolling_file">
-            <AppenderRef ref="std.error.rolling_file"/>
-        </Async>
-    </Appenders>
-
-    <Loggers>
-        <!--############################################# Root logger #############################################-->
-        <Root level="ALL">
-            <appender-ref ref="sync.console"/>
-            <appender-ref ref="sync.debug.rolling_file"/>
-            <appender-ref ref="sync.info.rolling_file"/>
-            <appender-ref ref="sync.warn.rolling_file"/>
-            <appender-ref ref="sync.error.rolling_file"/>
-        </Root>
-    </Loggers>
-</Configuration>
-```
-
-### settings-windows.xml
-
-Windows 系统中日志配置文件的参考。
-
-如果项目部署在 Windows 系统中，可以把此文件中的全部内容粘贴到 `setting.xml` 中，以使用推荐的 Windows 系统的日志配置。
-
-需要注意的是，项目的日志配置只以 `setting.xml` 中的内容为准，在该文件中进行任何修改，均不会生效。
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<Configuration>
-    <properties>
-        <!--############################################### Console ###############################################-->
-        <!-- 控制台输出文本的编码 -->
-        <property name="console.encoding">GBK</property>
-        <!-- 控制台输出的日志级别 -->
-        <property name="console.level">INFO</property>
-        <!--############################################# Rolling file ############################################-->
-        <!-- 滚动文件的目录 -->
-        <property name="rolling_file.dir">logs</property>
-        <!-- 滚动文件的编码 -->
-        <property name="rolling_file.encoding">UTF-8</property>
-        <!-- 滚动文件的触发间隔（小时） -->
-        <property name="rolling_file.triggering.interval">1</property>
-        <!-- 滚动文件的触发大小 -->
-        <property name="rolling_file.triggering.size">40MB</property>
-        <!-- 滚动文件的最大数量 -->
-        <property name="rolling_file.rollover.max">100</property>
-        <!-- 滚动文件的删除时间 -->
-        <property name="rolling_file.rollover.delete_age">7D</property>
-    </properties>
-
-    <Appenders>
-        <!--############################################### Console ###############################################-->
-        <Console name="std.console" target="SYSTEM_OUT" follow="true">
-            <ThresholdFilter level="${console.level}" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{DEFAULT}] [%p] [%t] [%c{1.}]: %m%n" charset="${console.encoding}"/>
-        </Console>
-        <Async name="sync.console">
-            <AppenderRef ref="std.console"/>
-        </Async>
-        <!--############################################# Rolling file ############################################-->
-        <RollingFile
-                name="std.debug.rolling_file" fileName="${rolling_file.dir}/debug.log"
-                filePattern="${rolling_file.dir}/%d{yyyy-MM}/debug-%d{MM-dd-yyyy}-%i.log.gz"
-        >
-            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{DEFAULT}] [%p] [%t] [%c{1.}]: %m%n" charset="${rolling_file.encoding}"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="${rolling_file.triggering.interval}" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="${rolling_file.triggering.size}"/>
-            </Policies>
-            <DefaultRolloverStrategy max="${rolling_file.rollover.max}">
-                <Delete basePath="${rolling_file.dir}" maxDepth="2">
-                    <IfFileName glob="*/*debug*.log.gz"/>
-                    <IfLastModified age="${rolling_file.rollover.delete_age}"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-        <RollingFile
-                name="std.info.rolling_file" fileName="${rolling_file.dir}/info.log"
-                filePattern="${rolling_file.dir}/%d{yyyy-MM}/info-%d{MM-dd-yyyy}-%i.log.gz"
-        >
-            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{DEFAULT}] [%p] [%t] [%c{1.}]: %m%n" charset="${rolling_file.encoding}"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="${rolling_file.triggering.interval}" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="${rolling_file.triggering.size}"/>
-            </Policies>
-            <DefaultRolloverStrategy max="${rolling_file.rollover.max}">
-                <Delete basePath="${rolling_file.dir}" maxDepth="2">
-                    <IfFileName glob="*/*info*.log.gz"/>
-                    <IfLastModified age="${rolling_file.rollover.delete_age}"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-        <RollingFile
-                name="std.warn.rolling_file" fileName="${rolling_file.dir}/warn.log"
-                filePattern="${rolling_file.dir}/%d{yyyy-MM}/warn-%d{MM-dd-yyyy}-%i.log.gz"
-        >
-            <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{DEFAULT}] [%p] [%t] [%c{1.}]: %m%n" charset="${rolling_file.encoding}"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="${rolling_file.triggering.interval}" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="${rolling_file.triggering.size}"/>
-            </Policies>
-            <DefaultRolloverStrategy max="${rolling_file.rollover.max}">
-                <Delete basePath="${rolling_file.dir}" maxDepth="2">
-                    <IfFileName glob="*/*warn*.log.gz"/>
-                    <IfLastModified age="${rolling_file.rollover.delete_age}"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-        <RollingFile
-                name="std.error.rolling_file" fileName="${rolling_file.dir}/error.log"
-                filePattern="${rolling_file.dir}/%d{yyyy-MM}/error-%d{MM-dd-yyyy}-%i.log.gz"
-        >
-            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{DEFAULT}] [%p] [%t] [%c{1.}]: %m%n" charset="${rolling_file.encoding}"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="${rolling_file.triggering.interval}" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="${rolling_file.triggering.size}"/>
-            </Policies>
-            <DefaultRolloverStrategy max="${rolling_file.rollover.max}">
-                <Delete basePath="${rolling_file.dir}" maxDepth="2">
-                    <IfFileName glob="*/*error*.log.gz"/>
-                    <IfLastModified age="${rolling_file.rollover.delete_age}"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
-        <Async name="sync.console">
-            <AppenderRef ref="std.console"/>
-        </Async>
-        <Async name="sync.debug.rolling_file">
-            <AppenderRef ref="std.debug.rolling_file"/>
-        </Async>
-        <Async name="sync.info.rolling_file">
-            <AppenderRef ref="std.info.rolling_file"/>
-        </Async>
-        <Async name="sync.warn.rolling_file">
-            <AppenderRef ref="std.warn.rolling_file"/>
-        </Async>
-        <Async name="sync.error.rolling_file">
-            <AppenderRef ref="std.error.rolling_file"/>
-        </Async>
-    </Appenders>
-
-    <Loggers>
-        <!--############################################# Root logger #############################################-->
-        <Root level="ALL">
-            <appender-ref ref="sync.console"/>
-            <appender-ref ref="sync.debug.rolling_file"/>
-            <appender-ref ref="sync.info.rolling_file"/>
-            <appender-ref ref="sync.warn.rolling_file"/>
-            <appender-ref ref="sync.error.rolling_file"/>
-        </Root>
-    </Loggers>
-</Configuration>
-```
+- 如果服务运行一天产生的日志超过了配置上限，可上调 `rolling_file.rollover.max` 参数。
+- 如果存在等保需求，日志至少需要保留 6 个月，需要调整 `rolling_file.rollover.delete_age` 参数至 `200D`。
 
 ## rbacds 目录
 
-| 文件名                   | 说明                           |
-|-----------------------|------------------------------|
-| background.properties | 后台服务配置文件，包括线程池的线程数及其它        |
-| exception.properties  | ServiceException 的异常代码的偏移量配置 |
-| launcher.properties   | 启动器配置文件                      |
-| push.properties       | 推送服务配置文件                     |
-| reset.properties      | 重置服务配置文件                     |
+| 文件名                    | 说明                           |
+|------------------------|------------------------------|
+| background.properties  | 后台服务配置文件，包括线程池的线程数及其它        |
+| exception.properties   | ServiceException 的异常代码的偏移量配置 |
+| launcher.properties    | 启动器配置文件                      |
+| local-cache.properties | 本地缓存配置文件                     |
+| push.properties        | 推送服务配置文件                     |
+| reset.properties       | 重置服务配置文件                     |
 
 ### background.properties
 
@@ -720,6 +333,27 @@ resetter.cron.cron=0 0 1 * * *
 您不必对所有的配置项进行配置。
 
 在项目第一次启动之前，您需要修改 `opt/opt-resetter.xml`，决定项目中需要使用哪些重置器。您只需要修改使用的重置器的配置。
+
+### local-cache.properties
+
+本地缓存配置文件，用于配置权限分析相关结果的本地缓存 TTL 及清理间隔。
+
+```properties
+# 权限分析用户分析结果本地缓存的 ttl，单位为毫秒。
+local_cache.permission_user_analysis.ttl=3600000
+# 权限分析用户分析结果本地缓存的清理间隔，单位为毫秒。
+local_cache.permission_user_analysis.cleanup_interval=600000
+#
+# 用户权限分析结果本地缓存的 ttl，单位为毫秒。
+local_cache.scoped_user_permission_analysis.ttl=3600000
+# 用户权限分析结果本地缓存的清理间隔，单位为毫秒。
+local_cache.scoped_user_permission_analysis.cleanup_interval=600000
+#
+# 用户角色分析结果本地缓存的 ttl，单位为毫秒。
+local_cache.user_role_analysis.ttl=3600000
+# 用户角色分析结果本地缓存的清理间隔，单位为毫秒。
+local_cache.user_role_analysis.cleanup_interval=600000
+```
 
 ## redis 目录
 
