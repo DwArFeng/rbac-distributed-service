@@ -5,6 +5,7 @@
 ### 功能构建
 
 - Wiki 更新。
+  - docs/wiki/zh-CN/TelqosCommands.md。
   - docs/wiki/zh-CN/OptDirectory.md。
   - docs/wiki/zh-CN/ConfDirectory.md。
   - docs/wiki/en-US/README.md。

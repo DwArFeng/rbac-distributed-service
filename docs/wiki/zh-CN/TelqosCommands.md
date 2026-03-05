@@ -4,20 +4,30 @@
 
 rbac-distributed-service 提供的 Telqos 命令如下所示：
 
-| 命令                       | 说明           | 可用版本    |
-|--------------------------|--------------|---------|
-| [lc](#lc-命令)             | 列出指令         | 1.1.0.a |
-| [man](#man-命令)           | 显示指令的详细信息    | 1.1.0.a |
-| [datamark](#datamark-命令) | 数据标记服务       | 1.7.0.a |
-| [dubbo](#dubbo-命令)       | 分布式服务上线/下线   | 1.1.0.a |
-| [log4j2](#log4j2-命令)     | Log4j2 命令    | 1.6.0.a |
-| [memory](#memory-命令)     | 内存监视         | 1.1.0.a |
-| [pflc](#pflc-命令)         | 权限过滤查询本地缓存操作 | 1.8.0.a |
-| [pl](#pl-命令)             | 查询权限信息       | 1.6.0.a |
-| [quit](#quit-命令)         | 退出           | 1.1.0.a |
-| [reset](#reset-命令)       | 重置处理器操作/查看   | 1.8.0.a |
-| [shutdown](#shutdown-命令) | 关闭/重启程序      | 1.1.0.a |
-| [ul](#ul-命令)             | 查询用户信息       | 1.6.0.a |
+| 命令                       | 说明              | 可用版本    |
+|--------------------------|-----------------|---------|
+| [lc](#lc-命令)             | 列出指令            | 1.1.0.a |
+| [man](#man-命令)           | 显示指令的详细信息       | 1.1.0.a |
+| [datamark](#datamark-命令) | 数据标记服务          | 1.7.0.a |
+| [dubbo](#dubbo-命令)       | 分布式服务上线/下线      | 1.1.0.a |
+| [flc](#flc-命令)           | 过滤器本地缓存操作       | 2.0.0.a |
+| [inspect](#inspect-命令)   | 查看服务            | 2.0.0.a |
+| [log4j2](#log4j2-命令)     | Log4j2 命令       | 1.6.0.a |
+| [memory](#memory-命令)     | 内存监视            | 1.1.0.a |
+| [pm](#pm-命令)             | 权限操作服务          | 2.0.0.a |
+| [pexp](#pexp-命令)         | 权限表达式操作服务       | 2.0.0.a |
+| [pg](#pg-命令)             | 权限组操作服务         | 2.0.0.a |
+| [pualc](#pualc-命令)       | 权限用户分析本地缓存操作    | 2.0.0.a |
+| [quit](#quit-命令)         | 退出              | 1.1.0.a |
+| [reset](#reset-命令)       | 重置处理器操作/查看      | 1.8.0.a |
+| [shutdown](#shutdown-命令) | 关闭/重启程序         | 1.1.0.a |
+| [spalc](#spalc-命令)       | 作用域权限分析本地缓存操作   | 2.0.0.a |
+| [srpalc](#srpalc-命令)     | 作用域角色权限分析本地缓存操作 | 2.0.0.a |
+| [support](#support-命令)   | 支持操作            | 2.0.0.a |
+| [supalc](#supalc-命令)     | 作用域用户权限分析本地缓存操作 | 2.0.0.a |
+| [uralc](#uralc-命令)       | 用户角色分析本地缓存操作    | 2.0.0.a |
+
+鉴于所有指令都可以实际操作验证，因此本文对于较长的输出将予以省略，省略的部分将会使用 `etc...` 进行标注。
 
 ## lc 命令
 
@@ -158,20 +168,7 @@ As Provider side:
 +-------------------------------------------------------------------------+---+
 |     com.dwarfeng.rbacds.stack.service.PermissionGroupMaintainService    | Y |
 +-------------------------------------------------------------------------+---+
-| com.dwarfeng.rbacds.stack.service.PermissionFilterSupportMaintainService| Y |
-+-------------------------------------------------------------------------+---+
-|          com.dwarfeng.rbacds.stack.service.UserMaintainService          | Y |
-+-------------------------------------------------------------------------+---+
-|          com.dwarfeng.rbacds.stack.service.RoleMaintainService          | Y |
-+-------------------------------------------------------------------------+---+
-|          com.dwarfeng.rbacds.stack.service.PexpMaintainService          | Y |
-+-------------------------------------------------------------------------+---+
-|        com.dwarfeng.rbacds.stack.service.PermissionLookupService        | Y |
-+-------------------------------------------------------------------------+---+
-|       com.dwarfeng.rbacds.stack.service.PermissionMaintainService       | Y |
-+-------------------------------------------------------------------------+---+
-|           com.dwarfeng.rbacds.stack.service.UserLookupService           | Y |
-+-------------------------------------------------------------------------+---+
+etc...
 As Consumer side:
 +-----------------------------------------------+---+
 |             Consumer Service Name             |NUM|
@@ -241,18 +238,18 @@ JVM 可用内存: 1120.00MiB
 OK
 ```
 
-## pflc 命令
+## flc 命令
 
-权限过滤查询本地缓存操作。
+过滤器本地缓存操作。
 
 ### 语法
 
 ```text
-usage: pflc -l permission-filter-type
-pflc -c
-权限过滤查询本地缓存操作
- -c                            清除缓存
- -l <permission-filter-type>   查看指定权限过滤类型的权限过滤器，如果本地缓存中不存在，则尝试抓取
+usage: flc -l filter-type
+flc -c
+过滤器本地缓存操作
+ -c              清除缓存
+ -l <filter-type>   查看指定过滤类型的过滤器，如果本地缓存中不存在，则尝试抓取
 ```
 
 ### 示例
@@ -260,61 +257,251 @@ pflc -c
 #### 清除缓存
 
 ```text
-pflc -c
+flc -c
 缓存已清空
 OK
 ```
 
-#### 查看指定权限过滤类型的权限过滤器
+#### 查看指定过滤类型的过滤器
 
 ```text
-pflc -l level
-permissionFilter: LevelPermissionFilter{}
+flc -l level
+filter: LevelFilter{}
 OK
 ```
 
-## pl 命令
+## inspect 命令
 
-查询权限信息。
+查看服务。
 
 ### 语法
 
 ```text
-usage: pl -u user-id
-pl -r role-id
-查询权限信息
- -r <arg>   查询角色
- -u <arg>   查询用户
+usage: inspect --inspect-permission-user [-json json-string] [-jf
+               json-file]
+inspect --inspect-role-permission [-json json-string] [-jf json-file]
+inspect --inspect-user-permission [-json json-string] [-jf json-file]
+查看服务
+    --inspect-permission-user   查询权限的用户信息
+    --inspect-role-permission   查询角色的权限信息
+    --inspect-user-permission   查询用户的权限信息
+ -jf,--json-file <arg>          JSON 文件
+ -json <arg>                    JSON 字符串
 ```
 
 ### 示例
 
-#### 查询角色
-
 ```text
-pl -r role_for_root
+inspect --inspect-role-permission -jf confext\inspect\inspect-role-permission.json
+查询成功:
 
-执行时间：189ms
+matchedFlag: true
+matchedPermissions: 11
+acceptedPermissions: 11
+rejectedPermissions: 0 (空)
+globalRejectedPermissions: 0 (空)
 
-查询到 90 条权限信息
-
-输入 all 查看所有数据
-输入 begin-end 查看指定范围的数据(开始于 0)
+输入 m 查看 matchedPermissions
+输入 a 查看 acceptedPermissions
+输入 r 查看 rejectedPermissions
+输入 g 查看 globalRejectedPermissions
 输入 q 退出查询
+
+etc...
+q
+OK
 ```
 
-#### 查询用户
+## pm 命令
+
+权限操作服务。
+
+### 语法
 
 ```text
-pl -u root
+usage: pm -create [-json json-string] [-jf json-file]
+pm -update [-json json-string] [-jf json-file]
+pm -remove [-json json-string] [-jf json-file]
+权限操作服务
+ -create                 创建权限
+ -jf,--json-file <arg>   JSON 文件
+ -json <arg>             JSON 字符串
+ -remove                 移除权限
+ -update                 更新权限
+```
 
-执行时间：71ms
+create/update/remove 操作必须配合 `-json` 或 `--json-file` 之一。
+JSON 格式参考
+`WebInputPermissionCreateInfo`、`WebInputPermissionUpdateInfo`、`WebInputPermissionRemoveInfo`。
+JSON 文件可置于 `confext/` 目录（rbac-distributed-service-node 的外部配置文件夹）。
 
-查询到 90 条权限信息
+### 示例
 
-输入 all 查看所有数据
-输入 begin-end 查看指定范围的数据(开始于 0)
+#### 创建权限
+
+```text
+pm -create -jf confext/pm/create.json
+创建成功, key: PermissionKey{scopeStringId='default', permissionStringId='example'}
+OK
+```
+
+#### 更新权限
+
+```text
+pm -update -jf confext/pm/update.json
+更新成功
+OK
+```
+
+#### 移除权限
+
+```text
+pm -remove -jf confext/pm/remove.json
+移除成功
+OK
+```
+
+## pexp 命令
+
+权限表达式操作服务。
+
+### 语法
+
+```text
+usage: pexp -create [-json json-string] [-jf json-file]
+pexp -update [-json json-string] [-jf json-file]
+pexp -remove [-json json-string] [-jf json-file]
+权限表达式操作服务
+ -create                 创建权限表达式
+ -jf,--json-file <arg>   JSON 文件
+ -json <arg>             JSON 字符串
+ -remove                 移除权限表达式
+ -update                 更新权限表达式
+```
+
+create/update/remove 操作必须配合 `-json` 或 `--json-file` 之一。
+JSON 格式参考
+`WebInputPexpCreateInfo`、`WebInputPexpUpdateInfo`、`WebInputPexpRemoveInfo`。
+JSON 文件可置于 `confext/` 目录（rbac-distributed-service-node 的外部配置文件夹）。
+
+### 示例
+
+#### 创建权限表达式
+
+```text
+pexp -create -jf confext/pexp/create.json
+创建成功, key: PexpKey{scopeStringId='default', roleStringId='admin', pexpStringId='example'}
+OK
+```
+
+#### 更新权限表达式
+
+```text
+pexp -update -jf confext/pexp/update.json
+更新成功
+OK
+```
+
+#### 移除权限表达式
+
+```text
+pexp -remove -jf confext/pexp/remove.json
+移除成功
+OK
+```
+
+## pg 命令
+
+权限组操作服务。
+
+### 语法
+
+```text
+usage: pg -create [-json json-string] [-jf json-file]
+pg -update [-json json-string] [-jf json-file]
+pg -remove [-json json-string] [-jf json-file]
+权限组操作服务
+ -create                 创建权限组
+ -jf,--json-file <arg>   JSON 文件
+ -json <arg>             JSON 字符串
+ -remove                 移除权限组
+ -update                 更新权限组
+```
+
+create/update/remove 操作必须配合 `-json` 或 `--json-file` 之一。
+JSON 格式参考
+`WebInputPermissionGroupCreateInfo`、`WebInputPermissionGroupUpdateInfo`、`WebInputPermissionGroupRemoveInfo`。
+JSON 文件可置于 `confext/` 目录（rbac-distributed-service-node 的外部配置文件夹）。
+
+### 示例
+
+#### 创建权限组
+
+```text
+pg -create -jf confext/pg/create.json
+创建成功, key: PermissionGroupKey{scopeStringId='default', permissionGroupStringId='example'}
+OK
+```
+
+#### 更新权限组
+
+```text
+pg -update -jf confext/pg/update.json
+更新成功
+OK
+```
+
+#### 移除权限组
+
+```text
+pg -remove -jf confext/pg/remove.json
+移除成功
+OK
+```
+
+## pualc 命令
+
+权限用户分析本地缓存操作。
+
+### 语法
+
+```text
+usage: pualc -l -ls scopeId -lp permissionId
+pualc -c
+权限用户分析本地缓存操作
+ -c                   清除缓存
+ -l                   查看指定权限键的权限用户分析，如果本地缓存中不存在，则尝试抓取
+ -lp <permissionId>   权限 ID
+ -ls <scopeId>        作用域 ID
+```
+
+### 示例
+
+#### 查看权限用户分析
+
+```text
+pualc -l -ls foo -lp foo.bar.1
+
+matchedUsers: 1
+acceptedRoles: 1
+rejectedRoles: 0 (空)
+
+输入 u 查看 matchedUsers
+输入 a 查看 acceptedRoles
+输入 r 查看 rejectedRoles
 输入 q 退出查询
+
+etc...
+q
+OK
+```
+
+#### 清除缓存
+
+```text
+pualc -c
+缓存已清空
+OK
 ```
 
 ## quit 命令
@@ -353,18 +540,20 @@ usage: reset -l
 reset -start
 reset -stop
 reset -status
-reset -rpf
+reset -rf
+reset -ra
 重置处理器操作/查看
- -l                               查看重置处理器
- -rpf,--reset-permission-filter   执行权限过滤重置操作
- -start                           启动重置处理器
- -status                          查看重置处理器状态
- -stop                            停止重置处理器
+ -l                     查看重置处理器
+ -ra,--reset-analysis   执行分析结果重置操作
+ -rf,--reset-filter     执行过滤重置操作
+ -start                 启动重置处理器
+ -status                查看重置处理器状态
+ -stop                  停止重置处理器
 ```
 
-`reset -rpf` 执行权限过滤重置操作，会执行以下操作：
+`reset -rf` 执行过滤重置操作，会重置权限过滤。
 
-1. 重置权限过滤。
+`reset -ra` 执行分析结果重置操作，会重置各类分析本地缓存。
 
 ### 示例
 
@@ -401,10 +590,18 @@ reset -stop
 OK
 ```
 
-#### 重置记录功能
+#### 执行过滤重置操作
 
 ```text
-reset -rpf
+reset -rf
+重置成功!
+OK
+```
+
+#### 执行分析结果重置操作
+
+```text
+reset -ra
 重置成功!
 OK
 ```
@@ -441,30 +638,194 @@ Y
 再见!
 ```
 
-## ul 命令
+## spalc 命令
 
-查询用户信息。
+作用域权限分析本地缓存操作。
 
 ### 语法
 
 ```text
-usage: ul -p permission-id
-查询用户信息
- -p <arg>   查询权限
+usage: spalc -l -ls scopeId
+spalc -c
+作用域权限分析本地缓存操作
+ -c              清除缓存
+ -l              查看指定作用域键的作用域权限分析，如果本地缓存中不存在，则尝试抓取
+ -ls <scopeId>   作用域 ID
 ```
 
 ### 示例
 
-#### 查询权限
+#### 查看作用域权限分析
 
 ```text
-ul -p ui.pc.menu_visible.toolhouse.visualizer_support
+spalc -l -ls foo
 
-执行时间：74ms
+permissions: 11
 
-查询到 6 条用户信息
-
-输入 all 查看所有数据
-输入 begin-end 查看指定范围的数据(开始于 0)
+输入 p 查看 permissions
 输入 q 退出查询
+
+etc...
+q
+OK
+```
+
+#### 清除缓存
+
+```text
+spalc -c
+缓存已清空
+OK
+```
+
+## srpalc 命令
+
+作用域角色权限分析本地缓存操作。
+
+### 语法
+
+```text
+usage: srpalc -l -ls scopeId -lr roleId
+srpalc -c
+作用域角色权限分析本地缓存操作
+ -c              清除缓存
+ -l              查看指定作用域角色键的作用域角色权限分析，如果本地缓存中不存在，则尝试抓取
+ -lr <roleId>    角色 ID
+ -ls <scopeId>   作用域 ID
+```
+
+### 示例
+
+#### 查看作用域角色权限分析
+
+```text
+srpalc -l -ls foo -lr admin
+
+matchedPermissions: 11
+acceptedPermissions: 11
+rejectedPermissions: 0 (空)
+globalRejectedPermissions: 0 (空)
+
+输入 m 查看 matchedPermissions
+输入 a 查看 acceptedPermissions
+输入 r 查看 rejectedPermissions
+输入 g 查看 globalRejectedPermissions
+输入 q 退出查询
+
+etc...
+q
+OK
+```
+
+#### 清除缓存
+
+```text
+srpalc -c
+缓存已清空
+OK
+```
+
+## support 命令
+
+支持操作。
+
+### 语法
+
+```text
+usage: support --reset-filter
+支持操作
+ --reset-filter   重置过滤器
+```
+
+### 示例
+
+#### 重置过滤器
+
+```text
+support --reset-filter
+重置过滤器成功。
+OK
+```
+
+## supalc 命令
+
+作用域用户权限分析本地缓存操作。
+
+### 语法
+
+```text
+usage: supalc -l -ls scopeId -lu userId
+supalc -c
+作用域用户权限分析本地缓存操作
+ -c              清除缓存
+ -l              查看指定作用域用户键的作用域用户权限分析，如果本地缓存中不存在，则尝试抓取
+ -ls <scopeId>   作用域 ID
+ -lu <userId>    用户 ID
+```
+
+### 示例
+
+#### 查看作用域用户权限分析
+
+```text
+supalc -l -ls foo -lu test.a
+
+matchedPermissions: 11
+roleDetails: 1
+
+输入 p 查看 matchedPermissions
+输入 r 查看 roleDetails
+输入 q 退出查询
+
+etc...
+q
+OK
+```
+
+#### 清除缓存
+
+```text
+supalc -c
+缓存已清空
+OK
+```
+
+## uralc 命令
+
+用户角色分析本地缓存操作。
+
+### 语法
+
+```text
+usage: uralc -l -lu userId
+uralc -c
+用户角色分析本地缓存操作
+ -c             清除缓存
+ -l             查看指定用户键的用户角色分析，如果本地缓存中不存在，则尝试抓取
+ -lu <userId>   用户 ID
+```
+
+### 示例
+
+#### 查看用户角色分析
+
+```text
+uralc -l -lu test.a
+
+matchedRoles: 1
+
+输入 r 查看 matchedRoles
+输入 q 退出查询
+
+etc...
+q
+OK
+```
+
+#### 清除缓存
+
+```text
+uralc -c
+缓存已清空
+OK
 ```
