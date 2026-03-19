@@ -9,7 +9,7 @@ package com.dwarfeng.rbacds.sdk.util;
 public final class Constraints {
 
     /**
-     * ID的长度约束。
+     * ID 的长度约束。
      */
     public static final int LENGTH_ID = 150;
 
