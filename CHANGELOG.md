@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 优化部分 `properties` 文件中的配置项。
+  - database/connection.properties。
+
 - 优化部分说明文件中的格式。
   - libext/README.md。
   - optext/README.md。
