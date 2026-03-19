@@ -138,8 +138,10 @@ public class ScopedPermissionHandler implements PermissionHandler {
                     );
                     continue;
                 }
-                List<PermissionKey> scopeMatchedPermissionKeys = scopeResult.getMatchedPermissions().stream()
-                        .map(Permission::getKey).collect(Collectors.toList());
+                List<PermissionKey> scopeMatchedPermissionKeys =
+                        Optional.ofNullable(scopeResult.getMatchedPermissions()).map(
+                                f -> f.stream().map(Permission::getKey).collect(Collectors.toList())
+                        ).orElse(Collections.emptyList());
                 List<PermissionNodeParseResult> scopeMissingPermissionNodeParseResults =
                         scopePermissionNodeParseResults.stream()
                                 .filter(p -> !scopeMatchedPermissionKeys.contains(p.getPermissionKey()))

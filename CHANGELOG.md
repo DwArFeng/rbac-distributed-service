@@ -27,7 +27,9 @@
 
 ### Bug 修复
 
-- (无)
+- 修复部分类中的方法执行时潜在的空指针异常问题。
+  - com.dwarfeng.rbacds.api.integration.subgrade.LegacyPermissionHandler。
+  - com.dwarfeng.rbacds.api.integration.subgrade.ScopedPermissionHandler。
 
 ### 功能移除
 

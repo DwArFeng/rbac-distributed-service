@@ -9,10 +9,7 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import com.dwarfeng.subgrade.stack.handler.PermissionHandler;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -120,8 +117,9 @@ public class LegacyPermissionHandler implements PermissionHandler {
             if (Objects.isNull(result)) {
                 return permissionStringIds;
             }
-            Collection<String> matchedPermissions = result.getMatchedPermissions().stream()
-                    .map(p -> p.getKey().getPermissionStringId()).collect(Collectors.toSet());
+            Collection<String> matchedPermissions = Optional.ofNullable(result.getMatchedPermissions()).map(
+                    f -> f.stream().map(p -> p.getKey().getPermissionStringId()).collect(Collectors.toSet())
+            ).orElse(Collections.emptySet());
             return permissionStringIds.stream().filter(p -> !matchedPermissions.contains(p))
                     .collect(Collectors.toList());
         } catch (Exception e) {
