@@ -30,6 +30,9 @@
 
 ### Bug 修复
 
+- 修正部分 `properties` 文件中错误的注释内容。
+  - rbacds/reset.properties。
+
 - 修复部分类中的方法执行时潜在的空指针异常问题。
   - com.dwarfeng.rbacds.api.integration.subgrade.LegacyPermissionHandler。
   - com.dwarfeng.rbacds.api.integration.subgrade.ScopedPermissionHandler。
