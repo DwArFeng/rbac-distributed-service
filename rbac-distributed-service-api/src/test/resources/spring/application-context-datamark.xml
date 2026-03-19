@@ -9,7 +9,7 @@
         http://dwarfeng.com/schema/dwarfeng-datamark/dwarfeng-datamark.xsd"
 >
 
-    <!-- User 数据标识 -->
+    <!-- User 数据标识。 -->
     <datamark:handler
             handler-name="userDatamarkHandler"
             resource-url="${datamark.user.resource_url}"
@@ -17,7 +17,7 @@
             update-allowed="${datamark.user.update_allowed}"
     />
 
-    <!-- Role 数据标识 -->
+    <!-- Role 数据标识。 -->
     <datamark:handler
             handler-name="roleDatamarkHandler"
             resource-url="${datamark.role.resource_url}"
@@ -25,7 +25,7 @@
             update-allowed="${datamark.role.update_allowed}"
     />
 
-    <!-- Pexp 数据标识 -->
+    <!-- Pexp 数据标识。 -->
     <datamark:handler
             handler-name="pexpDatamarkHandler"
             resource-url="${datamark.pexp.resource_url}"
@@ -33,7 +33,7 @@
             update-allowed="${datamark.pexp.update_allowed}"
     />
 
-    <!-- Permission 数据标识 -->
+    <!-- Permission 数据标识。 -->
     <datamark:handler
             handler-name="permissionDatamarkHandler"
             resource-url="${datamark.permission.resource_url}"
@@ -41,7 +41,7 @@
             update-allowed="${datamark.permission.update_allowed}"
     />
 
-    <!-- PermissionGroup 数据标识 -->
+    <!-- PermissionGroup 数据标识。 -->
     <datamark:handler
             handler-name="permissionGroupDatamarkHandler"
             resource-url="${datamark.permission_group.resource_url}"
@@ -49,7 +49,7 @@
             update-allowed="${datamark.permission_group.update_allowed}"
     />
 
-    <!-- Scope 数据标识 -->
+    <!-- Scope 数据标识。 -->
     <datamark:handler
             handler-name="scopeDatamarkHandler"
             resource-url="${datamark.scope.resource_url}"
