@@ -7,6 +7,10 @@
 - 更新 README.md。
 
 - Wiki 更新。
+  - docs/wiki/zh-CN/ConfDirectory.md。
+  - docs/wiki/zh-CN/OptDirectory.md。
+  - docs/wiki/zh-CN/SystemRequirements.md。
+  - docs/wiki/zh-CN/UsingTelqos.md。
   - docs/wiki/zh-CN/Introduction.md。
 
 - 优化部分 `properties` 文件中的配置项。
