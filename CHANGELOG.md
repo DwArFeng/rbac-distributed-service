@@ -4,7 +4,8 @@
 
 ### 功能构建
 
-- (无)
+- 优化文件格式。
+  - 优化 `application-context-*.xml` 文件的格式。
 
 ### Bug 修复
 

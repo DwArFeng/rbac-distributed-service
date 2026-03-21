@@ -9,6 +9,8 @@
         http://dubbo.apache.org/schema/dubbo/dubbo.xsd"
 >
 
+    <!-- region 基础配置 -->
+
     <dubbo:application name="rbac-impl-test">
         <dubbo:parameter key="qos.enable" value="false"/>
     </dubbo:application>
@@ -21,4 +23,6 @@
             name="dubbo" port="${dubbo.protocol.dubbo.port}" host="${dubbo.protocol.dubbo.host}"
             dispatcher="message" threadpool="fixed" threads="100"
     />
+
+    <!-- endregion -->
 </beans>
