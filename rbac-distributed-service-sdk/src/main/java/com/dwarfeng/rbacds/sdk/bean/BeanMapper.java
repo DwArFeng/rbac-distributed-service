@@ -24,7 +24,8 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface BeanMapper {
 
-    // -----------------------------------------------------------Subgrade Key-----------------------------------------------------------
+    // region Subgrade Key
+
     FastJsonLongIdKey longIdKeyToFastJson(LongIdKey longIdKey);
 
     @InheritInverseConfiguration
@@ -50,7 +51,10 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     StringIdKey stringIdKeyFromWebInput(WebInputStringIdKey webInputStringIdKey);
 
-    // -----------------------------------------------------------Rbac Key-----------------------------------------------------------
+    // endregion
+
+    // region Rbac Key
+
     FastJsonPermissionGroupKey permissionGroupKeyToFastJson(PermissionGroupKey permissionGroupKey);
 
     @InheritInverseConfiguration
@@ -111,7 +115,10 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     ScopedUserKey scopedUserKeyFromWebInput(WebInputScopedUserKey webInputScopedUserKey);
 
-    // -----------------------------------------------------------Rbac Entity-----------------------------------------------------------
+    // endregion
+
+    // region Rbac Entity
+
     FastJsonFilterSupport filterSupportToFastJson(FilterSupport filterSupport);
 
     @InheritInverseConfiguration
@@ -172,7 +179,10 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     User userFromWebInput(WebInputUser webInputUser);
 
-    // -----------------------------------------------------------Rbac DTO-----------------------------------------------------------
+    // endregion
+
+    // region Rbac DTO
+
     FastJsonPermissionCreateResult permissionCreateResultToFastJson(PermissionCreateResult permissionCreateResult);
 
     @InheritInverseConfiguration
@@ -304,4 +314,6 @@ public interface BeanMapper {
     UserPermissionInspectInfo userPermissionInspectInfoFromWebInput(
             WebInputUserPermissionInspectInfo webInputUserPermissionInspectInfo
     );
+
+    // endregion
 }

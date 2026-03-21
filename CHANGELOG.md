@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- `rbac-distributed-service-sdk` 子模块类优化注释、文档注释格式、代码换行格式。
+  - com.dwarfeng.rbacds.sdk.bean.BeanMapper。
+
 - `rbac-distributed-service-stack` 子模块类优化注释、文档注释格式、代码换行格式。
   - com.dwarfeng.rbacds.stack.service.FilterSupportMaintainService。
   - com.dwarfeng.rbacds.stack.service.RoleMaintainService。
