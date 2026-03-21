@@ -30,7 +30,8 @@
 
 ### Bug 修复
 
-- (无)
+- 修复部分 `HibernateKey` 实体中缺失的 `equals` 和 `hashCode` 方法。
+  - com.dwarfeng.rbacds.impl.bean.key.HibernateRoleUserRelationKey。
 
 ### 功能移除
 
