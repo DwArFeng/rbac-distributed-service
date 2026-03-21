@@ -17,7 +17,8 @@ public class HibernateRoleUserRelation implements Bean {
 
     private static final long serialVersionUID = 632553143161078004L;
 
-    // -----------------------------------------------------------主键-----------------------------------------------------------
+    // region 主键
+
     @Id
     @Column(name = "role_id", length = Constraints.LENGTH_ID, nullable = false)
     private String roleStringId;
@@ -26,14 +27,20 @@ public class HibernateRoleUserRelation implements Bean {
     @Column(name = "user_id", length = Constraints.LENGTH_ID, nullable = false)
     private String userStringId;
 
-    // -----------------------------------------------------------主属性字段-----------------------------------------------------------
+    // endregion
+
+    // region 主属性字段
+
     @Column(name = "enabled", nullable = false)
     private boolean enabled;
 
     @Column(name = "remark", length = Constraints.LENGTH_REMARK)
     private String remark;
 
-    // -----------------------------------------------------------多对一-----------------------------------------------------------
+    // endregion
+
+    // region 多对一
+
     @ManyToOne(targetEntity = HibernateRole.class)
     @JoinColumns({ //
             @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = false, updatable = false), //
@@ -46,7 +53,10 @@ public class HibernateRoleUserRelation implements Bean {
     })
     private HibernateUser user;
 
-    // -----------------------------------------------------------审计-----------------------------------------------------------
+    // endregion
+
+    // region 审计
+
     @DatamarkField(handlerName = "roleDatamarkHandler")
     @Column(
             name = "created_datamark",
@@ -65,7 +75,10 @@ public class HibernateRoleUserRelation implements Bean {
     public HibernateRoleUserRelation() {
     }
 
-    // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
+    // endregion
+
+    // region 映射用属性区
+
     public HibernateRoleUserRelationKey getKey() {
         if (Objects.isNull(roleStringId) || Objects.isNull(userStringId)) {
             return null;
@@ -83,7 +96,10 @@ public class HibernateRoleUserRelation implements Bean {
         }
     }
 
-    // -----------------------------------------------------------常规属性区-----------------------------------------------------------
+    // endregion
+
+    // region 常规属性区
+
     public String getRoleStringId() {
         return roleStringId;
     }
@@ -147,6 +163,8 @@ public class HibernateRoleUserRelation implements Bean {
     public void setModifiedDatamark(String modifiedDatamark) {
         this.modifiedDatamark = modifiedDatamark;
     }
+
+    // endregion
 
     @Override
     public String toString() {

@@ -19,7 +19,8 @@ public class HibernatePermissionGroup implements Bean {
 
     private static final long serialVersionUID = -2219407764326029466L;
 
-    // -----------------------------------------------------------主键-----------------------------------------------------------
+    // region 主键
+
     @Id
     @Column(name = "scope_id", length = Constraints.LENGTH_ID, nullable = false)
     private String scopeStringId;
@@ -28,21 +29,30 @@ public class HibernatePermissionGroup implements Bean {
     @Column(name = "permission_group_id", length = Constraints.LENGTH_ID, nullable = false)
     private String permissionGroupStringId;
 
-    // -----------------------------------------------------------外键-----------------------------------------------------------
+    // endregion
+
+    // region 外键
+
     @Column(name = "parent_scope_id", length = Constraints.LENGTH_ID)
     private String parentScopeStringId;
 
     @Column(name = "parent_permission_group_id", length = Constraints.LENGTH_ID)
     private String parentPermissionGroupStringId;
 
-    // -----------------------------------------------------------主属性字段-----------------------------------------------------------
+    // endregion
+
+    // region 主属性字段
+
     @Column(name = "name", length = Constraints.LENGTH_NAME)
     private String name;
 
     @Column(name = "remark", length = Constraints.LENGTH_REMARK)
     private String remark;
 
-    // -----------------------------------------------------------多对一-----------------------------------------------------------
+    // endregion
+
+    // region 多对一
+
     @ManyToOne(targetEntity = HibernateScope.class)
     @JoinColumns({ //
             @JoinColumn(name = "scope_id", referencedColumnName = "id", insertable = false, updatable = false), //
@@ -61,14 +71,20 @@ public class HibernatePermissionGroup implements Bean {
     })
     private HibernatePermissionGroup parent;
 
-    // -----------------------------------------------------------一对多-----------------------------------------------------------
+    // endregion
+
+    // region 一对多
+
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernatePermissionGroup.class, mappedBy = "parent")
     private Set<HibernatePermissionGroup> children = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernatePermission.class, mappedBy = "group")
     private Set<HibernatePermission> permissions = new HashSet<>();
 
-    // -----------------------------------------------------------审计-----------------------------------------------------------
+    // endregion
+
+    // region 审计
+
     @DatamarkField(handlerName = "permissionGroupDatamarkHandler")
     @Column(
             name = "created_datamark",
@@ -87,7 +103,10 @@ public class HibernatePermissionGroup implements Bean {
     public HibernatePermissionGroup() {
     }
 
-    // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
+    // endregion
+
+    // region 映射用属性区
+
     public HibernatePermissionGroupKey getKey() {
         if (Objects.isNull(scopeStringId) || Objects.isNull(permissionGroupStringId)) {
             return null;
@@ -122,7 +141,10 @@ public class HibernatePermissionGroup implements Bean {
         }
     }
 
-    // -----------------------------------------------------------常规属性区-----------------------------------------------------------
+    // endregion
+
+    // region 常规属性区
+
     public String getScopeStringId() {
         return scopeStringId;
     }
@@ -219,6 +241,8 @@ public class HibernatePermissionGroup implements Bean {
         this.modifiedDatamark = modifiedDatamark;
     }
 
+    // endregion
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
@@ -233,4 +257,5 @@ public class HibernatePermissionGroup implements Bean {
                 "createdDatamark = " + createdDatamark + ", " +
                 "modifiedDatamark = " + modifiedDatamark + ")";
     }
+
 }

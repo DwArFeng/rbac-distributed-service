@@ -17,12 +17,16 @@ public class HibernateFilterSupport implements Bean {
 
     private static final long serialVersionUID = -6318076469772858308L;
 
-    // -----------------------------------------------------------主键-----------------------------------------------------------
+    // region 主键
+
     @Id
     @Column(name = "id", length = Constraints.LENGTH_TYPE, nullable = false, unique = true)
     private String stringId;
 
-    // -----------------------------------------------------------主属性字段-----------------------------------------------------------
+    // endregion
+
+    // region 主属性字段
+
     @Column(name = "label", length = 50, nullable = false)
     private String label;
 
@@ -35,7 +39,10 @@ public class HibernateFilterSupport implements Bean {
     public HibernateFilterSupport() {
     }
 
-    // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
+    // endregion
+
+    // region 映射用属性区
+
     public HibernateStringIdKey getKey() {
         if (Objects.isNull(stringId)) {
             return null;
@@ -50,7 +57,10 @@ public class HibernateFilterSupport implements Bean {
         this.stringId = key.getStringId();
     }
 
-    // -----------------------------------------------------------常规属性区-----------------------------------------------------------
+    // endregion
+
+    // region 常规属性区
+
     public String getStringId() {
         return stringId;
     }
@@ -82,6 +92,8 @@ public class HibernateFilterSupport implements Bean {
     public void setExamplePattern(String examplePattern) {
         this.examplePattern = examplePattern;
     }
+
+    // endregion
 
     @Override
     public String toString() {

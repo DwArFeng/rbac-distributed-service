@@ -17,7 +17,8 @@ public class HibernatePexp implements Bean {
 
     private static final long serialVersionUID = -847743809356659532L;
 
-    // -----------------------------------------------------------主键-----------------------------------------------------------
+    // region 主键
+
     @Id
     @Column(name = "scope_id", length = Constraints.LENGTH_ID, nullable = false)
     private String scopeStringId;
@@ -29,14 +30,20 @@ public class HibernatePexp implements Bean {
     @Column(name = "pexp_id", nullable = false)
     private String pexpStringId;
 
-    // -----------------------------------------------------------主属性字段-----------------------------------------------------------
+    // endregion
+
+    // region 主属性字段
+
     @Column(name = "content", length = Constraints.LENGTH_CONTENT, nullable = false)
     private String content;
 
     @Column(name = "remark", length = Constraints.LENGTH_REMARK)
     private String remark;
 
-    // -----------------------------------------------------------多对一-----------------------------------------------------------
+    // endregion
+
+    // region 多对一
+
     @ManyToOne(targetEntity = HibernateScope.class)
     @JoinColumns({ //
             @JoinColumn(name = "scope_id", referencedColumnName = "id", insertable = false, updatable = false), //
@@ -49,7 +56,10 @@ public class HibernatePexp implements Bean {
     })
     private HibernateRole role;
 
-    // -----------------------------------------------------------审计-----------------------------------------------------------
+    // endregion
+
+    // region 审计
+
     @DatamarkField(handlerName = "pexpDatamarkHandler")
     @Column(
             name = "created_datamark",
@@ -68,7 +78,10 @@ public class HibernatePexp implements Bean {
     public HibernatePexp() {
     }
 
-    // -----------------------------------------------------------映射用属性区-----------------------------------------------------------
+    // endregion
+
+    // region 映射用属性区
+
     public HibernatePexpKey getKey() {
         if (Objects.isNull(scopeStringId) || Objects.isNull(roleStringId) || Objects.isNull(pexpStringId)) {
             return null;
@@ -88,7 +101,10 @@ public class HibernatePexp implements Bean {
         }
     }
 
-    // -----------------------------------------------------------常规属性区-----------------------------------------------------------
+    // endregion
+
+    // region 常规属性区
+
     public String getScopeStringId() {
         return scopeStringId;
     }
@@ -160,6 +176,8 @@ public class HibernatePexp implements Bean {
     public void setModifiedDatamark(String modifiedDatamark) {
         this.modifiedDatamark = modifiedDatamark;
     }
+
+    // endregion
 
     @Override
     public String toString() {

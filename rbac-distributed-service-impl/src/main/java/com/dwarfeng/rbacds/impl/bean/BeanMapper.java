@@ -30,7 +30,8 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface BeanMapper {
 
-    // -----------------------------------------------------------Subgrade Key-----------------------------------------------------------
+    // region Subgrade Key
+
     HibernateLongIdKey longIdKeyToHibernate(LongIdKey longIdKey);
 
     @InheritInverseConfiguration
@@ -41,7 +42,10 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     StringIdKey stringIdKeyFromHibernate(HibernateStringIdKey hibernateStringIdKey);
 
-    // -----------------------------------------------------------Rbac Key-----------------------------------------------------------
+    // endregion
+
+    // region Rbac Key
+
     HibernatePermissionGroupKey permissionGroupKeyToHibernate(PermissionGroupKey permissionGroupKey);
 
     @InheritInverseConfiguration
@@ -62,7 +66,10 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     RoleUserRelationKey roleUserRelationKeyFromHibernate(HibernateRoleUserRelationKey hibernateRoleUserRelationKey);
 
-    // -----------------------------------------------------------Rbac Entity-----------------------------------------------------------
+    // endregion
+
+    // region Rbac Entity
+
     @Mapping(target = "scopeStringId", ignore = true)
     @Mapping(target = "scope", ignore = true)
     @Mapping(target = "permissionStringId", ignore = true)
@@ -149,4 +156,6 @@ public interface BeanMapper {
 
     @InheritInverseConfiguration
     Scope scopeFromHibernate(HibernateScope hibernateScope);
+
+// endregion
 }
