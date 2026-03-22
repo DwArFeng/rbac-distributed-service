@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 部分运维指令选项优化，以简化输入。
+  - com.dwarfeng.rbacds.impl.service.telqos.InspectCommand。
+
 - 查看服务 API 优化，新增视图化查询接口并废弃旧接口。
   - 新增 inspectUserViewOfPermission 方法。
   - 新增 inspectPermissionViewOfRole 方法。

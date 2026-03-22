@@ -39,9 +39,12 @@ public class InspectCommand extends CliCommand {
     private static final String COMMAND_OPTION_ROLE_PERMISSION = "inspect-role-permission";
     private static final String COMMAND_OPTION_USER_PERMISSION = "inspect-user-permission";
 
-    private static final String COMMAND_OPTION_USER_VIEW_OF_PERMISSION = "inspect-user-view-of-permission";
-    private static final String COMMAND_OPTION_PERMISSION_VIEW_OF_ROLE = "inspect-permission-view-of-role";
-    private static final String COMMAND_OPTION_PERMISSION_VIEW_OF_USER = "inspect-permission-view-of-user";
+    private static final String COMMAND_OPTION_USER_VIEW_OF_PERMISSION = "uvp";
+    private static final String COMMAND_OPTION_USER_VIEW_OF_PERMISSION_LONG_OPT = "inspect-user-view-of-permission";
+    private static final String COMMAND_OPTION_PERMISSION_VIEW_OF_ROLE = "pvr";
+    private static final String COMMAND_OPTION_PERMISSION_VIEW_OF_ROLE_LONG_OPT = "inspect-permission-view-of-role";
+    private static final String COMMAND_OPTION_PERMISSION_VIEW_OF_USER = "pvu";
+    private static final String COMMAND_OPTION_PERMISSION_VIEW_OF_USER_LONG_OPT = "inspect-permission-view-of-user";
 
     private static final String[] COMMAND_OPTION_ARRAY = new String[]{
             COMMAND_OPTION_PERMISSION_USER,
@@ -111,12 +114,21 @@ public class InspectCommand extends CliCommand {
                 .desc("(已废弃) 查询角色的权限信息，请使用 inspect-permission-view-of-role").build());
         list.add(Option.builder().longOpt(COMMAND_OPTION_USER_PERMISSION)
                 .desc("(已废弃) 查询用户的权限信息，请使用 inspect-permission-view-of-user").build());
-        list.add(Option.builder().longOpt(COMMAND_OPTION_USER_VIEW_OF_PERMISSION)
-                .desc("以权限为依据查看用户视图").build());
-        list.add(Option.builder().longOpt(COMMAND_OPTION_PERMISSION_VIEW_OF_ROLE)
-                .desc("以角色为依据查看权限视图").build());
-        list.add(Option.builder().longOpt(COMMAND_OPTION_PERMISSION_VIEW_OF_USER)
-                .desc("以用户为依据查看权限视图").build());
+        list.add(
+                Option.builder(COMMAND_OPTION_USER_VIEW_OF_PERMISSION)
+                        .longOpt(COMMAND_OPTION_USER_VIEW_OF_PERMISSION_LONG_OPT)
+                        .desc("以权限为依据查看用户视图").build()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_PERMISSION_VIEW_OF_ROLE)
+                        .longOpt(COMMAND_OPTION_PERMISSION_VIEW_OF_ROLE_LONG_OPT)
+                        .desc("以角色为依据查看权限视图").build()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_PERMISSION_VIEW_OF_USER)
+                        .longOpt(COMMAND_OPTION_PERMISSION_VIEW_OF_USER_LONG_OPT)
+                        .desc("以用户为依据查看权限视图").build()
+        );
         list.add(
                 Option.builder(COMMAND_OPTION_JSON).desc("JSON 字符串").hasArg().type(String.class).build()
         );
