@@ -15,9 +15,17 @@ import java.util.stream.Collectors;
 /**
  * WebInput 用户权限查看信息。
  *
+ * <p>
+ * 该方法命名易引起歧义，已由 {@link WebInputPermissionViewOfUserInspectInfo} 替代。
+ *
  * @author DwArFeng
+ * @see WebInputPermissionViewOfUserInspectInfo
  * @since 2.0.0
+ * @deprecated 命名歧义，请使用 {@link WebInputPermissionViewOfUserInspectInfo}
  */
+// BeanMapper 还在使用该类，故忽略相关警告。
+@SuppressWarnings("DeprecatedIsStillUsed")
+@Deprecated
 public class WebInputUserPermissionInspectInfo implements Bean {
 
     private static final long serialVersionUID = 8965923138882144497L;

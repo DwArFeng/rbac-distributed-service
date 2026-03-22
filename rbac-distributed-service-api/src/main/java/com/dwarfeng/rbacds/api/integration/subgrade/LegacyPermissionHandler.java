@@ -1,7 +1,7 @@
 package com.dwarfeng.rbacds.api.integration.subgrade;
 
-import com.dwarfeng.rbacds.stack.bean.dto.UserPermissionInspectInfo;
-import com.dwarfeng.rbacds.stack.bean.dto.UserPermissionInspectResult;
+import com.dwarfeng.rbacds.stack.bean.dto.PermissionViewOfUserInspectInfo;
+import com.dwarfeng.rbacds.stack.bean.dto.PermissionViewOfUserInspectResult;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.rbacds.stack.bean.key.ScopedUserKey;
 import com.dwarfeng.rbacds.stack.service.InspectService;
@@ -45,7 +45,7 @@ public class LegacyPermissionHandler implements PermissionHandler {
             // 构建查询参数。
             ScopedUserKey scopedUserKey = new ScopedUserKey(scopeStringId, userStringId);
             PermissionKey permissionKeyMatched = new PermissionKey(scopeStringId, permissionStringId);
-            UserPermissionInspectInfo inspectInfo = new UserPermissionInspectInfo(
+            PermissionViewOfUserInspectInfo inspectInfo = new PermissionViewOfUserInspectInfo(
                     scopedUserKey,
                     permissionKeyMatched,
                     null,
@@ -53,7 +53,7 @@ public class LegacyPermissionHandler implements PermissionHandler {
                     false
             );
             // 执行查询。
-            UserPermissionInspectResult result = inspectService.inspectUserPermission(inspectInfo);
+            PermissionViewOfUserInspectResult result = inspectService.inspectPermissionViewOfUser(inspectInfo);
             // 输出结果。
             if (Objects.isNull(result)) {
                 return false;
@@ -75,7 +75,7 @@ public class LegacyPermissionHandler implements PermissionHandler {
             ScopedUserKey scopedUserKey = new ScopedUserKey(scopeStringId, userStringId);
             List<PermissionKey> allOfPermissionKeysMatched = permissionStringIds.stream()
                     .map(p -> new PermissionKey(scopeStringId, p)).collect(Collectors.toList());
-            UserPermissionInspectInfo inspectInfo = new UserPermissionInspectInfo(
+            PermissionViewOfUserInspectInfo inspectInfo = new PermissionViewOfUserInspectInfo(
                     scopedUserKey,
                     null,
                     allOfPermissionKeysMatched,
@@ -83,7 +83,7 @@ public class LegacyPermissionHandler implements PermissionHandler {
                     false
             );
             // 执行查询。
-            UserPermissionInspectResult result = inspectService.inspectUserPermission(inspectInfo);
+            PermissionViewOfUserInspectResult result = inspectService.inspectPermissionViewOfUser(inspectInfo);
             // 输出结果。
             if (Objects.isNull(result)) {
                 return false;
@@ -104,7 +104,7 @@ public class LegacyPermissionHandler implements PermissionHandler {
             }
             // 构建查询参数。
             ScopedUserKey scopedUserKey = new ScopedUserKey(scopeStringId, userStringId);
-            UserPermissionInspectInfo inspectInfo = new UserPermissionInspectInfo(
+            PermissionViewOfUserInspectInfo inspectInfo = new PermissionViewOfUserInspectInfo(
                     scopedUserKey,
                     null,
                     null,
@@ -112,7 +112,7 @@ public class LegacyPermissionHandler implements PermissionHandler {
                     false
             );
             // 执行查询。
-            UserPermissionInspectResult result = inspectService.inspectUserPermission(inspectInfo);
+            PermissionViewOfUserInspectResult result = inspectService.inspectPermissionViewOfUser(inspectInfo);
             // 计算结果。
             if (Objects.isNull(result)) {
                 return permissionStringIds;

@@ -4,6 +4,14 @@
 
 ### 功能构建
 
+- 查看服务 API 优化，新增视图化查询接口并废弃旧接口。
+  - 新增 inspectUserViewOfPermission 方法。
+  - 新增 inspectPermissionViewOfRole 方法。
+  - 新增 inspectPermissionViewOfUser 方法。
+  - 过时 inspectPermissionUser 方法。
+  - 过时 inspectRolePermission 方法。
+  - 过时 inspectUserPermission 方法。
+
 - `rbac-distributed-service-impl` 子模块类优化注释、文档注释格式、代码换行格式。
   - com.dwarfeng.rbacds.impl.bean.BeanMapper。
   - com.dwarfeng.rbacds.impl.bean.entity.HibernateFilterSupport。

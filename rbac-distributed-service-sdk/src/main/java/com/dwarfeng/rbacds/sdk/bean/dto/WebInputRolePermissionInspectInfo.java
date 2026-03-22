@@ -15,9 +15,17 @@ import java.util.stream.Collectors;
 /**
  * WebInput 角色权限查看信息。
  *
+ * <p>
+ * 该方法命名易引起歧义，已由 {@link WebInputPermissionViewOfRoleInspectInfo} 替代。
+ *
  * @author DwArFeng
+ * @see WebInputPermissionViewOfRoleInspectInfo
  * @since 2.0.0
+ * @deprecated 命名歧义，请使用 {@link WebInputPermissionViewOfRoleInspectInfo}
  */
+// BeanMapper 还在使用该类，故忽略相关警告。
+@SuppressWarnings("DeprecatedIsStillUsed")
+@Deprecated
 public class WebInputRolePermissionInspectInfo implements Bean {
 
     private static final long serialVersionUID = -4092797872958142381L;

@@ -25,6 +25,7 @@ public class InspectQosServiceImpl implements InspectQosService {
 
     @Nullable
     @Override
+    @Deprecated
     public PermissionUserInspectResult inspectPermissionUser(PermissionUserInspectInfo info) throws ServiceException {
         try {
             return inspectHandler.inspectPermissionUser(info);
@@ -35,6 +36,18 @@ public class InspectQosServiceImpl implements InspectQosService {
 
     @Nullable
     @Override
+    public UserViewOfPermissionInspectResult inspectUserViewOfPermission(UserViewOfPermissionInspectInfo info)
+            throws ServiceException {
+        try {
+            return inspectHandler.inspectUserViewOfPermission(info);
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logParse("以权限为依据查看用户视图时发生异常", LogLevel.WARN, e, sem);
+        }
+    }
+
+    @Nullable
+    @Override
+    @Deprecated
     public RolePermissionInspectResult inspectRolePermission(RolePermissionInspectInfo info) throws ServiceException {
         try {
             return inspectHandler.inspectRolePermission(info);
@@ -45,11 +58,34 @@ public class InspectQosServiceImpl implements InspectQosService {
 
     @Nullable
     @Override
+    public PermissionViewOfRoleInspectResult inspectPermissionViewOfRole(PermissionViewOfRoleInspectInfo info)
+            throws ServiceException {
+        try {
+            return inspectHandler.inspectPermissionViewOfRole(info);
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logParse("以角色为依据查看权限视图时发生异常", LogLevel.WARN, e, sem);
+        }
+    }
+
+    @Nullable
+    @Override
+    @Deprecated
     public UserPermissionInspectResult inspectUserPermission(UserPermissionInspectInfo info) throws ServiceException {
         try {
             return inspectHandler.inspectUserPermission(info);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logParse("查询用户的权限信息时发生异常", LogLevel.WARN, e, sem);
+        }
+    }
+
+    @Nullable
+    @Override
+    public PermissionViewOfUserInspectResult inspectPermissionViewOfUser(PermissionViewOfUserInspectInfo info)
+            throws ServiceException {
+        try {
+            return inspectHandler.inspectPermissionViewOfUser(info);
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logParse("以用户为依据查看权限视图时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

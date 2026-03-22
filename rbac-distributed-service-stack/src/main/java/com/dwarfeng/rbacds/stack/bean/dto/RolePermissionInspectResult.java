@@ -8,9 +8,16 @@ import java.util.List;
 /**
  * 角色权限查看结果。
  *
+ * <p>
+ * 该方法命名易引起歧义，已由 {@link PermissionViewOfRoleInspectResult} 替代。
+ * 新命名采用 {@code inspectXxxViewOfXxx} 格式，使「查询依据」与「查询对象」的关系更加明确。
+ *
  * @author DwArFeng
+ * @see PermissionViewOfRoleInspectResult
  * @since 2.0.0
+ * @deprecated 命名歧义，请使用 {@link PermissionViewOfRoleInspectResult}
  */
+@Deprecated
 public class RolePermissionInspectResult implements Dto {
 
     private static final long serialVersionUID = 1556849230788951483L;

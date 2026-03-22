@@ -14,9 +14,17 @@ import java.util.stream.Collectors;
 /**
  * FastJson 用户权限查看结果。
  *
+ * <p>
+ * 该方法命名易引起歧义，已由 {@link FastJsonPermissionViewOfUserInspectResult} 替代。
+ *
  * @author DwArFeng
+ * @see FastJsonPermissionViewOfUserInspectResult
  * @since 2.0.0
+ * @deprecated 命名歧义，请使用 {@link FastJsonPermissionViewOfUserInspectResult}
  */
+// BeanMapper 还在使用该类，故忽略相关警告。
+@SuppressWarnings("DeprecatedIsStillUsed")
+@Deprecated
 public class FastJsonUserPermissionInspectResult implements Bean {
 
     private static final long serialVersionUID = 751555302923665629L;
@@ -100,6 +108,7 @@ public class FastJsonUserPermissionInspectResult implements Bean {
 
         private static final long serialVersionUID = 376643111973807379L;
 
+        @SuppressWarnings("DuplicatedCode")
         public static FastJsonRoleDetail of(UserPermissionInspectResult.RoleDetail roleDetail) {
             if (Objects.isNull(roleDetail)) {
                 return null;

@@ -14,9 +14,17 @@ import java.util.stream.Collectors;
 /**
  * FastJson 权限用户查看结果。
  *
+ * <p>
+ * 该方法命名易引起歧义，已由 {@link FastJsonUserViewOfPermissionInspectResult} 替代。
+ *
  * @author DwArFeng
+ * @see FastJsonUserViewOfPermissionInspectResult
  * @since 2.0.0
+ * @deprecated 命名歧义，请使用 {@link FastJsonUserViewOfPermissionInspectResult}
  */
+// BeanMapper 还在使用该类，故忽略相关警告。
+@SuppressWarnings("DeprecatedIsStillUsed")
+@Deprecated
 public class FastJsonPermissionUserInspectResult implements Bean {
 
     private static final long serialVersionUID = 9122753236679536187L;

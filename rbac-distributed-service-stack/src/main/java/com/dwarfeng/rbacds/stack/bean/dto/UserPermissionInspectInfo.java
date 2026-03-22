@@ -9,9 +9,16 @@ import java.util.List;
 /**
  * 用户权限查看信息。
  *
+ * <p>
+ * 该方法命名易引起歧义，已由 {@link PermissionViewOfUserInspectInfo} 替代。
+ * 新命名采用 {@code inspectXxxViewOfXxx} 格式，使「查询依据」与「查询对象」的关系更加明确。
+ *
  * @author DwArFeng
+ * @see PermissionViewOfUserInspectInfo
  * @since 2.0.0
+ * @deprecated 命名歧义，请使用 {@link PermissionViewOfUserInspectInfo}
  */
+@Deprecated
 public class UserPermissionInspectInfo implements Dto {
 
     private static final long serialVersionUID = -756178334426696049L;

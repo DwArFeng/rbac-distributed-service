@@ -1,9 +1,7 @@
 package com.dwarfeng.rbacds.impl.service.telqos;
 
 import com.alibaba.fastjson.JSON;
-import com.dwarfeng.rbacds.sdk.bean.dto.WebInputPermissionUserInspectInfo;
-import com.dwarfeng.rbacds.sdk.bean.dto.WebInputRolePermissionInspectInfo;
-import com.dwarfeng.rbacds.sdk.bean.dto.WebInputUserPermissionInspectInfo;
+import com.dwarfeng.rbacds.sdk.bean.dto.*;
 import com.dwarfeng.rbacds.stack.bean.dto.*;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
@@ -41,10 +39,17 @@ public class InspectCommand extends CliCommand {
     private static final String COMMAND_OPTION_ROLE_PERMISSION = "inspect-role-permission";
     private static final String COMMAND_OPTION_USER_PERMISSION = "inspect-user-permission";
 
+    private static final String COMMAND_OPTION_USER_VIEW_OF_PERMISSION = "inspect-user-view-of-permission";
+    private static final String COMMAND_OPTION_PERMISSION_VIEW_OF_ROLE = "inspect-permission-view-of-role";
+    private static final String COMMAND_OPTION_PERMISSION_VIEW_OF_USER = "inspect-permission-view-of-user";
+
     private static final String[] COMMAND_OPTION_ARRAY = new String[]{
             COMMAND_OPTION_PERMISSION_USER,
             COMMAND_OPTION_ROLE_PERMISSION,
-            COMMAND_OPTION_USER_PERMISSION
+            COMMAND_OPTION_USER_PERMISSION,
+            COMMAND_OPTION_USER_VIEW_OF_PERMISSION,
+            COMMAND_OPTION_PERMISSION_VIEW_OF_ROLE,
+            COMMAND_OPTION_PERMISSION_VIEW_OF_USER
     };
 
     private static final String COMMAND_OPTION_JSON = "json";
@@ -66,11 +71,26 @@ public class InspectCommand extends CliCommand {
             CommandUtil.concatOptionPrefix(COMMAND_OPTION_USER_PERMISSION) + " [" +
             CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
             CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
+    private static final String CMD_LINE_SYNTAX_USER_VIEW_OF_PERMISSION = IDENTITY + " " +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_USER_VIEW_OF_PERMISSION) + " [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
+    private static final String CMD_LINE_SYNTAX_PERMISSION_VIEW_OF_ROLE = IDENTITY + " " +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_PERMISSION_VIEW_OF_ROLE) + " [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
+    private static final String CMD_LINE_SYNTAX_PERMISSION_VIEW_OF_USER = IDENTITY + " " +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_PERMISSION_VIEW_OF_USER) + " [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
+            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
 
     private static final String[] CMD_LINE_ARRAY = new String[]{
             CMD_LINE_SYNTAX_PERMISSION_USER,
             CMD_LINE_SYNTAX_ROLE_PERMISSION,
-            CMD_LINE_SYNTAX_USER_PERMISSION
+            CMD_LINE_SYNTAX_USER_PERMISSION,
+            CMD_LINE_SYNTAX_USER_VIEW_OF_PERMISSION,
+            CMD_LINE_SYNTAX_PERMISSION_VIEW_OF_ROLE,
+            CMD_LINE_SYNTAX_PERMISSION_VIEW_OF_USER
     };
 
     private static final String CMD_LINE_SYNTAX = CommandUtil.syntax(CMD_LINE_ARRAY);
@@ -85,9 +105,18 @@ public class InspectCommand extends CliCommand {
     @Override
     protected List<Option> buildOptions() {
         List<Option> list = new ArrayList<>();
-        list.add(Option.builder().longOpt(COMMAND_OPTION_PERMISSION_USER).desc("查询权限的用户信息").build());
-        list.add(Option.builder().longOpt(COMMAND_OPTION_ROLE_PERMISSION).desc("查询角色的权限信息").build());
-        list.add(Option.builder().longOpt(COMMAND_OPTION_USER_PERMISSION).desc("查询用户的权限信息").build());
+        list.add(Option.builder().longOpt(COMMAND_OPTION_PERMISSION_USER)
+                .desc("(已废弃) 查询权限的用户信息，请使用 inspect-user-view-of-permission").build());
+        list.add(Option.builder().longOpt(COMMAND_OPTION_ROLE_PERMISSION)
+                .desc("(已废弃) 查询角色的权限信息，请使用 inspect-permission-view-of-role").build());
+        list.add(Option.builder().longOpt(COMMAND_OPTION_USER_PERMISSION)
+                .desc("(已废弃) 查询用户的权限信息，请使用 inspect-permission-view-of-user").build());
+        list.add(Option.builder().longOpt(COMMAND_OPTION_USER_VIEW_OF_PERMISSION)
+                .desc("以权限为依据查看用户视图").build());
+        list.add(Option.builder().longOpt(COMMAND_OPTION_PERMISSION_VIEW_OF_ROLE)
+                .desc("以角色为依据查看权限视图").build());
+        list.add(Option.builder().longOpt(COMMAND_OPTION_PERMISSION_VIEW_OF_USER)
+                .desc("以用户为依据查看权限视图").build());
         list.add(
                 Option.builder(COMMAND_OPTION_JSON).desc("JSON 字符串").hasArg().type(String.class).build()
         );
@@ -117,12 +146,24 @@ public class InspectCommand extends CliCommand {
                 case COMMAND_OPTION_USER_PERMISSION:
                     handleInspectUserPermission(context, cmd);
                     break;
+                case COMMAND_OPTION_USER_VIEW_OF_PERMISSION:
+                    handleInspectUserViewOfPermission(context, cmd);
+                    break;
+                case COMMAND_OPTION_PERMISSION_VIEW_OF_ROLE:
+                    handleInspectPermissionViewOfRole(context, cmd);
+                    break;
+                case COMMAND_OPTION_PERMISSION_VIEW_OF_USER:
+                    handleInspectPermissionViewOfUser(context, cmd);
+                    break;
             }
         } catch (Exception e) {
             throw new TelqosException(e);
         }
     }
 
+    // 仍然需要保留旧指令选项，故忽略相关警告。
+    @SuppressWarnings("DeprecatedIsStillUsed")
+    @Deprecated
     private void handleInspectPermissionUser(Context context, CommandLine cmd) throws Exception {
         PermissionUserInspectInfo info;
 
@@ -149,18 +190,50 @@ public class InspectCommand extends CliCommand {
         // 查询权限的用户信息。
         PermissionUserInspectResult result = inspectQosService.inspectPermissionUser(info);
 
-        // 输出结果。
+        // 输出结果（转换为新 DTO 进行交互）。
         if (Objects.isNull(result)) {
             context.sendMessage("查询结果: null");
         } else {
             context.sendMessage("查询成功:");
-            interactPermissionUserResult(context, result);
+            interactUserViewOfPermissionResult(
+                    context, permissionUserInspectResultToUserViewOfPermissionInspectResult(result)
+            );
+        }
+    }
+
+    private void handleInspectUserViewOfPermission(Context context, CommandLine cmd) throws Exception {
+        UserViewOfPermissionInspectInfo info;
+
+        if (cmd.hasOption(COMMAND_OPTION_JSON)) {
+            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            info = WebInputUserViewOfPermissionInspectInfo.toStackBean(
+                    JSON.parseObject(json, WebInputUserViewOfPermissionInspectInfo.class)
+            );
+        } else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
+            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            try (FileInputStream in = new FileInputStream(jsonFile)) {
+                info = WebInputUserViewOfPermissionInspectInfo.toStackBean(
+                        JSON.parseObject(in, WebInputUserViewOfPermissionInspectInfo.class)
+                );
+            }
+        } else {
+            throw new UnsupportedOperationException("not supported yet");
+        }
+
+        UserViewOfPermissionInspectResult result = inspectQosService.inspectUserViewOfPermission(info);
+
+        if (Objects.isNull(result)) {
+            context.sendMessage("查询结果: null");
+        } else {
+            context.sendMessage("查询成功:");
+            interactUserViewOfPermissionResult(context, result);
         }
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void interactPermissionUserResult(Context context, PermissionUserInspectResult result) throws Exception {
-        sendPermissionUserMenu(context, result);
+    private void interactUserViewOfPermissionResult(Context context, UserViewOfPermissionInspectResult result)
+            throws Exception {
+        sendUserViewOfPermissionMenu(context, result);
 
         while (true) {
             String message = context.receiveMessage();
@@ -184,7 +257,7 @@ public class InspectCommand extends CliCommand {
                         printUser(i, cropResult.getEndIndex(), list.get(i), context);
                     }
                 }
-                sendPermissionUserMenu(context, result);
+                sendUserViewOfPermissionMenu(context, result);
             } else if (Strings.CI.equals(message, "a")) {
                 List<Role> list = result.getAcceptedRoles();
                 if (Objects.isNull(list)) {
@@ -203,7 +276,7 @@ public class InspectCommand extends CliCommand {
                         context.sendMessage("");
                     }
                 }
-                sendPermissionUserMenu(context, result);
+                sendUserViewOfPermissionMenu(context, result);
             } else if (Strings.CI.equals(message, "r")) {
                 List<Role> list = result.getRejectedRoles();
                 if (Objects.isNull(list)) {
@@ -222,7 +295,7 @@ public class InspectCommand extends CliCommand {
                         context.sendMessage("");
                     }
                 }
-                sendPermissionUserMenu(context, result);
+                sendUserViewOfPermissionMenu(context, result);
             } else {
                 context.sendMessage("输入格式错误");
                 context.sendMessage("");
@@ -231,7 +304,8 @@ public class InspectCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void sendPermissionUserMenu(Context context, PermissionUserInspectResult result) throws Exception {
+    private void sendUserViewOfPermissionMenu(Context context, UserViewOfPermissionInspectResult result)
+            throws Exception {
         context.sendMessage("");
         context.sendMessage("matchedFlag: " + result.isMatchedFlag());
         context.sendMessage("matchedUsers: " + formatListCount(result.getMatchedUsers()));
@@ -245,6 +319,9 @@ public class InspectCommand extends CliCommand {
         context.sendMessage("");
     }
 
+    // 仍然需要保留旧指令选项，故忽略相关警告。
+    @SuppressWarnings("DeprecatedIsStillUsed")
+    @Deprecated
     private void handleInspectRolePermission(Context context, CommandLine cmd) throws Exception {
         RolePermissionInspectInfo info;
 
@@ -271,30 +348,50 @@ public class InspectCommand extends CliCommand {
         // 查询角色的权限信息。
         RolePermissionInspectResult result = inspectQosService.inspectRolePermission(info);
 
-        // 输出结果。
+        // 输出结果（转换为新 DTO 进行交互）。
         if (Objects.isNull(result)) {
             context.sendMessage("查询结果: null");
         } else {
             context.sendMessage("查询成功:");
-            interactRolePermissionResult(context, result);
+            interactPermissionViewOfRoleResult(
+                    context, rolePermissionInspectResultToPermissionViewOfRoleInspectResult(result)
+            );
+        }
+    }
+
+    private void handleInspectPermissionViewOfRole(Context context, CommandLine cmd) throws Exception {
+        PermissionViewOfRoleInspectInfo info;
+
+        if (cmd.hasOption(COMMAND_OPTION_JSON)) {
+            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            info = WebInputPermissionViewOfRoleInspectInfo.toStackBean(
+                    JSON.parseObject(json, WebInputPermissionViewOfRoleInspectInfo.class)
+            );
+        } else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
+            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            try (FileInputStream in = new FileInputStream(jsonFile)) {
+                info = WebInputPermissionViewOfRoleInspectInfo.toStackBean(
+                        JSON.parseObject(in, WebInputPermissionViewOfRoleInspectInfo.class)
+                );
+            }
+        } else {
+            throw new UnsupportedOperationException("not supported yet");
+        }
+
+        PermissionViewOfRoleInspectResult result = inspectQosService.inspectPermissionViewOfRole(info);
+
+        if (Objects.isNull(result)) {
+            context.sendMessage("查询结果: null");
+        } else {
+            context.sendMessage("查询成功:");
+            interactPermissionViewOfRoleResult(context, result);
         }
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void interactRolePermissionResult(Context context, RolePermissionInspectResult result) throws Exception {
-        context.sendMessage("");
-        context.sendMessage("matchedFlag: " + result.isMatchedFlag());
-        context.sendMessage("matchedPermissions: " + formatListCount(result.getMatchedPermissions()));
-        context.sendMessage("acceptedPermissions: " + formatListCount(result.getAcceptedPermissions()));
-        context.sendMessage("rejectedPermissions: " + formatListCount(result.getRejectedPermissions()));
-        context.sendMessage("globalRejectedPermissions: " + formatListCount(result.getGlobalRejectedPermissions()));
-        context.sendMessage("");
-        context.sendMessage("输入 m 查看 matchedPermissions");
-        context.sendMessage("输入 a 查看 acceptedPermissions");
-        context.sendMessage("输入 r 查看 rejectedPermissions");
-        context.sendMessage("输入 g 查看 globalRejectedPermissions");
-        context.sendMessage("输入 q 退出查询");
-        context.sendMessage("");
+    private void interactPermissionViewOfRoleResult(Context context, PermissionViewOfRoleInspectResult result)
+            throws Exception {
+        sendPermissionViewOfRoleMenu(context, result);
 
         while (true) {
             String message = context.receiveMessage();
@@ -318,7 +415,7 @@ public class InspectCommand extends CliCommand {
                         printPermission(i, cropResult.getEndIndex(), list.get(i), context);
                     }
                 }
-                sendRolePermissionMenu(context, result);
+                sendPermissionViewOfRoleMenu(context, result);
             } else if (Strings.CI.equals(message, "a")) {
                 List<Permission> list = result.getAcceptedPermissions();
                 if (Objects.isNull(list)) {
@@ -336,7 +433,7 @@ public class InspectCommand extends CliCommand {
                         printPermission(i, cropResult.getEndIndex(), list.get(i), context);
                     }
                 }
-                sendRolePermissionMenu(context, result);
+                sendPermissionViewOfRoleMenu(context, result);
             } else if (Strings.CI.equals(message, "r")) {
                 List<Permission> list = result.getRejectedPermissions();
                 if (Objects.isNull(list)) {
@@ -354,7 +451,7 @@ public class InspectCommand extends CliCommand {
                         printPermission(i, cropResult.getEndIndex(), list.get(i), context);
                     }
                 }
-                sendRolePermissionMenu(context, result);
+                sendPermissionViewOfRoleMenu(context, result);
             } else if (Strings.CI.equals(message, "g")) {
                 List<Permission> list = result.getGlobalRejectedPermissions();
                 if (Objects.isNull(list)) {
@@ -372,7 +469,7 @@ public class InspectCommand extends CliCommand {
                         printPermission(i, cropResult.getEndIndex(), list.get(i), context);
                     }
                 }
-                sendRolePermissionMenu(context, result);
+                sendPermissionViewOfRoleMenu(context, result);
             } else {
                 context.sendMessage("输入格式错误");
                 context.sendMessage("");
@@ -380,8 +477,8 @@ public class InspectCommand extends CliCommand {
         }
     }
 
-    @SuppressWarnings("DuplicatedCode")
-    private void sendRolePermissionMenu(Context context, RolePermissionInspectResult result) throws Exception {
+    private void sendPermissionViewOfRoleMenu(Context context, PermissionViewOfRoleInspectResult result)
+            throws Exception {
         context.sendMessage("");
         context.sendMessage("matchedFlag: " + result.isMatchedFlag());
         context.sendMessage("matchedPermissions: " + formatListCount(result.getMatchedPermissions()));
@@ -397,6 +494,9 @@ public class InspectCommand extends CliCommand {
         context.sendMessage("");
     }
 
+    // 仍然需要保留旧指令选项，故忽略相关警告。
+    @SuppressWarnings("DeprecatedIsStillUsed")
+    @Deprecated
     private void handleInspectUserPermission(Context context, CommandLine cmd) throws Exception {
         UserPermissionInspectInfo info;
 
@@ -423,18 +523,50 @@ public class InspectCommand extends CliCommand {
         // 查询用户的权限信息。
         UserPermissionInspectResult result = inspectQosService.inspectUserPermission(info);
 
-        // 输出结果。
+        // 输出结果（转换为新 DTO 进行交互）。
         if (Objects.isNull(result)) {
             context.sendMessage("查询结果: null");
         } else {
             context.sendMessage("查询成功:");
-            interactUserPermissionResult(context, result);
+            interactPermissionViewOfUserResult(
+                    context, userPermissionInspectResultToPermissionViewOfUserInspectResult(result)
+            );
+        }
+    }
+
+    private void handleInspectPermissionViewOfUser(Context context, CommandLine cmd) throws Exception {
+        PermissionViewOfUserInspectInfo info;
+
+        if (cmd.hasOption(COMMAND_OPTION_JSON)) {
+            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+            info = WebInputPermissionViewOfUserInspectInfo.toStackBean(
+                    JSON.parseObject(json, WebInputPermissionViewOfUserInspectInfo.class)
+            );
+        } else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
+            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+            try (FileInputStream in = new FileInputStream(jsonFile)) {
+                info = WebInputPermissionViewOfUserInspectInfo.toStackBean(
+                        JSON.parseObject(in, WebInputPermissionViewOfUserInspectInfo.class)
+                );
+            }
+        } else {
+            throw new UnsupportedOperationException("not supported yet");
+        }
+
+        PermissionViewOfUserInspectResult result = inspectQosService.inspectPermissionViewOfUser(info);
+
+        if (Objects.isNull(result)) {
+            context.sendMessage("查询结果: null");
+        } else {
+            context.sendMessage("查询成功:");
+            interactPermissionViewOfUserResult(context, result);
         }
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void interactUserPermissionResult(Context context, UserPermissionInspectResult result) throws Exception {
-        sendUserPermissionMenu(context, result);
+    private void interactPermissionViewOfUserResult(Context context, PermissionViewOfUserInspectResult result)
+            throws Exception {
+        sendPermissionViewOfUserMenu(context, result);
 
         while (true) {
             String message = context.receiveMessage();
@@ -458,10 +590,10 @@ public class InspectCommand extends CliCommand {
                         printPermission(i, cropResult.getEndIndex(), list.get(i), context);
                     }
                 }
-                sendUserPermissionMenu(context, result);
+                sendPermissionViewOfUserMenu(context, result);
             } else if (Strings.CI.equals(message, "r")) {
-                interactRoleDetails(context, result.getRoleDetails());
-                sendUserPermissionMenu(context, result);
+                interactPermissionViewOfUserRoleDetails(context, result.getRoleDetails());
+                sendPermissionViewOfUserMenu(context, result);
             } else {
                 context.sendMessage("输入格式错误");
                 context.sendMessage("");
@@ -469,7 +601,8 @@ public class InspectCommand extends CliCommand {
         }
     }
 
-    private void sendUserPermissionMenu(Context context, UserPermissionInspectResult result) throws Exception {
+    private void sendPermissionViewOfUserMenu(Context context, PermissionViewOfUserInspectResult result)
+            throws Exception {
         context.sendMessage("");
         context.sendMessage("matchedFlag: " + result.isMatchedFlag());
         context.sendMessage("matchedPermissions: " + formatListCount(result.getMatchedPermissions()));
@@ -482,8 +615,9 @@ public class InspectCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void interactRoleDetails(Context context, List<UserPermissionInspectResult.RoleDetail> roleDetails)
-            throws Exception {
+    private void interactPermissionViewOfUserRoleDetails(
+            Context context, List<PermissionViewOfUserInspectResult.RoleDetail> roleDetails
+    ) throws Exception {
         if (Objects.isNull(roleDetails)) {
             context.sendMessage("该列表未设置，无法查看");
             return;
@@ -514,8 +648,8 @@ public class InspectCommand extends CliCommand {
                 continue;
             }
 
-            UserPermissionInspectResult.RoleDetail roleDetail = roleDetails.get(index);
-            sendRoleDetailMenu(context, roleDetail);
+            PermissionViewOfUserInspectResult.RoleDetail roleDetail = roleDetails.get(index);
+            sendPermissionViewOfUserRoleDetailMenu(context, roleDetail);
 
             while (true) {
                 String subMessage = context.receiveMessage();
@@ -539,7 +673,7 @@ public class InspectCommand extends CliCommand {
                             printPermission(i, cropResult.getEndIndex(), list.get(i), context);
                         }
                     }
-                    sendRoleDetailMenu(context, roleDetail);
+                    sendPermissionViewOfUserRoleDetailMenu(context, roleDetail);
                 } else if (Strings.CI.equals(subMessage, "r")) {
                     List<Permission> list = roleDetail.getRejectedPermissions();
                     if (Objects.isNull(list)) {
@@ -557,7 +691,7 @@ public class InspectCommand extends CliCommand {
                             printPermission(i, cropResult.getEndIndex(), list.get(i), context);
                         }
                     }
-                    sendRoleDetailMenu(context, roleDetail);
+                    sendPermissionViewOfUserRoleDetailMenu(context, roleDetail);
                 } else if (Strings.CI.equals(subMessage, "g")) {
                     List<Permission> list = roleDetail.getGlobalRejectedPermissions();
                     if (Objects.isNull(list)) {
@@ -575,7 +709,7 @@ public class InspectCommand extends CliCommand {
                             printPermission(i, cropResult.getEndIndex(), list.get(i), context);
                         }
                     }
-                    sendRoleDetailMenu(context, roleDetail);
+                    sendPermissionViewOfUserRoleDetailMenu(context, roleDetail);
                 } else {
                     context.sendMessage("输入格式错误");
                     context.sendMessage("");
@@ -585,8 +719,9 @@ public class InspectCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void sendRoleDetailMenu(Context context, UserPermissionInspectResult.RoleDetail roleDetail)
-            throws Exception {
+    private void sendPermissionViewOfUserRoleDetailMenu(
+            Context context, PermissionViewOfUserInspectResult.RoleDetail roleDetail
+    ) throws Exception {
         context.sendMessage("");
         context.sendMessage("角色信息:");
         printRole(roleDetail.getRole(), context);
@@ -670,5 +805,62 @@ public class InspectCommand extends CliCommand {
         if (Objects.isNull(list)) return "null";
         if (list.isEmpty()) return "0 (空)";
         return String.valueOf(list.size());
+    }
+
+    @Deprecated
+    private UserViewOfPermissionInspectResult permissionUserInspectResultToUserViewOfPermissionInspectResult(
+            PermissionUserInspectResult result
+    ) {
+        if (Objects.isNull(result)) {
+            return null;
+        }
+        return new UserViewOfPermissionInspectResult(
+                result.getMatchedUsers(),
+                result.isMatchedFlag(),
+                result.getAcceptedRoles(),
+                result.getRejectedRoles()
+        );
+    }
+
+    @Deprecated
+    private PermissionViewOfRoleInspectResult rolePermissionInspectResultToPermissionViewOfRoleInspectResult(
+            RolePermissionInspectResult result
+    ) {
+        if (Objects.isNull(result)) {
+            return null;
+        }
+        return new PermissionViewOfRoleInspectResult(
+                result.getMatchedPermissions(),
+                result.isMatchedFlag(),
+                result.getAcceptedPermissions(),
+                result.getRejectedPermissions(),
+                result.getGlobalRejectedPermissions()
+        );
+    }
+
+    @Deprecated
+    private PermissionViewOfUserInspectResult userPermissionInspectResultToPermissionViewOfUserInspectResult(
+            UserPermissionInspectResult result
+    ) {
+        if (Objects.isNull(result)) {
+            return null;
+        }
+        List<PermissionViewOfUserInspectResult.RoleDetail> roleDetails = null;
+        if (Objects.nonNull(result.getRoleDetails())) {
+            roleDetails = new ArrayList<>(result.getRoleDetails().size());
+            for (UserPermissionInspectResult.RoleDetail rd : result.getRoleDetails()) {
+                roleDetails.add(new PermissionViewOfUserInspectResult.RoleDetail(
+                        rd.getRole(),
+                        rd.getAcceptedPermissions(),
+                        rd.getRejectedPermissions(),
+                        rd.getGlobalRejectedPermissions()
+                ));
+            }
+        }
+        return new PermissionViewOfUserInspectResult(
+                result.getMatchedPermissions(),
+                result.isMatchedFlag(),
+                roleDetails
+        );
     }
 }

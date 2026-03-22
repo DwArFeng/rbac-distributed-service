@@ -1,7 +1,7 @@
 package com.dwarfeng.rbacds.api.integration.subgrade;
 
-import com.dwarfeng.rbacds.stack.bean.dto.UserPermissionInspectInfo;
-import com.dwarfeng.rbacds.stack.bean.dto.UserPermissionInspectResult;
+import com.dwarfeng.rbacds.stack.bean.dto.PermissionViewOfUserInspectInfo;
+import com.dwarfeng.rbacds.stack.bean.dto.PermissionViewOfUserInspectResult;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.rbacds.stack.bean.key.ScopedUserKey;
@@ -47,14 +47,14 @@ public class ScopedPermissionHandler implements PermissionHandler {
         try {
             PermissionKey permissionKey = parsePermissionNode(permissionNode);
             ScopedUserKey scopedUserKey = new ScopedUserKey(permissionKey.getScopeStringId(), userStringId);
-            UserPermissionInspectInfo inspectInfo = new UserPermissionInspectInfo(
+            PermissionViewOfUserInspectInfo inspectInfo = new PermissionViewOfUserInspectInfo(
                     scopedUserKey,
                     permissionKey,
                     null,
                     null,
                     false
             );
-            UserPermissionInspectResult result = inspectService.inspectUserPermission(inspectInfo);
+            PermissionViewOfUserInspectResult result = inspectService.inspectPermissionViewOfUser(inspectInfo);
             return Objects.nonNull(result) && result.isMatchedFlag();
         } catch (Exception e) {
             throw new HandlerException(e);
@@ -82,14 +82,16 @@ public class ScopedPermissionHandler implements PermissionHandler {
                 String scopeStringId = entry.getKey();
                 List<PermissionKey> scopePermissionKeys = entry.getValue();
                 ScopedUserKey scopeScopedUserKey = new ScopedUserKey(scopeStringId, userStringId);
-                UserPermissionInspectInfo scopeInspectInfo = new UserPermissionInspectInfo(
+                PermissionViewOfUserInspectInfo scopeInspectInfo = new PermissionViewOfUserInspectInfo(
                         scopeScopedUserKey,
                         null,
                         scopePermissionKeys,
                         null,
                         false
                 );
-                UserPermissionInspectResult scopeResult = inspectService.inspectUserPermission(scopeInspectInfo);
+                PermissionViewOfUserInspectResult scopeResult = inspectService.inspectPermissionViewOfUser(
+                        scopeInspectInfo
+                );
                 // 有任何一个作用域的查询结果不匹配，整个结果即为不匹配。
                 if (Objects.isNull(scopeResult) || !scopeResult.isMatchedFlag()) {
                     return false;
@@ -122,14 +124,14 @@ public class ScopedPermissionHandler implements PermissionHandler {
                 String scopeStringId = entry.getKey();
                 List<PermissionNodeParseResult> scopePermissionNodeParseResults = entry.getValue();
                 ScopedUserKey scopeScopedUserKey = new ScopedUserKey(scopeStringId, userStringId);
-                UserPermissionInspectInfo inspectInfo = new UserPermissionInspectInfo(
+                PermissionViewOfUserInspectInfo inspectInfo = new PermissionViewOfUserInspectInfo(
                         scopeScopedUserKey,
                         null,
                         null,
                         null,
                         false
                 );
-                UserPermissionInspectResult scopeResult = inspectService.inspectUserPermission(inspectInfo);
+                PermissionViewOfUserInspectResult scopeResult = inspectService.inspectPermissionViewOfUser(inspectInfo);
                 // 计算结果，将单个作用域中缺失的权限添加到结果列表中。
                 if (Objects.isNull(scopeResult)) {
                     missingPermissions.addAll(

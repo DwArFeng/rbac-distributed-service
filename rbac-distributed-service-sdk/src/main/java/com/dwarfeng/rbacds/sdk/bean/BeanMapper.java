@@ -261,58 +261,124 @@ public interface BeanMapper {
     @InheritInverseConfiguration
     PexpUpdateInfo pexpUpdateInfoFromWebInput(WebInputPexpUpdateInfo webInputPexpUpdateInfo);
 
+    @Deprecated
     FastJsonPermissionUserInspectResult permissionUserInspectResultToFastJson(
             PermissionUserInspectResult permissionUserInspectResult
     );
 
+    @Deprecated
     @InheritInverseConfiguration
     PermissionUserInspectResult permissionUserInspectResultFromFastJson(
             FastJsonPermissionUserInspectResult fastJsonPermissionUserInspectResult
     );
 
+    @Deprecated
     FastJsonRolePermissionInspectResult rolePermissionInspectResultToFastJson(
             RolePermissionInspectResult rolePermissionInspectResult
     );
 
+    @Deprecated
     @InheritInverseConfiguration
     RolePermissionInspectResult rolePermissionInspectResultFromFastJson(
             FastJsonRolePermissionInspectResult fastJsonRolePermissionInspectResult
     );
 
+    @Deprecated
     FastJsonUserPermissionInspectResult userPermissionInspectResultToFastJson(
             UserPermissionInspectResult userPermissionInspectResult
     );
 
+    @Deprecated
     @InheritInverseConfiguration
     UserPermissionInspectResult userPermissionInspectResultFromFastJson(
             FastJsonUserPermissionInspectResult fastJsonUserPermissionInspectResult
     );
 
+    @Deprecated
     WebInputPermissionUserInspectInfo permissionUserInspectInfoToWebInput(
             PermissionUserInspectInfo permissionUserInspectInfo
     );
 
+    @Deprecated
     @InheritInverseConfiguration
     PermissionUserInspectInfo permissionUserInspectInfoFromWebInput(
             WebInputPermissionUserInspectInfo webInputPermissionUserInspectInfo
     );
 
+    @Deprecated
     WebInputRolePermissionInspectInfo rolePermissionInspectInfoToWebInput(
             RolePermissionInspectInfo rolePermissionInspectInfo
     );
 
+    @Deprecated
     @InheritInverseConfiguration
     RolePermissionInspectInfo rolePermissionInspectInfoFromWebInput(
             WebInputRolePermissionInspectInfo webInputRolePermissionInspectInfo
     );
 
+    @Deprecated
     WebInputUserPermissionInspectInfo userPermissionInspectInfoToWebInput(
             UserPermissionInspectInfo userPermissionInspectInfo
     );
 
+    @Deprecated
     @InheritInverseConfiguration
     UserPermissionInspectInfo userPermissionInspectInfoFromWebInput(
             WebInputUserPermissionInspectInfo webInputUserPermissionInspectInfo
+    );
+
+    FastJsonUserViewOfPermissionInspectResult userViewOfPermissionInspectResultToFastJson(
+            UserViewOfPermissionInspectResult userViewOfPermissionInspectResult
+    );
+
+    @InheritInverseConfiguration
+    UserViewOfPermissionInspectResult userViewOfPermissionInspectResultFromFastJson(
+            FastJsonUserViewOfPermissionInspectResult fastJsonUserViewOfPermissionInspectResult
+    );
+
+    FastJsonPermissionViewOfRoleInspectResult permissionViewOfRoleInspectResultToFastJson(
+            PermissionViewOfRoleInspectResult permissionViewOfRoleInspectResult
+    );
+
+    @InheritInverseConfiguration
+    PermissionViewOfRoleInspectResult permissionViewOfRoleInspectResultFromFastJson(
+            FastJsonPermissionViewOfRoleInspectResult fastJsonPermissionViewOfRoleInspectResult
+    );
+
+    FastJsonPermissionViewOfUserInspectResult permissionViewOfUserInspectResultToFastJson(
+            PermissionViewOfUserInspectResult permissionViewOfUserInspectResult
+    );
+
+    @InheritInverseConfiguration
+    PermissionViewOfUserInspectResult permissionViewOfUserInspectResultFromFastJson(
+            FastJsonPermissionViewOfUserInspectResult fastJsonPermissionViewOfUserInspectResult
+    );
+
+    WebInputUserViewOfPermissionInspectInfo userViewOfPermissionInspectInfoToWebInput(
+            UserViewOfPermissionInspectInfo userViewOfPermissionInspectInfo
+    );
+
+    @InheritInverseConfiguration
+    UserViewOfPermissionInspectInfo userViewOfPermissionInspectInfoFromWebInput(
+            WebInputUserViewOfPermissionInspectInfo webInputUserViewOfPermissionInspectInfo
+    );
+
+    WebInputPermissionViewOfRoleInspectInfo permissionViewOfRoleInspectInfoToWebInput(
+            PermissionViewOfRoleInspectInfo permissionViewOfRoleInspectInfo
+    );
+
+    @InheritInverseConfiguration
+    PermissionViewOfRoleInspectInfo permissionViewOfRoleInspectInfoFromWebInput(
+            WebInputPermissionViewOfRoleInspectInfo webInputPermissionViewOfRoleInspectInfo
+    );
+
+    WebInputPermissionViewOfUserInspectInfo permissionViewOfUserInspectInfoToWebInput(
+            PermissionViewOfUserInspectInfo permissionViewOfUserInspectInfo
+    );
+
+    @InheritInverseConfiguration
+    PermissionViewOfUserInspectInfo permissionViewOfUserInspectInfoFromWebInput(
+            WebInputPermissionViewOfUserInspectInfo webInputPermissionViewOfUserInspectInfo
     );
 
     // endregion

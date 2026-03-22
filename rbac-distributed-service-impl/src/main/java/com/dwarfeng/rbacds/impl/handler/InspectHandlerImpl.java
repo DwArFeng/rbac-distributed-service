@@ -66,15 +66,32 @@ public class InspectHandlerImpl implements InspectHandler {
 
     @Nullable
     @Override
+    @Deprecated
     public PermissionUserInspectResult inspectPermissionUser(PermissionUserInspectInfo info) throws HandlerException {
         try {
-            return inspectPermissionUser0(info);
+            UserViewOfPermissionInspectResult result = inspectUserViewOfPermission0(
+                    Objects.requireNonNull(permissionUserInspectInfoToUserViewOfPermissionInspectInfo(info))
+            );
+
+            return userViewOfPermissionInspectResultToPermissionUserInspectResult(result);
         } catch (Exception e) {
             throw HandlerExceptionHelper.parse(e);
         }
     }
 
-    private PermissionUserInspectResult inspectPermissionUser0(PermissionUserInspectInfo info) throws Exception {
+    @Nullable
+    @Override
+    public UserViewOfPermissionInspectResult inspectUserViewOfPermission(UserViewOfPermissionInspectInfo info)
+            throws HandlerException {
+        try {
+            return inspectUserViewOfPermission0(info);
+        } catch (Exception e) {
+            throw HandlerExceptionHelper.parse(e);
+        }
+    }
+
+    private UserViewOfPermissionInspectResult inspectUserViewOfPermission0(UserViewOfPermissionInspectInfo info)
+            throws Exception {
         // 展开参数。
         PermissionKey permissionKey = info.getPermissionKey();
         StringIdKey userKeyMatched = info.getUserKeyMatched();
@@ -124,14 +141,29 @@ public class InspectHandlerImpl implements InspectHandler {
         }
 
         // 返回结果。
-        return new PermissionUserInspectResult(matchedUsers, matchedFlag, acceptedRoles, rejectedRoles);
+        return new UserViewOfPermissionInspectResult(matchedUsers, matchedFlag, acceptedRoles, rejectedRoles);
     }
 
     @Nullable
     @Override
+    @Deprecated
     public RolePermissionInspectResult inspectRolePermission(RolePermissionInspectInfo info) throws HandlerException {
         try {
-            return inspectRolePermission0(info);
+            PermissionViewOfRoleInspectResult result = inspectPermissionViewOfRole0(
+                    Objects.requireNonNull(rolePermissionInspectInfoToPermissionViewOfRoleInspectInfo(info))
+            );
+            return permissionViewOfRoleInspectResultToRolePermissionInspectResult(result);
+        } catch (Exception e) {
+            throw HandlerExceptionHelper.parse(e);
+        }
+    }
+
+    @Nullable
+    @Override
+    public PermissionViewOfRoleInspectResult inspectPermissionViewOfRole(PermissionViewOfRoleInspectInfo info)
+            throws HandlerException {
+        try {
+            return inspectPermissionViewOfRole0(info);
         } catch (Exception e) {
             throw HandlerExceptionHelper.parse(e);
         }
@@ -139,7 +171,8 @@ public class InspectHandlerImpl implements InspectHandler {
 
     // 为了保证代码的可读性，此处代码不做简化。
     @SuppressWarnings({"DuplicatedCode", "OptionalOfNullableMisuse"})
-    private RolePermissionInspectResult inspectRolePermission0(RolePermissionInspectInfo info) throws Exception {
+    private PermissionViewOfRoleInspectResult inspectPermissionViewOfRole0(PermissionViewOfRoleInspectInfo info)
+            throws Exception {
         // 展开参数。
         ScopedRoleKey scopedRoleKey = info.getScopedRoleKey();
         PermissionKey permissionKeyMatched = info.getPermissionKeyMatched();
@@ -225,16 +258,31 @@ public class InspectHandlerImpl implements InspectHandler {
         }
 
         // 返回结果。
-        return new RolePermissionInspectResult(
+        return new PermissionViewOfRoleInspectResult(
                 matchedPermissions, matchedFlag, acceptedPermissions, rejectedPermissions, globalRejectedPermissions
         );
     }
 
     @Nullable
     @Override
+    @Deprecated
     public UserPermissionInspectResult inspectUserPermission(UserPermissionInspectInfo info) throws HandlerException {
         try {
-            return inspectUserPermission0(info);
+            PermissionViewOfUserInspectResult result = inspectPermissionViewOfUser0(
+                    Objects.requireNonNull(userPermissionInspectInfoToPermissionViewOfUserInspectInfo(info))
+            );
+            return permissionViewOfUserInspectResultToUserPermissionInspectResult(result);
+        } catch (Exception e) {
+            throw HandlerExceptionHelper.parse(e);
+        }
+    }
+
+    @Nullable
+    @Override
+    public PermissionViewOfUserInspectResult inspectPermissionViewOfUser(PermissionViewOfUserInspectInfo info)
+            throws HandlerException {
+        try {
+            return inspectPermissionViewOfUser0(info);
         } catch (Exception e) {
             throw HandlerExceptionHelper.parse(e);
         }
@@ -242,7 +290,8 @@ public class InspectHandlerImpl implements InspectHandler {
 
     // 为了保证代码的可读性，此处代码不做简化。
     @SuppressWarnings({"DuplicatedCode", "OptionalOfNullableMisuse"})
-    private UserPermissionInspectResult inspectUserPermission0(UserPermissionInspectInfo info) throws Exception {
+    private PermissionViewOfUserInspectResult inspectPermissionViewOfUser0(PermissionViewOfUserInspectInfo info)
+            throws Exception {
         // 展开参数。
         ScopedUserKey scopedUserKey = info.getScopedUserKey();
         PermissionKey permissionKeyMatched = info.getPermissionKeyMatched();
@@ -302,11 +351,11 @@ public class InspectHandlerImpl implements InspectHandler {
                 }
             }
         }
-        List<UserPermissionInspectResult.RoleDetail> roleDetails = null;
+        List<PermissionViewOfUserInspectResult.RoleDetail> roleDetails = null;
         if (detailMode) {
             roleDetails = new ArrayList<>(analysis.getRoleDetails().size());
             for (ScopedUserPermissionAnalysis.RoleDetail analysisRoleDetail : analysis.getRoleDetails()) {
-                roleDetails.add(new UserPermissionInspectResult.RoleDetail(
+                roleDetails.add(new PermissionViewOfUserInspectResult.RoleDetail(
                         analysisRoleDetail.getRole(),
                         analysisRoleDetail.getAcceptedPermissions(),
                         analysisRoleDetail.getRejectedPermissions(),
@@ -316,6 +365,111 @@ public class InspectHandlerImpl implements InspectHandler {
         }
 
         // 返回结果。
-        return new UserPermissionInspectResult(matchedPermissions, matchedFlag, roleDetails);
+        return new PermissionViewOfUserInspectResult(matchedPermissions, matchedFlag, roleDetails);
+    }
+
+    @Deprecated
+    private UserViewOfPermissionInspectInfo permissionUserInspectInfoToUserViewOfPermissionInspectInfo(
+            PermissionUserInspectInfo info
+    ) {
+        if (Objects.isNull(info)) {
+            return null;
+        }
+        return new UserViewOfPermissionInspectInfo(
+                info.getPermissionKey(),
+                info.getUserKeyMatched(),
+                info.getAllOfUserKeysMatched(),
+                info.getAnyOfUserKeysMatched(),
+                info.isDetailMode()
+        );
+    }
+
+    @Deprecated
+    private PermissionUserInspectResult userViewOfPermissionInspectResultToPermissionUserInspectResult(
+            UserViewOfPermissionInspectResult result
+    ) {
+        if (Objects.isNull(result)) {
+            return null;
+        }
+        return new PermissionUserInspectResult(
+                result.getMatchedUsers(),
+                result.isMatchedFlag(),
+                result.getAcceptedRoles(),
+                result.getRejectedRoles()
+        );
+    }
+
+    @Deprecated
+    private PermissionViewOfRoleInspectInfo rolePermissionInspectInfoToPermissionViewOfRoleInspectInfo(
+            RolePermissionInspectInfo info
+    ) {
+        if (Objects.isNull(info)) {
+            return null;
+        }
+        return new PermissionViewOfRoleInspectInfo(
+                info.getScopedRoleKey(),
+                info.getPermissionKeyMatched(),
+                info.getAllOfPermissionKeysMatched(),
+                info.getAnyOfPermissionKeysMatched(),
+                info.isDetailMode()
+        );
+    }
+
+    @Deprecated
+    private RolePermissionInspectResult permissionViewOfRoleInspectResultToRolePermissionInspectResult(
+            PermissionViewOfRoleInspectResult result
+    ) {
+        if (Objects.isNull(result)) {
+            return null;
+        }
+        return new RolePermissionInspectResult(
+                result.getMatchedPermissions(),
+                result.isMatchedFlag(),
+                result.getAcceptedPermissions(),
+                result.getRejectedPermissions(),
+                result.getGlobalRejectedPermissions()
+        );
+    }
+
+    @Deprecated
+    private PermissionViewOfUserInspectInfo userPermissionInspectInfoToPermissionViewOfUserInspectInfo(
+            UserPermissionInspectInfo info
+    ) {
+        if (Objects.isNull(info)) {
+            return null;
+        }
+        return new PermissionViewOfUserInspectInfo(
+                info.getScopedUserKey(),
+                info.getPermissionKeyMatched(),
+                info.getAllOfPermissionKeysMatched(),
+                info.getAnyOfPermissionKeysMatched(),
+                info.isDetailMode()
+        );
+    }
+
+    @Deprecated
+    private UserPermissionInspectResult permissionViewOfUserInspectResultToUserPermissionInspectResult(
+            PermissionViewOfUserInspectResult result
+    ) {
+        if (Objects.isNull(result)) {
+            return null;
+        }
+        List<UserPermissionInspectResult.RoleDetail> roleDetails = null;
+        if (Objects.nonNull(result.getRoleDetails())) {
+            roleDetails = new ArrayList<>(result.getRoleDetails().size());
+            for (PermissionViewOfUserInspectResult.RoleDetail rd : result.getRoleDetails()) {
+                roleDetails.add(new UserPermissionInspectResult.RoleDetail(
+                        rd.getRole(),
+                        rd.getAcceptedPermissions(),
+                        rd.getRejectedPermissions(),
+                        rd.getGlobalRejectedPermissions()
+                ));
+            }
+        }
+        return new UserPermissionInspectResult(
+                result.getMatchedPermissions(),
+                result.isMatchedFlag(),
+                roleDetails
+        );
     }
 }
