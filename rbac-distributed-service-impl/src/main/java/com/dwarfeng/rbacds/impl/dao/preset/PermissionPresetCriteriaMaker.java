@@ -34,6 +34,9 @@ public class PermissionPresetCriteriaMaker implements PresetCriteriaMaker {
             case PermissionMaintainService.NAME_LIKE_PERMISSION_STRING_ID_ASC:
                 nameLikePermissionStringIdAsc(criteria, objs);
                 break;
+            case PermissionMaintainService.CHILD_FOR_SCOPE_PERMISSION_STRING_ID_LIKE_PERMISSION_STRING_ID_ASC:
+                childForScopePermissionStringIdLikePermissionStringIdAsc(criteria, objs);
+                break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + preset);
         }
@@ -98,6 +101,22 @@ public class PermissionPresetCriteriaMaker implements PresetCriteriaMaker {
         try {
             String pattern = (String) objs[0];
             criteria.add(Restrictions.like("name", pattern, MatchMode.ANYWHERE));
+            criteria.addOrder(Order.asc("permissionStringId"));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
+        }
+    }
+
+    private void childForScopePermissionStringIdLikePermissionStringIdAsc(DetachedCriteria criteria, Object[] objs) {
+        try {
+            if (Objects.isNull(objs[0])) {
+                criteria.add(Restrictions.isNull("scopeStringId"));
+            } else {
+                StringIdKey stringIdKey = (StringIdKey) objs[0];
+                criteria.add(Restrictions.eqOrIsNull("scopeStringId", stringIdKey.getStringId()));
+            }
+            String pattern = (String) objs[1];
+            criteria.add(Restrictions.like("permissionStringId", pattern, MatchMode.ANYWHERE));
             criteria.addOrder(Order.asc("permissionStringId"));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
