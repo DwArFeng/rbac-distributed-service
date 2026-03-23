@@ -15,6 +15,8 @@ import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 public interface RoleMaintainService extends BatchCrudService<StringIdKey, Role>, PresetLookupService<Role>,
         EntireLookupService<Role> {
 
+    // region 预设查询 - 业务逻辑
+
     /**
      * 用户的可用子角色。
      *
@@ -43,6 +45,12 @@ public interface RoleMaintainService extends BatchCrudService<StringIdKey, Role>
      */
     String CHILD_FOR_USER_AVAILABLE_KEY_ASC = "child_for_user_available_key_asc";
 
+    // endregion
+
+    // region 预设查询 - UI
+
     String ENABLED = "enabled";
     String ID_LIKE = "id_like";
+
+    // endregion
 }

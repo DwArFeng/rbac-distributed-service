@@ -15,6 +15,10 @@ import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 public interface FilterSupportMaintainService extends BatchCrudService<StringIdKey, FilterSupport>,
         EntireLookupService<FilterSupport>, PresetLookupService<FilterSupport> {
 
+    // region 预设查询 - UI
+
     String ID_LIKE = "id_like";
     String LABEL_LIKE = "label_like";
+
+    // endregion
 }

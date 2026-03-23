@@ -15,6 +15,8 @@ import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 public interface UserMaintainService extends BatchCrudService<StringIdKey, User>, PresetLookupService<User>,
         EntireLookupService<User> {
 
+    // region 预设查询 - 业务逻辑
+
     /**
      * 查询在指定角色集合，且不在另一个指定角色集合的用户。
      *
@@ -46,5 +48,11 @@ public interface UserMaintainService extends BatchCrudService<StringIdKey, User>
      */
     String ROLE_IN_ROLE_NOT_IN_KEY_ASC = "role_in_role_not_in_key_asc";
 
+    // endregion
+
+    // region 预设查询 - UI
+
     String ID_LIKE = "id_like";
+
+    // endregion
 }

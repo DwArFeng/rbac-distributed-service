@@ -15,6 +15,10 @@ import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 public interface RoleUserRelationMaintainService extends BatchCrudService<RoleUserRelationKey, RoleUserRelation>,
         EntireLookupService<RoleUserRelation>, PresetLookupService<RoleUserRelation> {
 
+    // region 预设查询 - 级联
+
     String CHILD_FOR_ROLE = "child_for_role";
     String CHILD_FOR_USER = "child_for_user";
+
+    // endregion
 }

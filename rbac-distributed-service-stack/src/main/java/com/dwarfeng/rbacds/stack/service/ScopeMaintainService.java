@@ -15,6 +15,10 @@ import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 public interface ScopeMaintainService extends BatchCrudService<StringIdKey, Scope>, EntireLookupService<Scope>,
         PresetLookupService<Scope> {
 
+    // region 预设查询 - UI
+
     String ID_LIKE = "id_like";
     String NAME_LIKE = "name_like";
+
+    // endregion
 }

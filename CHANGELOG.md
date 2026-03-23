@@ -4,6 +4,13 @@
 
 ### 功能构建
 
+- `rbac-distributed-service-stack` 子模块类优化注释、文档注释格式、代码换行格式。
+  - com.dwarfeng.rbacds.stack.service.FilterSupportMaintainService。
+  - com.dwarfeng.rbacds.stack.service.RoleMaintainService。
+  - com.dwarfeng.rbacds.stack.service.RoleUserRelationMaintainService。
+  - com.dwarfeng.rbacds.stack.service.ScopeMaintainService。
+  - com.dwarfeng.rbacds.stack.service.UserMaintainService。
+
 - 优化文件格式。
   - 优化 `application-context-*.xml` 文件的格式。
 
