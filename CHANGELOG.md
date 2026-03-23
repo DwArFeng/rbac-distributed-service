@@ -5,6 +5,7 @@
 ### 功能构建
 
 - 增加预设查询。
+  - RoleMaintainService.NOT_CHILD_FOR_USER_KEY_ASC。
   - PermissionMaintainService.CHILD_FOR_SCOPE_PERMISSION_STRING_ID_LIKE_PERMISSION_STRING_ID_ASC。
 
 - 部分运维指令选项优化，以简化输入。

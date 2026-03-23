@@ -52,5 +52,34 @@ public interface RoleMaintainService extends BatchCrudService<StringIdKey, Role>
     String ENABLED = "enabled";
     String ID_LIKE = "id_like";
 
+    /**
+     * 非子项于用户。
+     *
+     * <p>
+     * 该预设查询会查找给定的用户主键对应的、用户还未关联的所有角色。
+     * 即：在 角色用户关系 表中不存在该用户与角色的关联记录的角色。
+     *
+     * <p>
+     * 返回的结果按照主键升序排序。
+     *
+     * <p>
+     * 预设参数表：
+     * <table>
+     *     <tr>
+     *         <th>索引</th>
+     *         <th>参数类型</th>
+     *         <th>说明</th>
+     *     </tr>
+     *     <tr>
+     *         <td>0</td>
+     *         <td>{@link StringIdKey}</td>
+     *         <td>用户主键</td>
+     *     </tr>
+     * </table>
+     *
+     * @since 2.0.2
+     */
+    String NOT_CHILD_FOR_USER_KEY_ASC = "not_child_for_user_key_asc";
+
     // endregion
 }
