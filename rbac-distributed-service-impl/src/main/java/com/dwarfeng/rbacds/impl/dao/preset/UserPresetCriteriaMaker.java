@@ -1,12 +1,10 @@
 package com.dwarfeng.rbacds.impl.dao.preset;
 
+import com.dwarfeng.rbacds.impl.bean.entity.HibernateRoleUserRelation;
 import com.dwarfeng.rbacds.stack.service.UserMaintainService;
 import com.dwarfeng.subgrade.sdk.hibernate.criteria.PresetCriteriaMaker;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -30,6 +28,18 @@ public class UserPresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
+    /**
+     * 角色在集合内且不在排除集合内（按用户主键升序排序）。
+     *
+     * <p>
+     * 使用子查询从 {@link HibernateRoleUserRelation} 中投影出满足条件的 {@code user_id}，主查询用
+     * {@link Subqueries#propertyIn} 关联，避免对 {@code roleUserRelations} 连接产生重复行；且不采用关联 EXISTS
+     * （{@code eqProperty} 与外层 DetachedCriteria 组合时 Hibernate 5 可能无法解析实体而报错）。
+     *
+     * <p>
+     * 等价语义：存在至少一条用户-角色关系，其 {@code role_id} 属于 in 集合，且（若 notIn 非空）该 {@code role_id}
+     * 不属于 notIn 集合。
+     */
     private void roleInRoleNotInKeyAsc(DetachedCriteria detachedCriteria, Object[] objects) {
         try {
             // 由调用人员自行保证类型安全。
@@ -38,19 +48,21 @@ public class UserPresetCriteriaMaker implements PresetCriteriaMaker {
             // 由调用人员自行保证类型安全。
             @SuppressWarnings("unchecked")
             Collection<StringIdKey> notInRoleKeys = (Collection<StringIdKey>) objects[1];
-            detachedCriteria.createAlias("roleUserRelations", "r");
             if (inRoleKeys.isEmpty()) {
                 // 如果 inRoleKeys 为空，则不应该查出任何数据，此处设置一个不可能存在的条件。
                 detachedCriteria.add(Restrictions.isNull("stringId"));
             } else {
                 Collection<String> inRoleStringIds = inRoleKeys.stream().map(StringIdKey::getStringId)
                         .collect(Collectors.toSet());
-                detachedCriteria.add(Restrictions.in("r.roleStringId", inRoleStringIds));
-            }
-            if (!notInRoleKeys.isEmpty()) {
-                Collection<String> notInRoleStringIds = notInRoleKeys.stream().map(StringIdKey::getStringId)
-                        .collect(Collectors.toSet());
-                detachedCriteria.add(Restrictions.not(Restrictions.in("r.roleStringId", notInRoleStringIds)));
+                DetachedCriteria subCriteria = DetachedCriteria.forClass(HibernateRoleUserRelation.class);
+                subCriteria.add(Restrictions.in("roleStringId", inRoleStringIds));
+                if (!notInRoleKeys.isEmpty()) {
+                    Collection<String> notInRoleStringIds = notInRoleKeys.stream().map(StringIdKey::getStringId)
+                            .collect(Collectors.toSet());
+                    subCriteria.add(Restrictions.not(Restrictions.in("roleStringId", notInRoleStringIds)));
+                }
+                subCriteria.setProjection(Projections.property("userStringId"));
+                detachedCriteria.add(Subqueries.propertyIn("stringId", subCriteria));
             }
             detachedCriteria.addOrder(Order.asc("stringId"));
         } catch (Exception e) {
