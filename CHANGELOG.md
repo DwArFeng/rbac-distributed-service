@@ -45,6 +45,8 @@
 
 ### Bug 修复
 
+- 修复 `assembly.xml` 中的配置错误。
+
 - 修复部分 PresetCriteriaMaker 中错误的查询逻辑。
   - com.dwarfeng.rbacds.impl.dao.preset.UserPresetCriteriaMaker。
 
