@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh-CN/VersionBlacklist.md。
+
 - 增加预设查询。
   - RoleMaintainService.NOT_CHILD_FOR_USER_KEY_ASC。
   - PermissionMaintainService.CHILD_FOR_SCOPE_PERMISSION_STRING_ID_LIKE_PERMISSION_STRING_ID_ASC。
