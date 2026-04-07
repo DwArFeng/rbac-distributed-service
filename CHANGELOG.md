@@ -4,6 +4,11 @@
 
 ### 功能构建
 
+- 增加预设查询。
+  - PermissionMaintainService.CHILD_FOR_GROUP_PERMISSION_STRING_ID_ASC。
+  - PermissionMaintainService.CHILD_FOR_SCOPE_GROUP_IS_NULL_PERMISSION_STRING_ID_ASC。
+  - PermissionMaintainService.CHILD_FOR_SCOPE_GROUP_IS_NULL_PERMISSION_STRING_ID_LIKE_PERMISSION_STRING_ID_ASC。
+
 - `rbac-distributed-service-impl` 子模块类优化注释、文档注释格式、代码换行格式。
   - com.dwarfeng.rbacds.impl.bean.entity.HibernateFilterSupport。
   - com.dwarfeng.rbacds.impl.bean.entity.HibernatePermission。

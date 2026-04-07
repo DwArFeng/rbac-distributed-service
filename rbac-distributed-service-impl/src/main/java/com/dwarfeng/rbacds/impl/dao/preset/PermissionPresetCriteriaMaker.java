@@ -37,6 +37,15 @@ public class PermissionPresetCriteriaMaker implements PresetCriteriaMaker {
             case PermissionMaintainService.CHILD_FOR_SCOPE_PERMISSION_STRING_ID_LIKE_PERMISSION_STRING_ID_ASC:
                 childForScopePermissionStringIdLikePermissionStringIdAsc(criteria, objs);
                 break;
+            case PermissionMaintainService.CHILD_FOR_GROUP_PERMISSION_STRING_ID_ASC:
+                childForGroupPermissionStringIdAsc(criteria, objs);
+                break;
+            case PermissionMaintainService.CHILD_FOR_SCOPE_GROUP_IS_NULL_PERMISSION_STRING_ID_ASC:
+                childForScopeGroupIsNullPermissionStringIdAsc(criteria, objs);
+                break;
+            case PermissionMaintainService.CHILD_FOR_SCOPE_GROUP_IS_NULL_PERMISSION_STRING_ID_LIKE_PERMISSION_STRING_ID_ASC:
+                childForScopeGroupIsNullPermissionStringIdLikePermissionStringIdAsc(criteria, objs);
+                break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + preset);
         }
@@ -56,6 +65,7 @@ public class PermissionPresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void childForGroup(DetachedCriteria criteria, Object[] objs) {
         try {
             if (Objects.isNull(objs[0])) {
@@ -115,6 +125,63 @@ public class PermissionPresetCriteriaMaker implements PresetCriteriaMaker {
                 StringIdKey stringIdKey = (StringIdKey) objs[0];
                 criteria.add(Restrictions.eqOrIsNull("scopeStringId", stringIdKey.getStringId()));
             }
+            String pattern = (String) objs[1];
+            criteria.add(Restrictions.like("permissionStringId", pattern, MatchMode.ANYWHERE));
+            criteria.addOrder(Order.asc("permissionStringId"));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
+        }
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    private void childForGroupPermissionStringIdAsc(DetachedCriteria criteria, Object[] objs) {
+        try {
+            if (Objects.isNull(objs[0])) {
+                criteria.add(Restrictions.isNull("groupScopeStringId"));
+                criteria.add(Restrictions.isNull("groupPermissionGroupStringId"));
+            } else {
+                PermissionGroupKey permissionGroupKey = (PermissionGroupKey) objs[0];
+                String scopeStringId = permissionGroupKey.getScopeStringId();
+                String permissionGroupStringId = permissionGroupKey.getPermissionGroupStringId();
+                criteria.add(Restrictions.eqOrIsNull("groupScopeStringId", scopeStringId));
+                criteria.add(Restrictions.eqOrIsNull("groupPermissionGroupStringId", permissionGroupStringId));
+            }
+            criteria.addOrder(Order.asc("permissionStringId"));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
+        }
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    private void childForScopeGroupIsNullPermissionStringIdAsc(DetachedCriteria criteria, Object[] objs) {
+        try {
+            if (Objects.isNull(objs[0])) {
+                criteria.add(Restrictions.isNull("scopeStringId"));
+            } else {
+                StringIdKey stringIdKey = (StringIdKey) objs[0];
+                criteria.add(Restrictions.eqOrIsNull("scopeStringId", stringIdKey.getStringId()));
+            }
+            criteria.add(Restrictions.isNull("groupScopeStringId"));
+            criteria.add(Restrictions.isNull("groupPermissionGroupStringId"));
+            criteria.addOrder(Order.asc("permissionStringId"));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
+        }
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    private void childForScopeGroupIsNullPermissionStringIdLikePermissionStringIdAsc(
+            DetachedCriteria criteria, Object[] objs
+    ) {
+        try {
+            if (Objects.isNull(objs[0])) {
+                criteria.add(Restrictions.isNull("scopeStringId"));
+            } else {
+                StringIdKey stringIdKey = (StringIdKey) objs[0];
+                criteria.add(Restrictions.eqOrIsNull("scopeStringId", stringIdKey.getStringId()));
+            }
+            criteria.add(Restrictions.isNull("groupScopeStringId"));
+            criteria.add(Restrictions.isNull("groupPermissionGroupStringId"));
             String pattern = (String) objs[1];
             criteria.add(Restrictions.like("permissionStringId", pattern, MatchMode.ANYWHERE));
             criteria.addOrder(Order.asc("permissionStringId"));

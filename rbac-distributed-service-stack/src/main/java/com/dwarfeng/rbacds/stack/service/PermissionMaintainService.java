@@ -39,5 +39,22 @@ public interface PermissionMaintainService extends BatchCrudService<PermissionKe
     String CHILD_FOR_SCOPE_PERMISSION_STRING_ID_LIKE_PERMISSION_STRING_ID_ASC =
             "child_for_scope_permission_string_id_like_permission_string_id_asc";
 
+    /**
+     * @since 2.0.3
+     */
+    String CHILD_FOR_GROUP_PERMISSION_STRING_ID_ASC = "child_for_group_permission_string_id_asc";
+
+    /**
+     * @since 2.0.3
+     */
+    String CHILD_FOR_SCOPE_GROUP_IS_NULL_PERMISSION_STRING_ID_ASC =
+            "child_for_scope_group_is_null_permission_string_id_asc";
+
+    /**
+     * @since 2.0.3
+     */
+    String CHILD_FOR_SCOPE_GROUP_IS_NULL_PERMISSION_STRING_ID_LIKE_PERMISSION_STRING_ID_ASC =
+            "child_for_scope_group_is_null_permission_string_id_like_permission_string_id_asc";
+
     // endregion
 }
