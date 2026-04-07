@@ -4,6 +4,16 @@
 
 ### 功能构建
 
+- `rbac-distributed-service-impl` 子模块类优化注释、文档注释格式、代码换行格式。
+  - com.dwarfeng.rbacds.impl.bean.entity.HibernateFilterSupport。
+  - com.dwarfeng.rbacds.impl.bean.entity.HibernatePermission。
+  - com.dwarfeng.rbacds.impl.bean.entity.HibernatePermissionGroup。
+  - com.dwarfeng.rbacds.impl.bean.entity.HibernatePexp。
+  - com.dwarfeng.rbacds.impl.bean.entity.HibernateRole。
+  - com.dwarfeng.rbacds.impl.bean.entity.HibernateRoleUserRelation。
+  - com.dwarfeng.rbacds.impl.bean.entity.HibernateScope。
+  - com.dwarfeng.rbacds.impl.bean.entity.HibernateUser。
+
 - 优化文件格式。
   - 优化 `application-context-*.xml` 文件的格式。
 

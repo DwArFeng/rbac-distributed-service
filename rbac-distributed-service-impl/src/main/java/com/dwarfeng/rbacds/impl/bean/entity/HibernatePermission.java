@@ -98,10 +98,10 @@ public class HibernatePermission implements Bean {
     )
     private String modifiedDatamark;
 
+    // endregion
+
     public HibernatePermission() {
     }
-
-    // endregion
 
     // region 映射用属性区
 

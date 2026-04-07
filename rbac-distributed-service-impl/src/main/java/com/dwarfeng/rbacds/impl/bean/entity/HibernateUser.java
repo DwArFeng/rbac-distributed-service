@@ -58,10 +58,10 @@ public class HibernateUser implements Bean {
     )
     private String modifiedDatamark;
 
+    // endregion
+
     public HibernateUser() {
     }
-
-    // endregion
 
     // region 映射用属性区
 

@@ -67,10 +67,10 @@ public class HibernateScope implements Bean {
     )
     private String modifiedDatamark;
 
+    // endregion
+
     public HibernateScope() {
     }
-
-    // endregion
 
     // region 映射用属性区
 

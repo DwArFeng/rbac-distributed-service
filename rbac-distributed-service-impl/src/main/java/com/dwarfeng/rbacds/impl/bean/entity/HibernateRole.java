@@ -67,10 +67,10 @@ public class HibernateRole implements Bean {
     )
     private String modifiedDatamark;
 
+    // endregion
+
     public HibernateRole() {
     }
-
-    // endregion
 
     // region 映射用属性区
 

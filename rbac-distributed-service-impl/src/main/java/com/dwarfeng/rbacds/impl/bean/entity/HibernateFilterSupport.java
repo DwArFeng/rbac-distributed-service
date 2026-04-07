@@ -36,10 +36,10 @@ public class HibernateFilterSupport implements Bean {
     @Column(name = "example_pattern", columnDefinition = "TEXT")
     private String examplePattern;
 
+    // endregion
+
     public HibernateFilterSupport() {
     }
-
-    // endregion
 
     // region 映射用属性区
 

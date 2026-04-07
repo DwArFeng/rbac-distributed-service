@@ -75,10 +75,10 @@ public class HibernatePexp implements Bean {
     )
     private String modifiedDatamark;
 
+    // endregion
+
     public HibernatePexp() {
     }
-
-    // endregion
 
     // region 映射用属性区
 

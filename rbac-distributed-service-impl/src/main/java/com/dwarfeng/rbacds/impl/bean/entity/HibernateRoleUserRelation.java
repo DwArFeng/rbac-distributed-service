@@ -72,10 +72,10 @@ public class HibernateRoleUserRelation implements Bean {
     )
     private String modifiedDatamark;
 
+    // endregion
+
     public HibernateRoleUserRelation() {
     }
-
-    // endregion
 
     // region 映射用属性区
 

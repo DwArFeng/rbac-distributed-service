@@ -100,10 +100,10 @@ public class HibernatePermissionGroup implements Bean {
     )
     private String modifiedDatamark;
 
+    // endregion
+
     public HibernatePermissionGroup() {
     }
-
-    // endregion
 
     // region 映射用属性区
 
