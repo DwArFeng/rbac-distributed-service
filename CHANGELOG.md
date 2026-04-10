@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- Wiki 编写。
+  - docs/wiki/zh-CN/PermissionModel.md。
+
 - 增加预设查询。
   - PermissionMaintainService.CHILD_FOR_GROUP_PERMISSION_STRING_ID_ASC。
   - PermissionMaintainService.CHILD_FOR_SCOPE_GROUP_IS_NULL_PERMISSION_STRING_ID_ASC。

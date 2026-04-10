@@ -40,3 +40,7 @@
 - [Pexp General](./PexpGeneral.md) - 权限表达的通用概念。
 - [Pexp V1](./PexpV1.md) - 权限表达式 V1 说明文档。权限表达式 V1 可提供单一逻辑权限匹配工功能。
 - [Pexp V2](./PexpV2.md) - 权限表达式 V2 说明文档。权限表达式 V2 可提供复合逻辑权限匹配功能。
+
+## 权限模型
+
+- [Permission Model](./PermissionModel.md) - 权限模型说明文档，介绍实体关系、约束与权限计算流程。
