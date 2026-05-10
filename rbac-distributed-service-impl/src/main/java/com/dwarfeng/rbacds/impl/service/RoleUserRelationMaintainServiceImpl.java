@@ -3,14 +3,14 @@ package com.dwarfeng.rbacds.impl.service;
 import com.dwarfeng.rbacds.stack.bean.entity.RoleUserRelation;
 import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
 import com.dwarfeng.rbacds.stack.service.RoleUserRelationMaintainService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
-import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.stack.service.BatchCrudService;
+import com.dwarfeng.subgrade.stack.service.EntireLookupService;
+import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,16 +19,16 @@ import java.util.List;
 @Component
 public class RoleUserRelationMaintainServiceImpl implements RoleUserRelationMaintainService {
 
-    private final GeneralBatchCrudService<RoleUserRelationKey, RoleUserRelation> crudService;
-    private final DaoOnlyEntireLookupService<RoleUserRelation> entireLookupService;
-    private final DaoOnlyPresetLookupService<RoleUserRelation> presetLookupService;
+    private final BatchCrudService<RoleUserRelationKey, RoleUserRelation> batchCrudService;
+    private final EntireLookupService<RoleUserRelation> entireLookupService;
+    private final PresetLookupService<RoleUserRelation> presetLookupService;
 
     public RoleUserRelationMaintainServiceImpl(
-            GeneralBatchCrudService<RoleUserRelationKey, RoleUserRelation> crudService,
-            DaoOnlyEntireLookupService<RoleUserRelation> entireLookupService,
-            DaoOnlyPresetLookupService<RoleUserRelation> presetLookupService
+            BatchCrudService<RoleUserRelationKey, RoleUserRelation> batchCrudService,
+            EntireLookupService<RoleUserRelation> entireLookupService,
+            PresetLookupService<RoleUserRelation> presetLookupService
     ) {
-        this.crudService = crudService;
+        this.batchCrudService = batchCrudService;
         this.entireLookupService = entireLookupService;
         this.presetLookupService = presetLookupService;
     }
@@ -37,84 +37,84 @@ public class RoleUserRelationMaintainServiceImpl implements RoleUserRelationMain
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public boolean exists(RoleUserRelationKey key) throws ServiceException {
-        return crudService.exists(key);
+        return batchCrudService.exists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public RoleUserRelation get(RoleUserRelationKey key) throws ServiceException {
-        return crudService.get(key);
+        return batchCrudService.get(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public RoleUserRelationKey insert(RoleUserRelation element) throws ServiceException {
-        return crudService.insert(element);
+        return batchCrudService.insert(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void update(RoleUserRelation element) throws ServiceException {
-        crudService.update(element);
+        batchCrudService.update(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void delete(RoleUserRelationKey key) throws ServiceException {
-        crudService.delete(key);
+        batchCrudService.delete(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public RoleUserRelation getIfExists(RoleUserRelationKey key) throws ServiceException {
-        return crudService.getIfExists(key);
+        return batchCrudService.getIfExists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public RoleUserRelationKey insertIfNotExists(RoleUserRelation element) throws ServiceException {
-        return crudService.insertIfNotExists(element);
+        return batchCrudService.insertIfNotExists(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void updateIfExists(RoleUserRelation element) throws ServiceException {
-        crudService.updateIfExists(element);
+        batchCrudService.updateIfExists(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void deleteIfExists(RoleUserRelationKey key) throws ServiceException {
-        crudService.deleteIfExists(key);
+        batchCrudService.deleteIfExists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public RoleUserRelationKey insertOrUpdate(RoleUserRelation element) throws ServiceException {
-        return crudService.insertOrUpdate(element);
+        return batchCrudService.insertOrUpdate(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public boolean allExists(@SkipRecord List<RoleUserRelationKey> keys) throws ServiceException {
-        return crudService.allExists(keys);
+        return batchCrudService.allExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public boolean nonExists(@SkipRecord List<RoleUserRelationKey> keys) throws ServiceException {
-        return crudService.nonExists(keys);
+        return batchCrudService.nonExists(keys);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class RoleUserRelationMaintainServiceImpl implements RoleUserRelationMain
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public List<RoleUserRelation> batchGet(@SkipRecord List<RoleUserRelationKey> keys) throws ServiceException {
-        return crudService.batchGet(keys);
+        return batchCrudService.batchGet(keys);
     }
 
     @Override
@@ -130,21 +130,21 @@ public class RoleUserRelationMaintainServiceImpl implements RoleUserRelationMain
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public List<RoleUserRelationKey> batchInsert(@SkipRecord List<RoleUserRelation> elements) throws ServiceException {
-        return crudService.batchInsert(elements);
+        return batchCrudService.batchInsert(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void batchUpdate(@SkipRecord List<RoleUserRelation> elements) throws ServiceException {
-        crudService.batchUpdate(elements);
+        batchCrudService.batchUpdate(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void batchDelete(@SkipRecord List<RoleUserRelationKey> keys) throws ServiceException {
-        crudService.batchDelete(keys);
+        batchCrudService.batchDelete(keys);
     }
 
     @Override
@@ -152,7 +152,7 @@ public class RoleUserRelationMaintainServiceImpl implements RoleUserRelationMain
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public List<RoleUserRelation> batchGetIfExists(@SkipRecord List<RoleUserRelationKey> keys) throws ServiceException {
-        return crudService.batchGetIfExists(keys);
+        return batchCrudService.batchGetIfExists(keys);
     }
 
     @Deprecated
@@ -160,38 +160,41 @@ public class RoleUserRelationMaintainServiceImpl implements RoleUserRelationMain
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<RoleUserRelationKey> batchInsertIfExists(@SkipRecord List<RoleUserRelation> elements) throws ServiceException {
-        return crudService.batchInsertIfExists(elements);
+    public List<RoleUserRelationKey> batchInsertIfExists(@SkipRecord List<RoleUserRelation> elements)
+            throws ServiceException {
+        return batchCrudService.batchInsertIfExists(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<RoleUserRelationKey> batchInsertIfNotExists(@SkipRecord List<RoleUserRelation> elements) throws ServiceException {
-        return crudService.batchInsertIfNotExists(elements);
+    public List<RoleUserRelationKey> batchInsertIfNotExists(@SkipRecord List<RoleUserRelation> elements)
+            throws ServiceException {
+        return batchCrudService.batchInsertIfNotExists(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void batchUpdateIfExists(@SkipRecord List<RoleUserRelation> elements) throws ServiceException {
-        crudService.batchUpdateIfExists(elements);
+        batchCrudService.batchUpdateIfExists(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void batchDeleteIfExists(@SkipRecord List<RoleUserRelationKey> keys) throws ServiceException {
-        crudService.batchDeleteIfExists(keys);
+        batchCrudService.batchDeleteIfExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<RoleUserRelationKey> batchInsertOrUpdate(@SkipRecord List<RoleUserRelation> elements) throws ServiceException {
-        return crudService.batchInsertOrUpdate(elements);
+    public List<RoleUserRelationKey> batchInsertOrUpdate(@SkipRecord List<RoleUserRelation> elements)
+            throws ServiceException {
+        return batchCrudService.batchInsertOrUpdate(elements);
     }
 
     @Override
@@ -254,7 +257,8 @@ public class RoleUserRelationMaintainServiceImpl implements RoleUserRelationMain
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public PagedData<RoleUserRelation> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+    public PagedData<RoleUserRelation> lookup(String preset, Object[] objs, PagingInfo pagingInfo)
+            throws ServiceException {
         return presetLookupService.lookup(preset, objs, pagingInfo);
     }
 
@@ -270,7 +274,8 @@ public class RoleUserRelationMaintainServiceImpl implements RoleUserRelationMain
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<RoleUserRelation> lookupAsList(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+    public List<RoleUserRelation> lookupAsList(String preset, Object[] objs, PagingInfo pagingInfo)
+            throws ServiceException {
         return presetLookupService.lookupAsList(preset, objs, pagingInfo);
     }
 

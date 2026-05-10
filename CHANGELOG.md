@@ -4,6 +4,32 @@
 
 ### 功能构建
 
+- 部分代理类实现中的字段类型提升为对应的接口，与具体实现解耦。
+  - com.dwarfeng.rbacds.impl.cache.FilterSupportCacheImpl。
+  - com.dwarfeng.rbacds.impl.cache.PermissionCacheImpl。
+  - com.dwarfeng.rbacds.impl.cache.PermissionGroupCacheImpl。
+  - com.dwarfeng.rbacds.impl.cache.PexpCacheImpl。
+  - com.dwarfeng.rbacds.impl.cache.RoleCacheImpl。
+  - com.dwarfeng.rbacds.impl.cache.RoleUserRelationCacheImpl。
+  - com.dwarfeng.rbacds.impl.cache.ScopeCacheImpl。
+  - com.dwarfeng.rbacds.impl.cache.UserCacheImpl。
+  - com.dwarfeng.rbacds.impl.dao.FilterSupportDaoImpl。
+  - com.dwarfeng.rbacds.impl.dao.PermissionDaoImpl。
+  - com.dwarfeng.rbacds.impl.dao.PermissionGroupDaoImpl。
+  - com.dwarfeng.rbacds.impl.dao.PexpDaoImpl。
+  - com.dwarfeng.rbacds.impl.dao.RoleDaoImpl。
+  - com.dwarfeng.rbacds.impl.dao.RoleUserRelationDaoImpl。
+  - com.dwarfeng.rbacds.impl.dao.ScopeDaoImpl。
+  - com.dwarfeng.rbacds.impl.dao.UserDaoImpl。
+  - com.dwarfeng.rbacds.impl.service.FilterSupportMaintainServiceImpl。
+  - com.dwarfeng.rbacds.impl.service.PermissionGroupMaintainServiceImpl。
+  - com.dwarfeng.rbacds.impl.service.PermissionMaintainServiceImpl。
+  - com.dwarfeng.rbacds.impl.service.PexpMaintainServiceImpl。
+  - com.dwarfeng.rbacds.impl.service.RoleMaintainServiceImpl。
+  - com.dwarfeng.rbacds.impl.service.RoleUserRelationMaintainServiceImpl。
+  - com.dwarfeng.rbacds.impl.service.ScopeMaintainServiceImpl。
+  - com.dwarfeng.rbacds.impl.service.UserMaintainServiceImpl。
+
 - 优化项目的异常处理机制。
   - `rbac-distributed-service-sdk` 子模块新增 `ServiceExceptionHelper` 工具类，统一维护项目自身的异常映射关系。
   - `rbac-distributed-service-impl` 子模块 `ServiceExceptionMapperConfiguration` 配置类的异常映射处理逻辑优化。

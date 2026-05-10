@@ -2,9 +2,9 @@ package com.dwarfeng.rbacds.impl.service;
 
 import com.dwarfeng.rbacds.stack.bean.entity.FilterSupport;
 import com.dwarfeng.rbacds.stack.service.FilterSupportMaintainService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
-import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
+import com.dwarfeng.subgrade.stack.service.BatchCrudService;
+import com.dwarfeng.subgrade.stack.service.EntireLookupService;
+import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
@@ -19,16 +19,16 @@ import java.util.List;
 @Service
 public class FilterSupportMaintainServiceImpl implements FilterSupportMaintainService {
 
-    private final GeneralBatchCrudService<StringIdKey, FilterSupport> crudService;
-    private final DaoOnlyEntireLookupService<FilterSupport> entireLookupService;
-    private final DaoOnlyPresetLookupService<FilterSupport> presetLookupService;
+    private final BatchCrudService<StringIdKey, FilterSupport> batchCrudService;
+    private final EntireLookupService<FilterSupport> entireLookupService;
+    private final PresetLookupService<FilterSupport> presetLookupService;
 
     public FilterSupportMaintainServiceImpl(
-            GeneralBatchCrudService<StringIdKey, FilterSupport> crudService,
-            DaoOnlyEntireLookupService<FilterSupport> entireLookupService,
-            DaoOnlyPresetLookupService<FilterSupport> presetLookupService
+            BatchCrudService<StringIdKey, FilterSupport> batchCrudService,
+            EntireLookupService<FilterSupport> entireLookupService,
+            PresetLookupService<FilterSupport> presetLookupService
     ) {
-        this.crudService = crudService;
+        this.batchCrudService = batchCrudService;
         this.entireLookupService = entireLookupService;
         this.presetLookupService = presetLookupService;
     }
@@ -37,84 +37,84 @@ public class FilterSupportMaintainServiceImpl implements FilterSupportMaintainSe
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public boolean exists(StringIdKey key) throws ServiceException {
-        return crudService.exists(key);
+        return batchCrudService.exists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public FilterSupport get(StringIdKey key) throws ServiceException {
-        return crudService.get(key);
+        return batchCrudService.get(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public StringIdKey insert(FilterSupport element) throws ServiceException {
-        return crudService.insert(element);
+        return batchCrudService.insert(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void update(FilterSupport element) throws ServiceException {
-        crudService.update(element);
+        batchCrudService.update(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void delete(StringIdKey key) throws ServiceException {
-        crudService.delete(key);
+        batchCrudService.delete(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public FilterSupport getIfExists(StringIdKey key) throws ServiceException {
-        return crudService.getIfExists(key);
+        return batchCrudService.getIfExists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public StringIdKey insertIfNotExists(FilterSupport element) throws ServiceException {
-        return crudService.insertIfNotExists(element);
+        return batchCrudService.insertIfNotExists(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void updateIfExists(FilterSupport element) throws ServiceException {
-        crudService.updateIfExists(element);
+        batchCrudService.updateIfExists(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void deleteIfExists(StringIdKey key) throws ServiceException {
-        crudService.deleteIfExists(key);
+        batchCrudService.deleteIfExists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public StringIdKey insertOrUpdate(FilterSupport element) throws ServiceException {
-        return crudService.insertOrUpdate(element);
+        return batchCrudService.insertOrUpdate(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public boolean allExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
-        return crudService.allExists(keys);
+        return batchCrudService.allExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public boolean nonExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
-        return crudService.nonExists(keys);
+        return batchCrudService.nonExists(keys);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class FilterSupportMaintainServiceImpl implements FilterSupportMaintainSe
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public List<FilterSupport> batchGet(@SkipRecord List<StringIdKey> keys) throws ServiceException {
-        return crudService.batchGet(keys);
+        return batchCrudService.batchGet(keys);
     }
 
     @Override
@@ -130,21 +130,21 @@ public class FilterSupportMaintainServiceImpl implements FilterSupportMaintainSe
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public List<StringIdKey> batchInsert(@SkipRecord List<FilterSupport> elements) throws ServiceException {
-        return crudService.batchInsert(elements);
+        return batchCrudService.batchInsert(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void batchUpdate(@SkipRecord List<FilterSupport> elements) throws ServiceException {
-        crudService.batchUpdate(elements);
+        batchCrudService.batchUpdate(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void batchDelete(@SkipRecord List<StringIdKey> keys) throws ServiceException {
-        crudService.batchDelete(keys);
+        batchCrudService.batchDelete(keys);
     }
 
     @Override
@@ -152,7 +152,7 @@ public class FilterSupportMaintainServiceImpl implements FilterSupportMaintainSe
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
     public List<FilterSupport> batchGetIfExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
-        return crudService.batchGetIfExists(keys);
+        return batchCrudService.batchGetIfExists(keys);
     }
 
     @Deprecated
@@ -162,7 +162,7 @@ public class FilterSupportMaintainServiceImpl implements FilterSupportMaintainSe
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public List<StringIdKey> batchInsertIfExists(@SkipRecord List<FilterSupport> elements)
             throws ServiceException {
-        return crudService.batchInsertIfExists(elements);
+        return batchCrudService.batchInsertIfExists(elements);
     }
 
     @Override
@@ -171,21 +171,21 @@ public class FilterSupportMaintainServiceImpl implements FilterSupportMaintainSe
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public List<StringIdKey> batchInsertIfNotExists(@SkipRecord List<FilterSupport> elements)
             throws ServiceException {
-        return crudService.batchInsertIfNotExists(elements);
+        return batchCrudService.batchInsertIfNotExists(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void batchUpdateIfExists(@SkipRecord List<FilterSupport> elements) throws ServiceException {
-        crudService.batchUpdateIfExists(elements);
+        batchCrudService.batchUpdateIfExists(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public void batchDeleteIfExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
-        crudService.batchDeleteIfExists(keys);
+        batchCrudService.batchDeleteIfExists(keys);
     }
 
     @Override
@@ -194,7 +194,7 @@ public class FilterSupportMaintainServiceImpl implements FilterSupportMaintainSe
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
     public List<StringIdKey> batchInsertOrUpdate(@SkipRecord List<FilterSupport> elements)
             throws ServiceException {
-        return crudService.batchInsertOrUpdate(elements);
+        return batchCrudService.batchInsertOrUpdate(elements);
     }
 
     @Override

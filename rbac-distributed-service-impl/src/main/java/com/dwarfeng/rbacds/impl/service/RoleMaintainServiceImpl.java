@@ -2,9 +2,9 @@ package com.dwarfeng.rbacds.impl.service;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.rbacds.stack.service.RoleMaintainService;
-import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
+import com.dwarfeng.subgrade.stack.service.BatchCrudService;
+import com.dwarfeng.subgrade.stack.service.EntireLookupService;
+import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
@@ -19,14 +19,14 @@ import java.util.List;
 @Service
 public class RoleMaintainServiceImpl implements RoleMaintainService {
 
-    private final CustomBatchCrudService<StringIdKey, Role> batchCrudService;
-    private final DaoOnlyEntireLookupService<Role> entireLookupService;
-    private final DaoOnlyPresetLookupService<Role> presetLookupService;
+    private final BatchCrudService<StringIdKey, Role> batchCrudService;
+    private final EntireLookupService<Role> entireLookupService;
+    private final PresetLookupService<Role> presetLookupService;
 
     public RoleMaintainServiceImpl(
-            CustomBatchCrudService<StringIdKey, Role> batchCrudService,
-            DaoOnlyEntireLookupService<Role> entireLookupService,
-            DaoOnlyPresetLookupService<Role> presetLookupService
+            BatchCrudService<StringIdKey, Role> batchCrudService,
+            EntireLookupService<Role> entireLookupService,
+            PresetLookupService<Role> presetLookupService
     ) {
         this.batchCrudService = batchCrudService;
         this.entireLookupService = entireLookupService;

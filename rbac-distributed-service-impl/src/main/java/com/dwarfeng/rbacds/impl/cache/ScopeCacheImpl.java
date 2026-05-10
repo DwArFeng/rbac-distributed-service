@@ -1,12 +1,11 @@
 package com.dwarfeng.rbacds.impl.cache;
 
-import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonScope;
 import com.dwarfeng.rbacds.stack.bean.entity.Scope;
 import com.dwarfeng.rbacds.stack.cache.ScopeCache;
-import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.stack.cache.BatchBaseCache;
 import com.dwarfeng.subgrade.stack.exception.CacheException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +15,11 @@ import java.util.List;
 @Repository
 public class ScopeCacheImpl implements ScopeCache {
 
-    private final RedisBatchBaseCache<StringIdKey, Scope, FastJsonScope> batchBaseCache;
+    private final BatchBaseCache<StringIdKey, Scope> batchBaseCache;
 
-    public ScopeCacheImpl(RedisBatchBaseCache<StringIdKey, Scope, FastJsonScope> batchBaseCache) {
+    public ScopeCacheImpl(
+            BatchBaseCache<StringIdKey, Scope> batchBaseCache
+    ) {
         this.batchBaseCache = batchBaseCache;
     }
 

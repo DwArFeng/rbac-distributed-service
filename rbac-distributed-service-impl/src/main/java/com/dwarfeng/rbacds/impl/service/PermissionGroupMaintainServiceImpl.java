@@ -3,9 +3,9 @@ package com.dwarfeng.rbacds.impl.service;
 import com.dwarfeng.rbacds.stack.bean.entity.PermissionGroup;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
 import com.dwarfeng.rbacds.stack.service.PermissionGroupMaintainService;
-import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
+import com.dwarfeng.subgrade.stack.service.BatchCrudService;
+import com.dwarfeng.subgrade.stack.service.EntireLookupService;
+import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
@@ -19,14 +19,14 @@ import java.util.List;
 @Service
 public class PermissionGroupMaintainServiceImpl implements PermissionGroupMaintainService {
 
-    private final CustomBatchCrudService<PermissionGroupKey, PermissionGroup> batchCrudService;
-    private final DaoOnlyEntireLookupService<PermissionGroup> entireLookupService;
-    private final DaoOnlyPresetLookupService<PermissionGroup> presetLookupService;
+    private final BatchCrudService<PermissionGroupKey, PermissionGroup> batchCrudService;
+    private final EntireLookupService<PermissionGroup> entireLookupService;
+    private final PresetLookupService<PermissionGroup> presetLookupService;
 
     public PermissionGroupMaintainServiceImpl(
-            CustomBatchCrudService<PermissionGroupKey, PermissionGroup> batchCrudService,
-            DaoOnlyEntireLookupService<PermissionGroup> entireLookupService,
-            DaoOnlyPresetLookupService<PermissionGroup> presetLookupService
+            BatchCrudService<PermissionGroupKey, PermissionGroup> batchCrudService,
+            EntireLookupService<PermissionGroup> entireLookupService,
+            PresetLookupService<PermissionGroup> presetLookupService
     ) {
         this.batchCrudService = batchCrudService;
         this.entireLookupService = entireLookupService;
@@ -160,7 +160,8 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<PermissionGroupKey> batchInsertIfExists(@SkipRecord List<PermissionGroup> elements) throws ServiceException {
+    public List<PermissionGroupKey> batchInsertIfExists(@SkipRecord List<PermissionGroup> elements)
+            throws ServiceException {
         return batchCrudService.batchInsertIfExists(elements);
     }
 
@@ -191,7 +192,8 @@ public class PermissionGroupMaintainServiceImpl implements PermissionGroupMainta
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<PermissionGroupKey> batchInsertOrUpdate(@SkipRecord List<PermissionGroup> elements) throws ServiceException {
+    public List<PermissionGroupKey> batchInsertOrUpdate(@SkipRecord List<PermissionGroup> elements)
+            throws ServiceException {
         return batchCrudService.batchInsertOrUpdate(elements);
     }
 

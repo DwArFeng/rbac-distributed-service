@@ -1,16 +1,14 @@
 package com.dwarfeng.rbacds.impl.dao;
 
-import com.dwarfeng.rbacds.impl.bean.entity.HibernateRoleUserRelation;
-import com.dwarfeng.rbacds.impl.bean.key.HibernateRoleUserRelationKey;
 import com.dwarfeng.rbacds.stack.bean.entity.RoleUserRelation;
 import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
 import com.dwarfeng.rbacds.stack.dao.RoleUserRelationDao;
-import com.dwarfeng.subgrade.impl.dao.HibernateBatchBaseDao;
-import com.dwarfeng.subgrade.impl.dao.HibernateEntireLookupDao;
-import com.dwarfeng.subgrade.impl.dao.HibernatePresetLookupDao;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
+import com.dwarfeng.subgrade.stack.dao.BatchBaseDao;
+import com.dwarfeng.subgrade.stack.dao.EntireLookupDao;
+import com.dwarfeng.subgrade.stack.dao.PresetLookupDao;
 import com.dwarfeng.subgrade.stack.exception.DaoException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,16 +18,14 @@ import java.util.List;
 @Repository
 public class RoleUserRelationDaoImpl implements RoleUserRelationDao {
 
-    private final HibernateBatchBaseDao<RoleUserRelationKey, HibernateRoleUserRelationKey, RoleUserRelation,
-            HibernateRoleUserRelation> batchBaseDao;
-    private final HibernateEntireLookupDao<RoleUserRelation, HibernateRoleUserRelation> entireLookupDao;
-    private final HibernatePresetLookupDao<RoleUserRelation, HibernateRoleUserRelation> presetLookupDao;
+    private final BatchBaseDao<RoleUserRelationKey, RoleUserRelation> batchBaseDao;
+    private final EntireLookupDao<RoleUserRelation> entireLookupDao;
+    private final PresetLookupDao<RoleUserRelation> presetLookupDao;
 
     public RoleUserRelationDaoImpl(
-            HibernateBatchBaseDao<RoleUserRelationKey, HibernateRoleUserRelationKey, RoleUserRelation,
-                    HibernateRoleUserRelation> batchBaseDao,
-            HibernateEntireLookupDao<RoleUserRelation, HibernateRoleUserRelation> entireLookupDao,
-            HibernatePresetLookupDao<RoleUserRelation, HibernateRoleUserRelation> presetLookupDao
+            BatchBaseDao<RoleUserRelationKey, RoleUserRelation> batchBaseDao,
+            EntireLookupDao<RoleUserRelation> entireLookupDao,
+            PresetLookupDao<RoleUserRelation> presetLookupDao
     ) {
         this.batchBaseDao = batchBaseDao;
         this.entireLookupDao = entireLookupDao;

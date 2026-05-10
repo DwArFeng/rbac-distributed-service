@@ -3,9 +3,9 @@ package com.dwarfeng.rbacds.impl.service;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.rbacds.stack.service.PermissionMaintainService;
-import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
-import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
+import com.dwarfeng.subgrade.stack.service.BatchCrudService;
+import com.dwarfeng.subgrade.stack.service.EntireLookupService;
+import com.dwarfeng.subgrade.stack.service.PresetLookupService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
@@ -19,14 +19,14 @@ import java.util.List;
 @Service
 public class PermissionMaintainServiceImpl implements PermissionMaintainService {
 
-    private final CustomBatchCrudService<PermissionKey, Permission> batchCrudService;
-    private final DaoOnlyEntireLookupService<Permission> entireLookupService;
-    private final DaoOnlyPresetLookupService<Permission> presetLookupService;
+    private final BatchCrudService<PermissionKey, Permission> batchCrudService;
+    private final EntireLookupService<Permission> entireLookupService;
+    private final PresetLookupService<Permission> presetLookupService;
 
     public PermissionMaintainServiceImpl(
-            CustomBatchCrudService<PermissionKey, Permission> batchCrudService,
-            DaoOnlyEntireLookupService<Permission> entireLookupService,
-            DaoOnlyPresetLookupService<Permission> presetLookupService
+            BatchCrudService<PermissionKey, Permission> batchCrudService,
+            EntireLookupService<Permission> entireLookupService,
+            PresetLookupService<Permission> presetLookupService
     ) {
         this.batchCrudService = batchCrudService;
         this.entireLookupService = entireLookupService;

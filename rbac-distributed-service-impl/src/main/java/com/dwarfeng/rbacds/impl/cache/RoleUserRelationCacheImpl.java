@@ -1,12 +1,11 @@
 package com.dwarfeng.rbacds.impl.cache;
 
-import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonRoleUserRelation;
 import com.dwarfeng.rbacds.stack.bean.entity.RoleUserRelation;
 import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
 import com.dwarfeng.rbacds.stack.cache.RoleUserRelationCache;
-import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
+import com.dwarfeng.subgrade.stack.cache.BatchBaseCache;
 import com.dwarfeng.subgrade.stack.exception.CacheException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +15,10 @@ import java.util.List;
 @Repository
 public class RoleUserRelationCacheImpl implements RoleUserRelationCache {
 
-    private final RedisBatchBaseCache<RoleUserRelationKey, RoleUserRelation, FastJsonRoleUserRelation> batchBaseCache;
+    private final BatchBaseCache<RoleUserRelationKey, RoleUserRelation> batchBaseCache;
 
     public RoleUserRelationCacheImpl(
-            RedisBatchBaseCache<RoleUserRelationKey, RoleUserRelation, FastJsonRoleUserRelation> batchBaseCache
+            BatchBaseCache<RoleUserRelationKey, RoleUserRelation> batchBaseCache
     ) {
         this.batchBaseCache = batchBaseCache;
     }
