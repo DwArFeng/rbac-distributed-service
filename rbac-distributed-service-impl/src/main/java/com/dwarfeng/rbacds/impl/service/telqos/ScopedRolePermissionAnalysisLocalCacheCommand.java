@@ -6,10 +6,11 @@ import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.rbacds.stack.bean.key.ScopedRoleKey;
 import com.dwarfeng.rbacds.stack.service.ScopedRolePermissionAnalysisLocalCacheQosService;
 import com.dwarfeng.rbacds.stack.struct.ScopedRolePermissionAnalysis;
-import com.dwarfeng.springtelqos.node.config.TelqosCommand;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
-import com.dwarfeng.springtelqos.stack.command.Context;
-import com.dwarfeng.springtelqos.stack.exception.TelqosException;
+import com.dwarfeng.springtelqos.sdk.configuration.TelqosCommand;
+import com.dwarfeng.springtelqos.sdk.util.CliCommandUtil;
+import com.dwarfeng.springtelqos.stack.command.CommandDescriptor;
+import com.dwarfeng.springtelqos.stack.command.CommandExecutor;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.lang3.Strings;
@@ -26,6 +27,11 @@ import java.util.*;
 @TelqosCommand
 public class ScopedRolePermissionAnalysisLocalCacheCommand extends CliCommand {
 
+    @SuppressWarnings({"SpellCheckingInspection", "GrazieInspectionRunner", "RedundantSuppression"})
+    private static final String IDENTITY = "srpalc";
+
+    // region 指令选项
+
     private static final String COMMAND_OPTION_LOOKUP = "l";
     private static final String COMMAND_OPTION_CLEAR = "c";
 
@@ -34,45 +40,51 @@ public class ScopedRolePermissionAnalysisLocalCacheCommand extends CliCommand {
             COMMAND_OPTION_CLEAR
     };
 
-    private static final String COMMAND_OPTION_SCOPE = "ls";
-    private static final String COMMAND_OPTION_ROLE = "lr";
+    private static final String COMMAND_SUB_OPTION_SCOPE = "ls";
+    private static final String COMMAND_SUB_OPTION_ROLE = "lr";
 
-    @SuppressWarnings({"SpellCheckingInspection", "RedundantSuppression"})
-    private static final String IDENTITY = "srpalc";
-    private static final String DESCRIPTION = "作用域角色权限分析本地缓存操作";
-    private static final String CMD_LINE_SYNTAX_LOOKUP = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_LOOKUP) + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_SCOPE) + " scopeId " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_ROLE) + " roleId";
-    private static final String CMD_LINE_SYNTAX_CLEAR = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_CLEAR);
-
-    private static final String[] CMD_LINE_ARRAY = new String[]{
-            CMD_LINE_SYNTAX_LOOKUP,
-            CMD_LINE_SYNTAX_CLEAR
-    };
-
-    private static final String CMD_LINE_SYNTAX = CommandUtil.syntax(CMD_LINE_ARRAY);
+    // endregion
 
     private final ScopedRolePermissionAnalysisLocalCacheQosService qosService;
 
     public ScopedRolePermissionAnalysisLocalCacheCommand(ScopedRolePermissionAnalysisLocalCacheQosService qosService) {
-        super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
+        super(IDENTITY);
         this.qosService = qosService;
     }
 
     @Override
-    protected List<Option> buildOptions() {
+    protected DescriptionProvider provideDescriptionProvider() {
+        return context -> "作用域角色权限分析本地缓存操作";
+    }
+
+    @Override
+    protected CliSyntaxProvider provideCliSyntaxProvider() {
+        return this::cliSyntaxProvider;
+    }
+
+    private String cliSyntaxProvider(CommandDescriptor.Context context) throws Exception {
+        String identity = context.getRuntimeIdentity();
+        String[] patterns = new String[]{
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_LOOKUP) + " " +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_SCOPE) + " scopeId " +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_ROLE) + " roleId",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_CLEAR)
+        };
+        return CliCommandUtil.cliSyntax(patterns);
+    }
+
+    @Override
+    protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
         list.add(Option.builder(COMMAND_OPTION_LOOKUP).optionalArg(true).hasArg(false)
                 .desc("查看指定作用域角色键的作用域角色权限分析，如果本地缓存中不存在，则尝试抓取").build());
         list.add(Option.builder(COMMAND_OPTION_CLEAR).optionalArg(true).hasArg(false).desc("清除缓存").build());
         list.add(
-                Option.builder(COMMAND_OPTION_SCOPE).optionalArg(true).hasArg(true)
+                Option.builder(COMMAND_SUB_OPTION_SCOPE).optionalArg(true).hasArg(true)
                         .argName("scopeId").desc("作用域 ID").build()
         );
         list.add(
-                Option.builder(COMMAND_OPTION_ROLE).optionalArg(true).hasArg(true)
+                Option.builder(COMMAND_SUB_OPTION_ROLE).optionalArg(true).hasArg(true)
                         .argName("roleId").desc("角色 ID").build()
         );
         return list;
@@ -80,35 +92,33 @@ public class ScopedRolePermissionAnalysisLocalCacheCommand extends CliCommand {
 
     @SuppressWarnings("DuplicatedCode")
     @Override
-    protected void executeWithCmd(Context context, CommandLine cmd) throws TelqosException {
-        try {
-            Pair<String, Integer> pair = CommandUtil.analyseCommand(cmd, COMMAND_OPTION_ARRAY);
-            if (pair.getRight() != 1) {
-                context.sendMessage(CommandUtil.optionMismatchMessage(COMMAND_OPTION_ARRAY));
-                context.sendMessage(CMD_LINE_SYNTAX);
-                return;
-            }
-            switch (pair.getLeft()) {
-                case COMMAND_OPTION_LOOKUP:
-                    handleLookup(context, cmd);
-                    break;
-                case COMMAND_OPTION_CLEAR:
-                    handleClear(context);
-                    break;
-            }
-        } catch (Exception e) {
-            throw new TelqosException(e);
+    protected void executeWithCmd(CommandExecutor.Context context, CommandLine cmd) throws Exception {
+        Pair<String, Integer> pair = CliCommandUtil.analyseCommand(cmd, COMMAND_OPTION_ARRAY);
+        if (pair.getRight() != 1) {
+            context.sendMessage(CliCommandUtil.optionMismatchMessage(COMMAND_OPTION_ARRAY));
+            context.sendMessage(context.getCommandManual(context.getRuntimeIdentity()));
+            return;
+        }
+        switch (pair.getLeft()) {
+            case COMMAND_OPTION_LOOKUP:
+                handleLookup(context, cmd);
+                break;
+            case COMMAND_OPTION_CLEAR:
+                handleClear(context);
+                break;
+            default:
+                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
         }
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void handleLookup(Context context, CommandLine cmd) throws Exception {
-        String scopeId = cmd.getOptionValue(COMMAND_OPTION_SCOPE);
-        String roleId = cmd.getOptionValue(COMMAND_OPTION_ROLE);
+    private void handleLookup(CommandExecutor.Context context, CommandLine cmd) throws Exception {
+        String scopeId = cmd.getOptionValue(COMMAND_SUB_OPTION_SCOPE);
+        String roleId = cmd.getOptionValue(COMMAND_SUB_OPTION_ROLE);
         if (Objects.isNull(scopeId) || scopeId.isEmpty() || Objects.isNull(roleId) || roleId.isEmpty()) {
             context.sendMessage(
-                    "lookup 操作需要指定 " + CommandUtil.concatOptionPrefix(COMMAND_OPTION_SCOPE) +
-                            " 和 " + CommandUtil.concatOptionPrefix(COMMAND_OPTION_ROLE) + " 选项"
+                    "lookup 操作需要指定 " + CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_SCOPE) +
+                            " 和 " + CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_ROLE) + " 选项"
             );
             return;
         }
@@ -121,13 +131,14 @@ public class ScopedRolePermissionAnalysisLocalCacheCommand extends CliCommand {
         interactScopedRolePermissionAnalysis(context, analysis);
     }
 
-    private void handleClear(Context context) throws Exception {
+    private void handleClear(CommandExecutor.Context context) throws Exception {
         qosService.clearLocalCache();
         context.sendMessage("缓存已清空");
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void printPermission(int i, int endIndex, Permission permission, Context context) throws Exception {
+    private void printPermission(int i, int endIndex, Permission permission, CommandExecutor.Context context)
+            throws Exception {
         context.sendMessage(String.format("索引: %d/%d", i, endIndex));
         printPermissionKey(context, permission.getKey());
         printPermissionGroupKey(context, permission.getGroupKey());
@@ -140,7 +151,7 @@ public class ScopedRolePermissionAnalysisLocalCacheCommand extends CliCommand {
         context.sendMessage("");
     }
 
-    private void printPermissionKey(Context context, PermissionKey key) throws Exception {
+    private void printPermissionKey(CommandExecutor.Context context, PermissionKey key) throws Exception {
         context.sendMessage("  key:");
         if (Objects.isNull(key)) {
             context.sendMessage("    null");
@@ -150,7 +161,7 @@ public class ScopedRolePermissionAnalysisLocalCacheCommand extends CliCommand {
         context.sendMessage("    permissionStringId: " + key.getPermissionStringId());
     }
 
-    private void printPermissionGroupKey(Context context, PermissionGroupKey key) throws Exception {
+    private void printPermissionGroupKey(CommandExecutor.Context context, PermissionGroupKey key) throws Exception {
         context.sendMessage("  group:");
         if (Objects.isNull(key)) {
             context.sendMessage("    null");
@@ -166,7 +177,8 @@ public class ScopedRolePermissionAnalysisLocalCacheCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void interactScopedRolePermissionAnalysis(Context context, ScopedRolePermissionAnalysis analysis)
+    private void interactScopedRolePermissionAnalysis(CommandExecutor.Context context,
+                                                      ScopedRolePermissionAnalysis analysis)
             throws Exception {
         sendScopedRolePermissionMenu(context, analysis);
 
@@ -183,8 +195,8 @@ public class ScopedRolePermissionAnalysisLocalCacheCommand extends CliCommand {
                     continue;
                 }
                 while (true) {
-                    CommandUtil.CropResult cropResult = CommandUtil.cropData(
-                            context, list, "数据总数: " + list.size(), "输入 q 返回至主菜单"
+                    CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
+                            context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至主菜单"
                     );
                     if (cropResult.isExitFlag()) break;
                     context.sendMessage("");
@@ -201,8 +213,8 @@ public class ScopedRolePermissionAnalysisLocalCacheCommand extends CliCommand {
                     continue;
                 }
                 while (true) {
-                    CommandUtil.CropResult cropResult = CommandUtil.cropData(
-                            context, list, "数据总数: " + list.size(), "输入 q 返回至主菜单"
+                    CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
+                            context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至主菜单"
                     );
                     if (cropResult.isExitFlag()) break;
                     context.sendMessage("");
@@ -219,8 +231,8 @@ public class ScopedRolePermissionAnalysisLocalCacheCommand extends CliCommand {
                     continue;
                 }
                 while (true) {
-                    CommandUtil.CropResult cropResult = CommandUtil.cropData(
-                            context, list, "数据总数: " + list.size(), "输入 q 返回至主菜单"
+                    CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
+                            context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至主菜单"
                     );
                     if (cropResult.isExitFlag()) break;
                     context.sendMessage("");
@@ -237,8 +249,8 @@ public class ScopedRolePermissionAnalysisLocalCacheCommand extends CliCommand {
                     continue;
                 }
                 while (true) {
-                    CommandUtil.CropResult cropResult = CommandUtil.cropData(
-                            context, list, "数据总数: " + list.size(), "输入 q 返回至主菜单"
+                    CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
+                            context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至主菜单"
                     );
                     if (cropResult.isExitFlag()) break;
                     context.sendMessage("");
@@ -254,7 +266,7 @@ public class ScopedRolePermissionAnalysisLocalCacheCommand extends CliCommand {
         }
     }
 
-    private void sendScopedRolePermissionMenu(Context context, ScopedRolePermissionAnalysis analysis)
+    private void sendScopedRolePermissionMenu(CommandExecutor.Context context, ScopedRolePermissionAnalysis analysis)
             throws Exception {
         context.sendMessage("");
         context.sendMessage("matchedPermissions: " + formatListCount(analysis.getMatchedPermissions()));

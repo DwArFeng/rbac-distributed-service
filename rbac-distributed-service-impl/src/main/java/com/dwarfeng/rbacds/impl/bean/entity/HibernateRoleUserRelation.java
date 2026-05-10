@@ -1,7 +1,7 @@
 package com.dwarfeng.rbacds.impl.bean.entity;
 
-import com.dwarfeng.datamark.bean.jpa.DatamarkEntityListener;
-import com.dwarfeng.datamark.bean.jpa.DatamarkField;
+import com.dwarfeng.datamark.sdk.jpa.DatamarkEntityListener;
+import com.dwarfeng.datamark.sdk.jpa.DatamarkField;
 import com.dwarfeng.rbacds.impl.bean.key.HibernateRoleUserRelationKey;
 import com.dwarfeng.rbacds.sdk.util.Constraints;
 import com.dwarfeng.subgrade.stack.bean.Bean;
@@ -60,7 +60,7 @@ public class HibernateRoleUserRelation implements Bean {
     @DatamarkField(handlerName = "roleDatamarkHandler")
     @Column(
             name = "created_datamark",
-            length = com.dwarfeng.datamark.util.Constraints.LENGTH_DATAMARK_VALUE,
+            length = com.dwarfeng.datamark.sdk.util.Constraints.LENGTH_DATAMARK_VALUE,
             updatable = false
     )
     private String createdDatamark;
@@ -68,7 +68,7 @@ public class HibernateRoleUserRelation implements Bean {
     @DatamarkField(handlerName = "roleDatamarkHandler")
     @Column(
             name = "modified_datamark",
-            length = com.dwarfeng.datamark.util.Constraints.LENGTH_DATAMARK_VALUE
+            length = com.dwarfeng.datamark.sdk.util.Constraints.LENGTH_DATAMARK_VALUE
     )
     private String modifiedDatamark;
 

@@ -9,10 +9,11 @@ import com.dwarfeng.rbacds.stack.bean.entity.User;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.rbacds.stack.service.InspectQosService;
-import com.dwarfeng.springtelqos.node.config.TelqosCommand;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
-import com.dwarfeng.springtelqos.stack.command.Context;
-import com.dwarfeng.springtelqos.stack.exception.TelqosException;
+import com.dwarfeng.springtelqos.sdk.configuration.TelqosCommand;
+import com.dwarfeng.springtelqos.sdk.util.CliCommandUtil;
+import com.dwarfeng.springtelqos.stack.command.CommandDescriptor;
+import com.dwarfeng.springtelqos.stack.command.CommandExecutor;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
@@ -35,6 +36,11 @@ import java.util.Objects;
 @TelqosCommand
 public class InspectCommand extends CliCommand {
 
+    @SuppressWarnings({"SpellCheckingInspection", "GrazieInspectionRunner", "RedundantSuppression"})
+    private static final String IDENTITY = "inspect";
+
+    // region 指令选项
+
     private static final String COMMAND_OPTION_PERMISSION_USER = "inspect-permission-user";
     private static final String COMMAND_OPTION_ROLE_PERMISSION = "inspect-role-permission";
     private static final String COMMAND_OPTION_USER_PERMISSION = "inspect-user-permission";
@@ -55,58 +61,56 @@ public class InspectCommand extends CliCommand {
             COMMAND_OPTION_PERMISSION_VIEW_OF_USER
     };
 
-    private static final String COMMAND_OPTION_JSON = "json";
-    private static final String COMMAND_OPTION_JSON_FILE = "jf";
-    private static final String COMMAND_OPTION_JSON_FILE_LONG_OPT = "json-file";
+    private static final String COMMAND_SUB_OPTION_JSON = "json";
+    private static final String COMMAND_SUB_OPTION_JSON_FILE = "jf";
+    private static final String COMMAND_SUB_OPTION_JSON_FILE_LONG_OPT = "json-file";
 
-    private static final String IDENTITY = "inspect";
-    private static final String DESCRIPTION = "查看服务";
-
-    private static final String CMD_LINE_SYNTAX_PERMISSION_USER = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_PERMISSION_USER) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_ROLE_PERMISSION = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_ROLE_PERMISSION) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_USER_PERMISSION = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_USER_PERMISSION) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_USER_VIEW_OF_PERMISSION = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_USER_VIEW_OF_PERMISSION) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_PERMISSION_VIEW_OF_ROLE = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_PERMISSION_VIEW_OF_ROLE) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_PERMISSION_VIEW_OF_USER = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_PERMISSION_VIEW_OF_USER) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-
-    private static final String[] CMD_LINE_ARRAY = new String[]{
-            CMD_LINE_SYNTAX_PERMISSION_USER,
-            CMD_LINE_SYNTAX_ROLE_PERMISSION,
-            CMD_LINE_SYNTAX_USER_PERMISSION,
-            CMD_LINE_SYNTAX_USER_VIEW_OF_PERMISSION,
-            CMD_LINE_SYNTAX_PERMISSION_VIEW_OF_ROLE,
-            CMD_LINE_SYNTAX_PERMISSION_VIEW_OF_USER
-    };
-
-    private static final String CMD_LINE_SYNTAX = CommandUtil.syntax(CMD_LINE_ARRAY);
+    // endregion
 
     private final InspectQosService inspectQosService;
 
     public InspectCommand(InspectQosService inspectQosService) {
-        super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
+        super(IDENTITY);
         this.inspectQosService = inspectQosService;
     }
 
     @Override
-    protected List<Option> buildOptions() {
+    protected DescriptionProvider provideDescriptionProvider() {
+        return context -> "查看服务";
+    }
+
+    @Override
+    protected CliSyntaxProvider provideCliSyntaxProvider() {
+        return this::cliSyntaxProvider;
+    }
+
+    private String cliSyntaxProvider(CommandDescriptor.Context context) throws Exception {
+        String identity = context.getRuntimeIdentity();
+        String[] patterns = new String[]{
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_PERMISSION_USER) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_ROLE_PERMISSION) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_USER_PERMISSION) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_USER_VIEW_OF_PERMISSION) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_PERMISSION_VIEW_OF_ROLE) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_PERMISSION_VIEW_OF_USER) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON_FILE) + " json-file]"
+        };
+        return CliCommandUtil.cliSyntax(patterns);
+    }
+
+    @Override
+    protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
         list.add(Option.builder().longOpt(COMMAND_OPTION_PERMISSION_USER)
                 .desc("(已废弃) 查询权限的用户信息，请使用 inspect-user-view-of-permission").build());
@@ -130,65 +134,64 @@ public class InspectCommand extends CliCommand {
                         .desc("以用户为依据查看权限视图").build()
         );
         list.add(
-                Option.builder(COMMAND_OPTION_JSON).desc("JSON 字符串").hasArg().type(String.class).build()
+                Option.builder(COMMAND_SUB_OPTION_JSON).desc("JSON 字符串").hasArg().type(String.class).build()
         );
         list.add(
-                Option.builder(COMMAND_OPTION_JSON_FILE).longOpt(COMMAND_OPTION_JSON_FILE_LONG_OPT).desc("JSON 文件")
+                Option.builder(COMMAND_SUB_OPTION_JSON_FILE).longOpt(COMMAND_SUB_OPTION_JSON_FILE_LONG_OPT)
+                        .desc("JSON 文件")
                         .hasArg().type(File.class).build()
         );
         return list;
     }
 
     @Override
-    protected void executeWithCmd(Context context, CommandLine cmd) throws TelqosException {
-        try {
-            Pair<String, Integer> pair = CommandUtil.analyseCommand(cmd, COMMAND_OPTION_ARRAY);
-            if (pair.getRight() != 1) {
-                context.sendMessage(CommandUtil.optionMismatchMessage(COMMAND_OPTION_ARRAY));
-                context.sendMessage(CMD_LINE_SYNTAX);
-                return;
-            }
-            switch (pair.getLeft()) {
-                case COMMAND_OPTION_PERMISSION_USER:
-                    handleInspectPermissionUser(context, cmd);
-                    break;
-                case COMMAND_OPTION_ROLE_PERMISSION:
-                    handleInspectRolePermission(context, cmd);
-                    break;
-                case COMMAND_OPTION_USER_PERMISSION:
-                    handleInspectUserPermission(context, cmd);
-                    break;
-                case COMMAND_OPTION_USER_VIEW_OF_PERMISSION:
-                    handleInspectUserViewOfPermission(context, cmd);
-                    break;
-                case COMMAND_OPTION_PERMISSION_VIEW_OF_ROLE:
-                    handleInspectPermissionViewOfRole(context, cmd);
-                    break;
-                case COMMAND_OPTION_PERMISSION_VIEW_OF_USER:
-                    handleInspectPermissionViewOfUser(context, cmd);
-                    break;
-            }
-        } catch (Exception e) {
-            throw new TelqosException(e);
+    protected void executeWithCmd(CommandExecutor.Context context, CommandLine cmd) throws Exception {
+        Pair<String, Integer> pair = CliCommandUtil.analyseCommand(cmd, COMMAND_OPTION_ARRAY);
+        if (pair.getRight() != 1) {
+            context.sendMessage(CliCommandUtil.optionMismatchMessage(COMMAND_OPTION_ARRAY));
+            context.sendMessage(context.getCommandManual(context.getRuntimeIdentity()));
+            return;
+        }
+        switch (pair.getLeft()) {
+            case COMMAND_OPTION_PERMISSION_USER:
+                handleInspectPermissionUser(context, cmd);
+                break;
+            case COMMAND_OPTION_ROLE_PERMISSION:
+                handleInspectRolePermission(context, cmd);
+                break;
+            case COMMAND_OPTION_USER_PERMISSION:
+                handleInspectUserPermission(context, cmd);
+                break;
+            case COMMAND_OPTION_USER_VIEW_OF_PERMISSION:
+                handleInspectUserViewOfPermission(context, cmd);
+                break;
+            case COMMAND_OPTION_PERMISSION_VIEW_OF_ROLE:
+                handleInspectPermissionViewOfRole(context, cmd);
+                break;
+            case COMMAND_OPTION_PERMISSION_VIEW_OF_USER:
+                handleInspectPermissionViewOfUser(context, cmd);
+                break;
+            default:
+                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
         }
     }
 
     // 仍然需要保留旧指令选项，故忽略相关警告。
     @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
-    private void handleInspectPermissionUser(Context context, CommandLine cmd) throws Exception {
+    private void handleInspectPermissionUser(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         PermissionUserInspectInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 PermissionUserInspectInfo。
-        if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+        if (cmd.hasOption(COMMAND_SUB_OPTION_JSON)) {
+            String json = (String) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON);
             info = WebInputPermissionUserInspectInfo.toStackBean(
                     JSON.parseObject(json, WebInputPermissionUserInspectInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 PermissionUserInspectInfo。
-        else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+        else if (cmd.hasOption(COMMAND_SUB_OPTION_JSON_FILE)) {
+            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputPermissionUserInspectInfo.toStackBean(
                         JSON.parseObject(in, WebInputPermissionUserInspectInfo.class)
@@ -213,16 +216,16 @@ public class InspectCommand extends CliCommand {
         }
     }
 
-    private void handleInspectUserViewOfPermission(Context context, CommandLine cmd) throws Exception {
+    private void handleInspectUserViewOfPermission(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         UserViewOfPermissionInspectInfo info;
 
-        if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+        if (cmd.hasOption(COMMAND_SUB_OPTION_JSON)) {
+            String json = (String) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON);
             info = WebInputUserViewOfPermissionInspectInfo.toStackBean(
                     JSON.parseObject(json, WebInputUserViewOfPermissionInspectInfo.class)
             );
-        } else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+        } else if (cmd.hasOption(COMMAND_SUB_OPTION_JSON_FILE)) {
+            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputUserViewOfPermissionInspectInfo.toStackBean(
                         JSON.parseObject(in, WebInputUserViewOfPermissionInspectInfo.class)
@@ -243,8 +246,9 @@ public class InspectCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void interactUserViewOfPermissionResult(Context context, UserViewOfPermissionInspectResult result)
-            throws Exception {
+    private void interactUserViewOfPermissionResult(
+            CommandExecutor.Context context, UserViewOfPermissionInspectResult result
+    ) throws Exception {
         sendUserViewOfPermissionMenu(context, result);
 
         while (true) {
@@ -260,8 +264,8 @@ public class InspectCommand extends CliCommand {
                     continue;
                 }
                 while (true) {
-                    CommandUtil.CropResult cropResult = CommandUtil.cropData(
-                            context, list, "数据总数: " + list.size(), "输入 q 返回至主菜单"
+                    CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
+                            context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至主菜单"
                     );
                     if (cropResult.isExitFlag()) break;
                     context.sendMessage("");
@@ -278,8 +282,8 @@ public class InspectCommand extends CliCommand {
                     continue;
                 }
                 while (true) {
-                    CommandUtil.CropResult cropResult = CommandUtil.cropData(
-                            context, list, "数据总数: " + list.size(), "输入 q 返回至主菜单"
+                    CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
+                            context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至主菜单"
                     );
                     if (cropResult.isExitFlag()) break;
                     context.sendMessage("");
@@ -297,8 +301,8 @@ public class InspectCommand extends CliCommand {
                     continue;
                 }
                 while (true) {
-                    CommandUtil.CropResult cropResult = CommandUtil.cropData(
-                            context, list, "数据总数: " + list.size(), "输入 q 返回至主菜单"
+                    CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
+                            context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至主菜单"
                     );
                     if (cropResult.isExitFlag()) break;
                     context.sendMessage("");
@@ -316,7 +320,7 @@ public class InspectCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void sendUserViewOfPermissionMenu(Context context, UserViewOfPermissionInspectResult result)
+    private void sendUserViewOfPermissionMenu(CommandExecutor.Context context, UserViewOfPermissionInspectResult result)
             throws Exception {
         context.sendMessage("");
         context.sendMessage("matchedFlag: " + result.isMatchedFlag());
@@ -334,19 +338,19 @@ public class InspectCommand extends CliCommand {
     // 仍然需要保留旧指令选项，故忽略相关警告。
     @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
-    private void handleInspectRolePermission(Context context, CommandLine cmd) throws Exception {
+    private void handleInspectRolePermission(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         RolePermissionInspectInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 RolePermissionInspectInfo。
-        if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+        if (cmd.hasOption(COMMAND_SUB_OPTION_JSON)) {
+            String json = (String) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON);
             info = WebInputRolePermissionInspectInfo.toStackBean(
                     JSON.parseObject(json, WebInputRolePermissionInspectInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 RolePermissionInspectInfo。
-        else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+        else if (cmd.hasOption(COMMAND_SUB_OPTION_JSON_FILE)) {
+            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputRolePermissionInspectInfo.toStackBean(
                         JSON.parseObject(in, WebInputRolePermissionInspectInfo.class)
@@ -371,16 +375,16 @@ public class InspectCommand extends CliCommand {
         }
     }
 
-    private void handleInspectPermissionViewOfRole(Context context, CommandLine cmd) throws Exception {
+    private void handleInspectPermissionViewOfRole(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         PermissionViewOfRoleInspectInfo info;
 
-        if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+        if (cmd.hasOption(COMMAND_SUB_OPTION_JSON)) {
+            String json = (String) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON);
             info = WebInputPermissionViewOfRoleInspectInfo.toStackBean(
                     JSON.parseObject(json, WebInputPermissionViewOfRoleInspectInfo.class)
             );
-        } else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+        } else if (cmd.hasOption(COMMAND_SUB_OPTION_JSON_FILE)) {
+            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputPermissionViewOfRoleInspectInfo.toStackBean(
                         JSON.parseObject(in, WebInputPermissionViewOfRoleInspectInfo.class)
@@ -401,8 +405,9 @@ public class InspectCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void interactPermissionViewOfRoleResult(Context context, PermissionViewOfRoleInspectResult result)
-            throws Exception {
+    private void interactPermissionViewOfRoleResult(
+            CommandExecutor.Context context, PermissionViewOfRoleInspectResult result
+    ) throws Exception {
         sendPermissionViewOfRoleMenu(context, result);
 
         while (true) {
@@ -418,8 +423,8 @@ public class InspectCommand extends CliCommand {
                     continue;
                 }
                 while (true) {
-                    CommandUtil.CropResult cropResult = CommandUtil.cropData(
-                            context, list, "数据总数: " + list.size(), "输入 q 返回至主菜单"
+                    CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
+                            context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至主菜单"
                     );
                     if (cropResult.isExitFlag()) break;
                     context.sendMessage("");
@@ -436,8 +441,8 @@ public class InspectCommand extends CliCommand {
                     continue;
                 }
                 while (true) {
-                    CommandUtil.CropResult cropResult = CommandUtil.cropData(
-                            context, list, "数据总数: " + list.size(), "输入 q 返回至主菜单"
+                    CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
+                            context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至主菜单"
                     );
                     if (cropResult.isExitFlag()) break;
                     context.sendMessage("");
@@ -454,8 +459,8 @@ public class InspectCommand extends CliCommand {
                     continue;
                 }
                 while (true) {
-                    CommandUtil.CropResult cropResult = CommandUtil.cropData(
-                            context, list, "数据总数: " + list.size(), "输入 q 返回至主菜单"
+                    CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
+                            context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至主菜单"
                     );
                     if (cropResult.isExitFlag()) break;
                     context.sendMessage("");
@@ -472,8 +477,8 @@ public class InspectCommand extends CliCommand {
                     continue;
                 }
                 while (true) {
-                    CommandUtil.CropResult cropResult = CommandUtil.cropData(
-                            context, list, "数据总数: " + list.size(), "输入 q 返回至主菜单"
+                    CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
+                            context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至主菜单"
                     );
                     if (cropResult.isExitFlag()) break;
                     context.sendMessage("");
@@ -489,7 +494,7 @@ public class InspectCommand extends CliCommand {
         }
     }
 
-    private void sendPermissionViewOfRoleMenu(Context context, PermissionViewOfRoleInspectResult result)
+    private void sendPermissionViewOfRoleMenu(CommandExecutor.Context context, PermissionViewOfRoleInspectResult result)
             throws Exception {
         context.sendMessage("");
         context.sendMessage("matchedFlag: " + result.isMatchedFlag());
@@ -509,19 +514,19 @@ public class InspectCommand extends CliCommand {
     // 仍然需要保留旧指令选项，故忽略相关警告。
     @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
-    private void handleInspectUserPermission(Context context, CommandLine cmd) throws Exception {
+    private void handleInspectUserPermission(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         UserPermissionInspectInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 UserPermissionInspectInfo。
-        if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+        if (cmd.hasOption(COMMAND_SUB_OPTION_JSON)) {
+            String json = (String) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON);
             info = WebInputUserPermissionInspectInfo.toStackBean(
                     JSON.parseObject(json, WebInputUserPermissionInspectInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 UserPermissionInspectInfo。
-        else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+        else if (cmd.hasOption(COMMAND_SUB_OPTION_JSON_FILE)) {
+            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputUserPermissionInspectInfo.toStackBean(
                         JSON.parseObject(in, WebInputUserPermissionInspectInfo.class)
@@ -546,16 +551,16 @@ public class InspectCommand extends CliCommand {
         }
     }
 
-    private void handleInspectPermissionViewOfUser(Context context, CommandLine cmd) throws Exception {
+    private void handleInspectPermissionViewOfUser(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         PermissionViewOfUserInspectInfo info;
 
-        if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+        if (cmd.hasOption(COMMAND_SUB_OPTION_JSON)) {
+            String json = (String) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON);
             info = WebInputPermissionViewOfUserInspectInfo.toStackBean(
                     JSON.parseObject(json, WebInputPermissionViewOfUserInspectInfo.class)
             );
-        } else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+        } else if (cmd.hasOption(COMMAND_SUB_OPTION_JSON_FILE)) {
+            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputPermissionViewOfUserInspectInfo.toStackBean(
                         JSON.parseObject(in, WebInputPermissionViewOfUserInspectInfo.class)
@@ -576,8 +581,9 @@ public class InspectCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void interactPermissionViewOfUserResult(Context context, PermissionViewOfUserInspectResult result)
-            throws Exception {
+    private void interactPermissionViewOfUserResult(
+            CommandExecutor.Context context, PermissionViewOfUserInspectResult result
+    ) throws Exception {
         sendPermissionViewOfUserMenu(context, result);
 
         while (true) {
@@ -593,8 +599,8 @@ public class InspectCommand extends CliCommand {
                     continue;
                 }
                 while (true) {
-                    CommandUtil.CropResult cropResult = CommandUtil.cropData(
-                            context, list, "数据总数: " + list.size(), "输入 q 返回至主菜单"
+                    CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
+                            context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至主菜单"
                     );
                     if (cropResult.isExitFlag()) break;
                     context.sendMessage("");
@@ -613,7 +619,7 @@ public class InspectCommand extends CliCommand {
         }
     }
 
-    private void sendPermissionViewOfUserMenu(Context context, PermissionViewOfUserInspectResult result)
+    private void sendPermissionViewOfUserMenu(CommandExecutor.Context context, PermissionViewOfUserInspectResult result)
             throws Exception {
         context.sendMessage("");
         context.sendMessage("matchedFlag: " + result.isMatchedFlag());
@@ -628,7 +634,7 @@ public class InspectCommand extends CliCommand {
 
     @SuppressWarnings("DuplicatedCode")
     private void interactPermissionViewOfUserRoleDetails(
-            Context context, List<PermissionViewOfUserInspectResult.RoleDetail> roleDetails
+            CommandExecutor.Context context, List<PermissionViewOfUserInspectResult.RoleDetail> roleDetails
     ) throws Exception {
         if (Objects.isNull(roleDetails)) {
             context.sendMessage("该列表未设置，无法查看");
@@ -676,8 +682,8 @@ public class InspectCommand extends CliCommand {
                         continue;
                     }
                     while (true) {
-                        CommandUtil.CropResult cropResult = CommandUtil.cropData(
-                                context, list, "数据总数: " + list.size(), "输入 q 返回至角色详情"
+                        CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
+                                context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至角色详情"
                         );
                         if (cropResult.isExitFlag()) break;
                         context.sendMessage("");
@@ -694,8 +700,8 @@ public class InspectCommand extends CliCommand {
                         continue;
                     }
                     while (true) {
-                        CommandUtil.CropResult cropResult = CommandUtil.cropData(
-                                context, list, "数据总数: " + list.size(), "输入 q 返回至角色详情"
+                        CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
+                                context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至角色详情"
                         );
                         if (cropResult.isExitFlag()) break;
                         context.sendMessage("");
@@ -712,8 +718,8 @@ public class InspectCommand extends CliCommand {
                         continue;
                     }
                     while (true) {
-                        CommandUtil.CropResult cropResult = CommandUtil.cropData(
-                                context, list, "数据总数: " + list.size(), "输入 q 返回至角色详情"
+                        CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
+                                context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至角色详情"
                         );
                         if (cropResult.isExitFlag()) break;
                         context.sendMessage("");
@@ -732,7 +738,7 @@ public class InspectCommand extends CliCommand {
 
     @SuppressWarnings("DuplicatedCode")
     private void sendPermissionViewOfUserRoleDetailMenu(
-            Context context, PermissionViewOfUserInspectResult.RoleDetail roleDetail
+            CommandExecutor.Context context, PermissionViewOfUserInspectResult.RoleDetail roleDetail
     ) throws Exception {
         context.sendMessage("");
         context.sendMessage("角色信息:");
@@ -750,14 +756,14 @@ public class InspectCommand extends CliCommand {
         context.sendMessage("");
     }
 
-    private void printUser(int i, int endIndex, User user, Context context) throws Exception {
+    private void printUser(int i, int endIndex, User user, CommandExecutor.Context context) throws Exception {
         context.sendMessage(String.format("索引: %d/%d", i, endIndex));
         context.sendMessage("  key: " + user.getKey());
         context.sendMessage("  remark: " + user.getRemark());
         context.sendMessage("");
     }
 
-    private void printRole(int i, int endIndex, Role role, Context context) throws Exception {
+    private void printRole(int i, int endIndex, Role role, CommandExecutor.Context context) throws Exception {
         context.sendMessage(String.format("索引: %d/%d", i, endIndex));
         printStringIdKey(context, role.getKey());
         context.sendMessage("  name: " + role.getName());
@@ -765,14 +771,14 @@ public class InspectCommand extends CliCommand {
         context.sendMessage("  remark: " + role.getRemark());
     }
 
-    private void printRole(Role role, Context context) throws Exception {
+    private void printRole(Role role, CommandExecutor.Context context) throws Exception {
         printStringIdKey(context, role.getKey());
         context.sendMessage("  name: " + role.getName());
         context.sendMessage("  enabled: " + role.isEnabled());
         context.sendMessage("  remark: " + role.getRemark());
     }
 
-    private void printStringIdKey(Context context, StringIdKey key) throws Exception {
+    private void printStringIdKey(CommandExecutor.Context context, StringIdKey key) throws Exception {
         context.sendMessage("  key:");
         if (Objects.isNull(key)) {
             context.sendMessage("    null");
@@ -782,7 +788,8 @@ public class InspectCommand extends CliCommand {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private void printPermission(int i, int endIndex, Permission permission, Context context) throws Exception {
+    private void printPermission(int i, int endIndex, Permission permission, CommandExecutor.Context context)
+            throws Exception {
         context.sendMessage(String.format("索引: %d/%d", i, endIndex));
         printPermissionKey(context, permission.getKey());
         printPermissionGroupKey(context, permission.getGroupKey());
@@ -793,7 +800,7 @@ public class InspectCommand extends CliCommand {
         context.sendMessage("");
     }
 
-    private void printPermissionKey(Context context, PermissionKey key) throws Exception {
+    private void printPermissionKey(CommandExecutor.Context context, PermissionKey key) throws Exception {
         context.sendMessage("  key:");
         if (Objects.isNull(key)) {
             context.sendMessage("    null");
@@ -803,7 +810,7 @@ public class InspectCommand extends CliCommand {
         context.sendMessage("    permissionStringId: " + key.getPermissionStringId());
     }
 
-    private void printPermissionGroupKey(Context context, PermissionGroupKey key) throws Exception {
+    private void printPermissionGroupKey(CommandExecutor.Context context, PermissionGroupKey key) throws Exception {
         context.sendMessage("  group:");
         if (Objects.isNull(key)) {
             context.sendMessage("    null");

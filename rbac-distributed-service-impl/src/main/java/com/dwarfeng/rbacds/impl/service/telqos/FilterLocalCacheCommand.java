@@ -2,10 +2,11 @@ package com.dwarfeng.rbacds.impl.service.telqos;
 
 import com.dwarfeng.rbacds.stack.handler.Filter;
 import com.dwarfeng.rbacds.stack.service.FilterQosService;
-import com.dwarfeng.springtelqos.node.config.TelqosCommand;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
-import com.dwarfeng.springtelqos.stack.command.Context;
-import com.dwarfeng.springtelqos.stack.exception.TelqosException;
+import com.dwarfeng.springtelqos.sdk.configuration.TelqosCommand;
+import com.dwarfeng.springtelqos.sdk.util.CliCommandUtil;
+import com.dwarfeng.springtelqos.stack.command.CommandDescriptor;
+import com.dwarfeng.springtelqos.stack.command.CommandExecutor;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.lang3.tuple.Pair;
@@ -23,6 +24,11 @@ import java.util.Objects;
 @TelqosCommand
 public class FilterLocalCacheCommand extends CliCommand {
 
+    @SuppressWarnings({"SpellCheckingInspection", "GrazieInspectionRunner", "RedundantSuppression"})
+    private static final String IDENTITY = "flc";
+
+    // region 指令选项
+
     private static final String COMMAND_OPTION_LOOKUP = "l";
     private static final String COMMAND_OPTION_CLEAR = "c";
 
@@ -31,30 +37,36 @@ public class FilterLocalCacheCommand extends CliCommand {
             COMMAND_OPTION_CLEAR
     };
 
-    @SuppressWarnings({"SpellCheckingInspection", "RedundantSuppression"})
-    private static final String IDENTITY = "flc";
-    private static final String DESCRIPTION = "过滤器本地缓存操作";
-    private static final String CMD_LINE_SYNTAX_LOOKUP = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_LOOKUP) + " filter-type";
-    private static final String CMD_LINE_SYNTAX_CLEAR = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_CLEAR);
-
-    private static final String[] CMD_LINE_ARRAY = new String[]{
-            CMD_LINE_SYNTAX_LOOKUP,
-            CMD_LINE_SYNTAX_CLEAR
-    };
-
-    private static final String CMD_LINE_SYNTAX = CommandUtil.syntax(CMD_LINE_ARRAY);
+    // endregion
 
     private final FilterQosService filterQosService;
 
     public FilterLocalCacheCommand(FilterQosService filterQosService) {
-        super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
+        super(IDENTITY);
         this.filterQosService = filterQosService;
     }
 
     @Override
-    protected List<Option> buildOptions() {
+    protected DescriptionProvider provideDescriptionProvider() {
+        return context -> "过滤器本地缓存操作";
+    }
+
+    @Override
+    protected CliSyntaxProvider provideCliSyntaxProvider() {
+        return this::cliSyntaxProvider;
+    }
+
+    private String cliSyntaxProvider(CommandDescriptor.Context context) throws Exception {
+        String identity = context.getRuntimeIdentity();
+        String[] patterns = new String[]{
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_LOOKUP) + " filter-type",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_CLEAR)
+        };
+        return CliCommandUtil.cliSyntax(patterns);
+    }
+
+    @Override
+    protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
         list.add(
                 Option.builder(COMMAND_OPTION_LOOKUP).optionalArg(true).hasArg(true).type(Number.class)
@@ -68,28 +80,26 @@ public class FilterLocalCacheCommand extends CliCommand {
 
     @SuppressWarnings("DuplicatedCode")
     @Override
-    protected void executeWithCmd(Context context, CommandLine cmd) throws TelqosException {
-        try {
-            Pair<String, Integer> pair = CommandUtil.analyseCommand(cmd, COMMAND_OPTION_ARRAY);
-            if (pair.getRight() != 1) {
-                context.sendMessage(CommandUtil.optionMismatchMessage(COMMAND_OPTION_ARRAY));
-                context.sendMessage(CMD_LINE_SYNTAX);
-                return;
-            }
-            switch (pair.getLeft()) {
-                case COMMAND_OPTION_LOOKUP:
-                    handleLookup(context, cmd);
-                    break;
-                case COMMAND_OPTION_CLEAR:
-                    handleClear(context);
-                    break;
-            }
-        } catch (Exception e) {
-            throw new TelqosException(e);
+    protected void executeWithCmd(CommandExecutor.Context context, CommandLine cmd) throws Exception {
+        Pair<String, Integer> pair = CliCommandUtil.analyseCommand(cmd, COMMAND_OPTION_ARRAY);
+        if (pair.getRight() != 1) {
+            context.sendMessage(CliCommandUtil.optionMismatchMessage(COMMAND_OPTION_ARRAY));
+            context.sendMessage(context.getCommandManual(context.getRuntimeIdentity()));
+            return;
+        }
+        switch (pair.getLeft()) {
+            case COMMAND_OPTION_LOOKUP:
+                handleLookup(context, cmd);
+                break;
+            case COMMAND_OPTION_CLEAR:
+                handleClear(context);
+                break;
+            default:
+                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
         }
     }
 
-    private void handleLookup(Context context, CommandLine cmd) throws Exception {
+    private void handleLookup(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         String filterType = cmd.getOptionValue(COMMAND_OPTION_LOOKUP);
         Filter filter = filterQosService.getFilter(filterType);
         if (Objects.isNull(filter)) {
@@ -99,7 +109,7 @@ public class FilterLocalCacheCommand extends CliCommand {
         context.sendMessage(String.format("filter: %s", filter));
     }
 
-    private void handleClear(Context context) throws Exception {
+    private void handleClear(CommandExecutor.Context context) throws Exception {
         filterQosService.clearLocalCache();
         context.sendMessage("缓存已清空");
     }

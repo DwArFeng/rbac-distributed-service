@@ -9,10 +9,11 @@ import com.dwarfeng.rbacds.stack.bean.dto.PexpCreateResult;
 import com.dwarfeng.rbacds.stack.bean.dto.PexpRemoveInfo;
 import com.dwarfeng.rbacds.stack.bean.dto.PexpUpdateInfo;
 import com.dwarfeng.rbacds.stack.service.PexpOperateService;
-import com.dwarfeng.springtelqos.node.config.TelqosCommand;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
-import com.dwarfeng.springtelqos.stack.command.Context;
-import com.dwarfeng.springtelqos.stack.exception.TelqosException;
+import com.dwarfeng.springtelqos.sdk.configuration.TelqosCommand;
+import com.dwarfeng.springtelqos.sdk.util.CliCommandUtil;
+import com.dwarfeng.springtelqos.stack.command.CommandDescriptor;
+import com.dwarfeng.springtelqos.stack.command.CommandExecutor;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.lang3.tuple.Pair;
@@ -32,6 +33,11 @@ import java.util.Objects;
 @TelqosCommand
 public class PexpCommand extends CliCommand {
 
+    @SuppressWarnings({"SpellCheckingInspection", "GrazieInspectionRunner", "RedundantSuppression"})
+    private static final String IDENTITY = "pexp";
+
+    // region 指令选项
+
     private static final String COMMAND_OPTION_CREATE = "create";
     private static final String COMMAND_OPTION_UPDATE = "update";
     private static final String COMMAND_OPTION_REMOVE = "remove";
@@ -42,52 +48,58 @@ public class PexpCommand extends CliCommand {
             COMMAND_OPTION_REMOVE
     };
 
-    private static final String COMMAND_OPTION_JSON = "json";
-    private static final String COMMAND_OPTION_JSON_FILE = "jf";
-    private static final String COMMAND_OPTION_JSON_FILE_LONG_OPT = "json-file";
+    private static final String COMMAND_SUB_OPTION_JSON = "json";
+    private static final String COMMAND_SUB_OPTION_JSON_FILE = "jf";
+    private static final String COMMAND_SUB_OPTION_JSON_FILE_LONG_OPT = "json-file";
 
-    private static final String IDENTITY = "pexp";
-    private static final String DESCRIPTION = "权限表达式操作服务";
-
-    private static final String CMD_LINE_SYNTAX_CREATE = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_CREATE) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_UPDATE = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_UPDATE) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-    private static final String CMD_LINE_SYNTAX_REMOVE = IDENTITY + " " +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_REMOVE) + " [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON) + " json-string] [" +
-            CommandUtil.concatOptionPrefix(COMMAND_OPTION_JSON_FILE) + " json-file]";
-
-    private static final String[] CMD_LINE_ARRAY = new String[]{
-            CMD_LINE_SYNTAX_CREATE,
-            CMD_LINE_SYNTAX_UPDATE,
-            CMD_LINE_SYNTAX_REMOVE
-    };
-
-    private static final String CMD_LINE_SYNTAX = CommandUtil.syntax(CMD_LINE_ARRAY);
+    // endregion
 
     private final PexpOperateService pexpOperateService;
 
     public PexpCommand(PexpOperateService pexpOperateService) {
-        super(IDENTITY, DESCRIPTION, CMD_LINE_SYNTAX);
+        super(IDENTITY);
         this.pexpOperateService = pexpOperateService;
     }
 
     @Override
-    protected List<Option> buildOptions() {
+    protected DescriptionProvider provideDescriptionProvider() {
+        return context -> "权限表达式操作服务";
+    }
+
+    @Override
+    protected CliSyntaxProvider provideCliSyntaxProvider() {
+        return this::cliSyntaxProvider;
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    private String cliSyntaxProvider(CommandDescriptor.Context context) throws Exception {
+        String identity = context.getRuntimeIdentity();
+        String[] patterns = new String[]{
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_CREATE) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_UPDATE) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON_FILE) + " json-file]",
+                identity + " " + CliCommandUtil.concatOptionPrefix(COMMAND_OPTION_REMOVE) + " [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON) + " json-string] [" +
+                        CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_JSON_FILE) + " json-file]"
+        };
+        return CliCommandUtil.cliSyntax(patterns);
+    }
+
+    @Override
+    protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
         list.add(Option.builder(COMMAND_OPTION_CREATE).desc("创建权限表达式").build());
         list.add(Option.builder(COMMAND_OPTION_UPDATE).desc("更新权限表达式").build());
         list.add(Option.builder(COMMAND_OPTION_REMOVE).desc("移除权限表达式").build());
         list.add(
-                Option.builder(COMMAND_OPTION_JSON).desc("JSON 字符串").hasArg().type(String.class).build()
+                Option.builder(COMMAND_SUB_OPTION_JSON).desc("JSON 字符串").hasArg().type(String.class).build()
         );
         list.add(
-                Option.builder(COMMAND_OPTION_JSON_FILE).longOpt(COMMAND_OPTION_JSON_FILE_LONG_OPT).desc("JSON 文件")
+                Option.builder(COMMAND_SUB_OPTION_JSON_FILE).longOpt(COMMAND_SUB_OPTION_JSON_FILE_LONG_OPT)
+                        .desc("JSON 文件")
                         .hasArg().type(File.class).build()
         );
         return list;
@@ -95,43 +107,41 @@ public class PexpCommand extends CliCommand {
 
     @SuppressWarnings("DuplicatedCode")
     @Override
-    protected void executeWithCmd(Context context, CommandLine cmd) throws TelqosException {
-        try {
-            Pair<String, Integer> pair = CommandUtil.analyseCommand(cmd, COMMAND_OPTION_ARRAY);
-            if (pair.getRight() != 1) {
-                context.sendMessage(CommandUtil.optionMismatchMessage(COMMAND_OPTION_ARRAY));
-                context.sendMessage(CMD_LINE_SYNTAX);
-                return;
-            }
-            switch (pair.getLeft()) {
-                case COMMAND_OPTION_CREATE:
-                    handleCreate(context, cmd);
-                    break;
-                case COMMAND_OPTION_UPDATE:
-                    handleUpdate(context, cmd);
-                    break;
-                case COMMAND_OPTION_REMOVE:
-                    handleRemove(context, cmd);
-                    break;
-            }
-        } catch (Exception e) {
-            throw new TelqosException(e);
+    protected void executeWithCmd(CommandExecutor.Context context, CommandLine cmd) throws Exception {
+        Pair<String, Integer> pair = CliCommandUtil.analyseCommand(cmd, COMMAND_OPTION_ARRAY);
+        if (pair.getRight() != 1) {
+            context.sendMessage(CliCommandUtil.optionMismatchMessage(COMMAND_OPTION_ARRAY));
+            context.sendMessage(context.getCommandManual(context.getRuntimeIdentity()));
+            return;
+        }
+        switch (pair.getLeft()) {
+            case COMMAND_OPTION_CREATE:
+                handleCreate(context, cmd);
+                break;
+            case COMMAND_OPTION_UPDATE:
+                handleUpdate(context, cmd);
+                break;
+            case COMMAND_OPTION_REMOVE:
+                handleRemove(context, cmd);
+                break;
+            default:
+                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
         }
     }
 
-    private void handleCreate(Context context, CommandLine cmd) throws Exception {
+    private void handleCreate(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         PexpCreateInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 PexpCreateInfo。
-        if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+        if (cmd.hasOption(COMMAND_SUB_OPTION_JSON)) {
+            String json = (String) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON);
             info = WebInputPexpCreateInfo.toStackBean(
                     JSON.parseObject(json, WebInputPexpCreateInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 PexpCreateInfo。
-        else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+        else if (cmd.hasOption(COMMAND_SUB_OPTION_JSON_FILE)) {
+            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputPexpCreateInfo.toStackBean(
                         JSON.parseObject(in, WebInputPexpCreateInfo.class)
@@ -153,19 +163,19 @@ public class PexpCommand extends CliCommand {
         }
     }
 
-    private void handleUpdate(Context context, CommandLine cmd) throws Exception {
+    private void handleUpdate(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         PexpUpdateInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 PexpUpdateInfo。
-        if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+        if (cmd.hasOption(COMMAND_SUB_OPTION_JSON)) {
+            String json = (String) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON);
             info = WebInputPexpUpdateInfo.toStackBean(
                     JSON.parseObject(json, WebInputPexpUpdateInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 PexpUpdateInfo。
-        else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+        else if (cmd.hasOption(COMMAND_SUB_OPTION_JSON_FILE)) {
+            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputPexpUpdateInfo.toStackBean(
                         JSON.parseObject(in, WebInputPexpUpdateInfo.class)
@@ -183,19 +193,19 @@ public class PexpCommand extends CliCommand {
         context.sendMessage("更新成功");
     }
 
-    private void handleRemove(Context context, CommandLine cmd) throws Exception {
+    private void handleRemove(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         PexpRemoveInfo info;
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 PexpRemoveInfo。
-        if (cmd.hasOption(COMMAND_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_OPTION_JSON);
+        if (cmd.hasOption(COMMAND_SUB_OPTION_JSON)) {
+            String json = (String) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON);
             info = WebInputPexpRemoveInfo.toStackBean(
                     JSON.parseObject(json, WebInputPexpRemoveInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 PexpRemoveInfo。
-        else if (cmd.hasOption(COMMAND_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_OPTION_JSON_FILE);
+        else if (cmd.hasOption(COMMAND_SUB_OPTION_JSON_FILE)) {
+            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputPexpRemoveInfo.toStackBean(
                         JSON.parseObject(in, WebInputPexpRemoveInfo.class)
