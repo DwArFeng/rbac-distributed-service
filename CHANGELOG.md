@@ -17,7 +17,8 @@
 
 ### 功能移除
 
-- (无)
+- 移除部分 `properties` 文件中的无用的配置项。
+  - src/test/resources/redis/prefix.properties。
 
 ---
 
