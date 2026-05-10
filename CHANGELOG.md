@@ -17,6 +17,8 @@
 
 ### 功能移除
 
+- 移除 `rbac-distributed-service-api` 子模块中不需要的测试目录。
+
 - 移除部分 `properties` 文件中的无用的配置项。
   - src/test/resources/redis/prefix.properties。
 
