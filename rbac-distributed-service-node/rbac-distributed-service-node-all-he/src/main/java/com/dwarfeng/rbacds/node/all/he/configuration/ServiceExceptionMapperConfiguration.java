@@ -1,4 +1,4 @@
-package com.dwarfeng.rbacds.node.configuration;
+package com.dwarfeng.rbacds.node.all.he.configuration;
 
 import com.dwarfeng.subgrade.impl.exception.MapServiceExceptionMapper;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionHelper;

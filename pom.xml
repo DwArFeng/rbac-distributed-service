@@ -427,6 +427,21 @@
                 <artifactId>rbac-distributed-service-impl</artifactId>
                 <version>3.0.0.a-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>com.dwarfeng</groupId>
+                <artifactId>rbac-distributed-service-node</artifactId>
+                <version>3.0.0.a-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dwarfeng</groupId>
+                <artifactId>rbac-distributed-service-node-all-he</artifactId>
+                <version>3.0.0.a-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dwarfeng</groupId>
+                <artifactId>rbac-distributed-service-distribute</artifactId>
+                <version>3.0.0.a-SNAPSHOT</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -473,5 +488,6 @@
         <module>rbac-distributed-service-impl</module>
         <module>rbac-distributed-service-node</module>
         <module>rbac-distributed-service-api</module>
+        <module>rbac-distributed-service-distribute</module>
     </modules>
 </project>

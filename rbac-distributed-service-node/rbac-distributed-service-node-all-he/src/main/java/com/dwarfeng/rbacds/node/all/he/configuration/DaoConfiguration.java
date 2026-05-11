@@ -1,4 +1,4 @@
-package com.dwarfeng.rbacds.node.configuration;
+package com.dwarfeng.rbacds.node.all.he.configuration;
 
 import com.dwarfeng.rbacds.impl.bean.BeanMapper;
 import com.dwarfeng.rbacds.impl.bean.entity.*;

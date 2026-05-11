@@ -11,7 +11,7 @@
 
     <!-- region 基础配置 -->
 
-    <dubbo:application name="rbac-node">
+    <dubbo:application name="rbac-node-all-he">
         <dubbo:parameter key="qos.enable" value="false"/>
     </dubbo:application>
 

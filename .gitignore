@@ -71,33 +71,33 @@ buildNumber.properties
 #################
 ## Logger Files
 #################
-/rbac-distributed-service-node/logs/
 /rbac-distributed-service-impl/logs/
+/rbac-distributed-service-node/rbac-distributed-service-node-all-he/logs/
 /rbac-distributed-service-api/logs/
 
 #################
 ## Configuration Files
 #################
-/rbac-distributed-service-node/conf/
 /rbac-distributed-service-impl/conf/
+/rbac-distributed-service-node/rbac-distributed-service-node-all-he/conf/
 /rbac-distributed-service-api/conf/
 
 #################
 ## Libext Files
 #################
-/rbac-distributed-service-node/libext/
+/rbac-distributed-service-node/rbac-distributed-service-node-all-he/libext/
 
 #################
 ## Opt Files
 #################
-/rbac-distributed-service-node/opt/
+/rbac-distributed-service-node/rbac-distributed-service-node-all-he/opt/
 
 #################
 ## Optext Files
 #################
-/rbac-distributed-service-node/optext/
+/rbac-distributed-service-node/rbac-distributed-service-node-all-he/optext/
 
 #################
 ## Confext Files
 #################
-/rbac-distributed-service-node/confext/
+/rbac-distributed-service-node/rbac-distributed-service-node-all-he/confext/

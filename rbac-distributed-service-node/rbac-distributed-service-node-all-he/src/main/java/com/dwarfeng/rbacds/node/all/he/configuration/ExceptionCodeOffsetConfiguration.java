@@ -1,4 +1,4 @@
-package com.dwarfeng.rbacds.node.configuration;
+package com.dwarfeng.rbacds.node.all.he.configuration;
 
 import com.dwarfeng.rbacds.sdk.util.ServiceExceptionCodes;
 import org.springframework.beans.factory.annotation.Value;

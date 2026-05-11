@@ -1,0 +1,44 @@
+<assembly
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+        xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0
+        http://maven.apache.org/xsd/assembly-2.0.0.xsd"
+>
+    <id>release</id>
+
+    <formats>
+        <format>dir</format>
+    </formats>
+
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <fileSets>
+        <!-- region rbac-distributed-service-node-all-he -->
+        <fileSet>
+            <outputDirectory>./rbac-all-he</outputDirectory>
+            <directory>
+                ../rbac-distributed-service-node/rbac-distributed-service-node-all-he/target
+            </directory>
+            <includes>
+                <include>rbac-all-he-${project.version}-release/**</include>
+            </includes>
+            <filtered>false</filtered>
+            <fileMode>0644</fileMode>
+            <directoryMode>0755</directoryMode>
+        </fileSet>
+        <!-- endregion -->
+    </fileSets>
+
+    <files>
+        <!-- region rbac-distributed-service-node-all-he -->
+        <file>
+            <outputDirectory>./rbac-all-he</outputDirectory>
+            <source>
+                ../rbac-distributed-service-node/rbac-distributed-service-node-all-he/target/rbac-all-he-${project.version}-release.tar.gz
+            </source>
+            <filtered>false</filtered>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- endregion -->
+    </files>
+</assembly>
