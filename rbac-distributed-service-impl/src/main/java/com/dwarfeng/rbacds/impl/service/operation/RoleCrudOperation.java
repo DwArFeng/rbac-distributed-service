@@ -35,7 +35,7 @@ public class RoleCrudOperation implements BatchCrudOperation<StringIdKey, Role> 
     private final RoleUserRelationDao roleUserRelationDao;
     private final RoleUserRelationCache roleUserRelationCache;
 
-    @Value("${cache.timeout.entity.role}")
+    @Value("${com.dwarfeng.rbacds.cache.timeout.entity.role}")
     private long roleTimeout;
 
     public RoleCrudOperation(

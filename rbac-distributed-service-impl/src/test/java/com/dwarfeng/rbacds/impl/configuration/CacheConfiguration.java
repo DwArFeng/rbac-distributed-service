@@ -25,21 +25,21 @@ public class CacheConfiguration {
 
     private final RedisTemplate<String, ?> template;
 
-    @Value("${cache.prefix.entity.permission}")
+    @Value("${com.dwarfeng.rbacds.cache.prefix.entity.permission}")
     private String permissionPrefix;
-    @Value("${cache.prefix.entity.pexp}")
+    @Value("${com.dwarfeng.rbacds.cache.prefix.entity.pexp}")
     private String pexpPrefix;
-    @Value("${cache.prefix.entity.role}")
+    @Value("${com.dwarfeng.rbacds.cache.prefix.entity.role}")
     private String rolePrefix;
-    @Value("${cache.prefix.entity.user}")
+    @Value("${com.dwarfeng.rbacds.cache.prefix.entity.user}")
     private String userPrefix;
-    @Value("${cache.prefix.entity.permission_group}")
+    @Value("${com.dwarfeng.rbacds.cache.prefix.entity.permission_group}")
     private String permissionGroupPrefix;
-    @Value("${cache.prefix.entity.filter_support}")
+    @Value("${com.dwarfeng.rbacds.cache.prefix.entity.filter_support}")
     private String filterSupportPrefix;
-    @Value("${cache.prefix.entity.role_user_relation}")
+    @Value("${com.dwarfeng.rbacds.cache.prefix.entity.role_user_relation}")
     private String roleUserRelationPrefix;
-    @Value("${cache.prefix.entity.scope}")
+    @Value("${com.dwarfeng.rbacds.cache.prefix.entity.scope}")
     private String scopePrefix;
 
     public CacheConfiguration(RedisTemplate<String, ?> template) {

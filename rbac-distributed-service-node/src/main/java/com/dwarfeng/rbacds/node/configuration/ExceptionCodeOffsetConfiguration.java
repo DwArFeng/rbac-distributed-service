@@ -9,15 +9,15 @@ import javax.annotation.PostConstruct;
 @Configuration
 public class ExceptionCodeOffsetConfiguration {
 
-    @Value("${rbacds.exception_code_offset}")
+    @Value("${com.dwarfeng.rbacds.rbacds.exception_code_offset}")
     private int exceptionCodeOffset;
-    @Value("${rbacds.exception_code_offset.subgrade}")
+    @Value("${com.dwarfeng.rbacds.rbacds.exception_code_offset.subgrade}")
     private int subgradeExceptionCodeOffset;
-    @Value("${rbacds.exception_code_offset.spring_telqos}")
+    @Value("${com.dwarfeng.rbacds.rbacds.exception_code_offset.spring_telqos}")
     private int springTelqosExceptionCodeOffset;
-    @Value("${rbacds.exception_code_offset.spring_terminator}")
+    @Value("${com.dwarfeng.rbacds.rbacds.exception_code_offset.spring_terminator}")
     private int springTerminatorExceptionCodeOffset;
-    @Value("${rbacds.exception_code_offset.dwarfeng_datamark}")
+    @Value("${com.dwarfeng.rbacds.rbacds.exception_code_offset.dwarfeng_datamark}")
     private int dwarfengDatamarkExceptionCodeOffset;
 
     @PostConstruct

@@ -16,12 +16,19 @@
     </dubbo:application>
 
     <!-- Zookeeper 注册中心。 -->
-    <dubbo:registry address="${dubbo.registry.zookeeper.address}" timeout="${dubbo.registry.zookeeper.timeout}"/>
+    <dubbo:registry
+            address="${com.dwarfeng.rbacds.dubbo.registry.zookeeper.address}"
+            timeout="${com.dwarfeng.rbacds.dubbo.registry.zookeeper.timeout}"
+    />
 
     <!-- Dubbo 协议。 -->
     <dubbo:protocol
-            name="dubbo" port="${dubbo.protocol.dubbo.port}" host="${dubbo.protocol.dubbo.host}"
-            dispatcher="message" threadpool="fixed" threads="100"
+            name="dubbo"
+            port="${com.dwarfeng.rbacds.dubbo.protocol.dubbo.port}"
+            host="${com.dwarfeng.rbacds.dubbo.protocol.dubbo.host}"
+            dispatcher="message"
+            threadpool="fixed"
+            threads="100"
     />
 
     <!-- endregion -->
@@ -33,62 +40,62 @@
     <dubbo:service
             interface="com.dwarfeng.rbacds.stack.service.UserMaintainService"
             ref="userMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.rbacds.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.rbacds.stack.service.RoleMaintainService"
             ref="roleMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.rbacds.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.rbacds.stack.service.PexpMaintainService"
             ref="pexpMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.rbacds.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.rbacds.stack.service.PexpOperateService"
             ref="pexpOperateServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.rbacds.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.rbacds.stack.service.PermissionMaintainService"
             ref="permissionMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.rbacds.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.rbacds.stack.service.PermissionOperateService"
             ref="permissionOperateServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.rbacds.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.rbacds.stack.service.PermissionGroupMaintainService"
             ref="permissionGroupMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.rbacds.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.rbacds.stack.service.PermissionGroupOperateService"
             ref="permissionGroupOperateServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.rbacds.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.rbacds.stack.service.FilterSupportMaintainService"
             ref="filterSupportMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.rbacds.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.rbacds.stack.service.RoleUserRelationMaintainService"
             ref="roleUserRelationMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.rbacds.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.rbacds.stack.service.ScopeMaintainService"
             ref="scopeMaintainServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.rbacds.dubbo.provider.group}"
     />
     <dubbo:service
             interface="com.dwarfeng.rbacds.stack.service.InspectService"
             ref="inspectServiceImpl"
-            group="${dubbo.provider.group}"
+            group="${com.dwarfeng.rbacds.dubbo.provider.group}"
     />
 
     <!-- endregion -->

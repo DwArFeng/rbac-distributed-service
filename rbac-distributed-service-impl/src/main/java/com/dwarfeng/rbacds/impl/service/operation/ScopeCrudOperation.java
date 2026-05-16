@@ -43,7 +43,7 @@ public class ScopeCrudOperation implements BatchCrudOperation<StringIdKey, Scope
     private final PexpDao pexpDao;
     private final PexpCache pexpCache;
 
-    @Value("${cache.timeout.entity.scope}")
+    @Value("${com.dwarfeng.rbacds.cache.timeout.entity.scope}")
     private long scopeTimeout;
 
     public ScopeCrudOperation(

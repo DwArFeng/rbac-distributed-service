@@ -18,7 +18,7 @@ public class PermissionCrudOperation implements BatchCrudOperation<PermissionKey
     private final PermissionDao permissionDao;
     private final PermissionCache permissionCache;
 
-    @Value("${cache.timeout.entity.permission}")
+    @Value("${com.dwarfeng.rbacds.cache.timeout.entity.permission}")
     private long permissionTimeout;
 
     public PermissionCrudOperation(

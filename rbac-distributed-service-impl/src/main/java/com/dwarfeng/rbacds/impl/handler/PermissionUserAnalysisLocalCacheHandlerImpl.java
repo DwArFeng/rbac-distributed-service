@@ -34,8 +34,8 @@ public class PermissionUserAnalysisLocalCacheHandlerImpl implements PermissionUs
     public PermissionUserAnalysisLocalCacheHandlerImpl(
             PermissionUserAnalysisFetcher permissionUserAnalysisFetcher,
             ThreadPoolTaskScheduler scheduler,
-            @Value("${local_cache.permission_user_analysis.ttl}") long ttl,
-            @Value("${local_cache.permission_user_analysis.cleanup_interval}") long cleanupInterval
+            @Value("${com.dwarfeng.rbacds.local_cache.permission_user_analysis.ttl}") long ttl,
+            @Value("${com.dwarfeng.rbacds.local_cache.permission_user_analysis.cleanup_interval}") long cleanupInterval
     ) {
         handler = new ExpirableLocalCacheHandler<>(permissionUserAnalysisFetcher, scheduler, ttl, cleanupInterval);
     }

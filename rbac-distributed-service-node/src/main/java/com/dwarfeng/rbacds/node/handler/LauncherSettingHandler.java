@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class LauncherSettingHandler implements Handler {
 
-    @Value("${launcher.reset_filter_support}")
+    @Value("${com.dwarfeng.rbacds.launcher.reset_filter_support}")
     private boolean resetFilterSupport;
 
-    @Value("${launcher.start_reset_delay}")
+    @Value("${com.dwarfeng.rbacds.launcher.start_reset_delay}")
     private long startResetDelay;
 
     public boolean isResetFilterSupport() {

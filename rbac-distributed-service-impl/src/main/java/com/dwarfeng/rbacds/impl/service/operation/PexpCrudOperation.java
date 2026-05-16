@@ -18,7 +18,7 @@ public class PexpCrudOperation implements BatchCrudOperation<PexpKey, Pexp> {
     private final PexpDao pexpDao;
     private final PexpCache pexpCache;
 
-    @Value("${cache.timeout.entity.pexp}")
+    @Value("${com.dwarfeng.rbacds.cache.timeout.entity.pexp}")
     private long pexpTimeout;
 
     public PexpCrudOperation(

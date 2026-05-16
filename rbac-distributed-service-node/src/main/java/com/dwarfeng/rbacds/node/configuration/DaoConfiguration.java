@@ -38,7 +38,7 @@ public class DaoConfiguration {
     private final RoleUserRelationPresetCriteriaMaker roleUserRelationPresetCriteriaMaker;
     private final ScopePresetCriteriaMaker scopePresetCriteriaMaker;
 
-    @Value("${hibernate.jdbc.batch_size}")
+    @Value("${com.dwarfeng.rbacds.hibernate.jdbc.batch_size}")
     private int batchSize;
 
     public DaoConfiguration(

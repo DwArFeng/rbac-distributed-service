@@ -26,8 +26,8 @@ public class UserRoleAnalysisLocalCacheHandlerImpl implements UserRoleAnalysisLo
     public UserRoleAnalysisLocalCacheHandlerImpl(
             UserRoleAnalysisFetcher userRoleAnalysisFetcher,
             ThreadPoolTaskScheduler scheduler,
-            @Value("${local_cache.user_role_analysis.ttl}") long ttl,
-            @Value("${local_cache.user_role_analysis.cleanup_interval}") long cleanupInterval
+            @Value("${com.dwarfeng.rbacds.local_cache.user_role_analysis.ttl}") long ttl,
+            @Value("${com.dwarfeng.rbacds.local_cache.user_role_analysis.cleanup_interval}") long cleanupInterval
     ) {
         handler = new ExpirableLocalCacheHandler<>(userRoleAnalysisFetcher, scheduler, ttl, cleanupInterval);
     }

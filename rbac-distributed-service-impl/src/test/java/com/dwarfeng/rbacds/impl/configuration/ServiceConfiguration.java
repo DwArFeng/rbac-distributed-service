@@ -42,9 +42,9 @@ public class ServiceConfiguration {
     private final ScopeCrudOperation scopeCrudOperation;
     private final ScopeDao scopeDao;
 
-    @Value("${cache.timeout.entity.filter_support}")
+    @Value("${com.dwarfeng.rbacds.cache.timeout.entity.filter_support}")
     private long filterSupportTimeout;
-    @Value("${cache.timeout.entity.role_user_relation}")
+    @Value("${com.dwarfeng.rbacds.cache.timeout.entity.role_user_relation}")
     private long roleUserRelationTimeout;
 
     public ServiceConfiguration(
