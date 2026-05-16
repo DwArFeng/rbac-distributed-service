@@ -1,7 +1,5 @@
 package com.dwarfeng.rbacds.node.configuration;
 
-import com.dwarfeng.rbacds.sdk.util.ServiceExceptionCodes;
-import com.dwarfeng.rbacds.stack.exception.*;
 import com.dwarfeng.subgrade.impl.exception.MapServiceExceptionMapper;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionHelper;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
@@ -15,26 +13,11 @@ public class ServiceExceptionMapperConfiguration {
 
     @Bean
     public MapServiceExceptionMapper mapServiceExceptionMapper() {
-        Map<Class<? extends Exception>, ServiceException.Code> destination = ServiceExceptionHelper.putDefaultDestination(null);
-        destination = com.dwarfeng.springtelqos.sdk.util.ServiceExceptionHelper.putDefaultDestination(destination);
-        destination = com.dwarfeng.springterminator.sdk.util.ServiceExceptionHelper.putDefaultDestination(destination);
-        destination = com.dwarfeng.datamark.sdk.util.ServiceExceptionHelper.putDefaultDestination(destination);
-        destination.put(PexpFormatException.class, ServiceExceptionCodes.PEXP_FORMAT_ERROR);
-        destination.put(PexpTestException.class, ServiceExceptionCodes.PEXP_TEST_ERROR);
-        destination.put(PermissionNotExistsException.class, ServiceExceptionCodes.PERMISSION_NOT_EXISTS);
-        destination.put(RoleNotExistsException.class, ServiceExceptionCodes.ROLE_NOT_EXISTS);
-        destination.put(UserNotExistsException.class, ServiceExceptionCodes.USER_NOT_EXISTS);
-        destination.put(FilterException.class, ServiceExceptionCodes.FILTER_FAILED);
-        destination.put(FilterMakeException.class, ServiceExceptionCodes.FILTER_MAKE_FAILED);
-        destination.put(UnsupportedFilterTypeException.class, ServiceExceptionCodes.FILTER_TYPE_UNSUPPORTED);
-        destination.put(FilterExecutionException.class, ServiceExceptionCodes.FILTER_EXECUTION_FAILED);
-        destination.put(PermissionAlreadyExistsException.class, ServiceExceptionCodes.PERMISSION_ALREADY_EXISTS);
-        destination.put(PermissionGroupAlreadyExistsException.class, ServiceExceptionCodes.PERMISSION_GROUP_ALREADY_EXISTS);
-        destination.put(PermissionGroupNotExistsException.class, ServiceExceptionCodes.PERMISSION_GROUP_NOT_EXISTS);
-        destination.put(PermissionGroupNotInScopeException.class, ServiceExceptionCodes.PERMISSION_GROUP_NOT_IN_SCOPE);
-        destination.put(PexpAlreadyExistsException.class, ServiceExceptionCodes.PEXP_ALREADY_EXISTS);
-        destination.put(PexpNotExistsException.class, ServiceExceptionCodes.PEXP_NOT_EXISTS);
-        destination.put(ScopeNotExistsException.class, ServiceExceptionCodes.SCOPE_NOT_EXISTS);
-        return new MapServiceExceptionMapper(destination, com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes.UNDEFINED);
+        Map<Class<? extends Exception>, ServiceException.Code> des = ServiceExceptionHelper.putDefaultDestination(null);
+        des = com.dwarfeng.springtelqos.sdk.util.ServiceExceptionHelper.putDefaultDestination(des);
+        des = com.dwarfeng.springterminator.sdk.util.ServiceExceptionHelper.putDefaultDestination(des);
+        des = com.dwarfeng.datamark.sdk.util.ServiceExceptionHelper.putDefaultDestination(des);
+        des = com.dwarfeng.rbacds.sdk.util.ServiceExceptionHelper.putDefaultDestination(des);
+        return new MapServiceExceptionMapper(des, com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes.UNDEFINED);
     }
 }

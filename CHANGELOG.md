@@ -4,6 +4,11 @@
 
 ### 功能构建
 
+- 优化项目的异常处理机制。
+  - `rbac-distributed-service-sdk` 子模块新增 `ServiceExceptionHelper` 工具类，统一维护项目自身的异常映射关系。
+  - `rbac-distributed-service-impl` 子模块 `ServiceExceptionMapperConfiguration` 配置类的异常映射处理逻辑优化。
+  - `rbac-distributed-service-node` 子模块 `ServiceExceptionMapperConfiguration` 配置类的异常映射处理逻辑优化。
+
 - 依赖升级。
   - 升级 `spring-terminator` 依赖版本为 `2.0.0.a` 并解决兼容性问题，以应用其新功能。
   - 升级 `spring-telqos` 依赖版本为 `2.0.0.a` 并解决兼容性问题，以应用其新功能。
