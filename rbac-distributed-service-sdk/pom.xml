@@ -9,8 +9,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>rbac-distributed-service</artifactId>
         <groupId>com.dwarfeng</groupId>
+        <artifactId>rbac-distributed-service</artifactId>
         <version>3.0.1.a-SNAPSHOT</version>
     </parent>
 

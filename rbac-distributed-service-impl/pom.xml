@@ -9,8 +9,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>rbac-distributed-service</artifactId>
         <groupId>com.dwarfeng</groupId>
+        <artifactId>rbac-distributed-service</artifactId>
         <version>3.0.1.a-SNAPSHOT</version>
     </parent>
 
@@ -31,6 +31,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
         <!-- AspectJ 框架 -->
         <dependency>
@@ -139,11 +140,6 @@
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-recipes</artifactId>
         </dependency>
-        <!-- Dutil 模块 -->
-        <dependency>
-            <groupId>com.dwarfeng</groupId>
-            <artifactId>dutil-basic</artifactId>
-        </dependency>
         <!-- 日志处理 -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -157,20 +153,25 @@
             <groupId>org.jboss.logging</groupId>
             <artifactId>jboss-logging</artifactId>
         </dependency>
+        <!-- Dutil 模块 -->
+        <dependency>
+            <groupId>com.dwarfeng</groupId>
+            <artifactId>dutil-basic</artifactId>
+        </dependency>
         <!-- Subgrade 组件 -->
         <dependency>
             <groupId>com.dwarfeng</groupId>
             <artifactId>subgrade-impl</artifactId>
         </dependency>
-        <!-- Spring-terminator 组件 -->
-        <dependency>
-            <groupId>com.dwarfeng</groupId>
-            <artifactId>spring-terminator-core</artifactId>
-        </dependency>
         <!-- Spring-telqos 组件 -->
         <dependency>
             <groupId>com.dwarfeng</groupId>
             <artifactId>spring-telqos-core</artifactId>
+        </dependency>
+        <!-- Spring-terminator 组件 -->
+        <dependency>
+            <groupId>com.dwarfeng</groupId>
+            <artifactId>spring-terminator-core</artifactId>
         </dependency>
         <!-- Dwarfeng-datamark 组件 -->
         <dependency>

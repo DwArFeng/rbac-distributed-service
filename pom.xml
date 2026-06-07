@@ -51,8 +51,8 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <dutil.version>0.4.2.a-beta</dutil.version>
         <subgrade.version>1.8.2.a</subgrade.version>
-        <spring-terminator.version>2.0.0.a</spring-terminator.version>
         <spring-telqos.version>2.0.0.a</spring-telqos.version>
+        <spring-terminator.version>2.0.0.a</spring-terminator.version>
         <dwarfeng-datamark.version>2.1.0.a</dwarfeng-datamark.version>
         <!-- Maven 插件版本声明 -->
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
@@ -378,17 +378,6 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            <!-- Spring-terminator 组件 -->
-            <dependency>
-                <groupId>com.dwarfeng</groupId>
-                <artifactId>spring-terminator-core</artifactId>
-                <version>${spring-terminator.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dwarfeng</groupId>
-                <artifactId>spring-terminator-api</artifactId>
-                <version>${spring-terminator.version}</version>
-            </dependency>
             <!-- Spring-telqos 组件 -->
             <dependency>
                 <groupId>com.dwarfeng</groupId>
@@ -399,6 +388,17 @@
                 <groupId>com.dwarfeng</groupId>
                 <artifactId>spring-telqos-api</artifactId>
                 <version>${spring-telqos.version}</version>
+            </dependency>
+            <!-- Spring-terminator 组件 -->
+            <dependency>
+                <groupId>com.dwarfeng</groupId>
+                <artifactId>spring-terminator-core</artifactId>
+                <version>${spring-terminator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dwarfeng</groupId>
+                <artifactId>spring-terminator-api</artifactId>
+                <version>${spring-terminator.version}</version>
             </dependency>
             <!-- Dwarfeng-datamark 组件 -->
             <dependency>

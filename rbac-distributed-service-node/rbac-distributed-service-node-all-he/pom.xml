@@ -9,8 +9,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>rbac-distributed-service-node</artifactId>
         <groupId>com.dwarfeng</groupId>
+        <artifactId>rbac-distributed-service-node</artifactId>
         <version>3.0.1.a-SNAPSHOT</version>
     </parent>
 
@@ -32,15 +32,15 @@
     </properties>
 
     <dependencies>
-        <!-- Spring-terminator 组件 -->
-        <dependency>
-            <groupId>com.dwarfeng</groupId>
-            <artifactId>spring-terminator-api</artifactId>
-        </dependency>
         <!-- Spring-telqos 组件 -->
         <dependency>
             <groupId>com.dwarfeng</groupId>
             <artifactId>spring-telqos-api</artifactId>
+        </dependency>
+        <!-- Spring-terminator 组件 -->
+        <dependency>
+            <groupId>com.dwarfeng</groupId>
+            <artifactId>spring-terminator-api</artifactId>
         </dependency>
         <!-- Dwarfeng-datamark 组件 -->
         <dependency>
