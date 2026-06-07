@@ -4,6 +4,12 @@
 
 ### 功能构建
 
+- 依赖升级。
+  - 升级 `subgrade` 依赖版本为 `1.8.3.a` 以规避漏洞。
+  - 升级 `spring-telqos` 依赖版本为 `2.0.2.a` 以规避漏洞。
+  - 升级 `spring-terminator` 依赖版本为 `2.0.2.a` 以规避漏洞。
+  - 升级 `dwarfeng-datamark` 依赖版本为 `2.2.0.a` 以规避漏洞。
+
 - 优化文件格式。
   - 优化 `assembly.xml` 文件的格式。
   - 优化 `pom.xml` 文件的格式。
