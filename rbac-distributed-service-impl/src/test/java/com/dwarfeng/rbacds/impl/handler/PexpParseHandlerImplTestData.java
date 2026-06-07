@@ -15,7 +15,9 @@ final class PexpParseHandlerImplTestData {
     private final PexpParseHandler.ParseResult expectedResult;
     private final boolean expectedExceptionThrow;
 
-    PexpParseHandlerImplTestData(Pexp pexp, PexpParseHandler.ParseResult expectedResult, boolean expectedExceptionThrow) {
+    PexpParseHandlerImplTestData(
+            Pexp pexp, PexpParseHandler.ParseResult expectedResult, boolean expectedExceptionThrow
+    ) {
         this.pexp = pexp;
         this.expectedResult = expectedResult;
         this.expectedExceptionThrow = expectedExceptionThrow;

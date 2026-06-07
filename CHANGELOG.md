@@ -4,6 +4,12 @@
 
 ### 功能构建
 
+- `rbac-distributed-service-impl` 子模块类优化注释、文档注释格式、代码换行格式。
+  - com.dwarfeng.rbacds.impl.handler.ScopedUserPermissionAnalysisLocalCacheHandlerImpl。
+  - com.dwarfeng.rbacds.impl.service.ScopedRolePermissionAnalysisLocalCacheQosServiceImpl。
+  - com.dwarfeng.rbacds.impl.service.ScopedUserPermissionAnalysisLocalCacheQosServiceImpl。
+  - com.dwarfeng.rbacds.impl.handler.PexpParseHandlerImplTestData。
+
 - 依赖升级。
   - 升级 `subgrade` 依赖版本为 `1.8.3.a` 以规避漏洞。
   - 升级 `spring-telqos` 依赖版本为 `2.0.2.a` 以规避漏洞。

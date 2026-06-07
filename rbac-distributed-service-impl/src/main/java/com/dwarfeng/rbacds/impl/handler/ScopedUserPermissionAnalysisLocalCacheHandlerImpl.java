@@ -37,7 +37,8 @@ public class ScopedUserPermissionAnalysisLocalCacheHandlerImpl implements
             UserPermissionAnalysisFetcher userPermissionAnalysisFetcher,
             ThreadPoolTaskScheduler scheduler,
             @Value("${com.dwarfeng.rbacds.local_cache.scoped_user_permission_analysis.ttl}") long ttl,
-            @Value("${com.dwarfeng.rbacds.local_cache.scoped_user_permission_analysis.cleanup_interval}") long cleanupInterval
+            @Value("${com.dwarfeng.rbacds.local_cache.scoped_user_permission_analysis.cleanup_interval}")
+            long cleanupInterval
     ) {
         handler = new ExpirableLocalCacheHandler<>(userPermissionAnalysisFetcher, scheduler, ttl, cleanupInterval);
     }

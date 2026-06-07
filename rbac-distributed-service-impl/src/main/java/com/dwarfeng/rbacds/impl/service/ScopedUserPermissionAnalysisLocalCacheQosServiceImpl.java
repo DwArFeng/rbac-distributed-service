@@ -22,7 +22,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * @since 2.0.0
  */
 @Service
-public class ScopedUserPermissionAnalysisLocalCacheQosServiceImpl implements ScopedUserPermissionAnalysisLocalCacheQosService {
+public class ScopedUserPermissionAnalysisLocalCacheQosServiceImpl implements
+        ScopedUserPermissionAnalysisLocalCacheQosService {
 
     private final ScopedUserPermissionAnalysisLocalCacheHandler scopedUserPermissionAnalysisLocalCacheHandler;
     private final ServiceExceptionMapper sem;
