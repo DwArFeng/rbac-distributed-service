@@ -43,8 +43,8 @@ conf
 
 ## database 目录
 
-| 文件名                    | 说明        |
-|------------------------|-----------|
+| 文件名                 | 说明               |
+|------------------------|--------------------|
 | connection.properties  | 数据库连接配置文件 |
 | performance.properties | 数据库性能配置文件 |
 
@@ -77,8 +77,8 @@ data_source.min_idle=0
 
 ## datamark 目录
 
-| 文件名                 | 说明   |
-|---------------------|------|
+| 文件名              | 说明     |
+|---------------------|----------|
 | settings.properties | 配置文件 |
 
 ### settings.properties
@@ -106,8 +106,8 @@ datamark.user.update_allowed=true
 
 ## dubbo 目录
 
-| 文件名                   | 说明           |
-|-----------------------|--------------|
+| 文件名                | 说明               |
+|-----------------------|--------------------|
 | connection.properties | Dubbo 连接配置文件 |
 
 ### connection.properties
@@ -132,10 +132,10 @@ dubbo.provider.group=
 
 ## logging 目录
 
-| 文件名                      | 说明                     |
-|--------------------------|------------------------|
-| README.md                | 说明文件                   |
-| settings.xml             | 日志配置的配置文件              |
+| 文件名                   | 说明                                 |
+|--------------------------|--------------------------------------|
+| README.md                | 说明文件                             |
+| settings.xml             | 日志配置的配置文件                   |
 | settings-ref-linux.xml   | Linux 系统中日志配置的配置参考文件   |
 | settings-ref-windows.xml | Windows 系统中日志配置的配置参考文件 |
 
@@ -187,14 +187,14 @@ dubbo.provider.group=
 
 ## rbacds 目录
 
-| 文件名                    | 说明                           |
-|------------------------|------------------------------|
-| background.properties  | 后台服务配置文件，包括线程池的线程数及其它        |
-| exception.properties   | ServiceException 的异常代码的偏移量配置 |
-| launcher.properties    | 启动器配置文件                      |
-| local-cache.properties | 本地缓存配置文件                     |
-| push.properties        | 推送服务配置文件                     |
-| reset.properties       | 重置服务配置文件                     |
+| 文件名                 | 说明                                       |
+|------------------------|--------------------------------------------|
+| background.properties  | 后台服务配置文件，包括线程池的线程数及其它 |
+| exception.properties   | ServiceException 的异常代码的偏移量配置    |
+| launcher.properties    | 启动器配置文件                             |
+| local-cache.properties | 本地缓存配置文件                           |
+| push.properties        | 推送服务配置文件                           |
+| reset.properties       | 重置服务配置文件                           |
 
 ### background.properties
 
@@ -347,8 +347,8 @@ local_cache.user_role_analysis.cleanup_interval=600000
 
 ## redis 目录
 
-| 文件名                   | 说明   |
-|-----------------------|------|
+| 文件名                | 说明     |
+|-----------------------|----------|
 | connection.properties | 连接配置 |
 | prefix.properties     | 前缀配置 |
 | timeout.properties    | 超时配置 |
@@ -483,8 +483,8 @@ cache.timeout.list.permission_has_user=14400000
 
 ## telqos 目录
 
-| 文件名                   | 说明   |
-|-----------------------|------|
+| 文件名                | 说明     |
+|-----------------------|----------|
 | connection.properties | 连接配置 |
 
 ### connection.properties

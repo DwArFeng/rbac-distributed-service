@@ -18,16 +18,16 @@
 
 本项目的权限模型由以下核心实体组成：
 
-| 实体                 | Stack 主键                                                     | 关键字段                                               | 说明                              |
-|:-------------------|:-------------------------------------------------------------|:---------------------------------------------------|:--------------------------------|
-| `Scope`            | `StringIdKey`                                                | `name`, `remark`                                   | 作用域，用于隔离权限与权限组。                 |
-| `User`             | `StringIdKey`                                                | `remark`                                           | 用户。                             |
-| `Role`             | `StringIdKey`                                                | `name`, `enabled`, `remark`                        | 角色，`enabled` 决定角色是否生效。          |
+| 实体               | Stack 主键                                                   | 关键字段                                           | 说明                                                 |
+|:-------------------|:-------------------------------------------------------------|:---------------------------------------------------|:-----------------------------------------------------|
+| `Scope`            | `StringIdKey`                                                | `name`, `remark`                                   | 作用域，用于隔离权限与权限组。                       |
+| `User`             | `StringIdKey`                                                | `remark`                                           | 用户。                                               |
+| `Role`             | `StringIdKey`                                                | `name`, `enabled`, `remark`                        | 角色，`enabled` 决定角色是否生效。                   |
 | `RoleUserRelation` | `RoleUserRelationKey(roleStringId, userStringId)`            | `enabled`, `remark`                                | 用户与角色的关联关系，`enabled` 决定该关联是否生效。 |
-| `PermissionGroup`  | `PermissionGroupKey(scopeStringId, permissionGroupStringId)` | `parentKey`, `name`, `remark`                      | 权限组，支持同作用域内树形结构。                |
-| `Permission`       | `PermissionKey(scopeStringId, permissionStringId)`           | `groupKey`, `name`, `level`, `groupPath`, `remark` | 权限，`groupPath` 为冗余路径字段。         |
-| `Pexp`             | `PexpKey(scopeStringId, roleStringId, pexpStringId)`         | `content`, `remark`                                | 权限表达式，定义角色对权限的匹配规则。             |
-| `FilterSupport`    | `StringIdKey`                                                | `label`, `description`, `examplePattern`           | 过滤器支持信息，用于描述可用过滤器类型。            |
+| `PermissionGroup`  | `PermissionGroupKey(scopeStringId, permissionGroupStringId)` | `parentKey`, `name`, `remark`                      | 权限组，支持同作用域内树形结构。                     |
+| `Permission`       | `PermissionKey(scopeStringId, permissionStringId)`           | `groupKey`, `name`, `level`, `groupPath`, `remark` | 权限，`groupPath` 为冗余路径字段。                   |
+| `Pexp`             | `PexpKey(scopeStringId, roleStringId, pexpStringId)`         | `content`, `remark`                                | 权限表达式，定义角色对权限的匹配规则。               |
+| `FilterSupport`    | `StringIdKey`                                                | `label`, `description`, `examplePattern`           | 过滤器支持信息，用于描述可用过滤器类型。             |
 
 ## 实体关系与约束
 
@@ -35,15 +35,15 @@
 
 核心关系如下：
 
-| 关系                                    | 类型                         | 说明              |
-|:--------------------------------------|:---------------------------|:----------------|
-| `User` - `Role`                       | 多对多（通过 `RoleUserRelation`） | 用户拥有角色。         |
-| `Role` - `Pexp`                       | 一对多                        | 一个角色可配置多个权限表达式。 |
-| `Scope` - `PermissionGroup`           | 一对多                        | 权限组按作用域隔离。      |
-| `Scope` - `Permission`                | 一对多                        | 权限按作用域隔离。       |
-| `Scope` - `Pexp`                      | 一对多                        | 权限表达式按作用域隔离。    |
-| `PermissionGroup` - `PermissionGroup` | 一对多（自关联）                   | 权限组父子结构。        |
-| `PermissionGroup` - `Permission`      | 一对多                        | 一个权限组可包含多个权限。   |
+| 关系                                  | 类型                              | 说明                           |
+|:--------------------------------------|:----------------------------------|:-------------------------------|
+| `User` - `Role`                       | 多对多（通过 `RoleUserRelation`） | 用户拥有角色。                 |
+| `Role` - `Pexp`                       | 一对多                            | 一个角色可配置多个权限表达式。 |
+| `Scope` - `PermissionGroup`           | 一对多                            | 权限组按作用域隔离。           |
+| `Scope` - `Permission`                | 一对多                            | 权限按作用域隔离。             |
+| `Scope` - `Pexp`                      | 一对多                            | 权限表达式按作用域隔离。       |
+| `PermissionGroup` - `PermissionGroup` | 一对多（自关联）                  | 权限组父子结构。               |
+| `PermissionGroup` - `Permission`      | 一对多                            | 一个权限组可包含多个权限。     |
 
 ### 业务约束
 
@@ -113,15 +113,15 @@ V2 额外支持管道与转义：
 
 项目内置过滤器类型如下：
 
-| 类型                 | 语义                          |
-|:-------------------|:----------------------------|
-| `exact`            | 权限 ID 精确匹配。                 |
-| `id_prefix`        | 权限 ID 前缀匹配。                 |
-| `id_regex`         | 权限 ID 正则匹配。                 |
-| `name_regex`       | 权限名称正则匹配。                   |
-| `level`            | 按等级比较（`eq/ne/gt/ge/lt/le`）。 |
-| `direct_sub_group` | 仅匹配“直接属于指定权限组”的权限。          |
-| `nested_sub_group` | 匹配“属于指定权限组或其任意子组”的权限。       |
+| 类型               | 语义                                     |
+|:-------------------|:-----------------------------------------|
+| `exact`            | 权限 ID 精确匹配。                       |
+| `id_prefix`        | 权限 ID 前缀匹配。                       |
+| `id_regex`         | 权限 ID 正则匹配。                       |
+| `name_regex`       | 权限名称正则匹配。                       |
+| `level`            | 按等级比较（`eq/ne/gt/ge/lt/le`）。      |
+| `direct_sub_group` | 仅匹配“直接属于指定权限组”的权限。       |
+| `nested_sub_group` | 匹配“属于指定权限组或其任意子组”的权限。 |
 
 ## 用户权限计算流程
 
@@ -169,7 +169,7 @@ matched = union(roleAcceptedMinusRejected) - union(roleGlobalRejected)
 
 分析缓存包括：
 
-| 缓存                                       | 键               | 值                              |
+| 缓存                                     | 键              | 值                             |
 |:-----------------------------------------|:----------------|:-------------------------------|
 | `ScopePermissionAnalysisLocalCache`      | `scopeKey`      | `ScopePermissionAnalysis`      |
 | `ScopedRolePermissionAnalysisLocalCache` | `scopedRoleKey` | `ScopedRolePermissionAnalysis` |

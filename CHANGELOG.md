@@ -4,6 +4,18 @@
 
 ### 功能构建
 
+- Wiki 更新。
+  - docs/wiki/zh-CN/CompileBySource.md。
+  - docs/wiki/zh-CN/ConfDirectory.md。
+  - docs/wiki/zh-CN/PermissionModel.md。
+  - docs/wiki/zh-CN/PexpGeneral.md。
+  - docs/wiki/zh-CN/PexpV1.md。
+  - docs/wiki/zh-CN/PexpV2.md。
+  - docs/wiki/zh-CN/SystemRequirements.md。
+  - docs/wiki/zh-CN/TelqosCommands.md。
+  - docs/wiki/zh-CN/UsingTelqos.md。
+  - docs/wiki/zh-CN/VersionBlacklist.md。
+
 - 依赖升级。
   - 升级 `fastjson` 依赖版本为 `1.2.84` 以规避漏洞。
   - 升级 `subgrade` 依赖版本为 `1.8.4.a` 以规避漏洞。

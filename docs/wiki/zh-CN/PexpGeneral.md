@@ -25,12 +25,12 @@
 
 权限表达式实体如下：
 
-| 字段类型        | 字段名称    | 字段描述  |
-|:------------|:--------|:------|
-| LongIdKey   | key     | 主键    |
-| StringIdKey | roleKey | 角色外键  |
-| String      | content | 表达式内容 |
-| String      | remark  | 备注    |
+| 字段类型    | 字段名称 | 字段描述   |
+|:------------|:---------|:-----------|
+| LongIdKey   | key      | 主键       |
+| StringIdKey | roleKey  | 角色外键   |
+| String      | content  | 表达式内容 |
+| String      | remark   | 备注       |
 
 ## 为什么使用权限表达式
 
@@ -90,23 +90,23 @@
 
 一个用户有两个角色，系统中有四个权限，经权限过滤器处理，最终接受程度如下：
 
-| 角色  | 权限           | 接受程度          |
-|:----|:-------------|:--------------|
-| foo | permission.1 | NOT_ACCEPT    |
-| foo | permission.2 | ACCEPT        |
-| foo | permission.3 | ACCEPT        |
-| foo | permission.4 | REJECT        |
-| bar | permission.1 | ACCEPT        |
-| bar | permission.2 | REJECT        |
-| bar | permission.3 | GLOBAL_REJECT |
-| bar | permission.4 | NOT_ACCEPT    |
+| 角色 | 权限         | 接受程度      |
+|:-----|:-------------|:--------------|
+| foo  | permission.1 | NOT_ACCEPT    |
+| foo  | permission.2 | ACCEPT        |
+| foo  | permission.3 | ACCEPT        |
+| foo  | permission.4 | REJECT        |
+| bar  | permission.1 | ACCEPT        |
+| bar  | permission.2 | REJECT        |
+| bar  | permission.3 | GLOBAL_REJECT |
+| bar  | permission.4 | NOT_ACCEPT    |
 
 该用户最终拥有的权限为：
 
-| 序号 | 权限           |
-|:---|:-------------|
-| 1  | permission.1 |
-| 2  | permission.2 |
+| 序号 | 权限         |
+|:-----|:-------------|
+| 1    | permission.1 |
+| 2    | permission.2 |
 
 解释：
 
