@@ -31,7 +31,7 @@
         <spring.version>5.3.39</spring.version>
         <protobuf.version>3.25.5</protobuf.version>
         <mysql.version>8.2.0</mysql.version>
-        <fastjson.version>1.2.83</fastjson.version>
+        <fastjson.version>1.2.84</fastjson.version>
         <druid.version>1.1.20</druid.version>
         <jedis.version>3.10.0</jedis.version>
         <spring-data-redis.version>2.7.18</spring-data-redis.version>
@@ -50,8 +50,8 @@
         <jboss-logging.version>3.4.3.Final</jboss-logging.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <dutil.version>0.4.2.a-beta</dutil.version>
-        <subgrade.version>1.8.3.a</subgrade.version>
-        <spring-telqos.version>2.0.2.a</spring-telqos.version>
+        <subgrade.version>1.8.4.a</subgrade.version>
+        <spring-telqos.version>2.0.3.a</spring-telqos.version>
         <spring-terminator.version>2.0.2.a</spring-terminator.version>
         <dwarfeng-datamark.version>2.2.0.a</dwarfeng-datamark.version>
         <!-- Maven 插件版本声明 -->
