@@ -2,7 +2,7 @@ package com.dwarfeng.rbacds.stack.cache;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
-import com.dwarfeng.subgrade.stack.cache.BatchBaseCache;
+import com.dwarfeng.subgrade.data.stack.cache.BatchBaseCache;
 
 /**
  * 权限缓存。

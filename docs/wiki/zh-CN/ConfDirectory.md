@@ -57,7 +57,7 @@ jdbc.driver=com.mysql.cj.jdbc.Driver
 jdbc.url=jdbc:mysql://your-host-here:3306/rbac?serverTimezone=Asia/Shanghai&autoReconnect=true
 jdbc.username=root
 jdbc.password=your-password-here
-hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+hibernate.dialect=org.hibernate.dialect.MySQLDialect
 ```
 
 ### performance.properties

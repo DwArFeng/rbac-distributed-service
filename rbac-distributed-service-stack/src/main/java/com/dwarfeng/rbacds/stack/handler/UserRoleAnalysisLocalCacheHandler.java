@@ -1,8 +1,8 @@
 package com.dwarfeng.rbacds.stack.handler;
 
 import com.dwarfeng.rbacds.stack.struct.UserRoleAnalysis;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.handler.LocalCacheHandler;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.cache.stack.handler.LocalCacheHandler;
 
 /**
  * 用户角色分析本地缓存处理器。

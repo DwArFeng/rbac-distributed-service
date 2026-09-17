@@ -18,10 +18,10 @@ import com.dwarfeng.rbacds.stack.dao.ScopeDao;
 import com.dwarfeng.rbacds.stack.service.PermissionGroupMaintainService;
 import com.dwarfeng.rbacds.stack.service.PermissionMaintainService;
 import com.dwarfeng.rbacds.stack.service.PexpMaintainService;
-import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
-import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.data.sdk.exception.ServiceExceptionCodeSuppliers;
+import com.dwarfeng.subgrade.data.sdk.service.custom.operation.BatchCrudOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -77,7 +77,7 @@ public class ScopeCrudOperation implements BatchCrudOperation<StringIdKey, Scope
             return scopeCache.get(key);
         } else {
             if (!scopeDao.exists(key)) {
-                throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
+                throw new ServiceException(ServiceExceptionCodeSuppliers.ENTITY_NOT_EXIST.get());
             }
             Scope scope = scopeDao.get(key);
             scopeCache.push(scope, scopeTimeout);
@@ -144,7 +144,7 @@ public class ScopeCrudOperation implements BatchCrudOperation<StringIdKey, Scope
             return scopeCache.batchGet(keys);
         } else {
             if (!scopeDao.allExists(keys)) {
-                throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
+                throw new ServiceException(ServiceExceptionCodeSuppliers.ENTITY_NOT_EXIST.get());
             }
             List<Scope> scopes = scopeDao.batchGet(keys);
             scopeCache.batchPush(scopes, scopeTimeout);

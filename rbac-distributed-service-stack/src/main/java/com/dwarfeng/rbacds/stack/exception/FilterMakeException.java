@@ -1,5 +1,7 @@
 package com.dwarfeng.rbacds.stack.exception;
 
+import java.io.Serial;
+
 /**
  * 过滤器构造异常。
  *
@@ -8,6 +10,7 @@ package com.dwarfeng.rbacds.stack.exception;
  */
 public class FilterMakeException extends FilterException {
 
+    @Serial
     private static final long serialVersionUID = -16520337556346559L;
 
     public FilterMakeException() {

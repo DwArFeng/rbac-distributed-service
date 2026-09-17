@@ -39,9 +39,10 @@ public class DirectSubGroupFilterRegistry extends AbstractFilterRegistry {
 
     @Override
     public String provideDescription() {
-        return "接受直接属于指定权限组的权限。\n" +
-                "如果权限所属的权限组的权限组 ID 与指定的权限组的权限组 ID 相同，则接受该权限。\n" +
-                "只有直接子分组的权限会被接受，即使权限属于指定权限组二级或多级子权限组，也会被拒绝。";
+        return """
+                接受直接属于指定权限组的权限。
+                如果权限所属的权限组的权限组 ID 与指定的权限组的权限组 ID 相同，则接受该权限。
+                只有直接子分组的权限会被接受，即使权限属于指定权限组二级或多级子权限组，也会被拒绝。""";
     }
 
     @Override

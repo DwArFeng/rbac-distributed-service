@@ -2,9 +2,9 @@ package com.dwarfeng.rbacds.stack.dao;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
-import com.dwarfeng.subgrade.stack.dao.BatchBaseDao;
-import com.dwarfeng.subgrade.stack.dao.EntireLookupDao;
-import com.dwarfeng.subgrade.stack.dao.PresetLookupDao;
+import com.dwarfeng.subgrade.data.stack.dao.BatchBaseDao;
+import com.dwarfeng.subgrade.data.stack.dao.EntireLookupDao;
+import com.dwarfeng.subgrade.data.stack.dao.PresetLookupDao;
 
 /**
  * 权限数据访问层。

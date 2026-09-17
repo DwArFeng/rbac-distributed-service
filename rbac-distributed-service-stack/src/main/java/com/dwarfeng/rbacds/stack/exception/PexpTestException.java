@@ -2,7 +2,11 @@ package com.dwarfeng.rbacds.stack.exception;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.rbacds.stack.internal.i18n.StackMessageKey;
+import com.dwarfeng.rbacds.stack.internal.i18n.StackMessages;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+
+import java.io.Serial;
 
 /**
  * 权限表达式测试异常。
@@ -12,7 +16,8 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class PexpTestException extends HandlerException {
 
-    private static final long serialVersionUID = -947506398580333541L;
+    @Serial
+    private static final long serialVersionUID = 2155924913576769946L;
 
     private final Pexp pexp;
     private final Permission permission;
@@ -30,7 +35,6 @@ public class PexpTestException extends HandlerException {
 
     @Override
     public String getMessage() {
-        return "Exception occurred when testing pexp. pexp: " + pexp.toString() +
-                ", permission: " + permission.toString();
+        return StackMessages.message(StackMessageKey.EXCEPTION_PEXP_TEST_FAILED, pexp, permission);
     }
 }

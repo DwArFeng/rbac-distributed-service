@@ -1,11 +1,12 @@
 package com.dwarfeng.rbacds.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonRole;
 import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonUser;
 import com.dwarfeng.rbacds.stack.bean.dto.UserViewOfPermissionInspectResult;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
 
+import java.io.Serial;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -19,7 +20,8 @@ import java.util.stream.Collectors;
  */
 public class FastJsonUserViewOfPermissionInspectResult implements Bean {
 
-    private static final long serialVersionUID = 3196341272808538869L;
+    @Serial
+    private static final long serialVersionUID = 5861780191340314311L;
 
     public static FastJsonUserViewOfPermissionInspectResult of(
             UserViewOfPermissionInspectResult userViewOfPermissionInspectResult

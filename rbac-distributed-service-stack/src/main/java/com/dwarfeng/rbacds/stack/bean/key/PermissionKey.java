@@ -1,7 +1,8 @@
 package com.dwarfeng.rbacds.stack.bean.key;
 
-import com.dwarfeng.subgrade.stack.bean.key.Key;
+import com.dwarfeng.subgrade.basic.stack.bean.key.Key;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,8 @@ import java.util.Objects;
  */
 public class PermissionKey implements Key {
 
-    private static final long serialVersionUID = 3702046147196882119L;
+    @Serial
+    private static final long serialVersionUID = 5826049679048938692L;
 
     private String scopeStringId;
     private String permissionStringId;

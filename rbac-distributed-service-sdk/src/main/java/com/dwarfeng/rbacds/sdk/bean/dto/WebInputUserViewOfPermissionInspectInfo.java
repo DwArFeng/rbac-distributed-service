@@ -1,12 +1,13 @@
 package com.dwarfeng.rbacds.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.rbacds.sdk.bean.key.WebInputPermissionKey;
 import com.dwarfeng.rbacds.stack.bean.dto.UserViewOfPermissionInspectInfo;
-import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.web.sdk.bean.key.WebInputStringIdKey;
+import jakarta.validation.Valid;
 
-import javax.validation.Valid;
+import java.io.Serial;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -20,7 +21,8 @@ import java.util.stream.Collectors;
  */
 public class WebInputUserViewOfPermissionInspectInfo implements Bean {
 
-    private static final long serialVersionUID = 3166598408742786149L;
+    @Serial
+    private static final long serialVersionUID = 1524897821908988217L;
 
     public static UserViewOfPermissionInspectInfo toStackBean(WebInputUserViewOfPermissionInspectInfo webInput) {
         if (Objects.isNull(webInput)) {

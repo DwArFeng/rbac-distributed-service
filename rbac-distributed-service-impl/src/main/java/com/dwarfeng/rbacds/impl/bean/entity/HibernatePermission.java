@@ -1,14 +1,16 @@
 package com.dwarfeng.rbacds.impl.bean.entity;
 
-import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson2.JSONArray;
 import com.dwarfeng.datamark.sdk.jpa.DatamarkEntityListener;
 import com.dwarfeng.datamark.sdk.jpa.DatamarkField;
 import com.dwarfeng.rbacds.impl.bean.key.HibernatePermissionGroupKey;
 import com.dwarfeng.rbacds.impl.bean.key.HibernatePermissionKey;
 import com.dwarfeng.rbacds.sdk.util.Constraints;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -18,7 +20,8 @@ import java.util.Objects;
 @EntityListeners(DatamarkEntityListener.class)
 public class HibernatePermission implements Bean {
 
-    private static final long serialVersionUID = -7279044060587755648L;
+    @Serial
+    private static final long serialVersionUID = -5560833069245137625L;
 
     // region 主键
 

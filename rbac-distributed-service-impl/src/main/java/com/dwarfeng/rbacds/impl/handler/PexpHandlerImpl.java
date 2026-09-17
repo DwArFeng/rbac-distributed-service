@@ -7,10 +7,10 @@ import com.dwarfeng.rbacds.stack.handler.Filter;
 import com.dwarfeng.rbacds.stack.handler.FilterLocalCacheHandler;
 import com.dwarfeng.rbacds.stack.handler.PexpHandler;
 import com.dwarfeng.rbacds.stack.handler.PexpParseHandler;
-import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
-import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
-import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.aop.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.aop.sdk.interceptor.analyse.SkipRecord;
+import com.dwarfeng.subgrade.basic.sdk.exception.HandlerExceptionHelper;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -41,13 +41,13 @@ public class PexpHandlerImpl implements PexpHandler {
 
             // 判断权限表达式是否被接受。
             boolean acceptFlag = true;
-            for (PexpParseHandler.PipeUnit pipeUnit : parseResult.getPipe()) {
-                String filterType = pipeUnit.getFilterType();
+            for (PexpParseHandler.PipeUnit pipeUnit : parseResult.pipe()) {
+                String filterType = pipeUnit.filterType();
                 Filter filter = filterLocalCacheHandler.get(filterType);
                 if (Objects.isNull(filter)) {
                     throw new UnsupportedFilterTypeException(filterType);
                 }
-                if (!filter.accept(pipeUnit.getFilterPattern(), permission)) {
+                if (!filter.accept(pipeUnit.filterPattern(), permission)) {
                     acceptFlag = false;
                     break;
                 }
@@ -59,17 +59,12 @@ public class PexpHandlerImpl implements PexpHandler {
             }
 
             // 否则，根据修饰符，返回对应的结果。
-            PexpParseHandler.Modifier modifier = parseResult.getModifier();
-            switch (modifier) {
-                case ACCEPT:
-                    return Reception.ACCEPT;
-                case REJECT:
-                    return Reception.REJECT;
-                case GLOBAL_REJECT:
-                    return Reception.GLOBAL_REJECT;
-                default:
-                    throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
-            }
+            PexpParseHandler.Modifier modifier = parseResult.modifier();
+            return switch (modifier) {
+                case ACCEPT -> Reception.ACCEPT;
+                case REJECT -> Reception.REJECT;
+                case GLOBAL_REJECT -> Reception.GLOBAL_REJECT;
+            };
         } catch (Exception e) {
             throw new HandlerException(e);
         }
@@ -87,23 +82,14 @@ public class PexpHandlerImpl implements PexpHandler {
 
             // 分析并取得权限表达式的信息。
             PexpParseHandler.ParseResult parseResult = pexpParseHandler.parse(pexp);
-            PexpParseHandler.Modifier modifier = parseResult.getModifier();
+            PexpParseHandler.Modifier modifier = parseResult.modifier();
 
             // 确定权限接受时的接受程度。
-            Reception acceptReception;
-            switch (modifier) {
-                case ACCEPT:
-                    acceptReception = Reception.ACCEPT;
-                    break;
-                case REJECT:
-                    acceptReception = Reception.REJECT;
-                    break;
-                case GLOBAL_REJECT:
-                    acceptReception = Reception.GLOBAL_REJECT;
-                    break;
-                default:
-                    throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
-            }
+            Reception acceptReception = switch (modifier) {
+                case ACCEPT -> Reception.ACCEPT;
+                case REJECT -> Reception.REJECT;
+                case GLOBAL_REJECT -> Reception.GLOBAL_REJECT;
+            };
 
             // 构造结果列表。
             List<Reception> result = new ArrayList<>();
@@ -112,14 +98,14 @@ public class PexpHandlerImpl implements PexpHandler {
             outer:
             for (Permission permission : permissions) {
                 // 判断权限表达式是否被接受。
-                for (PexpParseHandler.PipeUnit pipeUnit : parseResult.getPipe()) {
-                    String filterType = pipeUnit.getFilterType();
+                for (PexpParseHandler.PipeUnit pipeUnit : parseResult.pipe()) {
+                    String filterType = pipeUnit.filterType();
                     Filter filter = filterLocalCacheHandler.get(filterType);
                     if (Objects.isNull(filter)) {
                         throw new UnsupportedFilterTypeException(filterType);
                     }
                     // 如果有任一过滤器不接受该权限，则该权限不被接受，向结果列表中加入 NOT_ACCEPT。
-                    if (!filter.accept(pipeUnit.getFilterPattern(), permission)) {
+                    if (!filter.accept(pipeUnit.filterPattern(), permission)) {
                         result.add(Reception.NOT_ACCEPT);
                         continue outer;
                     }

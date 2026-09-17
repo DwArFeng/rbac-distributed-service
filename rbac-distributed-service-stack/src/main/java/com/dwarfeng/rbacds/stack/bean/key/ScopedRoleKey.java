@@ -1,7 +1,8 @@
 package com.dwarfeng.rbacds.stack.bean.key;
 
-import com.dwarfeng.subgrade.stack.bean.key.Key;
+import com.dwarfeng.subgrade.basic.stack.bean.key.Key;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,8 @@ import java.util.Objects;
  */
 public class ScopedRoleKey implements Key {
 
-    private static final long serialVersionUID = 7078973995492528171L;
+    @Serial
+    private static final long serialVersionUID = -8861007869137062012L;
 
     private String scopeStringId;
     private String roleStringId;

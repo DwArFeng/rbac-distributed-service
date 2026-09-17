@@ -1,7 +1,11 @@
 package com.dwarfeng.rbacds.stack.exception;
 
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.rbacds.stack.internal.i18n.StackMessageKey;
+import com.dwarfeng.rbacds.stack.internal.i18n.StackMessages;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+
+import java.io.Serial;
 
 /**
  * 作用域不存在异常。
@@ -11,7 +15,8 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class ScopeNotExistsException extends HandlerException {
 
-    private static final long serialVersionUID = 3096362163716944200L;
+    @Serial
+    private static final long serialVersionUID = 5028798888093142228L;
 
     private final StringIdKey scopeKey;
 
@@ -26,6 +31,6 @@ public class ScopeNotExistsException extends HandlerException {
 
     @Override
     public String getMessage() {
-        return "Scope " + scopeKey + " does not exist";
+        return StackMessages.message(StackMessageKey.EXCEPTION_SCOPE_NOT_EXISTS, scopeKey);
     }
 }

@@ -34,16 +34,17 @@ public class LevelFilterRegistry extends AbstractFilterRegistry {
 
     @Override
     public String provideDescription() {
-        return "根据权限的等级进行过滤。如果权限的等级满足指定的条件，则接受该权限；反之则拒绝。\n" +
-                "在执行过滤判断时，取前两个字符作为操作符，剩余字符作为等级数值。" +
-                "可用的运算符有：\n" +
-                "  1. eq : 等于。\n" +
-                "  2. ne : 不等于。\n" +
-                "  3. gt : 大于。\n" +
-                "  4. ge : 大于等于。\n" +
-                "  5. lt : 小于。\n" +
-                "  6. le : 小于等于。\n" +
-                "运算符不区分大小写。";
+        return """
+                根据权限的等级进行过滤。如果权限的等级满足指定的条件，则接受该权限；反之则拒绝。
+                在执行过滤判断时，取前两个字符作为操作符，剩余字符作为等级数值。\
+                可用的运算符有：
+                  1. eq : 等于。
+                  2. ne : 不等于。
+                  3. gt : 大于。
+                  4. ge : 大于等于。
+                  5. lt : 小于。
+                  6. le : 小于等于。
+                运算符不区分大小写。""";
     }
 
     @Override
@@ -110,22 +111,15 @@ public class LevelFilterRegistry extends AbstractFilterRegistry {
             int checkLevel = Integer.parseInt(pattern.substring(2));
             int permissionLevel = permission.getLevel();
 
-            switch (operator) {
-                case OPERATOR_EQ:
-                    return permissionLevel == checkLevel;
-                case OPERATOR_NE:
-                    return permissionLevel != checkLevel;
-                case OPERATOR_GT:
-                    return permissionLevel > checkLevel;
-                case OPERATOR_GE:
-                    return permissionLevel >= checkLevel;
-                case OPERATOR_LT:
-                    return permissionLevel < checkLevel;
-                case OPERATOR_LE:
-                    return permissionLevel <= checkLevel;
-                default:
-                    throw new IllegalArgumentException("不支持的操作符: " + operator);
-            }
+            return switch (operator) {
+                case OPERATOR_EQ -> permissionLevel == checkLevel;
+                case OPERATOR_NE -> permissionLevel != checkLevel;
+                case OPERATOR_GT -> permissionLevel > checkLevel;
+                case OPERATOR_GE -> permissionLevel >= checkLevel;
+                case OPERATOR_LT -> permissionLevel < checkLevel;
+                case OPERATOR_LE -> permissionLevel <= checkLevel;
+                default -> throw new IllegalArgumentException("不支持的操作符: " + operator);
+            };
         }
 
         @Override

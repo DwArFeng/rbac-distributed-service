@@ -1,6 +1,6 @@
 package com.dwarfeng.rbacds.impl.handler;
 
-import com.dwarfeng.dutil.basic.cna.CollectionUtil;
+import com.dwarfeng.dutil.basic.sdk.collection.CollectionUtil;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
@@ -14,11 +14,11 @@ import com.dwarfeng.rbacds.stack.service.UserMaintainService;
 import com.dwarfeng.rbacds.stack.struct.ScopedRolePermissionAnalysis;
 import com.dwarfeng.rbacds.stack.struct.ScopedUserPermissionAnalysis;
 import com.dwarfeng.rbacds.stack.struct.UserRoleAnalysis;
-import com.dwarfeng.subgrade.impl.handler.ExpirableLocalCacheHandler;
-import com.dwarfeng.subgrade.impl.handler.Fetcher;
-import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.aop.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.cache.impl.handler.ExpirableLocalCacheHandler;
+import com.dwarfeng.subgrade.cache.stack.loader.Fetcher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
@@ -40,7 +40,9 @@ public class ScopedUserPermissionAnalysisLocalCacheHandlerImpl implements
             @Value("${com.dwarfeng.rbacds.local_cache.scoped_user_permission_analysis.cleanup_interval}")
             long cleanupInterval
     ) {
-        handler = new ExpirableLocalCacheHandler<>(userPermissionAnalysisFetcher, scheduler, ttl, cleanupInterval);
+        handler = new ExpirableLocalCacheHandler<>(
+                userPermissionAnalysisFetcher, scheduler.getScheduledExecutor(), ttl, cleanupInterval
+        );
     }
 
     @BehaviorAnalyse
@@ -117,7 +119,7 @@ public class ScopedUserPermissionAnalysisLocalCacheHandlerImpl implements
             // 查询用户有效的角色。
             StringIdKey userKey = new StringIdKey(userStringId);
             UserRoleAnalysis userRoleAnalysis = userRoleAnalysisLocalCacheHandler.get(userKey);
-            List<Role> matchedRoles = userRoleAnalysis.getMatchedRoles();
+            List<Role> matchedRoles = userRoleAnalysis.matchedRoles();
 
             // 对每个角色进行权限分析，并进行合并。
             Map<PermissionKey, Permission> acceptedPermissionMap = new HashMap<>();

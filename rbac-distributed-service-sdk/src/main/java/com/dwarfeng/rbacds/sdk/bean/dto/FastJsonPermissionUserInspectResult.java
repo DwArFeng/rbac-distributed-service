@@ -1,11 +1,12 @@
 package com.dwarfeng.rbacds.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonRole;
 import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonUser;
 import com.dwarfeng.rbacds.stack.bean.dto.PermissionUserInspectResult;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
 
+import java.io.Serial;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -23,11 +24,11 @@ import java.util.stream.Collectors;
  * @deprecated 命名歧义，请使用 {@link FastJsonUserViewOfPermissionInspectResult}
  */
 // BeanMapper 还在使用该类，故忽略相关警告。
-@SuppressWarnings("DeprecatedIsStillUsed")
 @Deprecated
 public class FastJsonPermissionUserInspectResult implements Bean {
 
-    private static final long serialVersionUID = 9122753236679536187L;
+    @Serial
+    private static final long serialVersionUID = -8935069089526538234L;
 
     public static FastJsonPermissionUserInspectResult of(PermissionUserInspectResult permissionUserInspectResult) {
         if (Objects.isNull(permissionUserInspectResult)) {

@@ -2,10 +2,10 @@ package com.dwarfeng.rbacds.stack.service;
 
 import com.dwarfeng.rbacds.stack.bean.key.ScopedRoleKey;
 import com.dwarfeng.rbacds.stack.struct.ScopedRolePermissionAnalysis;
-import com.dwarfeng.subgrade.stack.exception.ServiceException;
-import com.dwarfeng.subgrade.stack.service.Service;
+import com.dwarfeng.subgrade.basic.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.basic.stack.service.Service;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 作用域角色权限分析本地缓存 QOS 服务。

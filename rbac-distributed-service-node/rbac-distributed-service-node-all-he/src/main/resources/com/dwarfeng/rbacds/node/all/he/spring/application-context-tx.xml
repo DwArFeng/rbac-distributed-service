@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.springframework.org/schema/beans"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd"
+>
+
+    <!-- 启用 @Transactional 注解。 -->
+    <tx:annotation-driven transaction-manager="hibernateTransactionManager"/>
+
+    <!-- 定义 hibernate 事务管理器。 -->
+    <bean id="hibernateTransactionManager" class="org.springframework.orm.jpa.hibernate.HibernateTransactionManager">
+        <!--suppress SpringXmlModelInspection -->
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+</beans>

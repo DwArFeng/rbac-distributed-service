@@ -1,10 +1,9 @@
 package com.dwarfeng.rbacds.impl.handler;
 
-import com.dwarfeng.rbacds.stack.handler.PexpParseHandler;
 import com.dwarfeng.rbacds.stack.handler.PexpParseHandler.Modifier;
 import com.dwarfeng.rbacds.stack.handler.PexpParseHandler.ParseResult;
 import com.dwarfeng.rbacds.stack.handler.PexpParseHandler.PipeUnit;
-import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.aop.sdk.interceptor.analyse.BehaviorAnalyse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +11,12 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.io.Serial;
 import java.util.Collections;
 import java.util.Objects;
+
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessageKey.LOG_PEXP_PARSE_FIELDS_RESOLVED;
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessages.message;
 
 /**
  * 权限表达式 V1 解析引擎。
@@ -86,10 +89,7 @@ public class V1PexpParseEngine implements PexpParseEngine {
         filterPattern = split[1];
 
         // 记录日志。
-        LOGGER.debug(
-                "解析结果相关字段解析完成, modifier: {}, filterType: {}, filterPattern: {}",
-                modifier, filterType, filterPattern
-        );
+        LOGGER.debug(message(LOG_PEXP_PARSE_FIELDS_RESOLVED, modifier, filterType, filterPattern));
 
         // 判断相关信息的合法性。
         if (!Objects.equals(modifier, MODIFIER_STRING_ACCEPT) &&
@@ -102,20 +102,12 @@ public class V1PexpParseEngine implements PexpParseEngine {
         }
 
         // 解析 pipeModifier。
-        Modifier pipeModifier;
-        switch (modifier) {
-            case MODIFIER_STRING_ACCEPT:
-                pipeModifier = Modifier.ACCEPT;
-                break;
-            case MODIFIER_STRING_REJECT:
-                pipeModifier = Modifier.REJECT;
-                break;
-            case MODIFIER_STRING_GLOBAL_REJECT:
-                pipeModifier = PexpParseHandler.Modifier.GLOBAL_REJECT;
-                break;
-            default:
-                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
-        }
+        Modifier pipeModifier = switch (modifier) {
+            case MODIFIER_STRING_ACCEPT -> Modifier.ACCEPT;
+            case MODIFIER_STRING_REJECT -> Modifier.REJECT;
+            case MODIFIER_STRING_GLOBAL_REJECT -> Modifier.GLOBAL_REJECT;
+            default -> throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
+        };
 
         // 构造结果并返回。
         return new ParseResult(pipeModifier, Collections.singletonList(new PipeUnit(filterType, filterPattern)));
@@ -130,6 +122,7 @@ public class V1PexpParseEngine implements PexpParseEngine {
 
     private static class IllegalModifierException extends Exception {
 
+        @Serial
         private static final long serialVersionUID = 7941039818447762511L;
 
         private final String modifier;
@@ -149,6 +142,7 @@ public class V1PexpParseEngine implements PexpParseEngine {
 
     private static class EmptyFilterTypeException extends Exception {
 
+        @Serial
         private static final long serialVersionUID = -7787865833992151692L;
 
         @Override

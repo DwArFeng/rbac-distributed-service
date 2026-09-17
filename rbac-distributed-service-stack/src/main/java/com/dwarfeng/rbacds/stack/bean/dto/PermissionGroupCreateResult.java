@@ -1,7 +1,9 @@
 package com.dwarfeng.rbacds.stack.bean.dto;
 
 import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+
+import java.io.Serial;
 
 /**
  * 权限组创建结果。
@@ -11,7 +13,8 @@ import com.dwarfeng.subgrade.stack.bean.dto.Dto;
  */
 public class PermissionGroupCreateResult implements Dto {
 
-    private static final long serialVersionUID = 9140942830740178444L;
+    @Serial
+    private static final long serialVersionUID = -5406502326313146937L;
 
     private PermissionGroupKey key;
 

@@ -2,8 +2,9 @@ package com.dwarfeng.rbacds.stack.bean.dto;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.rbacds.stack.bean.entity.User;
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
 
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -14,7 +15,8 @@ import java.util.List;
  */
 public class UserViewOfPermissionInspectResult implements Dto {
 
-    private static final long serialVersionUID = -4454865149738480030L;
+    @Serial
+    private static final long serialVersionUID = 8175770993633209792L;
 
     /**
      * 指定的权限匹配的用户。

@@ -1,7 +1,11 @@
 package com.dwarfeng.rbacds.stack.exception;
 
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.rbacds.stack.internal.i18n.StackMessageKey;
+import com.dwarfeng.rbacds.stack.internal.i18n.StackMessages;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+
+import java.io.Serial;
 
 /**
  * 权限已存在异常。
@@ -11,6 +15,7 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class PermissionAlreadyExistsException extends HandlerException {
 
+    @Serial
     private static final long serialVersionUID = -2968061634053511337L;
 
     private final PermissionKey permissionKey;
@@ -26,6 +31,6 @@ public class PermissionAlreadyExistsException extends HandlerException {
 
     @Override
     public String getMessage() {
-        return "Permission " + permissionKey + " already exists";
+        return StackMessages.message(StackMessageKey.EXCEPTION_PERMISSION_ALREADY_EXISTS, permissionKey);
     }
 }

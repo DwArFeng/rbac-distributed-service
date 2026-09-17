@@ -1,9 +1,10 @@
 package com.dwarfeng.rbacds.sdk.bean.key;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
-import com.dwarfeng.subgrade.stack.bean.key.Key;
+import com.dwarfeng.subgrade.basic.stack.bean.key.Key;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -14,7 +15,8 @@ import java.util.Objects;
  */
 public class FastJsonPermissionGroupKey implements Key {
 
-    private static final long serialVersionUID = -6845584299414361204L;
+    @Serial
+    private static final long serialVersionUID = -5294552717767248713L;
 
     public static FastJsonPermissionGroupKey of(PermissionGroupKey permissionGroupKey) {
         if (Objects.isNull(permissionGroupKey)) {

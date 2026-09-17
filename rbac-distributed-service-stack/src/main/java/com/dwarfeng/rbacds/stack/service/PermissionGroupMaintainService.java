@@ -2,9 +2,9 @@ package com.dwarfeng.rbacds.stack.service;
 
 import com.dwarfeng.rbacds.stack.bean.entity.PermissionGroup;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
-import com.dwarfeng.subgrade.stack.service.BatchCrudService;
-import com.dwarfeng.subgrade.stack.service.EntireLookupService;
-import com.dwarfeng.subgrade.stack.service.PresetLookupService;
+import com.dwarfeng.subgrade.data.stack.service.BatchCrudService;
+import com.dwarfeng.subgrade.data.stack.service.EntireLookupService;
+import com.dwarfeng.subgrade.data.stack.service.PresetLookupService;
 
 /**
  * 权限组维护服务。

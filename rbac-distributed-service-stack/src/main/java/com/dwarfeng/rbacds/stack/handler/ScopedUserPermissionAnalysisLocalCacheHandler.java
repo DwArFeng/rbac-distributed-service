@@ -2,7 +2,7 @@ package com.dwarfeng.rbacds.stack.handler;
 
 import com.dwarfeng.rbacds.stack.bean.key.ScopedUserKey;
 import com.dwarfeng.rbacds.stack.struct.ScopedUserPermissionAnalysis;
-import com.dwarfeng.subgrade.stack.handler.LocalCacheHandler;
+import com.dwarfeng.subgrade.cache.stack.handler.LocalCacheHandler;
 
 /**
  * 作用域用户权限分析本地缓存处理器。

@@ -2,14 +2,14 @@ package com.dwarfeng.rbacds.impl.dao;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.rbacds.stack.dao.RoleDao;
-import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
-import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
-import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.dao.BatchBaseDao;
-import com.dwarfeng.subgrade.stack.dao.EntireLookupDao;
-import com.dwarfeng.subgrade.stack.dao.PresetLookupDao;
-import com.dwarfeng.subgrade.stack.exception.DaoException;
+import com.dwarfeng.subgrade.aop.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.aop.sdk.interceptor.analyse.SkipRecord;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.PagingInfo;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.data.stack.dao.BatchBaseDao;
+import com.dwarfeng.subgrade.data.stack.dao.EntireLookupDao;
+import com.dwarfeng.subgrade.data.stack.dao.PresetLookupDao;
+import com.dwarfeng.subgrade.data.stack.exception.DaoException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

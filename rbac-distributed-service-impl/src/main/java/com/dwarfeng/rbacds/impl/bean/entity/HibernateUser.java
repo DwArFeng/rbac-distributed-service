@@ -3,10 +3,11 @@ package com.dwarfeng.rbacds.impl.bean.entity;
 import com.dwarfeng.datamark.sdk.jpa.DatamarkEntityListener;
 import com.dwarfeng.datamark.sdk.jpa.DatamarkField;
 import com.dwarfeng.rbacds.sdk.util.Constraints;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.data.sdk.bean.key.hibernate.HibernateStringIdKey;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
+import java.io.Serial;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -17,7 +18,8 @@ import java.util.Set;
 @EntityListeners(DatamarkEntityListener.class)
 public class HibernateUser implements Bean {
 
-    private static final long serialVersionUID = 3125572221479399205L;
+    @Serial
+    private static final long serialVersionUID = 129470241353298688L;
 
     // region 主键
 

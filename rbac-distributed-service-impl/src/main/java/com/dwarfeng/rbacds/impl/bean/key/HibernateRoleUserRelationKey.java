@@ -1,7 +1,8 @@
 package com.dwarfeng.rbacds.impl.bean.key;
 
-import com.dwarfeng.subgrade.stack.bean.key.Key;
+import com.dwarfeng.subgrade.basic.stack.bean.key.Key;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,8 @@ import java.util.Objects;
  */
 public class HibernateRoleUserRelationKey implements Key {
 
-    private static final long serialVersionUID = 7961893101851271104L;
+    @Serial
+    private static final long serialVersionUID = -5005380765768978235L;
 
     private String roleStringId;
     private String userStringId;

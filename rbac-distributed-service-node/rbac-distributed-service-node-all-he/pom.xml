@@ -22,8 +22,8 @@
         <!-- 进行工程编码声明 -->
         <!-- 进行 JDK 版本声明 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.release>25</maven.compiler.release>
         <!-- Node 模块构型声明 -->
         <node.function>all</node.function>
         <node.configuration>he</node.configuration>
@@ -32,7 +32,187 @@
     </properties>
 
     <dependencies>
+        <!-- 单元测试 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- 日志处理 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        <!-- Jakarta Annotation -->
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+        </dependency>
+        <!-- Jakarta Persistence -->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+        </dependency>
+        <!-- Jakarta Validation -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+        <!-- Jakarta EL -->
+        <dependency>
+            <groupId>jakarta.el</groupId>
+            <artifactId>jakarta.el-api</artifactId>
+        </dependency>
+        <!-- Spring 框架 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+        </dependency>
+        <!-- Netty 网络框架 -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+        </dependency>
+        <!-- Zookeeper 客户端 -->
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+        </dependency>
+        <!-- Guava 工具库 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <!-- Curator 组件 -->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+        </dependency>
+        <!-- Dubbo 微服务框架 -->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+        </dependency>
+        <!-- Protobuf 组件 -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+        </dependency>
+        <!-- MySQL Connector/J -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+        </dependency>
+        <!-- Druid 数据库连接池 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>
+        <!-- Hibernate 组件 -->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+        <!-- Jedis Redis 客户端 -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+        <!-- Hibernate 验证器 -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <!-- Jakarta EL 实现 -->
+        <dependency>
+            <groupId>org.glassfish.expressly</groupId>
+            <artifactId>expressly</artifactId>
+        </dependency>
+        <!-- FastJson Json 工具 -->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+        </dependency>
+        <!-- AspectJ 组件 -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
+        <!-- Dutil 工具库 -->
+        <dependency>
+            <groupId>com.dwarfeng</groupId>
+            <artifactId>dutil-basic</artifactId>
+        </dependency>
+        <!-- Subgrade 组件 -->
+        <dependency>
+            <groupId>com.dwarfeng</groupId>
+            <artifactId>subgrade-basic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dwarfeng</groupId>
+            <artifactId>subgrade-data</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dwarfeng</groupId>
+            <artifactId>subgrade-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dwarfeng</groupId>
+            <artifactId>subgrade-lifecycle</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dwarfeng</groupId>
+            <artifactId>subgrade-cache</artifactId>
+        </dependency>
         <!-- Spring-telqos 组件 -->
+        <dependency>
+            <groupId>com.dwarfeng</groupId>
+            <artifactId>spring-telqos-core</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.dwarfeng</groupId>
             <artifactId>spring-telqos-api</artifactId>
@@ -40,14 +220,26 @@
         <!-- Spring-terminator 组件 -->
         <dependency>
             <groupId>com.dwarfeng</groupId>
+            <artifactId>spring-terminator-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dwarfeng</groupId>
             <artifactId>spring-terminator-api</artifactId>
         </dependency>
         <!-- Dwarfeng-datamark 组件 -->
         <dependency>
             <groupId>com.dwarfeng</groupId>
+            <artifactId>dwarfeng-datamark-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dwarfeng</groupId>
             <artifactId>dwarfeng-datamark-api</artifactId>
         </dependency>
-        <!-- 程序自身模块 -->
+        <!-- 程序自身组件 -->
+        <dependency>
+            <groupId>com.dwarfeng</groupId>
+            <artifactId>rbac-distributed-service-base</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.dwarfeng</groupId>
             <artifactId>rbac-distributed-service-impl</artifactId>
@@ -67,6 +259,61 @@
                             <directory>logs</directory>
                         </fileset>
                     </filesets>
+                </configuration>
+            </plugin>
+            <!-- Maven 测试插件，用于选项式执行单元测试。 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>${project.surefire.skip}</skip>
+                    <useModulePath>false</useModulePath>
+                    <argLine>--enable-native-access=ALL-UNNAMED</argLine>
+                    <systemPropertyVariables>
+                        <dubbo.json-framework.prefer>fastjson2</dubbo.json-framework.prefer>
+                        <jdk.net.URLClassPath.disableClassPathURLCheck>
+                            true
+                        </jdk.net.URLClassPath.disableClassPathURLCheck>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+            <!-- Maven 强制规则插件，用于检查构建环境。 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-build-baseline</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>[25,26)</version>
+                                </requireJavaVersion>
+                                <requireMavenVersion>
+                                    <version>[3.9.16,)</version>
+                                </requireMavenVersion>
+                                <dependencyConvergence/>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Maven 打包插件，用于打可以运行的 jar 包。 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>./</classpathPrefix>
+                            <mainClass>${mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                    <finalName>${project.name}-${project.version}</finalName>
                 </configuration>
             </plugin>
             <!-- Maven 装配插件，用于装配项目文件。 -->
@@ -90,21 +337,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <!-- Maven 打包插件，用于打可以运行的 jar 包。 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>./</classpathPrefix>
-                            <mainClass>${mainClass}</mainClass>
-                        </manifest>
-                    </archive>
-                    <finalName>${project.name}-${project.version}</finalName>
-                </configuration>
             </plugin>
         </plugins>
         <!-- 配置资源目录 -->

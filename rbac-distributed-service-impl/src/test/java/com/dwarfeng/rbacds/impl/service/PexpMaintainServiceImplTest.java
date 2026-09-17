@@ -8,25 +8,25 @@ import com.dwarfeng.rbacds.stack.service.PermissionMaintainService;
 import com.dwarfeng.rbacds.stack.service.PexpMaintainService;
 import com.dwarfeng.rbacds.stack.service.RoleMaintainService;
 import com.dwarfeng.rbacds.stack.service.ScopeMaintainService;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
 import org.apache.commons.beanutils.BeanUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring/application-context*.xml")
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(locations = "classpath:com/dwarfeng/rbacds/impl/spring/application-context*.xml")
 public class PexpMaintainServiceImplTest {
 
     private static final String SCOPE_STRING_ID = "test_scope";
@@ -43,7 +43,7 @@ public class PexpMaintainServiceImplTest {
     private Role role;
     private List<Pexp> pexps;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         scope = new Scope(new StringIdKey(SCOPE_STRING_ID), "name", "remark");
         role = new Role(new StringIdKey(ROLE_STRING_ID), "name", true, "remark");
@@ -54,7 +54,7 @@ public class PexpMaintainServiceImplTest {
         }
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         scope = null;
         role = null;

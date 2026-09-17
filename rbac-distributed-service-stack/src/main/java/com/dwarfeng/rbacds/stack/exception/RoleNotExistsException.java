@@ -1,7 +1,11 @@
 package com.dwarfeng.rbacds.stack.exception;
 
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.rbacds.stack.internal.i18n.StackMessageKey;
+import com.dwarfeng.rbacds.stack.internal.i18n.StackMessages;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+
+import java.io.Serial;
 
 /**
  * 用户不存在异常。
@@ -11,7 +15,8 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class RoleNotExistsException extends HandlerException {
 
-    private static final long serialVersionUID = 975816910312846963L;
+    @Serial
+    private static final long serialVersionUID = -6679945363943885401L;
 
     private final StringIdKey roleKey;
 
@@ -26,6 +31,6 @@ public class RoleNotExistsException extends HandlerException {
 
     @Override
     public String getMessage() {
-        return "Role " + roleKey + " does not exist";
+        return StackMessages.message(StackMessageKey.EXCEPTION_ROLE_NOT_EXISTS, roleKey);
     }
 }

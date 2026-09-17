@@ -1,6 +1,6 @@
 package com.dwarfeng.rbacds.stack.handler;
 
-import com.dwarfeng.subgrade.stack.handler.LocalCacheHandler;
+import com.dwarfeng.subgrade.cache.stack.handler.LocalCacheHandler;
 
 /**
  * 过滤器本地缓存处理器。

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:telqos="http://dwarfeng.com/schema/spring-telqos"
+        xmlns="http://www.springframework.org/schema/beans"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://dwarfeng.com/schema/spring-telqos
+        http://dwarfeng.com/schema/spring-telqos/spring-telqos.xsd"
+>
+
+    <telqos:config>
+        <telqos:connection-setting
+                port="${com.dwarfeng.rbacds.telqos.port}"
+                charset="${com.dwarfeng.rbacds.telqos.charset}"
+                banner-url="classpath:com/dwarfeng/rbacds/node/all/he/telqos/my-banner.txt"
+                whitelist-regex="${com.dwarfeng.rbacds.telqos.whitelist_regex}"
+                blacklist-regex="${com.dwarfeng.rbacds.telqos.blacklist_regex}"
+        />
+        <telqos:command>
+            <telqos:command-impl package-scan="com.dwarfeng.springterminator.api.integration.springtelqos"/>
+            <telqos:command-impl package-scan="com.dwarfeng.springtelqos.api.integration.dubbo"/>
+            <telqos:command-impl package-scan="com.dwarfeng.springtelqos.api.integration.log4j2"/>
+            <telqos:command-impl package-scan="com.dwarfeng.springtelqos.api.integration.system"/>
+            <telqos:command-impl package-scan="com.dwarfeng.datamark.api.integration.springtelqos"/>
+            <telqos:command-impl package-scan="com.dwarfeng.rbacds.impl.service.telqos"/>
+        </telqos:command>
+    </telqos:config>
+    <telqos:handler/>
+    <telqos:qos/>
+</beans>

@@ -1,7 +1,9 @@
 package com.dwarfeng.rbacds.stack.bean.entity;
 
 import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
-import com.dwarfeng.subgrade.stack.bean.entity.Entity;
+import com.dwarfeng.subgrade.basic.stack.bean.entity.Entity;
+
+import java.io.Serial;
 
 /**
  * 角色用户关系。
@@ -11,7 +13,8 @@ import com.dwarfeng.subgrade.stack.bean.entity.Entity;
  */
 public class RoleUserRelation implements Entity<RoleUserRelationKey> {
 
-    private static final long serialVersionUID = 4131524298160879198L;
+    @Serial
+    private static final long serialVersionUID = -6763826124654513054L;
 
     private RoleUserRelationKey key;
     private boolean enabled;

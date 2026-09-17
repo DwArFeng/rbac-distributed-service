@@ -1,6 +1,6 @@
 package com.dwarfeng.rbacds.impl.handler;
 
-import com.dwarfeng.dutil.basic.cna.CollectionUtil;
+import com.dwarfeng.dutil.basic.sdk.collection.CollectionUtil;
 import com.dwarfeng.rbacds.stack.bean.dto.*;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
@@ -20,12 +20,12 @@ import com.dwarfeng.rbacds.stack.service.UserMaintainService;
 import com.dwarfeng.rbacds.stack.struct.PermissionUserAnalysis;
 import com.dwarfeng.rbacds.stack.struct.ScopedRolePermissionAnalysis;
 import com.dwarfeng.rbacds.stack.struct.ScopedUserPermissionAnalysis;
-import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.sdk.exception.HandlerExceptionHelper;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 /**
@@ -119,15 +119,15 @@ public class InspectHandlerImpl implements InspectHandler {
         }
 
         // 构造结果参数。
-        List<User> matchedUsers = analysis.getMatchedUsers();
+        List<User> matchedUsers = analysis.matchedUsers();
         boolean matchedFlag = false;
         if (Objects.nonNull(userKeyMatched)) {
-            matchedFlag = analysis.getMatchedUserKeySet().contains(userKeyMatched);
+            matchedFlag = analysis.matchedUserKeySet().contains(userKeyMatched);
         } else if (Objects.nonNull(allOfUserKeysMatched)) {
-            matchedFlag = analysis.getMatchedUserKeySet().containsAll(allOfUserKeysMatched);
+            matchedFlag = analysis.matchedUserKeySet().containsAll(allOfUserKeysMatched);
         } else if (Objects.nonNull(anyOfUserKeysMatched)) {
             for (StringIdKey anyOfUserKeyMatched : anyOfUserKeysMatched) {
-                if (analysis.getMatchedUserKeySet().contains(anyOfUserKeyMatched)) {
+                if (analysis.matchedUserKeySet().contains(anyOfUserKeyMatched)) {
                     matchedFlag = true;
                     break;
                 }
@@ -136,8 +136,8 @@ public class InspectHandlerImpl implements InspectHandler {
         List<Role> acceptedRoles = null;
         List<Role> rejectedRoles = null;
         if (detailMode) {
-            acceptedRoles = analysis.getAcceptedRoles();
-            rejectedRoles = analysis.getRejectedRoles();
+            acceptedRoles = analysis.acceptedRoles();
+            rejectedRoles = analysis.rejectedRoles();
         }
 
         // 返回结果。

@@ -6,8 +6,9 @@ import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.rbacds.stack.bean.key.ScopedUserKey;
 import com.dwarfeng.rbacds.stack.service.InspectService;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
-import com.dwarfeng.subgrade.stack.handler.PermissionHandler;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.web.stack.handler.PermissionHandler;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -73,8 +74,8 @@ public class ScopedPermissionHandler implements PermissionHandler {
             // 按作用域分组。
             Map<String, List<PermissionKey>> permissionKeysMap = new HashMap<>();
             for (PermissionNodeParseResult permissionNodeParseResult : permissionNodeParseResults) {
-                String scopeStringId = permissionNodeParseResult.getPermissionKey().getScopeStringId();
-                PermissionKey permissionKey = permissionNodeParseResult.getPermissionKey();
+                String scopeStringId = permissionNodeParseResult.permissionKey().getScopeStringId();
+                PermissionKey permissionKey = permissionNodeParseResult.permissionKey();
                 permissionKeysMap.computeIfAbsent(scopeStringId, k -> new ArrayList<>()).add(permissionKey);
             }
             // 对每个作用域执行查询。
@@ -115,7 +116,7 @@ public class ScopedPermissionHandler implements PermissionHandler {
             // 按作用域分组。
             Map<String, List<PermissionNodeParseResult>> parseResultsMap = new HashMap<>();
             for (PermissionNodeParseResult permissionNodeParseResult : permissionNodeParseResults) {
-                String scopeStringId = permissionNodeParseResult.getPermissionKey().getScopeStringId();
+                String scopeStringId = permissionNodeParseResult.permissionKey().getScopeStringId();
                 parseResultsMap.computeIfAbsent(scopeStringId, k -> new ArrayList<>()).add(permissionNodeParseResult);
             }
             List<String> missingPermissions = new ArrayList<>();
@@ -135,8 +136,8 @@ public class ScopedPermissionHandler implements PermissionHandler {
                 // 计算结果，将单个作用域中缺失的权限添加到结果列表中。
                 if (Objects.isNull(scopeResult)) {
                     missingPermissions.addAll(
-                            scopePermissionNodeParseResults.stream().map(PermissionNodeParseResult::getPermissionNode)
-                                    .collect(Collectors.toList())
+                            scopePermissionNodeParseResults.stream().map(PermissionNodeParseResult::permissionNode)
+                                    .toList()
                     );
                     continue;
                 }
@@ -146,11 +147,11 @@ public class ScopedPermissionHandler implements PermissionHandler {
                         ).orElse(Collections.emptyList());
                 List<PermissionNodeParseResult> scopeMissingPermissionNodeParseResults =
                         scopePermissionNodeParseResults.stream()
-                                .filter(p -> !scopeMatchedPermissionKeys.contains(p.getPermissionKey()))
-                                .collect(Collectors.toList());
+                                .filter(p -> !scopeMatchedPermissionKeys.contains(p.permissionKey()))
+                                .toList();
                 missingPermissions.addAll(
                         scopeMissingPermissionNodeParseResults.stream()
-                                .map(PermissionNodeParseResult::getPermissionNode).collect(Collectors.toList())
+                                .map(PermissionNodeParseResult::permissionNode).toList()
                 );
             }
             // 返回结果。
@@ -168,7 +169,7 @@ public class ScopedPermissionHandler implements PermissionHandler {
      * @throws IllegalArgumentException 解析失败时
      */
     private PermissionKey parsePermissionNode(String permission) {
-        return parsePermissionNodeToResult(permission).getPermissionKey();
+        return parsePermissionNodeToResult(permission).permissionKey();
     }
 
     /**
@@ -264,26 +265,10 @@ public class ScopedPermissionHandler implements PermissionHandler {
         READING_PERMISSION
     }
 
-    private static final class PermissionNodeParseResult {
-
-        private final String permissionNode;
-        private final PermissionKey permissionKey;
-
-        public PermissionNodeParseResult(String permissionNode, PermissionKey permissionKey) {
-            this.permissionNode = permissionNode;
-            this.permissionKey = permissionKey;
-        }
-
-        public String getPermissionNode() {
-            return permissionNode;
-        }
-
-        public PermissionKey getPermissionKey() {
-            return permissionKey;
-        }
+    private record PermissionNodeParseResult(String permissionNode, PermissionKey permissionKey) {
 
         @Override
-        public String toString() {
+        public @NotNull String toString() {
             return "PermissionNodeParseResult{" +
                     "permissionNode='" + permissionNode + '\'' +
                     ", permissionKey=" + permissionKey +

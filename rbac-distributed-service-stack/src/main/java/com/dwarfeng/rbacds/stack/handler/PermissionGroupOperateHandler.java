@@ -4,8 +4,8 @@ import com.dwarfeng.rbacds.stack.bean.dto.PermissionGroupCreateInfo;
 import com.dwarfeng.rbacds.stack.bean.dto.PermissionGroupCreateResult;
 import com.dwarfeng.rbacds.stack.bean.dto.PermissionGroupRemoveInfo;
 import com.dwarfeng.rbacds.stack.bean.dto.PermissionGroupUpdateInfo;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
-import com.dwarfeng.subgrade.stack.handler.Handler;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.handler.Handler;
 
 /**
  * 权限组操作处理器。

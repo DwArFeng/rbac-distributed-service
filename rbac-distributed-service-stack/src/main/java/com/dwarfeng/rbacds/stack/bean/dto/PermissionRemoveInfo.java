@@ -1,7 +1,9 @@
 package com.dwarfeng.rbacds.stack.bean.dto;
 
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+
+import java.io.Serial;
 
 /**
  * 权限移除信息。
@@ -11,7 +13,8 @@ import com.dwarfeng.subgrade.stack.bean.dto.Dto;
  */
 public class PermissionRemoveInfo implements Dto {
 
-    private static final long serialVersionUID = 1388884854699211834L;
+    @Serial
+    private static final long serialVersionUID = -4940649810400393949L;
 
     private PermissionKey key;
 

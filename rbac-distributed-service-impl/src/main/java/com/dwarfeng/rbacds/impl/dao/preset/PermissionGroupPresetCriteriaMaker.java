@@ -1,182 +1,120 @@
 package com.dwarfeng.rbacds.impl.dao.preset;
 
+import com.dwarfeng.rbacds.impl.bean.entity.HibernatePermissionGroup;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
 import com.dwarfeng.rbacds.stack.service.PermissionGroupMaintainService;
-import com.dwarfeng.subgrade.sdk.hibernate.criteria.PresetCriteriaMaker;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.data.sdk.hibernate.criteria.PresetCriteriaMaker;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 @Component
-public class PermissionGroupPresetCriteriaMaker implements PresetCriteriaMaker {
+public class PermissionGroupPresetCriteriaMaker implements PresetCriteriaMaker<HibernatePermissionGroup> {
 
     @Override
-    public void makeCriteria(DetachedCriteria criteria, String preset, Object[] objs) {
+    public void makeCriteria(
+            CriteriaBuilder builder, CriteriaQuery<?> query, Root<HibernatePermissionGroup> root,
+            String preset, Object[] objects
+    ) {
         switch (preset) {
             case PermissionGroupMaintainService.CHILD_FOR_SCOPE:
-                childForScope(criteria, objs);
+                execute(builder, query, root, objects, false, null, false);
                 break;
             case PermissionGroupMaintainService.CHILD_FOR_PARENT:
-                childForParent(criteria, objs);
+                execute(builder, query, root, objects, true, null, false);
                 break;
             case PermissionGroupMaintainService.CHILD_FOR_PARENT_PERMISSION_GROUP_STRING_ID_ASC:
-                childForParentPermissionGroupStringIdAsc(criteria, objs);
+                execute(builder, query, root, objects, true, null, true);
                 break;
             case PermissionGroupMaintainService.PERMISSION_GROUP_STRING_ID_LIKE_PERMISSION_GROUP_STRING_ID_ASC:
-                permissionGroupStringIdLikePermissionGroupStringIdAsc(criteria, objs);
+                execute(builder, query, root, objects, false, "identifier", true);
                 break;
             case PermissionGroupMaintainService.
                          CHILD_FOR_PARENT_PERMISSION_GROUP_STRING_ID_LIKE_PERMISSION_GROUP_STRING_ID_ASC:
-                childForParentPermissionGroupStringIdLikePermissionGroupStringIdAsc(criteria, objs);
+                execute(builder, query, root, objects, true, "identifier", true);
                 break;
             case PermissionGroupMaintainService.NAME_LIKE_PERMISSION_GROUP_STRING_ID_ASC:
-                nameLikePermissionGroupStringIdAsc(criteria, objs);
+                execute(builder, query, root, objects, false, "name", true);
                 break;
             case PermissionGroupMaintainService.CHILD_FOR_PARENT_NAME_LIKE_PERMISSION_GROUP_STRING_ID_ASC:
-                childForParentNameLikePermissionGroupStringIdAsc(criteria, objs);
+                execute(builder, query, root, objects, true, "name", true);
                 break;
             case PermissionGroupMaintainService.CHILD_FOR_SCOPE_ROOT_PERMISSION_GROUP_STRING_ID_ASC:
-                childForScopeRootPermissionGroupStringIdAsc(criteria, objs);
+                childForScopeRoot(builder, query, root, objects);
                 break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + preset);
         }
     }
 
-    @SuppressWarnings("DuplicatedCode")
-    private void childForScope(DetachedCriteria detachedCriteria, Object[] objects) {
-        try {
-            if (Objects.isNull(objects[0])) {
-                detachedCriteria.add(Restrictions.isNull("scopeStringId"));
-            } else {
-                StringIdKey stringIdKey = (StringIdKey) objects[0];
-                detachedCriteria.add(Restrictions.eqOrIsNull("scopeStringId", stringIdKey.getStringId()));
-            }
-        } catch (Exception e) {
-            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
-        }
-    }
-
-    @SuppressWarnings("DuplicatedCode")
-    private void childForParent(DetachedCriteria criteria, Object[] objs) {
-        try {
-            if (Objects.isNull(objs[0])) {
-                criteria.add(Restrictions.isNull("parentScopeStringId"));
-                criteria.add(Restrictions.isNull("parentPermissionGroupStringId"));
-            } else {
-                PermissionGroupKey permissionGroupKey = (PermissionGroupKey) objs[0];
-                String scopeStringId = permissionGroupKey.getScopeStringId();
-                String permissionGroupStringId = permissionGroupKey.getPermissionGroupStringId();
-                criteria.add(Restrictions.eqOrIsNull("parentScopeStringId", scopeStringId));
-                criteria.add(Restrictions.eqOrIsNull("parentPermissionGroupStringId", permissionGroupStringId));
-            }
-        } catch (Exception e) {
-            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
-        }
-    }
-
-    @SuppressWarnings("DuplicatedCode")
-    private void childForParentPermissionGroupStringIdAsc(DetachedCriteria criteria, Object[] objs) {
-        try {
-            if (Objects.isNull(objs[0])) {
-                criteria.add(Restrictions.isNull("parentScopeStringId"));
-                criteria.add(Restrictions.isNull("parentPermissionGroupStringId"));
-            } else {
-                PermissionGroupKey permissionGroupKey = (PermissionGroupKey) objs[0];
-                String scopeStringId = permissionGroupKey.getScopeStringId();
-                String permissionGroupStringId = permissionGroupKey.getPermissionGroupStringId();
-                criteria.add(Restrictions.eqOrIsNull("parentScopeStringId", scopeStringId));
-                criteria.add(Restrictions.eqOrIsNull("parentPermissionGroupStringId", permissionGroupStringId));
-            }
-            criteria.addOrder(Order.asc("permissionGroupStringId"));
-        } catch (Exception e) {
-            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
-        }
-    }
-
-    private void permissionGroupStringIdLikePermissionGroupStringIdAsc(DetachedCriteria criteria, Object[] objs) {
-        try {
-            String pattern = (String) objs[0];
-            criteria.add(Restrictions.like("identifier", pattern, MatchMode.ANYWHERE));
-            criteria.addOrder(Order.asc("permissionGroupStringId"));
-        } catch (Exception e) {
-            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
-        }
-    }
-
-    @SuppressWarnings("DuplicatedCode")
-    private void childForParentPermissionGroupStringIdLikePermissionGroupStringIdAsc(
-            DetachedCriteria criteria, Object[] objs
+    private void execute(
+            CriteriaBuilder builder, CriteriaQuery<?> query, Root<HibernatePermissionGroup> root, Object[] objects,
+            boolean parent, String likeAttribute, boolean ordered
     ) {
         try {
-            if (Objects.isNull(objs[0])) {
-                criteria.add(Restrictions.isNull("parentScopeStringId"));
-                criteria.add(Restrictions.isNull("parentPermissionGroupStringId"));
-            } else {
-                PermissionGroupKey permissionGroupKey = (PermissionGroupKey) objs[0];
-                String scopeStringId = permissionGroupKey.getScopeStringId();
-                String permissionGroupStringId = permissionGroupKey.getPermissionGroupStringId();
-                criteria.add(Restrictions.eqOrIsNull("parentScopeStringId", scopeStringId));
-                criteria.add(Restrictions.eqOrIsNull("parentPermissionGroupStringId", permissionGroupStringId));
+            int index = 0;
+            if (parent) {
+                addParent(builder, query, root, objects[index++]);
+            } else if (likeAttribute == null) {
+                addScope(builder, query, root, objects[index++]);
             }
-            String pattern = (String) objs[1];
-            criteria.add(Restrictions.like("identifier", pattern, MatchMode.ANYWHERE));
-            criteria.addOrder(Order.asc("permissionGroupStringId"));
-        } catch (Exception e) {
-            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
-        }
-    }
-
-    private void nameLikePermissionGroupStringIdAsc(DetachedCriteria criteria, Object[] objs) {
-        try {
-            String pattern = (String) objs[0];
-            criteria.add(Restrictions.like("name", pattern, MatchMode.ANYWHERE));
-            criteria.addOrder(Order.asc("permissionGroupStringId"));
-        } catch (Exception e) {
-            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
-        }
-    }
-
-    @SuppressWarnings("DuplicatedCode")
-    private void childForParentNameLikePermissionGroupStringIdAsc(DetachedCriteria criteria, Object[] objs) {
-        try {
-            if (Objects.isNull(objs[0])) {
-                criteria.add(Restrictions.isNull("parentScopeStringId"));
-                criteria.add(Restrictions.isNull("parentPermissionGroupStringId"));
-            } else {
-                PermissionGroupKey permissionGroupKey = (PermissionGroupKey) objs[0];
-                String scopeStringId = permissionGroupKey.getScopeStringId();
-                String permissionGroupStringId = permissionGroupKey.getPermissionGroupStringId();
-                criteria.add(Restrictions.eqOrIsNull("parentScopeStringId", scopeStringId));
-                criteria.add(Restrictions.eqOrIsNull("parentPermissionGroupStringId", permissionGroupStringId));
+            if (likeAttribute != null) {
+                CriteriaQueryHelper.addRestriction(
+                        builder, query,
+                        CriteriaQueryHelper.likeAnywhere(builder, root.get(likeAttribute), (String) objects[index])
+                );
             }
-            String pattern = (String) objs[1];
-            criteria.add(Restrictions.like("name", pattern, MatchMode.ANYWHERE));
-            criteria.addOrder(Order.asc("permissionGroupStringId"));
-        } catch (Exception e) {
-            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
-        }
-    }
-
-    private void childForScopeRootPermissionGroupStringIdAsc(DetachedCriteria detachedCriteria, Object[] objects) {
-        try {
-            if (Objects.isNull(objects[0])) {
-                detachedCriteria.add(Restrictions.isNull("scopeStringId"));
-            } else {
-                StringIdKey stringIdKey = (StringIdKey) objects[0];
-                detachedCriteria.add(Restrictions.eqOrIsNull("scopeStringId", stringIdKey.getStringId()));
+            if (ordered) {
+                CriteriaQueryHelper.addOrder(query, builder.asc(root.get("permissionGroupStringId")));
             }
-            detachedCriteria.add(Restrictions.isNull("parentScopeStringId"));
-            detachedCriteria.add(Restrictions.isNull("parentPermissionGroupStringId"));
-            detachedCriteria.addOrder(Order.asc("permissionGroupStringId"));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
         }
+    }
+
+    private void childForScopeRoot(
+            CriteriaBuilder builder, CriteriaQuery<?> query, Root<HibernatePermissionGroup> root, Object[] objects
+    ) {
+        try {
+            addScope(builder, query, root, objects[0]);
+            CriteriaQueryHelper.addRestriction(builder, query, builder.isNull(root.get("parentScopeStringId")));
+            CriteriaQueryHelper.addRestriction(
+                    builder, query, builder.isNull(root.get("parentPermissionGroupStringId"))
+            );
+            CriteriaQueryHelper.addOrder(query, builder.asc(root.get("permissionGroupStringId")));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
+        }
+    }
+
+    private void addScope(
+            CriteriaBuilder builder, CriteriaQuery<?> query, Root<HibernatePermissionGroup> root, Object value
+    ) {
+        String stringId = Objects.isNull(value) ? null : ((StringIdKey) value).getStringId();
+        CriteriaQueryHelper.addRestriction(
+                builder, query, CriteriaQueryHelper.equalOrIsNull(builder, root.get("scopeStringId"), stringId)
+        );
+    }
+
+    private void addParent(
+            CriteriaBuilder builder, CriteriaQuery<?> query, Root<HibernatePermissionGroup> root, Object value
+    ) {
+        PermissionGroupKey key = Objects.isNull(value) ? null : (PermissionGroupKey) value;
+        CriteriaQueryHelper.addRestriction(
+                builder, query, CriteriaQueryHelper.equalOrIsNull(
+                        builder, root.get("parentScopeStringId"), Objects.isNull(key) ? null : key.getScopeStringId()
+                )
+        );
+        CriteriaQueryHelper.addRestriction(
+                builder, query, CriteriaQueryHelper.equalOrIsNull(
+                        builder, root.get("parentPermissionGroupStringId"),
+                        Objects.isNull(key) ? null : key.getPermissionGroupStringId()
+                )
+        );
     }
 }

@@ -13,6 +13,8 @@ import java.util.Set;
  * @author DwArFeng
  * @since 2.0.0
  */
+// 该类需要保持现有 JavaBean 风格访问器 API，不宜改写为 Record。
+@SuppressWarnings("ClassCanBeRecord")
 public final class ScopedRolePermissionAnalysis {
 
     /**

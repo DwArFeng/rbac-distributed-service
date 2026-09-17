@@ -2,8 +2,9 @@ package com.dwarfeng.rbacds.stack.bean.entity;
 
 import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
-import com.dwarfeng.subgrade.stack.bean.entity.Entity;
+import com.dwarfeng.subgrade.basic.stack.bean.entity.Entity;
 
+import java.io.Serial;
 import java.util.Arrays;
 
 /**
@@ -14,7 +15,8 @@ import java.util.Arrays;
  */
 public class Permission implements Entity<PermissionKey> {
 
-    private static final long serialVersionUID = 2513417150315478306L;
+    @Serial
+    private static final long serialVersionUID = -767538520657515235L;
 
     private PermissionKey key;
     private PermissionGroupKey groupKey;

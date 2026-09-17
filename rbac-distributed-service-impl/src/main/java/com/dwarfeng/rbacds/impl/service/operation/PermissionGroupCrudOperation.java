@@ -9,9 +9,9 @@ import com.dwarfeng.rbacds.stack.dao.PermissionDao;
 import com.dwarfeng.rbacds.stack.dao.PermissionGroupDao;
 import com.dwarfeng.rbacds.stack.service.PermissionGroupMaintainService;
 import com.dwarfeng.rbacds.stack.service.PermissionMaintainService;
-import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
-import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
-import com.dwarfeng.subgrade.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.basic.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.data.sdk.exception.ServiceExceptionCodeSuppliers;
+import com.dwarfeng.subgrade.data.sdk.service.custom.operation.BatchCrudOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -53,7 +53,7 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<Permissi
             return permissionGroupCache.get(key);
         } else {
             if (!permissionGroupDao.exists(key)) {
-                throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
+                throw new ServiceException(ServiceExceptionCodeSuppliers.ENTITY_NOT_EXIST.get());
             }
             PermissionGroup permissionGroup = permissionGroupDao.get(key);
             permissionGroupCache.push(permissionGroup, permissionGroupTimeout);
@@ -115,7 +115,7 @@ public class PermissionGroupCrudOperation implements BatchCrudOperation<Permissi
             return permissionGroupCache.batchGet(keys);
         } else {
             if (!permissionGroupDao.allExists(keys)) {
-                throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
+                throw new ServiceException(ServiceExceptionCodeSuppliers.ENTITY_NOT_EXIST.get());
             }
             List<PermissionGroup> permissionGroups = permissionGroupDao.batchGet(keys);
             permissionGroupCache.batchPush(permissionGroups, permissionGroupTimeout);

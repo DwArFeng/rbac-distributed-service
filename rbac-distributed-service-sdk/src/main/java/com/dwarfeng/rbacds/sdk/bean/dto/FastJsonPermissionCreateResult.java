@@ -1,10 +1,11 @@
 package com.dwarfeng.rbacds.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.rbacds.sdk.bean.key.FastJsonPermissionKey;
 import com.dwarfeng.rbacds.stack.bean.dto.PermissionCreateResult;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -15,7 +16,8 @@ import java.util.Objects;
  */
 public class FastJsonPermissionCreateResult implements Bean {
 
-    private static final long serialVersionUID = -5851560572317299624L;
+    @Serial
+    private static final long serialVersionUID = 7227149523862002910L;
 
     public static FastJsonPermissionCreateResult of(PermissionCreateResult permissionCreateResult) {
         if (Objects.isNull(permissionCreateResult)) {

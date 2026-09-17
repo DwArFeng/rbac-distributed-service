@@ -1,7 +1,8 @@
 package com.dwarfeng.rbacds.impl.bean.key;
 
-import com.dwarfeng.subgrade.stack.bean.key.Key;
+import com.dwarfeng.subgrade.basic.stack.bean.key.Key;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,8 @@ import java.util.Objects;
  */
 public class HibernatePexpKey implements Key {
 
-    private static final long serialVersionUID = -2834186879994244604L;
+    @Serial
+    private static final long serialVersionUID = -4809919739934936941L;
 
     private String scopeStringId;
     private String roleStringId;

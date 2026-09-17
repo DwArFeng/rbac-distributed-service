@@ -1,10 +1,11 @@
 package com.dwarfeng.rbacds.sdk.bean.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.rbacds.stack.bean.entity.Scope;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.web.sdk.bean.key.FastJsonStringIdKey;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -15,7 +16,8 @@ import java.util.Objects;
  */
 public class FastJsonScope implements Bean {
 
-    private static final long serialVersionUID = 190968643755597757L;
+    @Serial
+    private static final long serialVersionUID = -1542846433460649779L;
 
     public static FastJsonScope of(Scope scope) {
         if (Objects.isNull(scope)) {

@@ -1,5 +1,8 @@
 package com.dwarfeng.rbacds.impl.service.telqos;
 
+import com.dwarfeng.rbacds.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.rbacds.impl.internal.i18n.ImplMessages;
+
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.rbacds.stack.bean.entity.User;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
@@ -10,7 +13,7 @@ import com.dwarfeng.springtelqos.sdk.configuration.TelqosCommand;
 import com.dwarfeng.springtelqos.sdk.util.CliCommandUtil;
 import com.dwarfeng.springtelqos.stack.command.CommandDescriptor;
 import com.dwarfeng.springtelqos.stack.command.CommandExecutor;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.lang3.Strings;
@@ -56,7 +59,7 @@ public class PermissionUserAnalysisLocalCacheCommand extends CliCommand {
 
     @Override
     protected DescriptionProvider provideDescriptionProvider() {
-        return context -> "权限用户分析本地缓存操作";
+        return _ -> ImplMessages.message(ImplMessageKey.TELQOS_PERMISSION_USER_ANALYSIS_LOCAL_CACHE_DESCRIPTION);
     }
 
     @Override
@@ -79,15 +82,21 @@ public class PermissionUserAnalysisLocalCacheCommand extends CliCommand {
     protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
         list.add(Option.builder(COMMAND_OPTION_LOOKUP).optionalArg(true).hasArg(false)
-                .desc("查看指定权限键的权限用户分析，如果本地缓存中不存在，则尝试抓取").build());
-        list.add(Option.builder(COMMAND_OPTION_CLEAR).optionalArg(true).hasArg(false).desc("清除缓存").build());
+                .desc(ImplMessages.message(ImplMessageKey.TELQOS_PERMISSION_USER_ANALYSIS_LOCAL_CACHE_OPTION_LOOKUP))
+                .get());
+        list.add(
+                Option.builder(COMMAND_OPTION_CLEAR).optionalArg(true).hasArg(false)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_OPTION_CLEAR)).get()
+        );
         list.add(
                 Option.builder(COMMAND_SUB_OPTION_SCOPE).optionalArg(true).hasArg(true)
-                        .argName("scopeId").desc("作用域 ID").build()
+                        .argName("scopeId")
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_SCOPE_ID)).get()
         );
         list.add(
                 Option.builder(COMMAND_SUB_OPTION_PERMISSION).optionalArg(true).hasArg(true)
-                        .argName("permissionId").desc("权限 ID").build()
+                        .argName("permissionId")
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_PERMISSION_ID)).get()
         );
         return list;
     }
@@ -109,7 +118,9 @@ public class PermissionUserAnalysisLocalCacheCommand extends CliCommand {
                 handleClear(context);
                 break;
             default:
-                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
+                throw new IllegalStateException(
+                        ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_INTERNAL_UNREACHABLE)
+                );
         }
     }
 
@@ -122,15 +133,18 @@ public class PermissionUserAnalysisLocalCacheCommand extends CliCommand {
                         Objects.isNull(permissionId) || permissionId.isEmpty()
         ) {
             context.sendMessage(
-                    "lookup 操作需要指定 " + CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_SCOPE) +
-                            " 和 " + CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_PERMISSION) + " 选项"
+                    ImplMessages.message(
+                            ImplMessageKey.TELQOS_COMMON_RESULT_LOOKUP_REQUIRES_OPTIONS,
+                            CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_SCOPE),
+                            CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_PERMISSION)
+                    )
             );
             return;
         }
         PermissionKey key = new PermissionKey(scopeId, permissionId);
         PermissionUserAnalysis analysis = qosService.get(key);
         if (Objects.isNull(analysis)) {
-            context.sendMessage("not exists!");
+            context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_NOT_EXISTS));
             return;
         }
         interactPermissionUserAnalysis(context, analysis);
@@ -138,11 +152,11 @@ public class PermissionUserAnalysisLocalCacheCommand extends CliCommand {
 
     private void handleClear(CommandExecutor.Context context) throws Exception {
         qosService.clearLocalCache();
-        context.sendMessage("缓存已清空");
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_CACHE_CLEARED));
     }
 
     private void printUser(int i, int endIndex, User user, CommandExecutor.Context context) throws Exception {
-        context.sendMessage(String.format("索引: %d/%d", i, endIndex));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_INDEX, i, endIndex));
         printStringIdKey(context, user.getKey());
         context.sendMessage("  remark: " + user.getRemark());
         context.sendMessage("");
@@ -150,7 +164,7 @@ public class PermissionUserAnalysisLocalCacheCommand extends CliCommand {
 
     @SuppressWarnings("DuplicatedCode")
     private void printRole(int i, int endIndex, Role role, CommandExecutor.Context context) throws Exception {
-        context.sendMessage(String.format("索引: %d/%d", i, endIndex));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_INDEX, i, endIndex));
         printStringIdKey(context, role.getKey());
         context.sendMessage("  name: " + role.getName());
         context.sendMessage("  enabled: " + role.isEnabled());
@@ -178,61 +192,73 @@ public class PermissionUserAnalysisLocalCacheCommand extends CliCommand {
             if (Strings.CI.equals(message, "q")) {
                 break;
             } else if (Strings.CI.equals(message, "u")) {
-                List<User> list = analysis.getMatchedUsers();
+                List<User> list = analysis.matchedUsers();
                 if (Objects.isNull(list)) {
-                    context.sendMessage("该列表未设置，无法查看");
+                    context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_LIST_NOT_SET));
                     context.sendMessage("");
                     continue;
                 }
                 while (true) {
                     CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
-                            context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至主菜单"
+                            context, list,
+                            ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_DATA_TOTAL, list.size()),
+                            command -> ImplMessages.message(
+                                    ImplMessageKey.TELQOS_COMMON_RESULT_RETURN_MAIN_MENU, command
+                            )
                     );
-                    if (cropResult.isExitFlag()) break;
+                    if (cropResult.exitFlag()) break;
                     context.sendMessage("");
-                    for (int i = cropResult.getBeginIndex(); i < cropResult.getEndIndex(); i++) {
-                        printUser(i, cropResult.getEndIndex(), list.get(i), context);
+                    for (int i = cropResult.beginIndex(); i < cropResult.endIndex(); i++) {
+                        printUser(i, cropResult.endIndex(), list.get(i), context);
                     }
                 }
                 sendPermissionUserMenu(context, analysis);
             } else if (Strings.CI.equals(message, "a")) {
-                List<Role> list = analysis.getAcceptedRoles();
+                List<Role> list = analysis.acceptedRoles();
                 if (Objects.isNull(list)) {
-                    context.sendMessage("该列表未设置，无法查看");
+                    context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_LIST_NOT_SET));
                     context.sendMessage("");
                     continue;
                 }
                 while (true) {
                     CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
-                            context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至主菜单"
+                            context, list,
+                            ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_DATA_TOTAL, list.size()),
+                            command -> ImplMessages.message(
+                                    ImplMessageKey.TELQOS_COMMON_RESULT_RETURN_MAIN_MENU, command
+                            )
                     );
-                    if (cropResult.isExitFlag()) break;
+                    if (cropResult.exitFlag()) break;
                     context.sendMessage("");
-                    for (int i = cropResult.getBeginIndex(); i < cropResult.getEndIndex(); i++) {
-                        printRole(i, cropResult.getEndIndex(), list.get(i), context);
+                    for (int i = cropResult.beginIndex(); i < cropResult.endIndex(); i++) {
+                        printRole(i, cropResult.endIndex(), list.get(i), context);
                     }
                 }
                 sendPermissionUserMenu(context, analysis);
             } else if (Strings.CI.equals(message, "r")) {
-                List<Role> list = analysis.getRejectedRoles();
+                List<Role> list = analysis.rejectedRoles();
                 if (Objects.isNull(list)) {
-                    context.sendMessage("该列表未设置，无法查看");
+                    context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_LIST_NOT_SET));
                     context.sendMessage("");
                     continue;
                 }
                 while (true) {
                     CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
-                            context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至主菜单"
+                            context, list,
+                            ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_DATA_TOTAL, list.size()),
+                            command -> ImplMessages.message(
+                                    ImplMessageKey.TELQOS_COMMON_RESULT_RETURN_MAIN_MENU, command
+                            )
                     );
-                    if (cropResult.isExitFlag()) break;
+                    if (cropResult.exitFlag()) break;
                     context.sendMessage("");
-                    for (int i = cropResult.getBeginIndex(); i < cropResult.getEndIndex(); i++) {
-                        printRole(i, cropResult.getEndIndex(), list.get(i), context);
+                    for (int i = cropResult.beginIndex(); i < cropResult.endIndex(); i++) {
+                        printRole(i, cropResult.endIndex(), list.get(i), context);
                     }
                 }
                 sendPermissionUserMenu(context, analysis);
             } else {
-                context.sendMessage("输入格式错误");
+                context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_INPUT_FORMAT_ERROR));
                 context.sendMessage("");
             }
         }
@@ -242,20 +268,20 @@ public class PermissionUserAnalysisLocalCacheCommand extends CliCommand {
     private void sendPermissionUserMenu(CommandExecutor.Context context, PermissionUserAnalysis analysis)
             throws Exception {
         context.sendMessage("");
-        context.sendMessage("matchedUsers: " + formatListCount(analysis.getMatchedUsers()));
-        context.sendMessage("acceptedRoles: " + formatListCount(analysis.getAcceptedRoles()));
-        context.sendMessage("rejectedRoles: " + formatListCount(analysis.getRejectedRoles()));
+        context.sendMessage("matchedUsers: " + formatListCount(analysis.matchedUsers()));
+        context.sendMessage("acceptedRoles: " + formatListCount(analysis.acceptedRoles()));
+        context.sendMessage("rejectedRoles: " + formatListCount(analysis.rejectedRoles()));
         context.sendMessage("");
-        context.sendMessage("输入 u 查看 matchedUsers");
-        context.sendMessage("输入 a 查看 acceptedRoles");
-        context.sendMessage("输入 r 查看 rejectedRoles");
-        context.sendMessage("输入 q 退出查询");
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_PROMPT_VIEW_MATCHED_USERS));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_PROMPT_VIEW_ACCEPTED_ROLES));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_PROMPT_VIEW_REJECTED_ROLES));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_PROMPT_EXIT_QUERY));
         context.sendMessage("");
     }
 
     private String formatListCount(List<?> list) {
         if (Objects.isNull(list)) return "null";
-        if (list.isEmpty()) return "0 (空)";
+        if (list.isEmpty()) return ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_EMPTY_LIST_SIZE);
         return String.valueOf(list.size());
     }
 }

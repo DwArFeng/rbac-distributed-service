@@ -1,7 +1,9 @@
 package com.dwarfeng.rbacds.stack.bean.dto;
 
 import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
+
+import java.io.Serial;
 
 /**
  * 权限组更新信息。
@@ -11,7 +13,8 @@ import com.dwarfeng.subgrade.stack.bean.dto.Dto;
  */
 public class PermissionGroupUpdateInfo implements Dto {
 
-    private static final long serialVersionUID = -3959304797618891784L;
+    @Serial
+    private static final long serialVersionUID = 3836043687693890688L;
 
     private PermissionGroupKey key;
     private PermissionGroupKey parentKey;

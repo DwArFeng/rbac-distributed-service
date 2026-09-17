@@ -1,5 +1,8 @@
 package com.dwarfeng.rbacds.impl.service.telqos;
 
+import com.dwarfeng.rbacds.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.rbacds.impl.internal.i18n.ImplMessages;
+
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.rbacds.stack.service.UserRoleAnalysisLocalCacheQosService;
 import com.dwarfeng.rbacds.stack.struct.UserRoleAnalysis;
@@ -8,7 +11,7 @@ import com.dwarfeng.springtelqos.sdk.configuration.TelqosCommand;
 import com.dwarfeng.springtelqos.sdk.util.CliCommandUtil;
 import com.dwarfeng.springtelqos.stack.command.CommandDescriptor;
 import com.dwarfeng.springtelqos.stack.command.CommandExecutor;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.lang3.Strings;
@@ -53,7 +56,7 @@ public class UserRoleAnalysisLocalCacheCommand extends CliCommand {
 
     @Override
     protected DescriptionProvider provideDescriptionProvider() {
-        return context -> "用户角色分析本地缓存操作";
+        return _ -> ImplMessages.message(ImplMessageKey.TELQOS_USER_ROLE_ANALYSIS_LOCAL_CACHE_DESCRIPTION);
     }
 
     @Override
@@ -75,11 +78,16 @@ public class UserRoleAnalysisLocalCacheCommand extends CliCommand {
     protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
         list.add(Option.builder(COMMAND_OPTION_LOOKUP).optionalArg(true).hasArg(false)
-                .desc("查看指定用户键的用户角色分析，如果本地缓存中不存在，则尝试抓取").build());
-        list.add(Option.builder(COMMAND_OPTION_CLEAR).optionalArg(true).hasArg(false).desc("清除缓存").build());
+                .desc(ImplMessages.message(ImplMessageKey.TELQOS_USER_ROLE_ANALYSIS_LOCAL_CACHE_OPTION_LOOKUP))
+                .get());
+        list.add(
+                Option.builder(COMMAND_OPTION_CLEAR).optionalArg(true).hasArg(false)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_OPTION_CLEAR)).get()
+        );
         list.add(
                 Option.builder(COMMAND_SUB_OPTION_USER).optionalArg(true).hasArg(true)
-                        .argName("userId").desc("用户 ID").build()
+                        .argName("userId")
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_USER_ID)).get()
         );
         return list;
     }
@@ -101,21 +109,27 @@ public class UserRoleAnalysisLocalCacheCommand extends CliCommand {
                 handleClear(context);
                 break;
             default:
-                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
+                throw new IllegalStateException(
+                        ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_INTERNAL_UNREACHABLE)
+                );
         }
     }
 
     private void handleLookup(CommandExecutor.Context context, CommandLine cmd) throws Exception {
         String userId = cmd.getOptionValue(COMMAND_SUB_OPTION_USER);
         if (Objects.isNull(userId) || userId.isEmpty()) {
-            context.sendMessage("lookup 操作需要指定 " + CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_USER) +
-                    " 选项");
+            context.sendMessage(
+                    ImplMessages.message(
+                            ImplMessageKey.TELQOS_COMMON_RESULT_LOOKUP_REQUIRES_OPTION,
+                            CliCommandUtil.concatOptionPrefix(COMMAND_SUB_OPTION_USER)
+                    )
+            );
             return;
         }
         StringIdKey key = new StringIdKey(userId);
         UserRoleAnalysis analysis = qosService.get(key);
         if (Objects.isNull(analysis)) {
-            context.sendMessage("not exists!");
+            context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_NOT_EXISTS));
             return;
         }
         interactUserRoleAnalysis(context, analysis);
@@ -123,12 +137,12 @@ public class UserRoleAnalysisLocalCacheCommand extends CliCommand {
 
     private void handleClear(CommandExecutor.Context context) throws Exception {
         qosService.clearLocalCache();
-        context.sendMessage("缓存已清空");
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_CACHE_CLEARED));
     }
 
     @SuppressWarnings("DuplicatedCode")
     private void printRole(int i, int endIndex, Role role, CommandExecutor.Context context) throws Exception {
-        context.sendMessage(String.format("索引: %d/%d", i, endIndex));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_INDEX, i, endIndex));
         printStringIdKey(context, role.getKey());
         context.sendMessage("  name: " + role.getName());
         context.sendMessage("  enabled: " + role.isEnabled());
@@ -156,25 +170,29 @@ public class UserRoleAnalysisLocalCacheCommand extends CliCommand {
             if (Strings.CI.equals(message, "q")) {
                 break;
             } else if (Strings.CI.equals(message, "r")) {
-                List<Role> list = analysis.getMatchedRoles();
+                List<Role> list = analysis.matchedRoles();
                 if (Objects.isNull(list)) {
-                    context.sendMessage("该列表未设置，无法查看");
+                    context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_LIST_NOT_SET));
                     context.sendMessage("");
                     continue;
                 }
                 while (true) {
                     CliCommandUtil.CropResult cropResult = CliCommandUtil.cropData(
-                            context, list, "数据总数: " + list.size(), command -> "输入 " + command + " 返回至主菜单"
+                            context, list,
+                            ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_DATA_TOTAL, list.size()),
+                            command -> ImplMessages.message(
+                                    ImplMessageKey.TELQOS_COMMON_RESULT_RETURN_MAIN_MENU, command
+                            )
                     );
-                    if (cropResult.isExitFlag()) break;
+                    if (cropResult.exitFlag()) break;
                     context.sendMessage("");
-                    for (int i = cropResult.getBeginIndex(); i < cropResult.getEndIndex(); i++) {
-                        printRole(i, cropResult.getEndIndex(), list.get(i), context);
+                    for (int i = cropResult.beginIndex(); i < cropResult.endIndex(); i++) {
+                        printRole(i, cropResult.endIndex(), list.get(i), context);
                     }
                 }
                 sendUserRoleMenu(context, analysis);
             } else {
-                context.sendMessage("输入格式错误");
+                context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_INPUT_FORMAT_ERROR));
                 context.sendMessage("");
             }
         }
@@ -182,16 +200,16 @@ public class UserRoleAnalysisLocalCacheCommand extends CliCommand {
 
     private void sendUserRoleMenu(CommandExecutor.Context context, UserRoleAnalysis analysis) throws Exception {
         context.sendMessage("");
-        context.sendMessage("matchedRoles: " + formatListCount(analysis.getMatchedRoles()));
+        context.sendMessage("matchedRoles: " + formatListCount(analysis.matchedRoles()));
         context.sendMessage("");
-        context.sendMessage("输入 r 查看 matchedRoles");
-        context.sendMessage("输入 q 退出查询");
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_PROMPT_VIEW_MATCHED_ROLES));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_PROMPT_EXIT_QUERY));
         context.sendMessage("");
     }
 
     private String formatListCount(List<?> list) {
         if (Objects.isNull(list)) return "null";
-        if (list.isEmpty()) return "0 (空)";
+        if (list.isEmpty()) return ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_EMPTY_LIST_SIZE);
         return String.valueOf(list.size());
     }
 }

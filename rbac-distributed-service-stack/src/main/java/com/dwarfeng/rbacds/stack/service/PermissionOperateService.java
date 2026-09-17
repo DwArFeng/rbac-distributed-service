@@ -4,8 +4,8 @@ import com.dwarfeng.rbacds.stack.bean.dto.PermissionCreateInfo;
 import com.dwarfeng.rbacds.stack.bean.dto.PermissionCreateResult;
 import com.dwarfeng.rbacds.stack.bean.dto.PermissionRemoveInfo;
 import com.dwarfeng.rbacds.stack.bean.dto.PermissionUpdateInfo;
-import com.dwarfeng.subgrade.stack.exception.ServiceException;
-import com.dwarfeng.subgrade.stack.service.Service;
+import com.dwarfeng.subgrade.basic.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.basic.stack.service.Service;
 
 /**
  * 权限操作服务。

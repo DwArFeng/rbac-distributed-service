@@ -1,10 +1,14 @@
 package com.dwarfeng.rbacds.impl.handler;
 
 import com.dwarfeng.rbacds.stack.handler.*;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessageKey.LOG_RESET_ANALYSIS_PUSH_FAILED;
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessageKey.LOG_RESET_FILTER_PUSH_FAILED;
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessages.message;
 
 /**
  * 重置处理器。
@@ -52,7 +56,7 @@ public class ResetProcessor {
         try {
             pushHandler.filterReset();
         } catch (Exception e) {
-            LOGGER.warn("推送过滤功能重置消息时发生异常, 本次消息将不会被推送, 异常信息如下: ", e);
+            LOGGER.warn(message(LOG_RESET_FILTER_PUSH_FAILED), e);
         }
     }
 
@@ -68,7 +72,7 @@ public class ResetProcessor {
         try {
             pushHandler.analysisReset();
         } catch (Exception e) {
-            LOGGER.warn("推送分析结果重置消息时发生异常, 本次消息将不会被推送, 异常信息如下: ", e);
+            LOGGER.warn(message(LOG_RESET_ANALYSIS_PUSH_FAILED), e);
         }
     }
 }

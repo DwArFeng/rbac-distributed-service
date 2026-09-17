@@ -1,6 +1,6 @@
 package com.dwarfeng.rbacds.impl.handler;
 
-import com.dwarfeng.dutil.basic.cna.CollectionUtil;
+import com.dwarfeng.dutil.basic.sdk.collection.CollectionUtil;
 import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
 import com.dwarfeng.rbacds.stack.bean.entity.User;
@@ -13,11 +13,11 @@ import com.dwarfeng.rbacds.stack.service.RoleMaintainService;
 import com.dwarfeng.rbacds.stack.service.UserMaintainService;
 import com.dwarfeng.rbacds.stack.struct.PermissionUserAnalysis;
 import com.dwarfeng.rbacds.stack.struct.ScopedRolePermissionAnalysis;
-import com.dwarfeng.subgrade.impl.handler.ExpirableLocalCacheHandler;
-import com.dwarfeng.subgrade.impl.handler.Fetcher;
-import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.aop.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.cache.impl.handler.ExpirableLocalCacheHandler;
+import com.dwarfeng.subgrade.cache.stack.loader.Fetcher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
@@ -37,7 +37,9 @@ public class PermissionUserAnalysisLocalCacheHandlerImpl implements PermissionUs
             @Value("${com.dwarfeng.rbacds.local_cache.permission_user_analysis.ttl}") long ttl,
             @Value("${com.dwarfeng.rbacds.local_cache.permission_user_analysis.cleanup_interval}") long cleanupInterval
     ) {
-        handler = new ExpirableLocalCacheHandler<>(permissionUserAnalysisFetcher, scheduler, ttl, cleanupInterval);
+        handler = new ExpirableLocalCacheHandler<>(
+                permissionUserAnalysisFetcher, scheduler.getScheduledExecutor(), ttl, cleanupInterval
+        );
     }
 
     @BehaviorAnalyse

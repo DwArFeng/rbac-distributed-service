@@ -2,14 +2,17 @@ package com.dwarfeng.rbacds.impl.handler;
 
 import com.dwarfeng.rbacds.stack.handler.Resetter;
 import com.dwarfeng.rbacds.stack.handler.ResetterHandler;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessageKey.LOG_RESETTER_HANDLER_INITIALIZING;
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessages.message;
 
 @Component
 public class ResetterHandlerImpl implements ResetterHandler {
@@ -29,7 +32,7 @@ public class ResetterHandlerImpl implements ResetterHandler {
 
     @PostConstruct
     public void init() {
-        LOGGER.info("初始化过滤器...");
+        LOGGER.info(message(LOG_RESETTER_HANDLER_INITIALIZING));
         resetters.forEach(resetter -> resetter.init(resetterContext));
     }
 

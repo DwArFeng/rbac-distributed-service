@@ -1,8 +1,8 @@
 package com.dwarfeng.rbacds.stack.cache;
 
 import com.dwarfeng.rbacds.stack.bean.entity.FilterSupport;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.cache.BatchBaseCache;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.data.stack.cache.BatchBaseCache;
 
 /**
  * 过滤器支持缓存。

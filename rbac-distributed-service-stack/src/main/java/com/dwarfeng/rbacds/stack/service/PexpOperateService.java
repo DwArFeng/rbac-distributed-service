@@ -4,8 +4,8 @@ import com.dwarfeng.rbacds.stack.bean.dto.PexpCreateInfo;
 import com.dwarfeng.rbacds.stack.bean.dto.PexpCreateResult;
 import com.dwarfeng.rbacds.stack.bean.dto.PexpRemoveInfo;
 import com.dwarfeng.rbacds.stack.bean.dto.PexpUpdateInfo;
-import com.dwarfeng.subgrade.stack.exception.ServiceException;
-import com.dwarfeng.subgrade.stack.service.Service;
+import com.dwarfeng.subgrade.basic.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.basic.stack.service.Service;
 
 /**
  * 权限表达式操作服务。

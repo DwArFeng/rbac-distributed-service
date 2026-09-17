@@ -1,10 +1,11 @@
 package com.dwarfeng.rbacds.sdk.bean.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.rbacds.stack.bean.entity.Role;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.web.sdk.bean.key.FastJsonStringIdKey;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -15,7 +16,8 @@ import java.util.Objects;
  */
 public class FastJsonRole implements Bean {
 
-    private static final long serialVersionUID = 2850294224020627849L;
+    @Serial
+    private static final long serialVersionUID = 1355042432707787830L;
 
     public static FastJsonRole of(Role role) {
         if (Objects.isNull(role)) {

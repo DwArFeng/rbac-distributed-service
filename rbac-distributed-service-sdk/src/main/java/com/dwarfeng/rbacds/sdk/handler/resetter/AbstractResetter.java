@@ -1,7 +1,7 @@
 package com.dwarfeng.rbacds.sdk.handler.resetter;
 
 import com.dwarfeng.rbacds.stack.handler.Resetter;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
 
 /**
  * 重置器的抽象实现。

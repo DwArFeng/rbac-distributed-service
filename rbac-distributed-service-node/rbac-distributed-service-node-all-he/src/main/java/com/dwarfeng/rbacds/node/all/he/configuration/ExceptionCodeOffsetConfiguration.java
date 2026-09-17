@@ -1,10 +1,9 @@
 package com.dwarfeng.rbacds.node.all.he.configuration;
 
-import com.dwarfeng.rbacds.sdk.util.ServiceExceptionCodes;
+import com.dwarfeng.rbacds.sdk.exception.ServiceExceptionCodeSuppliers;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-
-import javax.annotation.PostConstruct;
 
 @Configuration
 public class ExceptionCodeOffsetConfiguration {
@@ -22,17 +21,17 @@ public class ExceptionCodeOffsetConfiguration {
 
     @PostConstruct
     public void init() {
-        ServiceExceptionCodes.setExceptionCodeOffset(exceptionCodeOffset);
-        com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes.setExceptionCodeOffset(
+        ServiceExceptionCodeSuppliers.setExceptionCodeOffset(exceptionCodeOffset);
+        com.dwarfeng.subgrade.basic.sdk.exception.ServiceExceptionCodeSuppliers.setExceptionCodeOffset(
                 subgradeExceptionCodeOffset
         );
-        com.dwarfeng.springtelqos.sdk.util.ServiceExceptionCodes.setExceptionCodeOffset(
+        com.dwarfeng.springtelqos.sdk.exception.ServiceExceptionCodeSuppliers.setExceptionCodeOffset(
                 springTelqosExceptionCodeOffset
         );
-        com.dwarfeng.springterminator.sdk.util.ServiceExceptionCodes.setExceptionCodeOffset(
+        com.dwarfeng.springterminator.sdk.exception.ServiceExceptionCodeSuppliers.setExceptionCodeOffset(
                 springTerminatorExceptionCodeOffset
         );
-        com.dwarfeng.datamark.sdk.util.ServiceExceptionCodes.setExceptionCodeOffset(
+        com.dwarfeng.datamark.sdk.exception.ServiceExceptionCodeSuppliers.setExceptionCodeOffset(
                 dwarfengDatamarkExceptionCodeOffset
         );
     }

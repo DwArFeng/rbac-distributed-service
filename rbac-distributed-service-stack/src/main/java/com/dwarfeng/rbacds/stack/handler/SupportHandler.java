@@ -1,7 +1,7 @@
 package com.dwarfeng.rbacds.stack.handler;
 
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
-import com.dwarfeng.subgrade.stack.handler.Handler;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.handler.Handler;
 
 /**
  * 支持处理器。

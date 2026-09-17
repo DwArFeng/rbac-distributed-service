@@ -12,22 +12,22 @@ import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
 import com.dwarfeng.rbacds.stack.bean.key.RoleUserRelationKey;
-import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
-import com.dwarfeng.subgrade.impl.dao.HibernateBatchBaseDao;
-import com.dwarfeng.subgrade.impl.dao.HibernateEntireLookupDao;
-import com.dwarfeng.subgrade.impl.dao.HibernatePresetLookupDao;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
-import com.dwarfeng.subgrade.sdk.hibernate.modification.DefaultDeletionMod;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.impl.bean.MapStructBeanTransformer;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.data.impl.dao.hibernate.HibernateBatchBaseDao;
+import com.dwarfeng.subgrade.data.impl.dao.hibernate.HibernateEntireLookupDao;
+import com.dwarfeng.subgrade.data.impl.dao.hibernate.HibernatePresetLookupDao;
+import com.dwarfeng.subgrade.data.sdk.bean.key.hibernate.HibernateStringIdKey;
+import com.dwarfeng.subgrade.data.sdk.hibernate.modification.DefaultDeletionMod;
+import com.dwarfeng.subgrade.data.sdk.hibernate.operation.HibernateOperations;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.orm.hibernate5.HibernateTemplate;
 
 @Configuration
 public class DaoConfiguration {
 
-    private final HibernateTemplate template;
+    private final HibernateOperations template;
 
     private final PexpPresetCriteriaMaker pexpPresetCriteriaMaker;
     private final RolePresetCriteriaMaker rolePresetCriteriaMaker;
@@ -42,7 +42,7 @@ public class DaoConfiguration {
     private int batchSize;
 
     public DaoConfiguration(
-            HibernateTemplate template,
+            HibernateOperations template,
             PexpPresetCriteriaMaker pexpPresetCriteriaMaker,
             RolePresetCriteriaMaker rolePresetCriteriaMaker,
             UserPresetCriteriaMaker userPresetCriteriaMaker,

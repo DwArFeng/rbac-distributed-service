@@ -5,11 +5,11 @@ import com.dwarfeng.rbacds.stack.handler.UserRoleAnalysisLocalCacheHandler;
 import com.dwarfeng.rbacds.stack.service.RoleMaintainService;
 import com.dwarfeng.rbacds.stack.service.UserMaintainService;
 import com.dwarfeng.rbacds.stack.struct.UserRoleAnalysis;
-import com.dwarfeng.subgrade.impl.handler.ExpirableLocalCacheHandler;
-import com.dwarfeng.subgrade.impl.handler.Fetcher;
-import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.aop.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.cache.impl.handler.ExpirableLocalCacheHandler;
+import com.dwarfeng.subgrade.cache.stack.loader.Fetcher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
@@ -29,7 +29,9 @@ public class UserRoleAnalysisLocalCacheHandlerImpl implements UserRoleAnalysisLo
             @Value("${com.dwarfeng.rbacds.local_cache.user_role_analysis.ttl}") long ttl,
             @Value("${com.dwarfeng.rbacds.local_cache.user_role_analysis.cleanup_interval}") long cleanupInterval
     ) {
-        handler = new ExpirableLocalCacheHandler<>(userRoleAnalysisFetcher, scheduler, ttl, cleanupInterval);
+        handler = new ExpirableLocalCacheHandler<>(
+                userRoleAnalysisFetcher, scheduler.getScheduledExecutor(), ttl, cleanupInterval
+        );
     }
 
     @BehaviorAnalyse

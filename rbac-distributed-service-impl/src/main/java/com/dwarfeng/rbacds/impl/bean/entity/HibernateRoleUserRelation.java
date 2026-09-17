@@ -4,9 +4,11 @@ import com.dwarfeng.datamark.sdk.jpa.DatamarkEntityListener;
 import com.dwarfeng.datamark.sdk.jpa.DatamarkField;
 import com.dwarfeng.rbacds.impl.bean.key.HibernateRoleUserRelationKey;
 import com.dwarfeng.rbacds.sdk.util.Constraints;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
+import java.io.Serial;
 import java.util.Objects;
 
 @Entity
@@ -15,7 +17,8 @@ import java.util.Objects;
 @EntityListeners(DatamarkEntityListener.class)
 public class HibernateRoleUserRelation implements Bean {
 
-    private static final long serialVersionUID = 632553143161078004L;
+    @Serial
+    private static final long serialVersionUID = 8564247371938951967L;
 
     // region 主键
 

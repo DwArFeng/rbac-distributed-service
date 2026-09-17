@@ -1,8 +1,12 @@
 package com.dwarfeng.rbacds.stack.exception;
 
 import com.dwarfeng.rbacds.stack.bean.key.PermissionGroupKey;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.rbacds.stack.internal.i18n.StackMessageKey;
+import com.dwarfeng.rbacds.stack.internal.i18n.StackMessages;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+
+import java.io.Serial;
 
 /**
  * 权限组不在作用域内异常。
@@ -12,7 +16,8 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class PermissionGroupNotInScopeException extends HandlerException {
 
-    private static final long serialVersionUID = 8007574719119236605L;
+    @Serial
+    private static final long serialVersionUID = 1638475458128869336L;
 
     private final PermissionGroupKey permissionGroupKey;
     private final StringIdKey scopeKey;
@@ -32,6 +37,8 @@ public class PermissionGroupNotInScopeException extends HandlerException {
 
     @Override
     public String getMessage() {
-        return "PermissionGroup " + permissionGroupKey + " is not in Scope " + scopeKey;
+        return StackMessages.message(
+                StackMessageKey.EXCEPTION_PERMISSION_GROUP_NOT_IN_SCOPE, permissionGroupKey, scopeKey
+        );
     }
 }

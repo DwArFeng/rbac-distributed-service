@@ -1,11 +1,12 @@
 package com.dwarfeng.rbacds.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonPermission;
 import com.dwarfeng.rbacds.sdk.bean.entity.FastJsonRole;
 import com.dwarfeng.rbacds.stack.bean.dto.PermissionViewOfUserInspectResult;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
 
+import java.io.Serial;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -19,7 +20,8 @@ import java.util.stream.Collectors;
  */
 public class FastJsonPermissionViewOfUserInspectResult implements Bean {
 
-    private static final long serialVersionUID = -4207532736731357768L;
+    @Serial
+    private static final long serialVersionUID = 7503416660556396004L;
 
     public static FastJsonPermissionViewOfUserInspectResult of(
             PermissionViewOfUserInspectResult permissionViewOfUserInspectResult
@@ -100,7 +102,8 @@ public class FastJsonPermissionViewOfUserInspectResult implements Bean {
      */
     public static class FastJsonRoleDetail implements Bean {
 
-        private static final long serialVersionUID = -3609414863369550720L;
+        @Serial
+        private static final long serialVersionUID = -8518306428306264354L;
 
         @SuppressWarnings("DuplicatedCode")
         public static FastJsonRoleDetail of(PermissionViewOfUserInspectResult.RoleDetail roleDetail) {

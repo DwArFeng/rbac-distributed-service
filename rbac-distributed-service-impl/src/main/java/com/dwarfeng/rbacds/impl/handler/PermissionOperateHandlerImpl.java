@@ -11,9 +11,10 @@ import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.rbacds.stack.handler.PermissionOperateHandler;
 import com.dwarfeng.rbacds.stack.service.PermissionGroupMaintainService;
 import com.dwarfeng.rbacds.stack.service.PermissionMaintainService;
-import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.sdk.exception.HandlerExceptionHelper;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -64,7 +65,7 @@ public class PermissionOperateHandlerImpl implements PermissionOperateHandler {
 
             // 解析计算参数。
             ComputedParam computedParam = parseComputedParam(groupKey);
-            String[] groupPath = computedParam.getGroupPath();
+            String[] groupPath = computedParam.groupPath();
 
             // 根据参数构造权限实体。
             Permission permission = new Permission(key, groupKey, name, remark, level, groupPath);
@@ -102,7 +103,7 @@ public class PermissionOperateHandlerImpl implements PermissionOperateHandler {
 
             // 解析计算参数。
             ComputedParam computedParam = parseComputedParam(groupKey);
-            String[] groupPath = computedParam.getGroupPath();
+            String[] groupPath = computedParam.groupPath();
 
             // 根据参数更新权限实体。
             Permission permission = permissionMaintainService.get(key);
@@ -145,12 +146,12 @@ public class PermissionOperateHandlerImpl implements PermissionOperateHandler {
         // 获取权限组实体。
         PermissionGroup permissionGroup = permissionGroupMaintainService.get(permissionGroupKey);
         String permissionGroupStringId = permissionGroup.getKey().getPermissionGroupStringId();
-        groupPathList.add(0, permissionGroupStringId);
+        groupPathList.addFirst(permissionGroupStringId);
         // 循环获取权限组的父权限组，直到没有父权限组为止。
         while (Objects.nonNull(permissionGroup.getParentKey())) {
             permissionGroup = permissionGroupMaintainService.get(permissionGroup.getParentKey());
             permissionGroupStringId = permissionGroup.getKey().getPermissionGroupStringId();
-            groupPathList.add(0, permissionGroupStringId);
+            groupPathList.addFirst(permissionGroupStringId);
         }
         // 构造计算参数。
         String[] groupIdentifierPath = groupPathList.toArray(new String[0]);
@@ -158,20 +159,10 @@ public class PermissionOperateHandlerImpl implements PermissionOperateHandler {
         return new ComputedParam(groupIdentifierPath);
     }
 
-    private static final class ComputedParam {
-
-        private final String[] groupPath;
-
-        public ComputedParam(String[] groupPath) {
-            this.groupPath = groupPath;
-        }
-
-        public String[] getGroupPath() {
-            return groupPath;
-        }
+    private record ComputedParam(String[] groupPath) {
 
         @Override
-        public String toString() {
+        public @NotNull String toString() {
             return "ComputedParam{" +
                     "groupPath=" + Arrays.toString(groupPath) +
                     '}';

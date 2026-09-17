@@ -1,10 +1,11 @@
 package com.dwarfeng.rbacds.sdk.bean.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.rbacds.stack.bean.entity.FilterSupport;
-import com.dwarfeng.subgrade.sdk.bean.key.FastJsonStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.web.sdk.bean.key.FastJsonStringIdKey;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -15,7 +16,8 @@ import java.util.Objects;
  */
 public class FastJsonFilterSupport implements Bean {
 
-    private static final long serialVersionUID = 234203796887841902L;
+    @Serial
+    private static final long serialVersionUID = -633270861591454503L;
 
     public static FastJsonFilterSupport of(FilterSupport filterSupport) {
         if (Objects.isNull(filterSupport)) {

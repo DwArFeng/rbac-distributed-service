@@ -1,6 +1,8 @@
 package com.dwarfeng.rbacds.stack.exception;
 
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+
+import java.io.Serial;
 
 /**
  * 过滤器异常。
@@ -10,6 +12,7 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class FilterException extends HandlerException {
 
+    @Serial
     private static final long serialVersionUID = -5226176154146395648L;
 
     public FilterException() {

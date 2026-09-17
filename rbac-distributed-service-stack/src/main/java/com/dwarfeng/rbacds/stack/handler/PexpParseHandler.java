@@ -1,8 +1,9 @@
 package com.dwarfeng.rbacds.stack.handler;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
-import com.dwarfeng.subgrade.stack.handler.Handler;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.handler.Handler;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -33,23 +34,7 @@ public interface PexpParseHandler extends Handler {
      * @author DwArFeng
      * @since 1.8.0
      */
-    final class ParseResult {
-
-        private final Modifier modifier;
-        private final List<PipeUnit> pipe;
-
-        public ParseResult(Modifier modifier, List<PipeUnit> pipe) {
-            this.modifier = modifier;
-            this.pipe = pipe;
-        }
-
-        public Modifier getModifier() {
-            return modifier;
-        }
-
-        public List<PipeUnit> getPipe() {
-            return pipe;
-        }
+    record ParseResult(Modifier modifier, List<PipeUnit> pipe) {
 
         @Override
         public boolean equals(Object o) {
@@ -60,14 +45,7 @@ public interface PexpParseHandler extends Handler {
         }
 
         @Override
-        public int hashCode() {
-            int result = Objects.hashCode(modifier);
-            result = 31 * result + Objects.hashCode(pipe);
-            return result;
-        }
-
-        @Override
-        public String toString() {
+        public @NotNull String toString() {
             return "ParseResult{" +
                     "modifier=" + modifier +
                     ", pipe=" + pipe +
@@ -102,52 +80,15 @@ public interface PexpParseHandler extends Handler {
     /**
      * 管道单元。
      *
+     * @param filterType    管道单元过滤器类型。
+     * @param filterPattern 管道单元过滤器匹配模式。
      * @author DwArFeng
      * @since 1.8.0
      */
-    final class PipeUnit {
-
-        /**
-         * 管道单元过滤器类型。
-         */
-        private final String filterType;
-
-        /**
-         * 管道单元过滤器匹配模式。
-         */
-        private final String filterPattern;
-
-        public PipeUnit(String filterType, String filterPattern) {
-            this.filterType = filterType;
-            this.filterPattern = filterPattern;
-        }
-
-        public String getFilterType() {
-            return filterType;
-        }
-
-        public String getFilterPattern() {
-            return filterPattern;
-        }
+    record PipeUnit(String filterType, String filterPattern) {
 
         @Override
-        public boolean equals(Object o) {
-            if (o == null || getClass() != o.getClass()) return false;
-
-            PipeUnit pipeUnit = (PipeUnit) o;
-            return Objects.equals(filterType, pipeUnit.filterType) &&
-                    Objects.equals(filterPattern, pipeUnit.filterPattern);
-        }
-
-        @Override
-        public int hashCode() {
-            int result = Objects.hashCode(filterType);
-            result = 31 * result + Objects.hashCode(filterPattern);
-            return result;
-        }
-
-        @Override
-        public String toString() {
+        public @NotNull String toString() {
             return "PipeUnit{" +
                     "filterType='" + filterType + '\'' +
                     ", filterPattern='" + filterPattern + '\'' +

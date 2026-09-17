@@ -1,12 +1,14 @@
 package com.dwarfeng.rbacds.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.rbacds.sdk.bean.key.WebInputPermissionKey;
 import com.dwarfeng.rbacds.sdk.bean.key.WebInputScopedRoleKey;
 import com.dwarfeng.rbacds.stack.bean.dto.PermissionViewOfRoleInspectInfo;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
+
+import java.io.Serial;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -20,7 +22,8 @@ import java.util.stream.Collectors;
  */
 public class WebInputPermissionViewOfRoleInspectInfo implements Bean {
 
-    private static final long serialVersionUID = 4092919916937717422L;
+    @Serial
+    private static final long serialVersionUID = 263685324300039976L;
 
     public static PermissionViewOfRoleInspectInfo toStackBean(WebInputPermissionViewOfRoleInspectInfo webInput) {
         if (Objects.isNull(webInput)) {

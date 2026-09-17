@@ -4,9 +4,9 @@ import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
 import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
 import com.dwarfeng.rbacds.stack.cache.PexpCache;
 import com.dwarfeng.rbacds.stack.dao.PexpDao;
-import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
-import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
-import com.dwarfeng.subgrade.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.basic.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.data.sdk.exception.ServiceExceptionCodeSuppliers;
+import com.dwarfeng.subgrade.data.sdk.service.custom.operation.BatchCrudOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +40,7 @@ public class PexpCrudOperation implements BatchCrudOperation<PexpKey, Pexp> {
             return pexpCache.get(key);
         } else {
             if (!pexpDao.exists(key)) {
-                throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
+                throw new ServiceException(ServiceExceptionCodeSuppliers.ENTITY_NOT_EXIST.get());
             }
             Pexp permission = pexpDao.get(key);
             pexpCache.push(permission, pexpTimeout);
@@ -84,7 +84,7 @@ public class PexpCrudOperation implements BatchCrudOperation<PexpKey, Pexp> {
             return pexpCache.batchGet(keys);
         } else {
             if (!pexpDao.allExists(keys)) {
-                throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
+                throw new ServiceException(ServiceExceptionCodeSuppliers.ENTITY_NOT_EXIST.get());
             }
             List<Pexp> pexps = pexpDao.batchGet(keys);
             pexpCache.batchPush(pexps, pexpTimeout);

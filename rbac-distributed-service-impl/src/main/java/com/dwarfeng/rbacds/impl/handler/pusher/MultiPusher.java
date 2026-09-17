@@ -2,14 +2,17 @@ package com.dwarfeng.rbacds.impl.handler.pusher;
 
 import com.dwarfeng.rbacds.sdk.handler.Pusher;
 import com.dwarfeng.rbacds.sdk.handler.pusher.AbstractPusher;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
+
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessageKey.LOG_PROXY_PUSHER_PUSH_FAILED;
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessages.message;
 
 /**
  * 同时将消息推送给所有代理的多重推送器。
@@ -51,7 +54,7 @@ public class MultiPusher extends AbstractPusher {
             try {
                 delegate.filterReset();
             } catch (Exception e) {
-                LOGGER.warn("代理推送器推送消息失败，异常信息如下: ", e);
+                LOGGER.warn(message(LOG_PROXY_PUSHER_PUSH_FAILED), e);
             }
         }
     }
@@ -62,7 +65,7 @@ public class MultiPusher extends AbstractPusher {
             try {
                 delegate.analysisReset();
             } catch (Exception e) {
-                LOGGER.warn("代理推送器推送消息失败，异常信息如下: ", e);
+                LOGGER.warn(message(LOG_PROXY_PUSHER_PUSH_FAILED), e);
             }
         }
     }

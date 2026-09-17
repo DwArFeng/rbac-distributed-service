@@ -5,7 +5,7 @@ import com.dwarfeng.rbacds.stack.exception.FilterException;
 import com.dwarfeng.rbacds.stack.exception.UnsupportedFilterTypeException;
 import com.dwarfeng.rbacds.stack.handler.Filter;
 import com.dwarfeng.rbacds.stack.handler.FilterHandler;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessageKey.*;
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessages.message;
 
 @Component
 public class FilterHandlerImpl implements FilterHandler {
@@ -38,13 +41,13 @@ public class FilterHandlerImpl implements FilterHandler {
     public Filter make(String type) throws HandlerException {
         try {
             // 生成过滤器。
-            LOGGER.debug("通过过滤器信息构建新的的过滤器...");
+            LOGGER.debug(message(LOG_FILTER_BUILDING));
             FilterMaker filterMaker = filterMakers.stream()
                     .filter(maker -> maker.supportType(type)).findFirst()
                     .orElseThrow(() -> new UnsupportedFilterTypeException(type));
             Filter filter = filterMaker.makeFilter();
-            LOGGER.debug("过滤器构建成功!");
-            LOGGER.debug("过滤器: {}", filter);
+            LOGGER.debug(message(LOG_FILTER_BUILT));
+            LOGGER.debug(message(LOG_FILTER_DETAIL, filter));
             return filter;
         } catch (FilterException e) {
             throw e;

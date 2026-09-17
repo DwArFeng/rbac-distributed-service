@@ -1,10 +1,10 @@
 package com.dwarfeng.rbacds.stack.service;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Scope;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.service.BatchCrudService;
-import com.dwarfeng.subgrade.stack.service.EntireLookupService;
-import com.dwarfeng.subgrade.stack.service.PresetLookupService;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.data.stack.service.BatchCrudService;
+import com.dwarfeng.subgrade.data.stack.service.EntireLookupService;
+import com.dwarfeng.subgrade.data.stack.service.PresetLookupService;
 
 /**
  * 作用域维护服务。

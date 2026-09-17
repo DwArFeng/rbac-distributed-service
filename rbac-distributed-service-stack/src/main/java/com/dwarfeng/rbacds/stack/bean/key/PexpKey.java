@@ -1,7 +1,8 @@
 package com.dwarfeng.rbacds.stack.bean.key;
 
-import com.dwarfeng.subgrade.stack.bean.key.Key;
+import com.dwarfeng.subgrade.basic.stack.bean.key.Key;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,8 @@ import java.util.Objects;
  */
 public class PexpKey implements Key {
 
-    private static final long serialVersionUID = 6320899071236222127L;
+    @Serial
+    private static final long serialVersionUID = -7493766575854297255L;
 
     private String scopeStringId;
     private String roleStringId;

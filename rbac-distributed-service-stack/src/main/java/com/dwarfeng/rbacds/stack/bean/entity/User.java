@@ -1,7 +1,9 @@
 package com.dwarfeng.rbacds.stack.bean.entity;
 
-import com.dwarfeng.subgrade.stack.bean.entity.Entity;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.entity.Entity;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+
+import java.io.Serial;
 
 /**
  * 用户。
@@ -11,7 +13,8 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
  */
 public class User implements Entity<StringIdKey> {
 
-    private static final long serialVersionUID = -7166808835407200393L;
+    @Serial
+    private static final long serialVersionUID = -3464673084719790854L;
 
     private StringIdKey key;
     private String remark;

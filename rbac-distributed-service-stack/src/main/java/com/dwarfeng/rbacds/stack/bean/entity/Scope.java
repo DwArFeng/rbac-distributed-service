@@ -1,7 +1,9 @@
 package com.dwarfeng.rbacds.stack.bean.entity;
 
-import com.dwarfeng.subgrade.stack.bean.entity.Entity;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.entity.Entity;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+
+import java.io.Serial;
 
 /**
  * 作用域。
@@ -11,7 +13,8 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
  */
 public class Scope implements Entity<StringIdKey> {
 
-    private static final long serialVersionUID = -6115609527027249601L;
+    @Serial
+    private static final long serialVersionUID = -5749876874520242682L;
 
     private StringIdKey key;
     private String name;

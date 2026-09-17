@@ -1,13 +1,14 @@
 package com.dwarfeng.rbacds.sdk.bean.key;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.rbacds.sdk.util.Constraints;
 import com.dwarfeng.rbacds.stack.bean.key.ScopedRoleKey;
-import com.dwarfeng.subgrade.stack.bean.key.Key;
+import com.dwarfeng.subgrade.basic.stack.bean.key.Key;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -18,7 +19,8 @@ import java.util.Objects;
  */
 public class WebInputScopedRoleKey implements Key {
 
-    private static final long serialVersionUID = -9182736450123456789L;
+    @Serial
+    private static final long serialVersionUID = -3391585749757324903L;
 
     public static ScopedRoleKey toStackBean(WebInputScopedRoleKey webInput) {
         if (Objects.isNull(webInput)) {

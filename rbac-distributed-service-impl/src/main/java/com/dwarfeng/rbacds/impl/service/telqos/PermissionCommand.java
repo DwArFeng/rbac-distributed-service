@@ -1,6 +1,8 @@
 package com.dwarfeng.rbacds.impl.service.telqos;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
+import com.dwarfeng.rbacds.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.rbacds.impl.internal.i18n.ImplMessages;
 import com.dwarfeng.rbacds.sdk.bean.dto.WebInputPermissionCreateInfo;
 import com.dwarfeng.rbacds.sdk.bean.dto.WebInputPermissionRemoveInfo;
 import com.dwarfeng.rbacds.sdk.bean.dto.WebInputPermissionUpdateInfo;
@@ -63,7 +65,7 @@ public class PermissionCommand extends CliCommand {
 
     @Override
     protected DescriptionProvider provideDescriptionProvider() {
-        return context -> "权限操作服务";
+        return _ -> ImplMessages.message(ImplMessageKey.TELQOS_PERMISSION_DESCRIPTION);
     }
 
     @Override
@@ -91,16 +93,30 @@ public class PermissionCommand extends CliCommand {
     @Override
     protected List<Option> provideOptions() {
         List<Option> list = new ArrayList<>();
-        list.add(Option.builder(COMMAND_OPTION_CREATE).desc("创建权限").build());
-        list.add(Option.builder(COMMAND_OPTION_UPDATE).desc("更新权限").build());
-        list.add(Option.builder(COMMAND_OPTION_REMOVE).desc("移除权限").build());
         list.add(
-                Option.builder(COMMAND_SUB_OPTION_JSON).desc("JSON 字符串").hasArg().type(String.class).build()
+                Option.builder(COMMAND_OPTION_CREATE)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_PERMISSION_OPTION_CREATE))
+                        .get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_UPDATE)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_PERMISSION_OPTION_UPDATE))
+                        .get()
+        );
+        list.add(
+                Option.builder(COMMAND_OPTION_REMOVE)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_PERMISSION_OPTION_REMOVE))
+                        .get()
+        );
+        list.add(
+                Option.builder(COMMAND_SUB_OPTION_JSON)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_OPTION_JSON_STRING)).hasArg()
+                        .type(String.class).get()
         );
         list.add(
                 Option.builder(COMMAND_SUB_OPTION_JSON_FILE).longOpt(COMMAND_SUB_OPTION_JSON_FILE_LONG_OPT)
-                        .desc("JSON 文件")
-                        .hasArg().type(File.class).build()
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_OPTION_JSON_FILE))
+                        .hasArg().type(File.class).get()
         );
         return list;
     }
@@ -125,7 +141,9 @@ public class PermissionCommand extends CliCommand {
                 handleRemove(context, cmd);
                 break;
             default:
-                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
+                throw new IllegalStateException(
+                        ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_INTERNAL_UNREACHABLE)
+                );
         }
     }
 
@@ -134,14 +152,14 @@ public class PermissionCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 PermissionCreateInfo。
         if (cmd.hasOption(COMMAND_SUB_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON);
             info = WebInputPermissionCreateInfo.toStackBean(
                     JSON.parseObject(json, WebInputPermissionCreateInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 PermissionCreateInfo。
         else if (cmd.hasOption(COMMAND_SUB_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputPermissionCreateInfo.toStackBean(
                         JSON.parseObject(in, WebInputPermissionCreateInfo.class)
@@ -157,9 +175,11 @@ public class PermissionCommand extends CliCommand {
 
         // 输出结果。
         if (Objects.isNull(result)) {
-            context.sendMessage("创建结果: null");
+            context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_CREATE_RESULT_NULL));
         } else {
-            context.sendMessage("创建成功, key: " + result.getKey());
+            context.sendMessage(
+                    ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_CREATE_SUCCEEDED, result.getKey())
+            );
         }
     }
 
@@ -168,14 +188,14 @@ public class PermissionCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 PermissionUpdateInfo。
         if (cmd.hasOption(COMMAND_SUB_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON);
             info = WebInputPermissionUpdateInfo.toStackBean(
                     JSON.parseObject(json, WebInputPermissionUpdateInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 PermissionUpdateInfo。
         else if (cmd.hasOption(COMMAND_SUB_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputPermissionUpdateInfo.toStackBean(
                         JSON.parseObject(in, WebInputPermissionUpdateInfo.class)
@@ -190,7 +210,7 @@ public class PermissionCommand extends CliCommand {
         permissionOperateService.update(info);
 
         // 输出结果。
-        context.sendMessage("更新成功");
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_UPDATE_SUCCEEDED));
     }
 
     private void handleRemove(CommandExecutor.Context context, CommandLine cmd) throws Exception {
@@ -198,14 +218,14 @@ public class PermissionCommand extends CliCommand {
 
         // 如果有 -json 选项，则从选项中获取 JSON，转化为 PermissionRemoveInfo。
         if (cmd.hasOption(COMMAND_SUB_OPTION_JSON)) {
-            String json = (String) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON);
+            String json = cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON);
             info = WebInputPermissionRemoveInfo.toStackBean(
                     JSON.parseObject(json, WebInputPermissionRemoveInfo.class)
             );
         }
         // 如果有 --json-file 选项，则从选项中获取 JSON 文件，转化为 PermissionRemoveInfo。
         else if (cmd.hasOption(COMMAND_SUB_OPTION_JSON_FILE)) {
-            File jsonFile = (File) cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON_FILE);
+            File jsonFile = cmd.getParsedOptionValue(COMMAND_SUB_OPTION_JSON_FILE);
             try (FileInputStream in = new FileInputStream(jsonFile)) {
                 info = WebInputPermissionRemoveInfo.toStackBean(
                         JSON.parseObject(in, WebInputPermissionRemoveInfo.class)
@@ -220,6 +240,6 @@ public class PermissionCommand extends CliCommand {
         permissionOperateService.remove(info);
 
         // 输出结果。
-        context.sendMessage("移除成功");
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_REMOVE_SUCCEEDED));
     }
 }

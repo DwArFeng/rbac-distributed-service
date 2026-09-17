@@ -1,44 +1,60 @@
 package com.dwarfeng.rbacds.impl.dao.preset;
 
+import com.dwarfeng.rbacds.impl.bean.entity.HibernateScope;
 import com.dwarfeng.rbacds.stack.service.ScopeMaintainService;
-import com.dwarfeng.subgrade.sdk.hibernate.criteria.PresetCriteriaMaker;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Restrictions;
+import com.dwarfeng.subgrade.data.sdk.hibernate.criteria.PresetCriteriaMaker;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
 @Component
-public class ScopePresetCriteriaMaker implements PresetCriteriaMaker {
+public class ScopePresetCriteriaMaker implements PresetCriteriaMaker<HibernateScope> {
 
     @Override
-    public void makeCriteria(DetachedCriteria criteria, String preset, Object[] objs) {
+    public void makeCriteria(
+            CriteriaBuilder criteriaBuilder, CriteriaQuery<?> criteriaQuery, Root<HibernateScope> root,
+            String preset, Object[] objs
+    ) {
         switch (preset) {
             case ScopeMaintainService.ID_LIKE:
-                idLike(criteria, objs);
+                idLike(criteriaBuilder, criteriaQuery, root, objs);
                 break;
             case ScopeMaintainService.NAME_LIKE:
-                nameLike(criteria, objs);
+                nameLike(criteriaBuilder, criteriaQuery, root, objs);
                 break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + preset);
         }
     }
 
-    private void idLike(DetachedCriteria detachedCriteria, Object[] objects) {
+    private void idLike(
+            CriteriaBuilder criteriaBuilder, CriteriaQuery<?> criteriaQuery, Root<HibernateScope> root, Object[] objects
+    ) {
         try {
             String pattern = (String) objects[0];
-            detachedCriteria.add(Restrictions.like("stringId", pattern, MatchMode.ANYWHERE));
+            CriteriaQueryHelper.addRestriction(
+                    criteriaBuilder,
+                    criteriaQuery,
+                    CriteriaQueryHelper.likeAnywhere(criteriaBuilder, root.get("stringId"), pattern)
+            );
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
         }
     }
 
-    private void nameLike(DetachedCriteria criteria, Object[] objs) {
+    private void nameLike(
+            CriteriaBuilder criteriaBuilder, CriteriaQuery<?> criteriaQuery, Root<HibernateScope> root, Object[] objs
+    ) {
         try {
             String name = (String) objs[0];
-            criteria.add(Restrictions.like("name", name, MatchMode.ANYWHERE));
+            CriteriaQueryHelper.addRestriction(
+                    criteriaBuilder,
+                    criteriaQuery,
+                    CriteriaQueryHelper.likeAnywhere(criteriaBuilder, root.get("name"), name)
+            );
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objs));
         }

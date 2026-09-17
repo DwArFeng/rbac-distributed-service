@@ -2,8 +2,8 @@ package com.dwarfeng.rbacds.stack.service;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
 import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
-import com.dwarfeng.subgrade.stack.service.BatchCrudService;
-import com.dwarfeng.subgrade.stack.service.PresetLookupService;
+import com.dwarfeng.subgrade.data.stack.service.BatchCrudService;
+import com.dwarfeng.subgrade.data.stack.service.PresetLookupService;
 
 /**
  * 权限表达式维护服务。

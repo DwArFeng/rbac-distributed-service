@@ -1,10 +1,13 @@
 package com.dwarfeng.rbacds.impl.dao.preset;
 
 import com.dwarfeng.rbacds.impl.bean.entity.HibernateRoleUserRelation;
+import com.dwarfeng.rbacds.impl.bean.entity.HibernateUser;
 import com.dwarfeng.rbacds.stack.service.UserMaintainService;
-import com.dwarfeng.subgrade.sdk.hibernate.criteria.PresetCriteriaMaker;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import org.hibernate.criterion.*;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.data.sdk.hibernate.criteria.PresetCriteriaMaker;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -12,68 +15,62 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Component
-public class UserPresetCriteriaMaker implements PresetCriteriaMaker {
+public class UserPresetCriteriaMaker implements PresetCriteriaMaker<HibernateUser> {
 
     @Override
-    public void makeCriteria(DetachedCriteria detachedCriteria, String s, Object[] objects) {
-        switch (s) {
+    public void makeCriteria(
+            CriteriaBuilder builder, CriteriaQuery<?> query, Root<HibernateUser> root, String preset, Object[] objects
+    ) {
+        switch (preset) {
             case UserMaintainService.ROLE_IN_ROLE_NOT_IN_KEY_ASC:
-                roleInRoleNotInKeyAsc(detachedCriteria, objects);
+                roleInRoleNotInKeyAsc(builder, query, root, objects);
                 break;
             case UserMaintainService.ID_LIKE:
-                idLike(detachedCriteria, objects);
+                idLike(builder, query, root, objects);
                 break;
             default:
-                throw new IllegalArgumentException("无法识别的预设: " + s);
+                throw new IllegalArgumentException("无法识别的预设: " + preset);
         }
     }
 
-    /**
-     * 角色在集合内且不在排除集合内（按用户主键升序排序）。
-     *
-     * <p>
-     * 使用子查询从 {@link HibernateRoleUserRelation} 中投影出满足条件的 {@code user_id}，主查询用
-     * {@link Subqueries#propertyIn} 关联，避免对 {@code roleUserRelations} 连接产生重复行；且不采用关联 EXISTS
-     * （{@code eqProperty} 与外层 DetachedCriteria 组合时 Hibernate 5 可能无法解析实体而报错）。
-     *
-     * <p>
-     * 等价语义：存在至少一条用户-角色关系，其 {@code role_id} 属于 in 集合，且（若 notIn 非空）该 {@code role_id}
-     * 不属于 notIn 集合。
-     */
-    private void roleInRoleNotInKeyAsc(DetachedCriteria detachedCriteria, Object[] objects) {
+    private void roleInRoleNotInKeyAsc(
+            CriteriaBuilder builder, CriteriaQuery<?> query, Root<HibernateUser> root, Object[] objects
+    ) {
         try {
-            // 由调用人员自行保证类型安全。
+            // 此处类型安全由调用方保证。
             @SuppressWarnings("unchecked")
-            Collection<StringIdKey> inRoleKeys = (Collection<StringIdKey>) objects[0];
-            // 由调用人员自行保证类型安全。
+            Collection<StringIdKey> inKeys = (Collection<StringIdKey>) objects[0];
+            // 此处类型安全由调用方保证。
             @SuppressWarnings("unchecked")
-            Collection<StringIdKey> notInRoleKeys = (Collection<StringIdKey>) objects[1];
-            if (inRoleKeys.isEmpty()) {
-                // 如果 inRoleKeys 为空，则不应该查出任何数据，此处设置一个不可能存在的条件。
-                detachedCriteria.add(Restrictions.isNull("stringId"));
+            Collection<StringIdKey> notInKeys = (Collection<StringIdKey>) objects[1];
+            if (inKeys.isEmpty()) {
+                CriteriaQueryHelper.addRestriction(builder, query, builder.isNull(root.get("stringId")));
             } else {
-                Collection<String> inRoleStringIds = inRoleKeys.stream().map(StringIdKey::getStringId)
-                        .collect(Collectors.toSet());
-                DetachedCriteria subCriteria = DetachedCriteria.forClass(HibernateRoleUserRelation.class);
-                subCriteria.add(Restrictions.in("roleStringId", inRoleStringIds));
-                if (!notInRoleKeys.isEmpty()) {
-                    Collection<String> notInRoleStringIds = notInRoleKeys.stream().map(StringIdKey::getStringId)
+                jakarta.persistence.criteria.Subquery<String> subquery = query.subquery(String.class);
+                Root<HibernateRoleUserRelation> relation = subquery.from(HibernateRoleUserRelation.class);
+                Collection<String> inIds = inKeys.stream().map(StringIdKey::getStringId).collect(Collectors.toSet());
+                jakarta.persistence.criteria.Predicate predicate = relation.get("roleStringId").in(inIds);
+                if (!notInKeys.isEmpty()) {
+                    Collection<String> notInIds = notInKeys.stream().map(StringIdKey::getStringId)
                             .collect(Collectors.toSet());
-                    subCriteria.add(Restrictions.not(Restrictions.in("roleStringId", notInRoleStringIds)));
+                    predicate = builder.and(predicate, builder.not(relation.get("roleStringId").in(notInIds)));
                 }
-                subCriteria.setProjection(Projections.property("userStringId"));
-                detachedCriteria.add(Subqueries.propertyIn("stringId", subCriteria));
+                subquery.select(relation.get("userStringId")).where(predicate);
+                CriteriaQueryHelper.addRestriction(builder, query, root.get("stringId").in(subquery));
             }
-            detachedCriteria.addOrder(Order.asc("stringId"));
+            CriteriaQueryHelper.addOrder(query, builder.asc(root.get("stringId")));
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
         }
     }
 
-    private void idLike(DetachedCriteria detachedCriteria, Object[] objects) {
+    private void idLike(
+            CriteriaBuilder builder, CriteriaQuery<?> query, Root<HibernateUser> root, Object[] objects
+    ) {
         try {
-            String id = (String) objects[0];
-            detachedCriteria.add(Restrictions.like("stringId", id, MatchMode.ANYWHERE));
+            CriteriaQueryHelper.addRestriction(
+                    builder, query, CriteriaQueryHelper.likeAnywhere(builder, root.get("stringId"), (String) objects[0])
+            );
         } catch (Exception e) {
             throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
         }

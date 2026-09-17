@@ -4,9 +4,9 @@ import com.dwarfeng.rbacds.stack.bean.entity.Permission;
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.rbacds.stack.cache.PermissionCache;
 import com.dwarfeng.rbacds.stack.dao.PermissionDao;
-import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
-import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
-import com.dwarfeng.subgrade.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.basic.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.data.sdk.exception.ServiceExceptionCodeSuppliers;
+import com.dwarfeng.subgrade.data.sdk.service.custom.operation.BatchCrudOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +40,7 @@ public class PermissionCrudOperation implements BatchCrudOperation<PermissionKey
             return permissionCache.get(key);
         } else {
             if (!permissionDao.exists(key)) {
-                throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
+                throw new ServiceException(ServiceExceptionCodeSuppliers.ENTITY_NOT_EXIST.get());
             }
             Permission permission = permissionDao.get(key);
             permissionCache.push(permission, permissionTimeout);
@@ -84,7 +84,7 @@ public class PermissionCrudOperation implements BatchCrudOperation<PermissionKey
             return permissionCache.batchGet(keys);
         } else {
             if (!permissionDao.allExists(keys)) {
-                throw new ServiceException(ServiceExceptionCodes.ENTITY_NOT_EXIST);
+                throw new ServiceException(ServiceExceptionCodeSuppliers.ENTITY_NOT_EXIST.get());
             }
             List<Permission> permissions = permissionDao.batchGet(keys);
             permissionCache.batchPush(permissions, permissionTimeout);

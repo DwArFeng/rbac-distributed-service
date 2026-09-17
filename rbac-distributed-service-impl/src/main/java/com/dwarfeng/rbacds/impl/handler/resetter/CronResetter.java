@@ -10,6 +10,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ScheduledFuture;
 
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessageKey.LOG_RESET_FILTER_SCHEDULED;
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessageKey.LOG_RESET_SCHEDULE_FAILED;
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessages.message;
+
 /**
  * 使用 CRON 表达式定时重置的重置器。
  *
@@ -56,13 +60,11 @@ public class CronResetter extends AbstractResetter {
         @Override
         public void run() {
             try {
-                LOGGER.info("计划时间已到, 重置过滤功能...");
+                LOGGER.info(message(LOG_RESET_FILTER_SCHEDULED));
                 context.resetFilter();
                 context.resetAnalysis();
             } catch (Exception e) {
-                String message = "重置器 " + CronResetter.this +
-                        " 执行重置调度时发生异常, 过滤功能将不会重置, 异常信息如下: ";
-                LOGGER.warn(message, e);
+                LOGGER.warn(message(LOG_RESET_SCHEDULE_FAILED, CronResetter.this), e);
             }
         }
     }

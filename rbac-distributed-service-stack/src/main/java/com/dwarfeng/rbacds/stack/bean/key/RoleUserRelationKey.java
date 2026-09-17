@@ -1,7 +1,8 @@
 package com.dwarfeng.rbacds.stack.bean.key;
 
-import com.dwarfeng.subgrade.stack.bean.key.Key;
+import com.dwarfeng.subgrade.basic.stack.bean.key.Key;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,8 @@ import java.util.Objects;
  */
 public class RoleUserRelationKey implements Key {
 
-    private static final long serialVersionUID = 5962883543945057190L;
+    @Serial
+    private static final long serialVersionUID = -8772466590540399718L;
 
     private String roleStringId;
     private String userStringId;

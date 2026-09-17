@@ -1,15 +1,16 @@
 package com.dwarfeng.rbacds.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.rbacds.sdk.bean.key.WebInputPexpKey;
 import com.dwarfeng.rbacds.sdk.util.Constraints;
 import com.dwarfeng.rbacds.stack.bean.dto.PexpCreateInfo;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -20,7 +21,8 @@ import java.util.Objects;
  */
 public class WebInputPexpCreateInfo implements Bean {
 
-    private static final long serialVersionUID = 8656896964954677620L;
+    @Serial
+    private static final long serialVersionUID = -4038932233179507120L;
 
     public static PexpCreateInfo toStackBean(WebInputPexpCreateInfo webInput) {
         if (Objects.isNull(webInput)) {

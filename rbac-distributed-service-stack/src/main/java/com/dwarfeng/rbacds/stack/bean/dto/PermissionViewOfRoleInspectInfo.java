@@ -2,8 +2,9 @@ package com.dwarfeng.rbacds.stack.bean.dto;
 
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.rbacds.stack.bean.key.ScopedRoleKey;
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
 
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -14,7 +15,8 @@ import java.util.List;
  */
 public class PermissionViewOfRoleInspectInfo implements Dto {
 
-    private static final long serialVersionUID = -6249415665510811097L;
+    @Serial
+    private static final long serialVersionUID = -207905882596527812L;
 
     /**
      * 查看的作用域角色键主键。

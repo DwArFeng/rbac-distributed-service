@@ -1,7 +1,11 @@
 package com.dwarfeng.rbacds.stack.exception;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.rbacds.stack.internal.i18n.StackMessageKey;
+import com.dwarfeng.rbacds.stack.internal.i18n.StackMessages;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+
+import java.io.Serial;
 
 /**
  * 权限表达式格式异常。
@@ -11,7 +15,8 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  */
 public class PexpFormatException extends HandlerException {
 
-    private static final long serialVersionUID = -947506398580333541L;
+    @Serial
+    private static final long serialVersionUID = -7513972492748916727L;
 
     private final Pexp pexp;
 
@@ -36,6 +41,6 @@ public class PexpFormatException extends HandlerException {
 
     @Override
     public String getMessage() {
-        return "Invalid pexp format " + pexp.toString();
+        return StackMessages.message(StackMessageKey.EXCEPTION_PEXP_FORMAT_INVALID, pexp);
     }
 }

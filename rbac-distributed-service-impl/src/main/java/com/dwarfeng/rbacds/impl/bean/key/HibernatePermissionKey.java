@@ -1,8 +1,9 @@
 package com.dwarfeng.rbacds.impl.bean.key;
 
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
-import com.dwarfeng.subgrade.stack.bean.key.Key;
+import com.dwarfeng.subgrade.basic.stack.bean.key.Key;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -13,7 +14,8 @@ import java.util.Objects;
  */
 public class HibernatePermissionKey implements Key {
 
-    private static final long serialVersionUID = 7746297341666041686L;
+    @Serial
+    private static final long serialVersionUID = -4729487761018697183L;
 
     private String scopeStringId;
     private String permissionStringId;

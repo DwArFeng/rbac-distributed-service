@@ -1,12 +1,12 @@
 package com.dwarfeng.rbacds.impl.handler.resetter;
 
 import com.dwarfeng.rbacds.sdk.handler.resetter.AbstractResetter;
-import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionHelper;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
-import com.dwarfeng.subgrade.stack.exception.ServiceException;
-import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
-import com.dwarfeng.subgrade.stack.log.LogLevel;
-import com.dwarfeng.subgrade.stack.service.Service;
+import com.dwarfeng.subgrade.basic.sdk.exception.ServiceExceptionHelper;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.basic.stack.exception.ServiceExceptionMapper;
+import com.dwarfeng.subgrade.basic.stack.log.LogLevel;
+import com.dwarfeng.subgrade.basic.stack.service.Service;
 import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
@@ -19,6 +19,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessageKey.*;
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessages.message;
 
 /**
  * 使用 Dubbo 微服务实现的重置器。
@@ -59,7 +62,7 @@ public class DubboResetter extends AbstractResetter {
     protected void doStart() throws Exception {
         lock.lock();
         try {
-            LOGGER.info("Dubbo resetter 开启...");
+            LOGGER.info(message(LOG_DUBBO_RESETTER_STARTING));
 
             // 判断启动状态，如已经启动，则什么也不做。
             if (startFlag) {
@@ -96,7 +99,7 @@ public class DubboResetter extends AbstractResetter {
     protected void doStop() throws Exception {
         lock.lock();
         try {
-            LOGGER.info("Dubbo resetter 停止...");
+            LOGGER.info(message(LOG_DUBBO_RESETTER_STOPPING));
 
             // 判断启动状态，如已经停止，则什么也不做。
             if (!startFlag) {
@@ -164,7 +167,7 @@ public class DubboResetter extends AbstractResetter {
         @Override
         public boolean resetFilter() throws ServiceException {
             try {
-                LOGGER.info("接收到过滤功能重置消息, 正在重置过滤功能...");
+                LOGGER.info(message(LOG_RESET_FILTER_MESSAGE_RECEIVED));
                 context.resetFilter();
                 context.resetAnalysis();
                 return true;
@@ -176,7 +179,7 @@ public class DubboResetter extends AbstractResetter {
         @Override
         public boolean resetAnalysis() throws ServiceException {
             try {
-                LOGGER.info("接收到分析结果重置消息, 正在重置分析结果...");
+                LOGGER.info(message(LOG_RESET_ANALYSIS_MESSAGE_RECEIVED));
                 context.resetAnalysis();
                 return true;
             } catch (Exception e) {

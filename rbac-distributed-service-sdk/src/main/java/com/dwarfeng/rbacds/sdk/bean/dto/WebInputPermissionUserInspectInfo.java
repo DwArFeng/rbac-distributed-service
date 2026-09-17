@@ -1,12 +1,13 @@
 package com.dwarfeng.rbacds.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.rbacds.sdk.bean.key.WebInputPermissionKey;
 import com.dwarfeng.rbacds.stack.bean.dto.PermissionUserInspectInfo;
-import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.web.sdk.bean.key.WebInputStringIdKey;
+import jakarta.validation.Valid;
 
-import javax.validation.Valid;
+import java.io.Serial;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,11 +25,11 @@ import java.util.stream.Collectors;
  * @deprecated 命名歧义，请使用 {@link WebInputUserViewOfPermissionInspectInfo}
  */
 // BeanMapper 还在使用该类，故忽略相关警告。
-@SuppressWarnings("DeprecatedIsStillUsed")
 @Deprecated
 public class WebInputPermissionUserInspectInfo implements Bean {
 
-    private static final long serialVersionUID = -4847292914311630048L;
+    @Serial
+    private static final long serialVersionUID = 5513572021637527725L;
 
     public static PermissionUserInspectInfo toStackBean(WebInputPermissionUserInspectInfo webInput) {
         if (Objects.isNull(webInput)) {

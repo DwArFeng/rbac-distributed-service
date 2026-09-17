@@ -1,14 +1,15 @@
 package com.dwarfeng.rbacds.sdk.bean.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.rbacds.sdk.util.Constraints;
 import com.dwarfeng.rbacds.stack.bean.entity.User;
-import com.dwarfeng.subgrade.sdk.bean.key.WebInputStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.web.sdk.bean.key.WebInputStringIdKey;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -19,7 +20,8 @@ import java.util.Objects;
  */
 public class WebInputUser implements Bean {
 
-    private static final long serialVersionUID = 2681324024929702832L;
+    @Serial
+    private static final long serialVersionUID = 3464216996890266014L;
 
     public static User toStackBean(WebInputUser webInputUser) {
         if (Objects.isNull(webInputUser)) {

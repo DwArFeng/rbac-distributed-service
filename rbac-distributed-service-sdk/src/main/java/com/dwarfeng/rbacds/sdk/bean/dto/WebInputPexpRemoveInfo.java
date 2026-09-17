@@ -1,12 +1,14 @@
 package com.dwarfeng.rbacds.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.rbacds.sdk.bean.key.WebInputPexpKey;
 import com.dwarfeng.rbacds.stack.bean.dto.PexpRemoveInfo;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -17,7 +19,8 @@ import java.util.Objects;
  */
 public class WebInputPexpRemoveInfo implements Bean {
 
-    private static final long serialVersionUID = -466245090000048466L;
+    @Serial
+    private static final long serialVersionUID = 5884305523704217014L;
 
     public static PexpRemoveInfo toStackBean(WebInputPexpRemoveInfo webInput) {
         if (Objects.isNull(webInput)) {

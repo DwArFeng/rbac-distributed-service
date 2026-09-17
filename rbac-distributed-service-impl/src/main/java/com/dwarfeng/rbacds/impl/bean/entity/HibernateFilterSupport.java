@@ -1,21 +1,23 @@
 package com.dwarfeng.rbacds.impl.bean.entity;
 
 import com.dwarfeng.rbacds.sdk.util.Constraints;
-import com.dwarfeng.subgrade.sdk.bean.key.HibernateStringIdKey;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
+import com.dwarfeng.subgrade.data.sdk.bean.key.hibernate.HibernateStringIdKey;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.Table;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
+import java.io.Serial;
 import java.util.Objects;
 
-@javax.persistence.Entity
+@jakarta.persistence.Entity
 @IdClass(HibernateStringIdKey.class)
 @Table(name = "tbl_filter_support")
 public class HibernateFilterSupport implements Bean {
 
-    private static final long serialVersionUID = -6318076469772858308L;
+    @Serial
+    private static final long serialVersionUID = -6798842563775884841L;
 
     // region 主键
 

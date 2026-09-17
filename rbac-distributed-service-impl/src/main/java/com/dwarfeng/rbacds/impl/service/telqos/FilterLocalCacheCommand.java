@@ -1,5 +1,8 @@
 package com.dwarfeng.rbacds.impl.service.telqos;
 
+import com.dwarfeng.rbacds.impl.internal.i18n.ImplMessageKey;
+import com.dwarfeng.rbacds.impl.internal.i18n.ImplMessages;
+
 import com.dwarfeng.rbacds.stack.handler.Filter;
 import com.dwarfeng.rbacds.stack.service.FilterQosService;
 import com.dwarfeng.springtelqos.sdk.command.CliCommand;
@@ -48,7 +51,7 @@ public class FilterLocalCacheCommand extends CliCommand {
 
     @Override
     protected DescriptionProvider provideDescriptionProvider() {
-        return context -> "过滤器本地缓存操作";
+        return _ -> ImplMessages.message(ImplMessageKey.TELQOS_FILTER_LOCAL_CACHE_DESCRIPTION);
     }
 
     @Override
@@ -71,10 +74,12 @@ public class FilterLocalCacheCommand extends CliCommand {
         list.add(
                 Option.builder(COMMAND_OPTION_LOOKUP).optionalArg(true).hasArg(true).type(Number.class)
                         .argName("filter-type")
-                        .desc("查看指定过滤类型的过滤器，如果本地缓存中不存在，则尝试抓取")
-                        .build()
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_FILTER_LOCAL_CACHE_OPTION_LOOKUP)).get()
         );
-        list.add(Option.builder(COMMAND_OPTION_CLEAR).optionalArg(true).hasArg(false).desc("清除缓存").build());
+        list.add(
+                Option.builder(COMMAND_OPTION_CLEAR).optionalArg(true).hasArg(false)
+                        .desc(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_OPTION_CLEAR)).get()
+        );
         return list;
     }
 
@@ -95,7 +100,9 @@ public class FilterLocalCacheCommand extends CliCommand {
                 handleClear(context);
                 break;
             default:
-                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
+                throw new IllegalStateException(
+                        ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_INTERNAL_UNREACHABLE)
+                );
         }
     }
 
@@ -103,14 +110,14 @@ public class FilterLocalCacheCommand extends CliCommand {
         String filterType = cmd.getOptionValue(COMMAND_OPTION_LOOKUP);
         Filter filter = filterQosService.getFilter(filterType);
         if (Objects.isNull(filter)) {
-            context.sendMessage("not exists!");
+            context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_NOT_EXISTS));
             return;
         }
-        context.sendMessage(String.format("filter: %s", filter));
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_FIELD_FILTER_LINE, filter));
     }
 
     private void handleClear(CommandExecutor.Context context) throws Exception {
         filterQosService.clearLocalCache();
-        context.sendMessage("缓存已清空");
+        context.sendMessage(ImplMessages.message(ImplMessageKey.TELQOS_COMMON_RESULT_CACHE_CLEARED));
     }
 }

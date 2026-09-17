@@ -5,9 +5,9 @@ import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.rbacds.stack.bean.key.PexpKey;
 import com.dwarfeng.rbacds.stack.exception.*;
 import com.dwarfeng.rbacds.stack.service.*;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
-import com.dwarfeng.subgrade.stack.exception.ServiceException;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.exception.ServiceException;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;

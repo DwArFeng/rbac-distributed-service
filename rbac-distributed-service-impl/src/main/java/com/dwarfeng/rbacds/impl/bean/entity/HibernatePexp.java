@@ -4,9 +4,11 @@ import com.dwarfeng.datamark.sdk.jpa.DatamarkEntityListener;
 import com.dwarfeng.datamark.sdk.jpa.DatamarkField;
 import com.dwarfeng.rbacds.impl.bean.key.HibernatePexpKey;
 import com.dwarfeng.rbacds.sdk.util.Constraints;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
+import java.io.Serial;
 import java.util.Objects;
 
 @Entity
@@ -15,7 +17,8 @@ import java.util.Objects;
 @EntityListeners(DatamarkEntityListener.class)
 public class HibernatePexp implements Bean {
 
-    private static final long serialVersionUID = -847743809356659532L;
+    @Serial
+    private static final long serialVersionUID = 8920753558946600515L;
 
     // region 主键
 

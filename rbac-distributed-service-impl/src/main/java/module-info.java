@@ -1,0 +1,60 @@
+module com.dwarfeng.rbacds.impl {
+
+    requires com.dwarfeng.rbacds.base;
+    requires com.dwarfeng.rbacds.stack;
+    requires com.dwarfeng.rbacds.sdk;
+    requires com.dwarfeng.datamark.core;
+    requires com.dwarfeng.dutil.basic;
+    requires com.dwarfeng.springtelqos.core;
+    requires com.dwarfeng.subgrade.aop;
+    requires com.dwarfeng.subgrade.basic;
+    requires com.dwarfeng.subgrade.cache;
+    requires com.dwarfeng.subgrade.data;
+    requires com.dwarfeng.subgrade.lifecycle;
+    requires com.alibaba.fastjson2;
+    requires org.apache.commons.cli;
+    requires org.apache.commons.lang3;
+    requires dubbo;
+    requires jakarta.annotation;
+    requires jakarta.persistence;
+    requires jakarta.validation;
+    requires org.aspectj.weaver;
+    requires org.hibernate.orm.core;
+    requires org.mapstruct;
+    requires org.slf4j;
+    requires spring.core;
+    requires spring.beans;
+    requires spring.context;
+    requires spring.aop;
+    requires spring.tx;
+    requires spring.data.redis;
+    requires static org.jetbrains.annotations;
+
+    exports com.dwarfeng.rbacds.impl.bean;
+    exports com.dwarfeng.rbacds.impl.bean.entity;
+    exports com.dwarfeng.rbacds.impl.bean.key;
+    exports com.dwarfeng.rbacds.impl.cache;
+    exports com.dwarfeng.rbacds.impl.dao;
+    exports com.dwarfeng.rbacds.impl.dao.preset;
+    exports com.dwarfeng.rbacds.impl.handler;
+    exports com.dwarfeng.rbacds.impl.handler.filter;
+    exports com.dwarfeng.rbacds.impl.handler.pusher;
+    exports com.dwarfeng.rbacds.impl.handler.resetter;
+    exports com.dwarfeng.rbacds.impl.service;
+    exports com.dwarfeng.rbacds.impl.service.operation;
+    exports com.dwarfeng.rbacds.impl.service.telqos;
+
+    opens com.dwarfeng.rbacds.impl.bean.entity to org.hibernate.orm.core;
+    opens com.dwarfeng.rbacds.impl.bean.key to org.hibernate.orm.core;
+    opens com.dwarfeng.rbacds.impl.cache to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.rbacds.impl.dao to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.rbacds.impl.dao.preset to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.rbacds.impl.handler to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.rbacds.impl.handler.filter to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.rbacds.impl.handler.pusher to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.rbacds.impl.handler.resetter to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.rbacds.impl.service to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.rbacds.impl.service.operation to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.rbacds.impl.service.telqos to spring.core, spring.beans, spring.context, spring.aop;
+    opens com.dwarfeng.rbacds.impl.i18n to com.dwarfeng.rbacds.base;
+}

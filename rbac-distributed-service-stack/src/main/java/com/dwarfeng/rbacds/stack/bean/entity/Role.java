@@ -1,7 +1,9 @@
 package com.dwarfeng.rbacds.stack.bean.entity;
 
-import com.dwarfeng.subgrade.stack.bean.entity.Entity;
-import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
+import com.dwarfeng.subgrade.basic.stack.bean.entity.Entity;
+import com.dwarfeng.subgrade.basic.stack.bean.key.StringIdKey;
+
+import java.io.Serial;
 
 /**
  * 角色。
@@ -11,7 +13,8 @@ import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
  */
 public class Role implements Entity<StringIdKey> {
 
-    private static final long serialVersionUID = 3954346769079299113L;
+    @Serial
+    private static final long serialVersionUID = -4111685520084756436L;
 
     private StringIdKey key;
     private String name;

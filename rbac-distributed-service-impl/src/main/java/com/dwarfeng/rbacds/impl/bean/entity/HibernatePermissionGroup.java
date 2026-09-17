@@ -4,9 +4,11 @@ import com.dwarfeng.datamark.sdk.jpa.DatamarkEntityListener;
 import com.dwarfeng.datamark.sdk.jpa.DatamarkField;
 import com.dwarfeng.rbacds.impl.bean.key.HibernatePermissionGroupKey;
 import com.dwarfeng.rbacds.sdk.util.Constraints;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
+import java.io.Serial;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -17,7 +19,8 @@ import java.util.Set;
 @EntityListeners(DatamarkEntityListener.class)
 public class HibernatePermissionGroup implements Bean {
 
-    private static final long serialVersionUID = -2219407764326029466L;
+    @Serial
+    private static final long serialVersionUID = -5717767505022774982L;
 
     // region 主键
 

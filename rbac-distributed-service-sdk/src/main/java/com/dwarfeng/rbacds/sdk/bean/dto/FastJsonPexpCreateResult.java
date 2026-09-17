@@ -1,10 +1,11 @@
 package com.dwarfeng.rbacds.sdk.bean.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.dwarfeng.rbacds.sdk.bean.key.FastJsonPexpKey;
 import com.dwarfeng.rbacds.stack.bean.dto.PexpCreateResult;
-import com.dwarfeng.subgrade.stack.bean.Bean;
+import com.dwarfeng.subgrade.basic.stack.bean.Bean;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -15,7 +16,8 @@ import java.util.Objects;
  */
 public class FastJsonPexpCreateResult implements Bean {
 
-    private static final long serialVersionUID = -3415192975562942346L;
+    @Serial
+    private static final long serialVersionUID = 4368390155147799811L;
 
     public static FastJsonPexpCreateResult of(PexpCreateResult pexpCreateResult) {
         if (Objects.isNull(pexpCreateResult)) {

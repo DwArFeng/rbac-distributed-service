@@ -2,9 +2,9 @@ package com.dwarfeng.rbacds.impl.handler;
 
 import com.dwarfeng.rbacds.stack.bean.entity.Pexp;
 import com.dwarfeng.rbacds.stack.handler.PexpParseHandler;
-import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
-import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.aop.sdk.interceptor.analyse.BehaviorAnalyse;
+import com.dwarfeng.subgrade.basic.sdk.exception.HandlerExceptionHelper;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 import org.slf4j.Logger;
@@ -13,6 +13,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessageKey.*;
+import static com.dwarfeng.rbacds.impl.internal.i18n.ImplMessages.message;
 
 @Component
 public class PexpParseHandlerImpl implements PexpParseHandler {
@@ -55,41 +58,31 @@ public class PexpParseHandlerImpl implements PexpParseHandler {
 
         // 如果 content 以 PEXP_CONTENT_VERSION_PREFIX_V1 开头，则使用 V1 版本。
         if (Strings.CI.startsWith(content, PEXP_CONTENT_VERSION_PREFIX_V1)) {
-            LOGGER.debug("权限表达式内容以 V1 版本前缀开头, 使用 V1 版本进行解析...");
+            LOGGER.debug(message(LOG_PEXP_PARSE_USING_V1_PREFIX));
             usingVersion = UsingVersion.V1;
             contentWithoutVersion = content.substring(PEXP_CONTENT_VERSION_PREFIX_V1.length());
         }
         // 如果 content 以 PEXP_CONTENT_VERSION_PREFIX_V2 开头，则使用 V2 版本。
         else if (Strings.CI.startsWith(content, PEXP_CONTENT_VERSION_PREFIX_V2)) {
-            LOGGER.debug("权限表达式内容以 V2 版本前缀开头, 使用 V2 版本进行解析...");
+            LOGGER.debug(message(LOG_PEXP_PARSE_USING_V2_PREFIX));
             usingVersion = UsingVersion.V2;
             contentWithoutVersion = content.substring(PEXP_CONTENT_VERSION_PREFIX_V2.length());
         }
         // 如果 content 没有以特定的版本前缀开头，则使用 V1 版本，以兼容早期数据。
         else {
-            LOGGER.debug("权限表达式内容没有以特定的版本前缀开头, 使用 V1 版本进行解析...");
+            LOGGER.debug(message(LOG_PEXP_PARSE_USING_V1_DEFAULT));
             usingVersion = UsingVersion.V1;
             contentWithoutVersion = content;
         }
 
         // 记录日志。
-        LOGGER.debug(
-                "权限表达式版本号及内容解析完成, usingVersion: {}, contentWithoutVersion: {}",
-                usingVersion, contentWithoutVersion
-        );
+        LOGGER.debug(message(LOG_PEXP_PARSE_VERSION_RESOLVED, usingVersion, contentWithoutVersion));
 
         // 根据版本号，创建解析引擎。
-        PexpParseEngine engine;
-        switch (usingVersion) {
-            case V1:
-                engine = ctx.getBean(V1PexpParseEngine.class, contentWithoutVersion);
-                break;
-            case V2:
-                engine = ctx.getBean(V2PexpParseEngine.class, contentWithoutVersion);
-                break;
-            default:
-                throw new IllegalStateException("不应该执行到此处, 请联系开发人员");
-        }
+        PexpParseEngine engine = switch (usingVersion) {
+            case V1 -> ctx.getBean(V1PexpParseEngine.class, contentWithoutVersion);
+            case V2 -> ctx.getBean(V2PexpParseEngine.class, contentWithoutVersion);
+        };
 
         // 解析并返回结果。
         return engine.parse();

@@ -1,5 +1,10 @@
 package com.dwarfeng.rbacds.stack.exception;
 
+import com.dwarfeng.rbacds.stack.internal.i18n.StackMessageKey;
+import com.dwarfeng.rbacds.stack.internal.i18n.StackMessages;
+
+import java.io.Serial;
+
 /**
  * 不支持的过滤器类型。
  *
@@ -8,6 +13,7 @@ package com.dwarfeng.rbacds.stack.exception;
  */
 public class UnsupportedFilterTypeException extends FilterException {
 
+    @Serial
     private static final long serialVersionUID = -1687771654019312979L;
 
     private final String type;
@@ -22,6 +28,6 @@ public class UnsupportedFilterTypeException extends FilterException {
 
     @Override
     public String getMessage() {
-        return "不支持的过滤器类型: " + type;
+        return StackMessages.message(StackMessageKey.EXCEPTION_UNSUPPORTED_FILTER_TYPE, type);
     }
 }

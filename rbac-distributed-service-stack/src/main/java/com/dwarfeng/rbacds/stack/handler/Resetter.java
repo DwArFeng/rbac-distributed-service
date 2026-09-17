@@ -1,6 +1,6 @@
 package com.dwarfeng.rbacds.stack.handler;
 
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.basic.stack.exception.HandlerException;
 
 /**
  * 重置器。

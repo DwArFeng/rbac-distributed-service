@@ -1,6 +1,6 @@
 package com.dwarfeng.rbacds.node.all.he.configuration;
 
-import com.alibaba.fastjson.parser.ParserConfig;
+import com.alibaba.fastjson2.JSONFactory;
 import com.dwarfeng.rbacds.sdk.bean.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,15 +13,14 @@ public class FastJsonConfiguration {
 
     public FastJsonConfiguration() {
         LOGGER.info("正在配置 FastJson autotype 白名单");
-        ParserConfig.getGlobalInstance().addAccept(FastJsonUser.class.getCanonicalName());
-        ParserConfig.getGlobalInstance().addAccept(FastJsonRole.class.getCanonicalName());
-        ParserConfig.getGlobalInstance().addAccept(FastJsonPexp.class.getCanonicalName());
-        ParserConfig.getGlobalInstance().addAccept(FastJsonPermission.class.getCanonicalName());
-        ParserConfig.getGlobalInstance().addAccept(FastJsonUser.class.getCanonicalName());
-        ParserConfig.getGlobalInstance().addAccept(FastJsonPermissionGroup.class.getCanonicalName());
-        ParserConfig.getGlobalInstance().addAccept(FastJsonFilterSupport.class.getCanonicalName());
-        ParserConfig.getGlobalInstance().addAccept(FastJsonRoleUserRelation.class.getCanonicalName());
-        ParserConfig.getGlobalInstance().addAccept(FastJsonScope.class.getCanonicalName());
+        JSONFactory.getDefaultObjectReaderProvider().addAutoTypeAccept(FastJsonUser.class.getCanonicalName());
+        JSONFactory.getDefaultObjectReaderProvider().addAutoTypeAccept(FastJsonRole.class.getCanonicalName());
+        JSONFactory.getDefaultObjectReaderProvider().addAutoTypeAccept(FastJsonPexp.class.getCanonicalName());
+        JSONFactory.getDefaultObjectReaderProvider().addAutoTypeAccept(FastJsonPermission.class.getCanonicalName());
+        JSONFactory.getDefaultObjectReaderProvider().addAutoTypeAccept(FastJsonPermissionGroup.class.getCanonicalName());
+        JSONFactory.getDefaultObjectReaderProvider().addAutoTypeAccept(FastJsonFilterSupport.class.getCanonicalName());
+        JSONFactory.getDefaultObjectReaderProvider().addAutoTypeAccept(FastJsonRoleUserRelation.class.getCanonicalName());
+        JSONFactory.getDefaultObjectReaderProvider().addAutoTypeAccept(FastJsonScope.class.getCanonicalName());
         LOGGER.debug("FastJson autotype 白名单配置完毕");
     }
 }

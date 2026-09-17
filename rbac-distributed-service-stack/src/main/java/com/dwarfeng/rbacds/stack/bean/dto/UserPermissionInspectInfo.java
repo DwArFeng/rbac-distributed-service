@@ -2,8 +2,9 @@ package com.dwarfeng.rbacds.stack.bean.dto;
 
 import com.dwarfeng.rbacds.stack.bean.key.PermissionKey;
 import com.dwarfeng.rbacds.stack.bean.key.ScopedUserKey;
-import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import com.dwarfeng.subgrade.basic.stack.bean.dto.Dto;
 
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -21,7 +22,8 @@ import java.util.List;
 @Deprecated
 public class UserPermissionInspectInfo implements Dto {
 
-    private static final long serialVersionUID = -756178334426696049L;
+    @Serial
+    private static final long serialVersionUID = 5470825134179465544L;
 
     /**
      * 查看的作用域用户键主键。
