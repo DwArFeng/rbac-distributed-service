@@ -99,9 +99,12 @@ datamark -update [-hn handler-name] [-dv datamark-value]
 ```text
 datamark -lh
 可用的处理器名称:
-    1: permissionDatamarkHandler
+    1: userDatamarkHandler
     2: roleDatamarkHandler
-    3: userDatamarkHandler
+    3: pexpDatamarkHandler
+    4: permissionDatamarkHandler
+    5: permissionGroupDatamarkHandler
+    6: scopeDatamarkHandler
 OK
 ```
 
@@ -127,7 +130,8 @@ OK
 #### 更新数据标记值
 
 ```text
-datamark -update -hn permissionDatamarkHandler -dv test@1.8.1更新成功!
+datamark -update -hn permissionDatamarkHandler -dv test@1.8.1
+更新成功!
 处理器名称: permissionDatamarkHandler, 更新的数据标记值: test@1.8.1
 OK
 ```
@@ -333,7 +337,7 @@ pm -remove [-json json-string] [-jf json-file]
 create/update/remove 操作必须配合 `-json` 或 `--json-file` 之一。
 JSON 格式参考
 `WebInputPermissionCreateInfo`、`WebInputPermissionUpdateInfo`、`WebInputPermissionRemoveInfo`。
-JSON 文件可置于 `confext/` 目录（rbac-distributed-service-node 的外部配置文件夹）。
+JSON 文件可置于 `confext/` 目录（`rbac-all-he` 节点的外部配置文件夹）。
 
 ### 示例
 
@@ -382,7 +386,7 @@ pexp -remove [-json json-string] [-jf json-file]
 create/update/remove 操作必须配合 `-json` 或 `--json-file` 之一。
 JSON 格式参考
 `WebInputPexpCreateInfo`、`WebInputPexpUpdateInfo`、`WebInputPexpRemoveInfo`。
-JSON 文件可置于 `confext/` 目录（rbac-distributed-service-node 的外部配置文件夹）。
+JSON 文件可置于 `confext/` 目录（`rbac-all-he` 节点的外部配置文件夹）。
 
 ### 示例
 
@@ -431,7 +435,7 @@ pg -remove [-json json-string] [-jf json-file]
 create/update/remove 操作必须配合 `-json` 或 `--json-file` 之一。
 JSON 格式参考
 `WebInputPermissionGroupCreateInfo`、`WebInputPermissionGroupUpdateInfo`、`WebInputPermissionGroupRemoveInfo`。
-JSON 文件可置于 `confext/` 目录（rbac-distributed-service-node 的外部配置文件夹）。
+JSON 文件可置于 `confext/` 目录（`rbac-all-he` 节点的外部配置文件夹）。
 
 ### 示例
 

@@ -1,6 +1,6 @@
 # rbac-distributed-service
 
-登录、角色、权限的综合解决方案。
+用户、角色、权限的综合解决方案。
 
 ## 特性
 
@@ -38,13 +38,13 @@ Telnet 运维平台指令合集：
    使用 git 进行源码下载：
 
    ```shell
-   git clone git@github.com:DwArFeng/rbac-weapon-rack.git
+   git clone git@github.com:DwArFeng/rbac-distributed-service.git
    ```
 
    对于中国用户，可以使用 gitee 进行高速下载：
 
    ```shell
-   git clone git@gitee.com:dwarfeng/rbac-weapon-rack.git
+   git clone git@gitee.com:dwarfeng/rbac-distributed-service.git
    ```
 
 2. 项目打包
@@ -60,7 +60,7 @@ Telnet 运维平台指令合集：
    找到打包后的目标文件：
 
    ```
-   rbac-weapon-rack-node/target/rbacwr-[version]-release.tar.gz
+   rbac-distributed-service-distribute/target/distribute/rbac-all-he/rbac-all-he-${version}-release.tar.gz
    ```
 
    将其解压至 windows 系统或者 linux 系统。
@@ -81,20 +81,20 @@ Telnet 运维平台指令合集：
 
    本权限维护系统是基于 RBAC 的。
 
-   **RBAC 是指定义人员、角色、权限，人员与角色关联，角色与权限关联，最终达到根据人员获得其所有权限的目的。**
+   **RBAC 是指定义用户、角色、权限，用户与角色关联，角色与权限关联，最终达到根据用户获得其所有权限的目的。**
 
    本权限维护系统在传统的 RBAC 之上新增了一个权限表达式层，通过权限表达式层可以更好的与权限对接，其工作机制如下：
 
-   - 定义人员、角色、权限表达式、权限四个实体对象。
-   - 人员与角色多对多。
-   - 角色与权限表达式多对多。
+   - 定义用户、角色、权限表达式、权限四个实体对象。
+   - 用户与角色多对多。
+   - 角色与权限表达式一对多。
    - 权限表达式根据一定的规则匹配具体的一个或多个权限。
 
 2. 权限查询机制
 
    本系统在权限查询时，会查按照如下的逻辑执行查询：
 
-   1. 查询一个人员对应的所有（有效的）角色，并且查询每个角色的所有权限表达式。
+   1. 查询一个用户对应的所有（有效的）角色，并且查询每个角色的所有权限表达式。
    2. 为每个角色创建包含权限集合、排除权限集合，并且创建一个全局的排除权限集合。
    3. 遍历所有权限，通过其权限表达式向权限对应的包含权限集合、排除权限集合，以及全局的权限排除集合中添加权限。
    4. 遍历所有权限，从每个权限对应的包含权限集合中减去每个权限对应的排除权限集合，每个权限得到的新集合合并，生成全局包含权限集合。
@@ -116,32 +116,9 @@ Telnet 运维平台指令合集：
 
 本项目支持权限表达式的扩展
 
-扩展权限表达式时，请实现接口实现接口
-`com.dwarfeng.rbacwr.impl.handler.PermissionFilter`，并将实现类注入到 spring 的 IoC 容器中。
-
-以下代码是表达式标识符 EXACT 的实现代码，以供参考
-
-```java
-/**
- * 精确匹配的权限过滤器。
- *
- * @author DwArFeng
- * @since 1.0.0
- */
-@Component
-public class ExactPermissionFilter implements PermissionFilter {
-
-    @Override
-    public String getIdentifier() {
-        return "EXACT";
-    }
-
-    @Override
-    public boolean accept(String pattern, String permissionContent) {
-        return Objects.equals(pattern, permissionContent);
-    }
-}
-```
+扩展权限表达式时，请实现
+`com.dwarfeng.rbacds.sdk.handler.FilterMaker` 与 `com.dwarfeng.rbacds.sdk.handler.FilterSupporter`，
+并通过 `FilterMaker.makeFilter()` 提供 `com.dwarfeng.rbacds.stack.handler.Filter` 实例，随后将实现类注入到 Spring 的 IoC 容器中。
 
 ## 兼容性说明
 

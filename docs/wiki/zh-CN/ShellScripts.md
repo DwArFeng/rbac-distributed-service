@@ -91,6 +91,8 @@ nohup /bin/java -classpath "lib/*:libext/*" \
 "$jvm_memory_opts" \
 "$java_jmxremote_opts" \
 "$java_logging_opts" \
+"$java_dubbo_opts" \
+"$java_runtime_opts" \
 "${mainClass}" \
 >/dev/null 2>&1 "&"
 echo $! >"$basedir/rbac.pid"
@@ -104,6 +106,8 @@ nohup /bin/java -classpath "lib/*:libext/*" \
 "$jvm_memory_opts" \
 "$java_jmxremote_opts" \
 "$java_logging_opts" \
+"$java_dubbo_opts" \
+"$java_runtime_opts" \
 "${mainClass}" \
 >out.log 2>&1 "&"
 echo $! >"$basedir/rbac.pid"
@@ -113,7 +117,7 @@ echo $! >"$basedir/rbac.pid"
 
 **排查完问题后，务必将脚本还原，因为 `out.log` 没有滚动机制，如不还原，该文件会越来越大，直至占满全部磁盘空间。**
 
-## fdr-stop.sh
+## rbac-stop.sh
 
 ### 固定变量
 

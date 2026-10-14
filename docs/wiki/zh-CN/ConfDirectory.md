@@ -53,11 +53,11 @@ conf
 数据库连接配置文件，除了标准的数据库配置四要素之外，还包括 Hibernate 的方言配置。
 
 ```properties
-jdbc.driver=com.mysql.cj.jdbc.Driver
-jdbc.url=jdbc:mysql://your-host-here:3306/rbac?serverTimezone=Asia/Shanghai&autoReconnect=true
-jdbc.username=root
-jdbc.password=your-password-here
-hibernate.dialect=org.hibernate.dialect.MySQLDialect
+com.dwarfeng.rbacds.jdbc.driver=com.mysql.cj.jdbc.Driver
+com.dwarfeng.rbacds.jdbc.url=jdbc:mysql://your-host-here:3306/rbac?serverTimezone=Asia/Shanghai&autoReconnect=true
+com.dwarfeng.rbacds.jdbc.username=root
+com.dwarfeng.rbacds.jdbc.password=your-password-here
+com.dwarfeng.rbacds.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 ```
 
 ### performance.properties
@@ -66,13 +66,13 @@ hibernate.dialect=org.hibernate.dialect.MySQLDialect
 
 ```properties
 # 数据库的批量写入量，设置激进的值以提高数据库的写入效率。
-hibernate.jdbc.batch_size=100
+com.dwarfeng.rbacds.hibernate.jdbc.batch_size=100
 # 数据库的批量抓取量，设置激进的值以提高数据库的读取效率。
-hibernate.jdbc.fetch_size=50
+com.dwarfeng.rbacds.hibernate.jdbc.fetch_size=50
 # 连接池最大活动连接数量
-data_source.max_active=20
+com.dwarfeng.rbacds.data_source.max_active=20
 # 连接池最小空闲连接数量
-data_source.min_idle=0
+com.dwarfeng.rbacds.data_source.min_idle=0
 ```
 
 ## datamark 目录
@@ -90,16 +90,16 @@ Datamark 是一款数据标记处理工具，基于 `subgrade` 项目，用于�
 ```properties
 #---------------------------------配置说明----------------------------------------
 # 数据标记资源的 URL，格式参考 Spring 资源路径。
-# datamark.xxx.resource_url=classpath:datamark/default.storage
+# com.dwarfeng.rbacds.datamark.xxx.resource_url=classpath:com/dwarfeng/rbacds/node/all/he/datamark/default.storage
 # 数据标记资源的字符集。
-# datamark.xxx.resource_charset=UTF-8
+# com.dwarfeng.rbacds.datamark.xxx.resource_charset=UTF-8
 # 数据标记服务是否允许更新。
-# datamark.xxx.update_allowed=true
+# com.dwarfeng.rbacds.datamark.xxx.update_allowed=true
 #
 #---------------------------------User----------------------------------------
-datamark.user.resource_url=classpath:datamark/default.storage
-datamark.user.resource_charset=UTF-8
-datamark.user.update_allowed=true
+com.dwarfeng.rbacds.datamark.user.resource_url=classpath:com/dwarfeng/rbacds/node/all/he/datamark/default.storage
+com.dwarfeng.rbacds.datamark.user.resource_charset=UTF-8
+com.dwarfeng.rbacds.datamark.user.update_allowed=true
 #
 # etc...
 ```
@@ -115,19 +115,19 @@ datamark.user.update_allowed=true
 Dubbo 连接配置文件。
 
 ```properties
-dubbo.registry.zookeeper.address=zookeeper://your-host-here:2181
-dubbo.registry.zookeeper.timeout=3000
-dubbo.protocol.dubbo.port=20000
-dubbo.protocol.dubbo.host=your-host-here
-dubbo.provider.group=
+com.dwarfeng.rbacds.dubbo.registry.zookeeper.address=zookeeper://your-host-here:2181
+com.dwarfeng.rbacds.dubbo.registry.zookeeper.timeout=3000
+com.dwarfeng.rbacds.dubbo.protocol.dubbo.port=20000
+com.dwarfeng.rbacds.dubbo.protocol.dubbo.host=your-host-here
+com.dwarfeng.rbacds.dubbo.provider.group=
 ```
 
-其中，`dubbo.registry.zookeeper.address` 需要配置为 ZooKeeper 的地址，
-`dubbo.protocol.dubbo.host` 需要配置为本机的 IP 地址。
+其中，`com.dwarfeng.rbacds.dubbo.registry.zookeeper.address` 需要配置为 ZooKeeper 的地址，
+`com.dwarfeng.rbacds.dubbo.protocol.dubbo.host` 需要配置为本机的 IP 地址。
 
-如果您需要在本机启动多个本服务实例，那么需要为每个实例配置不同的 `dubbo.protocol.dubbo.port`。
+如果您需要在本机启动多个本服务实例，那么需要为每个实例配置不同的 `com.dwarfeng.rbacds.dubbo.protocol.dubbo.port`。
 
-如果您在本机上部署了多个项目，每个项目中都使用了本服务，那么需要为每个项目配置不同的 `dubbo.provider.group`，
+如果您在本机上部署了多个项目，每个项目中都使用了本服务，那么需要为每个项目配置不同的 `com.dwarfeng.rbacds.dubbo.provider.group`，
 以避免微服务错误的调用。
 
 ## logging 目录
@@ -202,13 +202,13 @@ dubbo.provider.group=
 
 ```properties
 # 任务执行器的线程池数量范围。
-executor.pool_size=20-40
+com.dwarfeng.rbacds.executor.pool_size=20-40
 # 任务执行器的队列容量。
-executor.queue_capacity=100
+com.dwarfeng.rbacds.executor.queue_capacity=100
 # 任务执行器的保活时间（秒）。
-executor.keep_alive=120
+com.dwarfeng.rbacds.executor.keep_alive=120
 # 计划执行器的线程池数量范围。
-scheduler.pool_size=10
+com.dwarfeng.rbacds.scheduler.pool_size=10
 ```
 
 ### exception.properties
@@ -217,11 +217,11 @@ ServiceException 的异常代码的偏移量配置。
 
 ```properties
 # rbacds 自身的异常代号偏移量。
-rbacds.exception_code_offset=1000
+com.dwarfeng.rbacds.rbacds.exception_code_offset=1000
 # rbacds 工程中 subgrade 的异常代号偏移量。
-rbacds.exception_code_offset.subgrade=0
+com.dwarfeng.rbacds.rbacds.exception_code_offset.subgrade=0
 # rbacds 工程中 dwarfeng-datamark 的异常代号偏移量。
-rbacds.exception_code_offset.dwarfeng_datamark=2000
+com.dwarfeng.rbacds.rbacds.exception_code_offset.dwarfeng_datamark=4000
 ```
 
 Subgrade 框架中，会将微服务抛出的异常映射为 `ServiceException`，每个 `ServiceException` 都有一个异常代码，
@@ -236,13 +236,13 @@ Subgrade 框架中，会将微服务抛出的异常映射为 `ServiceException`�
 
 ```properties
 # 程序启动完成后，是否重置过滤器支持。
-launcher.reset_filter_support=true
+com.dwarfeng.rbacds.launcher.reset_filter_support=true
 #
 # 程序启动完成后，启动重置的延时时间。
 # 有些数据仓库以及重置器在启动后可能会需要一些时间进行自身的初始化，调整该参数以妥善的处理这些数据源和推送器。
 # 该参数等于 0，意味着启动后立即启动重置服务。
 # 该参数小于 0，意味着程序不主动启动重置服务，需要手动启动。
-launcher.start_reset_delay=30000
+com.dwarfeng.rbacds.launcher.start_reset_delay=30000
 ```
 
 ### push.properties
@@ -262,7 +262,7 @@ launcher.start_reset_delay=30000
 # 对于一个具体的项目，很可能只用一个推送器。此时如果希望程序加载时只加载一个推送器，可以通过编辑
 # opt/opt-pusher.xml 文件实现。
 # 可以通过编辑 application-context-scan.xml 实现。
-pusher.type=drain
+com.dwarfeng.rbacds.pusher.type=drain
 #
 ###################################################
 #                      drain                      #
@@ -273,13 +273,13 @@ pusher.type=drain
 #                      multi                      #
 ###################################################
 # 代理的推送器，推送器之间以逗号分隔。
-pusher.multi.delegate_types=log
+com.dwarfeng.rbacds.pusher.multi.delegate_types=log
 #
 ###################################################
 #                       log                       #
 ###################################################
 # 记录日志的等级，由低到高依次是 TRACE, DEBUG, INFO, WARN, ERROR。
-pusher.log.log_level=INFO
+com.dwarfeng.rbacds.pusher.log.log_level=INFO
 ```
 
 您不必对所有的配置项进行配置。
@@ -300,19 +300,19 @@ pusher.log.log_level=INFO
 #                   fixed_delay                   #
 ###################################################
 # 重置的间隔。
-resetter.fixed_delay.delay=43200000
+com.dwarfeng.rbacds.resetter.fixed_delay.delay=43200000
 #
 ###################################################
 #                   fixed_rate                    #
 ###################################################
 # 重置的间隔。
-resetter.fixed_rate.rate=43200000
+com.dwarfeng.rbacds.resetter.fixed_rate.rate=43200000
 #
 ###################################################
 #                      cron                       #
 ###################################################
 # 执行重置的 CRON 表达式。
-resetter.cron.cron=0 0 1 * * *
+com.dwarfeng.rbacds.resetter.cron.cron=0 0 1 * * *
 #
 ###################################################
 #                      dubbo                      #
@@ -330,19 +330,19 @@ resetter.cron.cron=0 0 1 * * *
 
 ```properties
 # 权限分析用户分析结果本地缓存的 ttl，单位为毫秒。
-local_cache.permission_user_analysis.ttl=3600000
+com.dwarfeng.rbacds.local_cache.permission_user_analysis.ttl=3600000
 # 权限分析用户分析结果本地缓存的清理间隔，单位为毫秒。
-local_cache.permission_user_analysis.cleanup_interval=600000
+com.dwarfeng.rbacds.local_cache.permission_user_analysis.cleanup_interval=600000
 #
 # 用户权限分析结果本地缓存的 ttl，单位为毫秒。
-local_cache.scoped_user_permission_analysis.ttl=3600000
+com.dwarfeng.rbacds.local_cache.scoped_user_permission_analysis.ttl=3600000
 # 用户权限分析结果本地缓存的清理间隔，单位为毫秒。
-local_cache.scoped_user_permission_analysis.cleanup_interval=600000
+com.dwarfeng.rbacds.local_cache.scoped_user_permission_analysis.cleanup_interval=600000
 #
 # 用户角色分析结果本地缓存的 ttl，单位为毫秒。
-local_cache.user_role_analysis.ttl=3600000
+com.dwarfeng.rbacds.local_cache.user_role_analysis.ttl=3600000
 # 用户角色分析结果本地缓存的清理间隔，单位为毫秒。
-local_cache.user_role_analysis.cleanup_interval=600000
+com.dwarfeng.rbacds.local_cache.user_role_analysis.cleanup_interval=600000
 ```
 
 ## redis 目录
@@ -359,37 +359,37 @@ Redis 连接配置文件。
 
 ```properties
 #ip 地址
-redis.hostName=your-host-here
+com.dwarfeng.rbacds.redis.hostName=your-host-here
 #端口号
-redis.port=6379
+com.dwarfeng.rbacds.redis.port=6379
 #如果有密码
-redis.password=your-password-here
+com.dwarfeng.rbacds.redis.password=your-password-here
 #客户端超时时间单位是毫秒 默认是 2000
-redis.timeout=10000
+com.dwarfeng.rbacds.redis.timeout=10000
 #最大空闲数
-redis.maxIdle=300
-#连接池的最大数据库连接数。设为 0 表示无限制,如果是 jedis 2.4 以后用 redis.maxTotal
-#redis.maxActive=600
-#控制一个 pool 可分配多少个 jedis 实例,用来替换上面的 redis.maxActive,如果是 jedis 2.4 以后用该属性
-redis.maxTotal=1000
+com.dwarfeng.rbacds.redis.maxIdle=300
+#连接池的最大数据库连接数。设为 0 表示无限制,如果是 jedis 2.4 以后用 com.dwarfeng.rbacds.redis.maxTotal
+#com.dwarfeng.rbacds.redis.maxActive=600
+#控制一个 pool 可分配多少个 jedis 实例,用来替换上面的 com.dwarfeng.rbacds.redis.maxActive,如果是 jedis 2.4 以后用该属性
+com.dwarfeng.rbacds.redis.maxTotal=1000
 #最大建立连接等待时间。如果超过此时间将接到异常。设为-1 表示无限制。
-redis.maxWaitMillis=1000
+com.dwarfeng.rbacds.redis.maxWaitMillis=1000
 #连接的最小空闲时间 默认 1800000 毫秒(30 分钟)
-redis.minEvictableIdleTimeMillis=300000
+com.dwarfeng.rbacds.redis.minEvictableIdleTimeMillis=300000
 #每次释放连接的最大数目,默认 3
-redis.numTestsPerEvictionRun=1024
+com.dwarfeng.rbacds.redis.numTestsPerEvictionRun=1024
 #逐出扫描的时间间隔(毫秒) 如果为负数,则不运行逐出线程, 默认-1
-redis.timeBetweenEvictionRunsMillis=30000
+com.dwarfeng.rbacds.redis.timeBetweenEvictionRunsMillis=30000
 #是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个
-redis.testOnBorrow=true
+com.dwarfeng.rbacds.redis.testOnBorrow=true
 #在空闲时检查有效性, 默认 false
-redis.testWhileIdle=true
-#redis.sentinel.host1=172.20.1.230
-#redis.sentinel.port1=26379
-#redis.sentinel.host2=172.20.1.231
-#redis.sentinel.port2=26379
-#redis.sentinel.host3=172.20.1.232
-#redis.sentinel.port3=26379
+com.dwarfeng.rbacds.redis.testWhileIdle=true
+#com.dwarfeng.rbacds.redis.sentinel.host1=172.20.1.230
+#com.dwarfeng.rbacds.redis.sentinel.port1=26379
+#com.dwarfeng.rbacds.redis.sentinel.host2=172.20.1.231
+#com.dwarfeng.rbacds.redis.sentinel.port2=26379
+#com.dwarfeng.rbacds.redis.sentinel.host3=172.20.1.232
+#com.dwarfeng.rbacds.redis.sentinel.port3=26379
 ```
 
 ### prefix.properties
@@ -401,33 +401,21 @@ Redis 前缀配置文件。
 #  缓存时实体的键的格式
 #------------------------------------------------------------------------------------
 # 用户对象的主键格式。
-cache.prefix.entity.user=entity.user.
+com.dwarfeng.rbacds.cache.prefix.entity.user=com.dwarfeng.rbacds.entity.user.
 # 角色对象的主键格式。
-cache.prefix.entity.role=entity.role.
+com.dwarfeng.rbacds.cache.prefix.entity.role=com.dwarfeng.rbacds.entity.role.
 # 权限表达式对象的主键格式。
-cache.prefix.entity.pexp=entity.pexp.
+com.dwarfeng.rbacds.cache.prefix.entity.pexp=com.dwarfeng.rbacds.entity.pexp.
 # 权限对象的主键格式。
-cache.prefix.entity.permission=entity.permission.
+com.dwarfeng.rbacds.cache.prefix.entity.permission=com.dwarfeng.rbacds.entity.permission.
 # 权限组对象的主键格式。
-cache.prefix.entity.permission_group=entity.permission_group.
-# 权限元数据对象的主键格式。
-cache.prefix.entity.permission_meta=entity.permission_meta.
-# 权限过滤器支持对象的主键格式。
-cache.prefix.entity.permission_filter_support=entity.permission_filter_support.
-#------------------------------------------------------------------------------------
-#  固定列表的键的格式。
-#------------------------------------------------------------------------------------
-# 权限列表的主键。
-cache.key.list.permission=list.permission
-#------------------------------------------------------------------------------------
-#  键值列表的键的格式。
-#------------------------------------------------------------------------------------
-# 用户持有权限列表的主键。
-cache.prefix.list.user_has_permission=list.user_has_permission.
-# 角色持有权限列表的主键。
-cache.prefix.list.role_has_permission=list.role_has_permission.
-# 权限持有用户列表的主键。
-cache.prefix.list.permission_has_user=list.permission_has_user.
+com.dwarfeng.rbacds.cache.prefix.entity.permission_group=com.dwarfeng.rbacds.entity.permission_group.
+# 过滤器支持对象的主键格式。
+com.dwarfeng.rbacds.cache.prefix.entity.filter_support=com.dwarfeng.rbacds.entity.filter_support.
+# 角色用户关系对象的主键格式。
+com.dwarfeng.rbacds.cache.prefix.entity.role_user_relation=com.dwarfeng.rbacds.entity.role_user_relation.
+# 作用域对象的主键格式。
+com.dwarfeng.rbacds.cache.prefix.entity.scope=com.dwarfeng.rbacds.entity.scope.
 ```
 
 Redis 利用该配置文件，为缓存的主键添加前缀，以示区分。
@@ -438,7 +426,7 @@ Redis 利用该配置文件，为缓存的主键添加前缀，以示区分。
 
 ```properties
 # 用户对象的主键格式。
-cache.prefix.entity.user=entity.rbac.user.
+com.dwarfeng.rbacds.cache.prefix.entity.user=com.dwarfeng.rbacds.entity.rbac.user.
 # etc...
 ```
 
@@ -451,32 +439,21 @@ Redis 缓存的超时配置文件。
 #  实体缓存时的超时时间
 #------------------------------------------------------------------------------------
 # 用户对象缓存的超时时间。
-cache.timeout.entity.user=3600000
+com.dwarfeng.rbacds.cache.timeout.entity.user=3600000
 # 角色对象缓存的超时时间。
-cache.timeout.entity.role=3600000
+com.dwarfeng.rbacds.cache.timeout.entity.role=3600000
 # 权限表达式对象缓存的超时时间。
-cache.timeout.entity.pexp=3600000
+com.dwarfeng.rbacds.cache.timeout.entity.pexp=3600000
 # 权限对象缓存的超时时间。
-cache.timeout.entity.permission=3600000
+com.dwarfeng.rbacds.cache.timeout.entity.permission=3600000
 # 权限组对象缓存的超时时间。
-cache.timeout.entity.permission_group=3600000
-# 权限元数据对象缓存的超时时间。
-cache.timeout.entity.permission_meta=3600000
-# 权限过滤器支持对象缓存的超时时间。
-cache.timeout.entity.permission_filter_support=3600000
-#------------------------------------------------------------------------------------
-#  固定列表的键的超时时间。
-#------------------------------------------------------------------------------------
-cache.timeout.list.permission=36000000
-#------------------------------------------------------------------------------------
-#  键值列表的键的超时时间。
-#------------------------------------------------------------------------------------
-# 用户持有权限列表的超时时间。
-cache.timeout.list.user_has_permission=14400000
-# 角色持有权限列表的超时时间。
-cache.timeout.list.role_has_permission=14400000
-# 权限持有用户列表的超时时间。
-cache.timeout.list.permission_has_user=14400000
+com.dwarfeng.rbacds.cache.timeout.entity.permission_group=3600000
+# 过滤器支持对象缓存的超时时间。
+com.dwarfeng.rbacds.cache.timeout.entity.filter_support=3600000
+# 角色用户关系对象缓存的超时时间。
+com.dwarfeng.rbacds.cache.timeout.entity.role_user_relation=3600000
+# 作用域对象缓存的超时时间。
+com.dwarfeng.rbacds.cache.timeout.entity.scope=3600000
 ```
 
 如果您希望缓存更快或更慢地过期，您可以修改该配置文件。
@@ -493,18 +470,18 @@ Telqos 连接配置文件。
 
 ```properties
 #Telnet 端口
-telqos.port=23
+com.dwarfeng.rbacds.telqos.port=23
 #字符集
-telqos.charset=UTF-8
+com.dwarfeng.rbacds.telqos.charset=UTF-8
 #白名单表达式
-telqos.whitelist_regex=
+com.dwarfeng.rbacds.telqos.whitelist_regex=
 #黑名单表达式
-telqos.blacklist_regex=
+com.dwarfeng.rbacds.telqos.blacklist_regex=
 ```
 
-如果您的项目中有多个包含 Telqos 模块的服务，您应该修改 `telqos.port` 的值，以避免端口冲突。
+如果您的项目中有多个包含 Telqos 模块的服务，您应该修改 `com.dwarfeng.rbacds.telqos.port` 的值，以避免端口冲突。
 
-请根据操作系统的默认字符集，修改 `telqos.charset` 的值，以避免乱码。一般情况下，Windows 系统的默认字符集为 `GBK`，
+请根据操作系统的默认字符集，修改 `com.dwarfeng.rbacds.telqos.charset` 的值，以避免乱码。一般情况下，Windows 系统的默认字符集为 `GBK`，
 Linux 系统的默认字符集为 `UTF-8`。
 
-如果您希望限制 Telqos 的使用范围，您可以修改 `telqos.whitelist_regex` 和 `telqos.blacklist_regex` 的值。
+如果您希望限制 Telqos 的使用范围，您可以修改 `com.dwarfeng.rbacds.telqos.whitelist_regex` 和 `com.dwarfeng.rbacds.telqos.blacklist_regex` 的值。

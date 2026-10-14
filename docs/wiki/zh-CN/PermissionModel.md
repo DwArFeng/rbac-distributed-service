@@ -78,7 +78,7 @@ V1 与 V2 的核心语法如下：
 
 ```text
 V1: [v1;]<+|-|!><type>@<pattern>
-V2: [v2;]<+|-|!><type>@<pattern>[\|<type>@<pattern>...]
+V2: v2;<+|-|!><type>@<pattern>[\|<type>@<pattern>...]
 ```
 
 在其中：

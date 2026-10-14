@@ -16,21 +16,21 @@ Telqos 的端口号以及连接规则可以在 `conf/telqos/connection.propertie
 
 ```properties
 # Telnet 端口。
-telqos.port=23
+com.dwarfeng.rbacds.telqos.port=23
 # 字符集。
-telqos.charset=UTF-8
+com.dwarfeng.rbacds.telqos.charset=UTF-8
 # 白名单表达式。
-telqos.whitelist_regex=
+com.dwarfeng.rbacds.telqos.whitelist_regex=
 # 黑名单表达式。
-telqos.blacklist_regex=
+com.dwarfeng.rbacds.telqos.blacklist_regex=
 ```
 
-`telqos.port` 为 Telqos 的端口号，默认值为 telnet 的默认端口号 23。需要注意的是，
+`com.dwarfeng.rbacds.telqos.port` 为 Telqos 的端口号，默认值为 telnet 的默认端口号 23。需要注意的是，
 如果你的操作系统部署了多个包含 Telqos 的项目，那么这些项目的端口号不能相同。
 
-`telqos.charset` 为 Telqos 的字符集，默认值为 UTF-8。如果在 Windows 系统中使用，则该值在大多数情况下应该为 GBK。
+`com.dwarfeng.rbacds.telqos.charset` 为 Telqos 的字符集，默认值为 UTF-8。如果在 Windows 系统中使用，则该值在大多数情况下应该为 GBK。
 
-`telqos.whitelist_regex` 和 `telqos.blacklist_regex` 为 Telqos 的白名单和黑名单表达式。
+`com.dwarfeng.rbacds.telqos.whitelist_regex` 和 `com.dwarfeng.rbacds.telqos.blacklist_regex` 为 Telqos 的白名单和黑名单表达式。
 如果你不需要使用白名单或者黑名单，那么可以将这两个值留空。一旦不留空，则 Telqos 会根据表达式对连接进行过滤。
 当客户机的 IP 地址能够匹配白名单表达式，且不能够匹配黑名单表达式时，Telqos 会接受该连接。
 
